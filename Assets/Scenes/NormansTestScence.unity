@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: c4b17a4551c992946859c5aa4160aaa1, type: 2}
 --- !u!1 &335588345
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,13 +137,14 @@ GameObject:
   - component: {fileID: 335588347}
   - component: {fileID: 335588346}
   - component: {fileID: 335588351}
+  - component: {fileID: 335588353}
   - component: {fileID: 335588352}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!114 &335588346
 MonoBehaviour:
@@ -261,6 +262,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 64
   m_CollisionDetection: 0
+--- !u!114 &335588353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335588345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4ed7145c1aa4f147a967451a80444d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 1656952837}
 --- !u!1 &579492109
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,10 +505,10 @@ GameObject:
   - component: {fileID: 757260660}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!64 &757260660
 MeshCollider:
@@ -726,13 +740,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1656952835}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.16553172, y: -0, z: -0, w: 0.9862045}
+  m_LocalPosition: {x: 0, y: 6.9, z: -8.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 19.056, y: 0, z: 0}
 --- !u!114 &1656952839
 MonoBehaviour:
   m_ObjectHideFlags: 0
