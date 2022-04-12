@@ -1,11 +1,14 @@
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class HexGrid : MonoBehaviour
 {
     public int width = 6;
     public int height = 6;
 
+    public Color defaultColor = Color.white;
+    public Color touchedColor = Color.green;
     public HexCell cellPrefab;
     public Text cellLabelPrefab;
     HexCell[] cells;
@@ -47,12 +50,78 @@ public class HexGrid : MonoBehaviour
         HexCell cell = cells[i] = Instantiate<HexCell>(cellPrefab);
         cell.transform.SetParent(transform, false);
         cell.transform.localPosition = position;
+        cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
+        cell.color = defaultColor;
 
         Text label = Instantiate<Text>(cellLabelPrefab);
         label.rectTransform.SetParent(gridCanvas.transform, false);
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
-        label.text = x.ToString() + "\n" + z.ToString();
+        label.text = cell.coordinates.ToStringOnSeparateLines();
 
+    }
+
+
+
+
+    void Update()
+    {
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            //wenn auf ein feld geklickt wird
+            HandleInput();
+        }
+    }
+
+    void HandleInput()
+    {
+        Ray inputRay = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        RaycastHit hit;
+        if (Physics.Raycast(inputRay, out hit))
+        {
+            Debug.Log("Here and not further");
+            TouchCell(hit.point);
+        }
+    }
+
+    void TouchCell(Vector3 position)
+    {
+        position = transform.InverseTransformPoint(position);
+        HexCoordinates coordinates = HexCoordinates.FromPosition(position);
+        int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
+        HexCell cell = cells[index];
+        cell.color = touchedColor;
+        hexMesh.Triangulate(cells);
+        Debug.Log("touched at " + coordinates.ToString());
+    }
+
+    public static HexCoordinates FromPosition(Vector3 position)
+    {
+        float x = position.x / (HexMetrics.innerRadius * 2f);
+        float y = -x;
+        float offset = position.z / (HexMetrics.outerRadius * 3f);
+        x -= offset;
+        y -= offset;
+        int iX = Mathf.RoundToInt(x);
+        int iY = Mathf.RoundToInt(y);
+        int iZ = Mathf.RoundToInt(-x - y);
+        if (iX + iY + iZ != 0)
+        {
+            float dX = Mathf.Abs(x - iX);
+            float dY = Mathf.Abs(y - iY);
+            float dZ = Mathf.Abs(-x - y - iZ);
+
+            if (dX > dY && dX > dZ)
+            {
+                iX = -iY - iZ;
+            }
+            else if (dZ > dY)
+            {
+                iZ = -iX - iY;
+            }
+        }
+
+
+        return new HexCoordinates(iX, iZ);
     }
 
 
