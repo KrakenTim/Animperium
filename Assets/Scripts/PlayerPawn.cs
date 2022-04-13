@@ -5,16 +5,23 @@ using UnityEngine;
 public class PlayerPawn : MonoBehaviour
 {
     [SerializeField] int playerID;
-    [SerializeField] int fractionID;
+    [SerializeField] int factionID;
 
     [SerializeField] ePlayerPawnType type;
+    public bool IsBuilding => type.IsBuilding();
+    public bool IsUnit => type.IsUnit();
 
     [SerializeField] HexCell hexCell;
+
+    public bool isActivePlayerPawn => playerID == GameManager.ActivePlayerID;
+
+    public bool isEnemyPawn => factionID != GameManager.ActivePlayerFactionID;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (hexCell == null)
+            SetHexCell(GameManager.GetHexCell(transform.position));
     }
 
     // Update is called once per frame
@@ -26,7 +33,7 @@ public class PlayerPawn : MonoBehaviour
     public void SetOwner(int playerID, int fractionID)
     {
         this.playerID = playerID;
-        this.fractionID = fractionID;
+        this.factionID = fractionID;
     }
 
     public void SetHexCell(HexCell cell)
