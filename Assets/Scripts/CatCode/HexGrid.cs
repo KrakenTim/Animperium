@@ -84,7 +84,7 @@ public class HexGrid : MonoBehaviour
         label.text = cell.coordinates.ToStringOnSeparateLines();
 
     }
-
+        
 
     public void ColorCell(Vector3 position, Color color)
     {
@@ -127,5 +127,15 @@ public class HexGrid : MonoBehaviour
         return new HexCoordinates(iX, iZ);
     }
 
+    #region Not in Tutorial
 
+    public HexCell GetHexCell(Vector3 worldposition)
+    {
+        Vector3 localPosition = transform.InverseTransformPoint(worldposition);
+        HexCoordinates coordinates = HexCoordinates.FromPosition(localPosition);
+        int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
+        return cells[index];
+    }
+
+    #endregion Not in Tutorial
 }
