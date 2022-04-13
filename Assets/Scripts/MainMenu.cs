@@ -11,7 +11,7 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("NormansTestScene");
+        SceneManager.LoadScene("NormanMapGeneration");
         Debug.Log("Game Start");
     }
 

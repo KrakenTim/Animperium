@@ -2,17 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
+    public GameObject PauseMenuUI;
     public static bool GameIsPaused = false;
 
-    public GameObject PauseMenuUI;
+   // public GameObject ui_canvas;
+    GraphicRaycaster ui_raycaster;
+
+    PointerEventData click_data;
+    List<RaycastResult> click_results;
+
+    public AudioSource ButtonSound;
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+       // ui_raycaster = ui_canvas.GetComponent<GraphicRaycaster>();
+        click_data = new PointerEventData(EventSystem.current);
+        click_results = new List<RaycastResult>();
+
+        // New Input System
+        Keyboard kb = InputSystem.GetDevice<Keyboard>();
+        if (kb.escapeKey.wasPressedThisFrame)
+        {
+            {
+                Resume();
+            }
+            
+            {
+                Pause();
+            }
+        }
+
+        // Old Input System
+      /*  if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (GameIsPaused)
             {
@@ -21,9 +49,23 @@ public class PauseMenu : MonoBehaviour
             {
                 Pause();
             }
-        }
+        } */
     }
 
+    void GetUiElementsClicked()
+    {
+        click_data.position = Mouse.current.position.ReadValue();
+        click_results.Clear();
+
+        ui_raycaster.Raycast(click_data, click_results);
+
+        foreach(RaycastResult result in click_results)
+        {
+            GameObject ui_element = result.gameObject;
+            Debug.Log(ui_element.name);
+        }
+    }
+    
     public void Resume ()
     {
         PauseMenuUI.SetActive(false);
@@ -48,5 +90,10 @@ public class PauseMenu : MonoBehaviour
     {
         Debug.Log("Game Close");
         Application.Quit();
+    }
+
+    public void playButtonSound()
+    {
+        ButtonSound.Play();
     }
 }
