@@ -83,10 +83,6 @@ public class HexMesh : MonoBehaviour
             (cell.color + prevNeighbor.color + neighbor.color) / 3f,
             (cell.color + neighbor.color + nextNeighbor.color) / 3f);
 
-
-            //Color edgeColor = (cell.color + neighbor.color) * 0.5f;
-            //AddTriangleColor(cell.color, (cell.color + prevNeighbor.color + neighbor.color) / 3f, (cell.color + neighbor.color + nextNeighbor.color) / 3f);
-
         }
 
     }
