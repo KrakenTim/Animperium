@@ -41,4 +41,9 @@ public static class HexMetrics
     {
         return corners[(int)direction + 1] * solidFactor;
     }
+
+    public static Vector3 GetBridge(HexDirection direction)
+    {
+        return (corners[(int)direction] + corners[(int)direction + 1]) * blendFactor;
+    }
 }
