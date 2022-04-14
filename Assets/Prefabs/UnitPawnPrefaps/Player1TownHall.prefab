@@ -44,11 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cedc5eb9b088854d9efb6b5543a7b9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pawnData: {fileID: 11400000, guid: c5057a10dc6bd1f4fbba923b6ecf8fcc, type: 2}
   playerID: 1
   factionID: 1
-  pawmHP: 6
-  pawnMP: 0
-  type: 1
+  currentHealth: 0
+  movementPoints: 0
   hexCell: {fileID: 0}
 --- !u!1 &4729249582921818019
 GameObject:

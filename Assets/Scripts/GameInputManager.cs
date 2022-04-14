@@ -33,8 +33,8 @@ public class GameInputManager : MonoBehaviour
     }
 
 
-    [SerializeField] PlayerPawn currentlySelectedPawn;
-    [SerializeField] HexCell currentlySelectedHexCell;
+    [SerializeField] PlayerPawn selectedPawn;
+    [SerializeField] HexCell selectedHexCell;
 
 
     private void Awake()
@@ -63,31 +63,51 @@ public class GameInputManager : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(inputRay, out hit))
         {
-           currentlySelectedHexCell = HexGrid.GetHexCell(hit.point);
+           selectedHexCell = HexGrid.GetHexCell(hit.point);
 
-            Debug.Log("Change Selected Cell to "+ currentlySelectedHexCell.coordinates.ToString());
+            Debug.Log("Change Selected Cell to "+ selectedHexCell.coordinates.ToString());
         }
 
-        if (CheckMovementPossible())
+        if (IsMovePossible())
         {
-            InputMessage message = InputMessageGenerator.MoveToHex(currentlySelectedPawn, currentlySelectedHexCell);
+            InputMessage message = InputMessageGenerator.MoveToHex(selectedPawn, selectedHexCell);
             InputMessageExecuter.Send(message);
         }
     }
 
-    private bool CheckMovementPossible()
+    private bool IsMovePossible()
     {
-        return (currentlySelectedPawn != null && currentlySelectedHexCell != null 
-            && currentlySelectedPawn.IsUnit && currentlySelectedPawn.MP > 0 
-            && currentlySelectedPawn.IsActivePlayerPawn);
+        return (selectedPawn != null && selectedPawn.CanAct && selectedHexCell != null 
+            && selectedPawn.IsUnit && selectedPawn.MP > 0 
+            && selectedPawn.IsPlayerPawn && !selectedHexCell.HasPawn
+            && selectedHexCell.IsNeighbor(selectedPawn.HexCell));
+
     }
 
-    public static void ClickedOnPawn(PlayerPawn newlySelected)
+    private bool IsAttackPossible(PlayerPawn otherPawn)
     {
-        instance.currentlySelectedPawn = newlySelected;
+        return (selectedPawn != null&&selectedPawn.AttackPower > 0 && otherPawn != null && selectedPawn.CanAct
+           && otherPawn.IsEnemy && selectedPawn.HexCell.IsNeighbor(otherPawn.HexCell));
+    }
 
-        Debug.Log("Change Selected Cell to " + newlySelected.PawnType);
+    public static void ClickedOnPawn(PlayerPawn clickedPawn)
+    {
+        if (instance.IsAttackPossible(clickedPawn))
+        {
+            InputMessage message = InputMessageGenerator.Attack(instance.selectedPawn, clickedPawn);
+            InputMessageExecuter.Send(message);
+        }
 
-        SelectedPawn?.Invoke(newlySelected);
+        instance.selectedPawn = clickedPawn;
+
+       // Debug.Log("Change Selected Cell to " + newlySelected.PawnType);
+
+        SelectedPawn?.Invoke(clickedPawn);
+    }
+
+    public static void DeselectPawn()
+    {
+        instance.selectedPawn = null;
+        SelectedPawn?.Invoke(null);
     }
 }

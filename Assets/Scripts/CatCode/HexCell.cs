@@ -66,6 +66,16 @@ public class HexCell : MonoBehaviour
             Debug.LogError($"Tried to set two Pawns onto same HexCell{coordinates.ToString()}!\n", this);
     }
 
+    public bool IsNeighbor(HexCell cell)
+    {
+        foreach (var item in neighbors)
+        {
+            if (item == cell) return true;
+        }
+
+        return false; 
+    }
+
     #endregion Not in Tutorial
 
 }
