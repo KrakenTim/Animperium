@@ -16,3 +16,8 @@ MonoBehaviour:
   maxHealth: 6
   maxMovement: 0
   attackPower: 0
+  food: 0
+  spawnedPawns: 02000000
+  playerPrefabs:
+  - {fileID: 4729249582805918581, guid: bcac4d008d96e844b947ca36510aa30c, type: 3}
+  - {fileID: 8381063769703048574, guid: f0540dadbdcd0f34e97eb9dc318761ab, type: 3}

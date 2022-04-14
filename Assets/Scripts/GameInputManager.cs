@@ -31,8 +31,7 @@ public class GameInputManager : MonoBehaviour
             ChangedInputMode?.Invoke(value);
         }
     }
-
-
+    
     [SerializeField] PlayerPawn selectedPawn;
     [SerializeField] HexCell selectedHexCell;
 
@@ -81,6 +80,13 @@ public class GameInputManager : MonoBehaviour
             InputMessageExecuter.Send(message);
             return;
         }
+
+        if (IsSpawnPossible())
+        {
+            InputMessage message = InputMessageGenerator.CreateMessage(selectedPawn, selectedHexCell, ePlayeractionType.Spawn);
+            InputMessageExecuter.Send(message);
+            return;
+        }
     }
 
     private bool IsCollectPossible()
@@ -96,6 +102,15 @@ public class GameInputManager : MonoBehaviour
             && selectedPawn.IsUnit && selectedPawn.MP > 0 
             && selectedPawn.IsPlayerPawn && !selectedHexCell.HasPawn
             && selectedHexCell.IsNeighbor(selectedPawn.HexCell));
+
+    }
+
+    private bool IsSpawnPossible()
+    {
+        return (selectedPawn != null && selectedHexCell != null
+            && selectedPawn.IsPlayerPawn && !selectedHexCell.HasPawn
+            && selectedHexCell.IsNeighbor(selectedPawn.HexCell)
+            && selectedPawn.Spawn != ePlayerPawnType.NONE);
 
     }
 

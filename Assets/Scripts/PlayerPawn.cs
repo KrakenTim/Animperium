@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+[System.Serializable]
 public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] PlayerPawnData pawnData;
@@ -12,6 +13,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public ePlayerPawnType PawnType => pawnData.type;
     public bool IsBuilding => PawnType.IsBuilding();
     public bool IsUnit => PawnType.IsUnit();
+    public ePlayerPawnType Spawn => pawnData.spawnedPawn;
+
 
     [SerializeField] int playerID;
     public Sprite PlayerIcon => GameManager.GetPlayerIcon(playerID);
