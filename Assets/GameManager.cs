@@ -15,10 +15,12 @@ public class GameManager : MonoBehaviour
     }
 
     static GameManager instance;
+    public bool InGame => instance != null;
 
     public static event System.Action<int> TurnStarted;
 
     [SerializeField] HexGrid myHexGrid;
+    public static HexGrid HexGrid => instance.myHexGrid;
 
     [SerializeField] PlayerValues[] playerValueList;
 
