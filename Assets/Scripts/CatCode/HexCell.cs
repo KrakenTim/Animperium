@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 
@@ -7,29 +6,21 @@ public enum HexDirection
     NE, E, SE, SW, W, NW
 
 }
-
-public static class HexDirectionExtensions
+public enum HexEdgeType
 {
-    public static HexDirection Opposite(this HexDirection direction)
-    {
-        return ((int)direction < 3) ? (direction + 3) : (direction - 3); //wenn direction < 3, direction + 3 wird verwendet sonst direction-3
-    }
-    public static HexDirection Previous(this HexDirection direction)
-    {
-        return direction == HexDirection.NE ? HexDirection.NW : (direction - 1);
-    }
-
-    public static HexDirection Next(this HexDirection direction)
-    {
-        return direction == HexDirection.NW ? HexDirection.NE : (direction + 1);
-    }
+    Flat, Slope, Cliff
 }
+
 
 public class HexCell : MonoBehaviour
 {
     public HexCoordinates coordinates;
 
     public Color color;
+
+    int elevation;
+
+    public RectTransform uiRect;
 
     #region Not in Tutorial
 
@@ -55,6 +46,33 @@ public class HexCell : MonoBehaviour
         neighbors[(int)direction] = cell;
         cell.neighbors[(int)direction.Opposite()] = this;
     }
+    public int Elevation
+    {
+        get
+        {
+            return elevation;
+        }
+        set
+        {
+            elevation = value;
+            Vector3 position = transform.localPosition;
+            position.y = value * HexMetrics.elevationStep;
+            transform.localPosition = position;
+
+            Vector3 uiPosition = uiRect.localPosition;
+            uiPosition.z = elevation * -HexMetrics.elevationStep;
+            uiRect.localPosition = uiPosition;
+        }
+    }
+
+    public HexEdgeType GetEdgeType(HexDirection direction)
+    {
+        return HexMetrics.GetEdgeType(elevation, neighbors[(int)direction].elevation);
+    }
+    public HexEdgeType GetEdgeType(HexCell otherCell)
+    {
+        return HexMetrics.GetEdgeType(elevation, otherCell.elevation);
+    }
 
     #region Not in Tutorial
 
@@ -71,3 +89,22 @@ public class HexCell : MonoBehaviour
 }
 
 
+
+public static class HexDirectionExtensions
+{
+    public static HexDirection Opposite(this HexDirection direction)
+    {
+        return ((int)direction < 3) ? (direction + 3) : (direction - 3); //wenn direction < 3, direction + 3 wird verwendet sonst direction-3
+    }
+    public static HexDirection Previous(this HexDirection direction)
+    {
+        return direction == HexDirection.NE ? HexDirection.NW : (direction - 1);
+    }
+
+    public static HexDirection Next(this HexDirection direction)
+    {
+        return direction == HexDirection.NW ? HexDirection.NE : (direction + 1);
+    }
+
+
+}

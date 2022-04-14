@@ -5,37 +5,50 @@ using UnityEngine;
 public class HexMapEditor : MonoBehaviour
 {
 
-	public Color[] colors;
+    public Color[] colors;
 
-	public HexGrid hexGrid;
+    public HexGrid hexGrid;
 
-	private Color activeColor;
+    private Color activeColor;
 
-	void Awake()
-	{
-		SelectColor(0);
-	}
+    private int activeElevation;
 
-	void Update()
-	{
-		if (Mouse.current.leftButton.wasPressedThisFrame && !EventSystem.current.IsPointerOverGameObject())
-		{
-			HandleInput();
-		}
-	}
+    void Awake()
+    {
+        SelectColor(0);
+    }
 
-	void HandleInput()
-	{
-		Ray inputRay = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-		RaycastHit hit;
-		if (Physics.Raycast(inputRay, out hit))
-		{
-			hexGrid.ColorCell(hit.point, activeColor);
-		}
-	}
+    void Update()
+    {
+        if (Mouse.current.leftButton.wasPressedThisFrame && !EventSystem.current.IsPointerOverGameObject())
+        {
+            HandleInput();
+        }
+    }
 
-	public void SelectColor(int index)
-	{
-		activeColor = colors[index];
-	}
+    void HandleInput()
+    {
+        Ray inputRay = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        RaycastHit hit;
+        if (Physics.Raycast(inputRay, out hit))
+        {
+            EditCell(hexGrid.GetCell(hit.point));
+        }
+    }
+    void EditCell(HexCell cell)
+    {
+        cell.color = activeColor;
+        cell.Elevation = activeElevation;
+        hexGrid.Refresh();
+    }
+
+    public void SelectColor(int index)
+    {
+        activeColor = colors[index];
+    }
+
+    public void SetElevation(float elevation)
+    {
+        activeElevation = (int)elevation;
+    }
 }

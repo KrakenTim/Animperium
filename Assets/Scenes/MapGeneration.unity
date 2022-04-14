@@ -246,6 +246,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2541496303431530990, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
 --- !u!1001 &4516044167108983335
@@ -299,6 +303,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4516044166769747745, guid: 4f0a44165f95a6d488d3ed4a778818a2, type: 3}
+      propertyPath: m_Intensity
+      value: 100000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516044166769747745, guid: 4f0a44165f95a6d488d3ed4a778818a2, type: 3}
+      propertyPath: m_AreaSize.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516044166769747745, guid: 4f0a44165f95a6d488d3ed4a778818a2, type: 3}
+      propertyPath: m_AreaSize.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4516044166769747746, guid: 4f0a44165f95a6d488d3ed4a778818a2, type: 3}
       propertyPath: m_Name
       value: Directional Light
@@ -321,36 +337,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6900189290997609317, guid: dd1a513b763d5c0409a1f669b5bf43da, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 6900189290997609317, guid: dd1a513b763d5c0409a1f669b5bf43da, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 6900189290997609317, guid: dd1a513b763d5c0409a1f669b5bf43da, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 20
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 6900189290997609317, guid: dd1a513b763d5c0409a1f669b5bf43da, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7660445
+      value: 0.92387956
       objectReference: {fileID: 0}
     - target: {fileID: 6900189290997609317, guid: dd1a513b763d5c0409a1f669b5bf43da, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.6427876
-      objectReference: {fileID: 0}
-    - target: {fileID: 6900189290997609317, guid: dd1a513b763d5c0409a1f669b5bf43da, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6900189290997609317, guid: dd1a513b763d5c0409a1f669b5bf43da, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.38268343
       objectReference: {fileID: 0}
     - target: {fileID: 6900189290997609317, guid: dd1a513b763d5c0409a1f669b5bf43da, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 80
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 6900189290997609317, guid: dd1a513b763d5c0409a1f669b5bf43da, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -369,13 +369,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3280613056838175751, guid: 283799bb2ea6efc479e26eebb71a0fb1, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433539748891793045, guid: 283799bb2ea6efc479e26eebb71a0fb1, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8251552486622929930, guid: 283799bb2ea6efc479e26eebb71a0fb1, type: 3}
       propertyPath: m_Name
       value: Toggle Red (Lava)
       objectReference: {fileID: 0}
+    - target: {fileID: 8251552486713911664, guid: 283799bb2ea6efc479e26eebb71a0fb1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8251552487539041656, guid: 283799bb2ea6efc479e26eebb71a0fb1, type: 3}
       propertyPath: m_Name
       value: Hex Map Editor (Canvas)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8251552487539041659, guid: 283799bb2ea6efc479e26eebb71a0fb1, type: 3}
+      propertyPath: m_RenderMode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8251552487539041660, guid: 283799bb2ea6efc479e26eebb71a0fb1, type: 3}
       propertyPath: m_Pivot.x
