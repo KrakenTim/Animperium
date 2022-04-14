@@ -133,6 +133,11 @@ public class HexGrid : MonoBehaviour
     {
         Vector3 localPosition = transform.InverseTransformPoint(worldposition);
         HexCoordinates coordinates = HexCoordinates.FromPosition(localPosition);
+        return GetHexCell(coordinates);
+    }
+
+    public HexCell GetHexCell(HexCoordinates coordinates)
+    {
         int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
         return cells[index];
     }

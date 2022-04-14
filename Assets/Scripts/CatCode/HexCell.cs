@@ -31,6 +31,14 @@ public class HexCell : MonoBehaviour
 
     public Color color;
 
+    #region Not in Tutorial
+
+    private PlayerPawn pawnOnCell;
+    public PlayerPawn Pawn => pawnOnCell;
+    public bool HasPawn => pawnOnCell != null;
+
+    #endregion Not in Tutorial
+
     [SerializeField]
     HexCell[] neighbors;
 
@@ -47,6 +55,18 @@ public class HexCell : MonoBehaviour
         neighbors[(int)direction] = cell;
         cell.neighbors[(int)direction.Opposite()] = this;
     }
+
+    #region Not in Tutorial
+
+    public void SetPawn(PlayerPawn pawn)
+    {
+        if (!HasPawn || pawn == null)
+            pawnOnCell = pawn;
+        else
+            Debug.LogError($"Tried to set two Pawns onto same HexCell{coordinates.ToString()}!\n", this);
+    }
+
+    #endregion Not in Tutorial
 
 }
 

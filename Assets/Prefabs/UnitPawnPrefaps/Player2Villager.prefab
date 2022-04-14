@@ -46,7 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: 2
-  factionID: 0
+  factionID: 2
+  pawmHP: 3
+  pawnMP: 3
   type: 2
   hexCell: {fileID: 0}
 --- !u!135 &8704268248220163479
@@ -60,8 +62,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 3
+  m_Center: {x: 0, y: 2.5, z: 0}
 --- !u!1001 &8352560725066781734
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -75,7 +77,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ca9e236ad45c8f143b5c1d28fe7e8b3b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -1.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ca9e236ad45c8f143b5c1d28fe7e8b3b, type: 3}
       propertyPath: m_LocalPosition.y
