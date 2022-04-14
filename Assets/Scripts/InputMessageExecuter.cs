@@ -21,6 +21,7 @@ public class InputMessageExecuter : MonoBehaviour
             return;
         }
 
+
         HexCell startCell = HexGrid.GetHexCell(order.startCell);
         HexCell targetCell = HexGrid.GetHexCell(order.targetCell);
 
@@ -30,11 +31,13 @@ public class InputMessageExecuter : MonoBehaviour
         switch (order.action)
         {
             case ePlayeractionType.Move:
-                startPawn.SetHexCell(targetCell);
+                startPawn.MoveTo(targetCell);
                 break;
             case ePlayeractionType.Attack:
+                startPawn.Attack(targetPawn);
                 break;
             case ePlayeractionType.Collect:
+                startPawn.Collect(targetCell.Resource);
                 break;
             case ePlayeractionType.SpawnVillager:
                 break;

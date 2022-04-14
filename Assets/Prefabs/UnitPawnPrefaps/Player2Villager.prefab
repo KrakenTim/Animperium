@@ -45,11 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cedc5eb9b088854d9efb6b5543a7b9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pawnData: {fileID: 11400000, guid: 71aa9d8a7e10db845ab64fd89c8951cc, type: 2}
   playerID: 2
   factionID: 2
-  pawmHP: 3
-  pawnMP: 3
-  type: 2
+  currentHealth: 0
+  movementPoints: 0
   hexCell: {fileID: 0}
 --- !u!135 &8704268248220163479
 SphereCollider:

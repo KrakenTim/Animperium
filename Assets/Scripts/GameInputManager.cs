@@ -33,8 +33,8 @@ public class GameInputManager : MonoBehaviour
     }
 
 
-    [SerializeField] PlayerPawn currentlySelectedPawn;
-    [SerializeField] HexCell currentlySelectedHexCell;
+    [SerializeField] PlayerPawn selectedPawn;
+    [SerializeField] HexCell selectedHexCell;
 
 
     private void Awake()
@@ -63,31 +63,66 @@ public class GameInputManager : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(inputRay, out hit))
         {
-           currentlySelectedHexCell = HexGrid.GetHexCell(hit.point);
+           selectedHexCell = HexGrid.GetHexCell(hit.point);
 
-            Debug.Log("Change Selected Cell to "+ currentlySelectedHexCell.coordinates.ToString());
+            Debug.Log("Change Selected Cell to "+ selectedHexCell.coordinates.ToString());
         }
 
-        if (CheckMovementPossible())
+        if (IsCollectPossible())
         {
-            InputMessage message = InputMessageGenerator.MoveToHex(currentlySelectedPawn, currentlySelectedHexCell);
+            InputMessage message = InputMessageGenerator.CreateMessage(selectedPawn, selectedHexCell, ePlayeractionType.Collect);
+            InputMessageExecuter.Send(message);
+            return;
+        }
+
+        if (IsMovePossible())
+        {
+            InputMessage message = InputMessageGenerator.CreateMessage(selectedPawn, selectedHexCell, ePlayeractionType.Move);
+            InputMessageExecuter.Send(message);
+            return;
+        }
+    }
+
+    private bool IsCollectPossible()
+    {
+        return selectedPawn != null && selectedHexCell != null && selectedPawn.CanAct
+            && selectedPawn.HexCell.IsNeighbor(selectedHexCell)
+            && selectedHexCell.Resource != null;
+    }
+
+    private bool IsMovePossible()
+    {
+        return (selectedPawn != null && selectedPawn.CanAct && selectedHexCell != null 
+            && selectedPawn.IsUnit && selectedPawn.MP > 0 
+            && selectedPawn.IsPlayerPawn && !selectedHexCell.HasPawn
+            && selectedHexCell.IsNeighbor(selectedPawn.HexCell));
+
+    }
+
+    private bool IsAttackPossible(PlayerPawn otherPawn)
+    {
+        return (selectedPawn != null&&selectedPawn.AttackPower > 0 && otherPawn != null && selectedPawn.CanAct
+           && otherPawn.IsEnemy && selectedPawn.HexCell.IsNeighbor(otherPawn.HexCell));
+    }
+
+    public static void ClickedOnPawn(PlayerPawn clickedPawn)
+    {
+        if (instance.IsAttackPossible(clickedPawn))
+        {
+            InputMessage message = InputMessageGenerator.CreateMessage(instance.selectedPawn, clickedPawn.HexCell, ePlayeractionType.Attack);
             InputMessageExecuter.Send(message);
         }
+
+        instance.selectedPawn = clickedPawn;
+
+       // Debug.Log("Change Selected Cell to " + newlySelected.PawnType);
+
+        SelectedPawn?.Invoke(clickedPawn);
     }
 
-    private bool CheckMovementPossible()
+    public static void DeselectPawn()
     {
-        return (currentlySelectedPawn != null && currentlySelectedHexCell != null 
-            && currentlySelectedPawn.IsUnit && currentlySelectedPawn.MP > 0 
-            && currentlySelectedPawn.IsActivePlayerPawn);
-    }
-
-    public static void ClickedOnPawn(PlayerPawn newlySelected)
-    {
-        instance.currentlySelectedPawn = newlySelected;
-
-        Debug.Log("Change Selected Cell to " + newlySelected.PawnType);
-
-        SelectedPawn?.Invoke(newlySelected);
+        instance.selectedPawn = null;
+        SelectedPawn?.Invoke(null);
     }
 }
