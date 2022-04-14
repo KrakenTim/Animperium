@@ -88,6 +88,36 @@ public class GameManager : MonoBehaviour
         TurnStarted?.Invoke(activePlayerID);
     }
 
+    public static void SpawnPawn(PlayerPawn spawner, HexCell spawnPoint)
+    {
+        ePlayerPawnType spawnPawnType = spawner.Spawn;
+
+        PlayerPawnData spawnedPawn = null;
+
+        foreach (var data in instance.pawnDatas)
+        {
+            if (data.type == spawnPawnType)
+                spawnedPawn = data;
+        }
+
+        if (spawnedPawn == null) return;
+
+        bool isPossible = true;
+        // Check if the Player have enough resources
+        if (instance.TryGetPlayerValues(CurrentPlayerID, out PlayerValues playerResources))
+        {
+            if(spawnedPawn.food > playerResources.food)
+                isPossible = false;
+                }
+        if (isPossible == false) return;
+
+        playerResources.food = spawnedPawn.food;
+        PlayerHUD.UpdateHUD(instance.activePlayerID);
+
+        PlayerPawn newPawn = Instantiate(spawnedPawn.GetPawnPrefap(instance.activePlayerID), 
+            spawnPoint.transform.position, Quaternion.identity, instance.transform);
+    }
+
     private bool TryGetPlayerValues(int playerID, out PlayerValues result)
     {
         foreach (var item in instance.playerValueList)

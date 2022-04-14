@@ -92,7 +92,7 @@ public class GameInputManager : MonoBehaviour
     private bool IsCollectPossible()
     {
         return selectedPawn != null && selectedHexCell != null && selectedPawn.CanAct
-            && selectedPawn.HexCell.IsNeighbor(selectedHexCell)
+            && selectedPawn.IsUnit && selectedPawn.HexCell.IsNeighbor(selectedHexCell)
             && selectedHexCell.Resource != null;
     }
 
@@ -102,7 +102,6 @@ public class GameInputManager : MonoBehaviour
             && selectedPawn.IsUnit && selectedPawn.MP > 0 
             && selectedPawn.IsPlayerPawn && !selectedHexCell.HasPawn
             && selectedHexCell.IsNeighbor(selectedPawn.HexCell));
-
     }
 
     private bool IsSpawnPossible()
@@ -111,7 +110,6 @@ public class GameInputManager : MonoBehaviour
             && selectedPawn.IsPlayerPawn && !selectedHexCell.HasPawn
             && selectedHexCell.IsNeighbor(selectedPawn.HexCell)
             && selectedPawn.Spawn != ePlayerPawnType.NONE);
-
     }
 
     private bool IsAttackPossible(PlayerPawn otherPawn)

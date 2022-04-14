@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 861953c784eefcb48b40b867d6208ef9, type: 3}
   m_Name: VeteranPawnData
   m_EditorClassIdentifier: 
-  type: 0
+  type: 8
   maxHealth: 0
   maxMovement: 0
   attackPower: 0
   food: 0
-  spawnedPawns: 
+  spawnedPawn: 0
   learnsFight: 0
   learnsMagic: 0
   learnsDigging: 0

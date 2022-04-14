@@ -40,7 +40,7 @@ public class InputMessageExecuter : MonoBehaviour
                 startPawn.Collect(targetCell.Resource);
                 break;
             case ePlayeractionType.Spawn:
-                //GameManager.SpawnPawn.Spawn(targetCell)
+                GameManager.SpawnPawn(startPawn, targetCell);
                 break;
             case ePlayeractionType.Learn:
                 break;

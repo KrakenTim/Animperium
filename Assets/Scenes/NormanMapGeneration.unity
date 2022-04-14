@@ -202,6 +202,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6522663}
   m_CullTransparentMesh: 1
+--- !u!114 &40437247 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2418226399125894294, guid: e45fe346a5a2d824fa0f3dbecbd2b805, type: 3}
+  m_PrefabInstance: {fileID: 2418226399335868789}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cedc5eb9b088854d9efb6b5543a7b9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &117687839
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,7 +247,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 154.3, y: -0.5999985}
+  m_AnchoredPosition: {x: 177.77, y: -0.5999985}
   m_SizeDelta: {x: 100.412476, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &117687841
@@ -370,7 +381,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -323.85, y: 0}
+  m_AnchoredPosition: {x: -315.8, y: -18.4}
   m_SizeDelta: {x: 38.559998, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &132793052
@@ -995,7 +1006,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myHexGrid: {fileID: 1823811209}
-  pawnDatas: []
+  pawnDatas:
+  - {fileID: 11400000, guid: ab0bd7cec7ec7114cbe294451e3e28a8, type: 2}
+  - {fileID: 11400000, guid: d194206e442baab44b154f77cfdd7045, type: 2}
+  - {fileID: 11400000, guid: 219c0e54115317d4f83a2dfdb1552632, type: 2}
+  - {fileID: 11400000, guid: e8f99540da36897438ce8236d7e6966e, type: 2}
+  - {fileID: 11400000, guid: 945ac37ddbcd6444d87eb776c3b88460, type: 2}
+  - {fileID: 11400000, guid: df3c4f84d574a2040a9ca6b641e97838, type: 2}
+  - {fileID: 11400000, guid: 71aa9d8a7e10db845ab64fd89c8951cc, type: 2}
+  - {fileID: 11400000, guid: 5c57c310905e15341a24912b848ec175, type: 2}
   playerValueList:
   - playerID: 1
     factionID: 0
@@ -1036,7 +1055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myInputMode: 0
-  selectedPawn: {fileID: 0}
+  selectedPawn: {fileID: 40437247}
   selectedHexCell: {fileID: 0}
 --- !u!1 &598442675
 GameObject:
@@ -1223,8 +1242,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -132.08313, y: 24.792234}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -502.8, y: 0}
+  m_SizeDelta: {x: 34.7376, y: 40.208}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &645980786
 MonoBehaviour:
@@ -5849,6 +5868,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3280613056838175751, guid: 283799bb2ea6efc479e26eebb71a0fb1, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433539748891793045, guid: 283799bb2ea6efc479e26eebb71a0fb1, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8251552487539041656, guid: 283799bb2ea6efc479e26eebb71a0fb1, type: 3}
       propertyPath: m_Name
       value: Hex Map Editor (Canvas)
