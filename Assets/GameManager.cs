@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] HexGrid myHexGrid;
     public static HexGrid HexGrid => instance.myHexGrid;
 
+    [SerializeField] PlayerPawnData[] pawnDatas;
+
     [SerializeField] PlayerValues[] playerValueList;
 
     int activePlayerID = 1;
