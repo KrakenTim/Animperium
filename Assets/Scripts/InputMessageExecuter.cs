@@ -37,6 +37,7 @@ public class InputMessageExecuter : MonoBehaviour
                 startPawn.Attack(targetPawn);
                 break;
             case ePlayeractionType.Collect:
+                startPawn.Collect(targetCell.Resource);
                 break;
             case ePlayeractionType.SpawnVillager:
                 break;

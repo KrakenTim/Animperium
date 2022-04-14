@@ -77,6 +77,14 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         victim.Damaged(AttackPower);
     }
 
+    public void Collect(RessourceToken resource)
+    {
+        actedAlready = true;
+        PlayerHUD.UpdateShownPawn();
+
+        resource.Harvest();
+    }
+
     public void MoveTo(HexCell targetPosition)
     {
         movementPoints -= 1;
@@ -93,6 +101,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         if (currentHealth <= 0)
         {
             GameManager.RemovePawn(this);
+
+            SetHexCell(null);
 
             Destroy(gameObject);
         }

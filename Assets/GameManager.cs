@@ -44,6 +44,11 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
+    private void Start()
+    {
+        StartNewPlayerTurn();
+    }
+
     private void OnDestroy()
     {
         if (instance = this)
@@ -52,25 +57,33 @@ public class GameManager : MonoBehaviour
 
     public static void EndTurn()
     {
-        // End old Players turn
-        if (instance.TryGetPlayerValues(instance.activePlayerID, out PlayerValues oldPlayer))
+        instance.EndOldPlayerTurn();
+
+        instance.activePlayerID++;
+
+        if (instance.activePlayerID > instance.playerValueList.Length)
+            instance.activePlayerID = 1;
+
+        instance.StartNewPlayerTurn();
+    }
+
+    private void EndOldPlayerTurn()
+    {
+        if (TryGetPlayerValues(activePlayerID, out PlayerValues oldPlayer))
         {
             foreach (var pawn in oldPlayer.ownedPawns)
                 pawn.RefreshTurn();
         }
 
         GameInputManager.DeselectPawn();
+    }
 
-        if (instance.activePlayerID ==1)
-            instance.activePlayerID = 2;
-        else
-            instance.activePlayerID = 1;
+    private void StartNewPlayerTurn()
+    {
+        if (TryGetPlayerValues(activePlayerID, out PlayerValues newPlayer))
+            activePlayerFactionID = newPlayer.factionID;
 
-        // Start new Players Turn
-        if (instance.TryGetPlayerValues(instance.activePlayerID, out PlayerValues newPlayer))
-            instance.activePlayerFactionID = newPlayer.factionID;
-
-        TurnStarted?.Invoke(instance.activePlayerID);
+        TurnStarted?.Invoke(activePlayerID);
     }
 
     private bool TryGetPlayerValues(int playerID, out PlayerValues result)
@@ -152,6 +165,25 @@ public class GameManager : MonoBehaviour
         if (instance.TryGetPlayerValues(pawn.PlayerID, out PlayerValues result))
         {
             result.ownedPawns.Remove(pawn);
+        }
+    }
+
+    public static void AddResource(eRessourceType resource, int amount)
+    {
+        if (instance.TryGetPlayerValues(CurrentPlayerID, out PlayerValues result))
+        {
+            switch (resource)
+            {
+                case eRessourceType.Food:
+                    result.food += amount;
+                    break;
+                default:
+                    Debug.LogError("AddResource UNDEFINED for " + resource);
+                    return;
+            }
+
+            PlayerHUD.UpdateHUD(instance.activePlayerID);
+
         }
     }
 

@@ -35,16 +35,11 @@ public class PlayerHUD : MonoBehaviour
         GameInputManager.SelectedPawn -= UpdateSelectedPawn;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public static void UpdateHUD(int playerID)
     {
-        UpdateHUD(GameManager.CurrentPlayerID);
-    }
-    private void UpdateHUD(int playerID)
-    {
-        background.color = GameManager.GetPlayerColor(playerID);
+        instance.background.color = GameManager.GetPlayerColor(playerID);
 
-        foodAmount.text = GameManager.GetPlayerFood(playerID) + " Food";
+        instance.foodAmount.text = GameManager.GetPlayerFood(playerID) + " Food";
     }
 
     private void UpdateSelectedPawn(PlayerPawn selectedPawn)

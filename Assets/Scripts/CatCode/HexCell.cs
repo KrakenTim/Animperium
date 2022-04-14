@@ -37,6 +37,9 @@ public class HexCell : MonoBehaviour
     public PlayerPawn Pawn => pawnOnCell;
     public bool HasPawn => pawnOnCell != null;
 
+    private RessourceToken resource;
+    public RessourceToken Resource => resource;
+
     #endregion Not in Tutorial
 
     [SerializeField]
@@ -64,6 +67,14 @@ public class HexCell : MonoBehaviour
             pawnOnCell = pawn;
         else
             Debug.LogError($"Tried to set two Pawns onto same HexCell{coordinates.ToString()}!\n", this);
+    }
+
+    public void SetResource(RessourceToken newResource)
+    {
+        if (resource == null || newResource ==null)
+            resource = newResource;
+        else
+            Debug.LogError($"Resource to set two Pawns onto same HexCell{coordinates.ToString()}!\n", this);
     }
 
     public bool IsNeighbor(HexCell cell)

@@ -68,11 +68,26 @@ public class GameInputManager : MonoBehaviour
             Debug.Log("Change Selected Cell to "+ selectedHexCell.coordinates.ToString());
         }
 
+        if (IsCollectPossible())
+        {
+            InputMessage message = InputMessageGenerator.CreateMessage(selectedPawn, selectedHexCell, ePlayeractionType.Collect);
+            InputMessageExecuter.Send(message);
+            return;
+        }
+
         if (IsMovePossible())
         {
-            InputMessage message = InputMessageGenerator.MoveToHex(selectedPawn, selectedHexCell);
+            InputMessage message = InputMessageGenerator.CreateMessage(selectedPawn, selectedHexCell, ePlayeractionType.Move);
             InputMessageExecuter.Send(message);
+            return;
         }
+    }
+
+    private bool IsCollectPossible()
+    {
+        return selectedPawn != null && selectedHexCell != null && selectedPawn.CanAct
+            && selectedPawn.HexCell.IsNeighbor(selectedHexCell)
+            && selectedHexCell.Resource != null;
     }
 
     private bool IsMovePossible()
@@ -94,7 +109,7 @@ public class GameInputManager : MonoBehaviour
     {
         if (instance.IsAttackPossible(clickedPawn))
         {
-            InputMessage message = InputMessageGenerator.Attack(instance.selectedPawn, clickedPawn);
+            InputMessage message = InputMessageGenerator.CreateMessage(instance.selectedPawn, clickedPawn.HexCell, ePlayeractionType.Attack);
             InputMessageExecuter.Send(message);
         }
 
