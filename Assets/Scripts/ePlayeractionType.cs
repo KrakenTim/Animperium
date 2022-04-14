@@ -8,6 +8,6 @@ public enum ePlayeractionType
     Move = 1,
     Attack = 2,
     Collect = 3,
-    SpawnVillager = 4,
-    SpawnSwordfighter = 5,
+    Spawn = 4,
+    Learn = 5,
 }

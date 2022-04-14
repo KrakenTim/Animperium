@@ -15,7 +15,7 @@ public class PlayerPawnData : ScriptableObject
     public int food;
 
     [Header("Spawns")]
-    [SerializeField]List<ePlayerPawnType> spawnedPawns = new List<ePlayerPawnType>();
+    [SerializeField] public ePlayerPawnType spawnedPawn;
     [SerializeField] ePlayerPawnType learnsFight;
     [SerializeField] ePlayerPawnType learnsMagic;
     [SerializeField] ePlayerPawnType learnsDigging;

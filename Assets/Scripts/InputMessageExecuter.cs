@@ -39,9 +39,10 @@ public class InputMessageExecuter : MonoBehaviour
             case ePlayeractionType.Collect:
                 startPawn.Collect(targetCell.Resource);
                 break;
-            case ePlayeractionType.SpawnVillager:
+            case ePlayeractionType.Spawn:
+                //GameManager.SpawnPawn.Spawn(targetCell)
                 break;
-            case ePlayeractionType.SpawnSwordfighter:
+            case ePlayeractionType.Learn:
                 break;
 
             default:

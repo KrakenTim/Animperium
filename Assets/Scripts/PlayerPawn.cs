@@ -13,6 +13,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public ePlayerPawnType PawnType => pawnData.type;
     public bool IsBuilding => PawnType.IsBuilding();
     public bool IsUnit => PawnType.IsUnit();
+    public ePlayerPawnType Spawn => pawnData.spawnedPawn;
+
 
     [SerializeField] int playerID;
     public Sprite PlayerIcon => GameManager.GetPlayerIcon(playerID);
