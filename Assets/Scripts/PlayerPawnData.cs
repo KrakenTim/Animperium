@@ -6,19 +6,20 @@ using UnityEngine;
 public class PlayerPawnData : ScriptableObject
 {
     public ePlayerPawnType type;
-    [Header("Stats")]
 
+    [Header("Stats")]
     public int maxHealth;
     public int maxMovement;
     public int attackPower;
+
     [Header("Costs")]
     public int food;
 
     [Header("Spawns")]
     [SerializeField] public ePlayerPawnType spawnedPawn;
-    [SerializeField] ePlayerPawnType learnsFight;
-    [SerializeField] ePlayerPawnType learnsMagic;
-    [SerializeField] ePlayerPawnType learnsDigging;
+    [SerializeField] public ePlayerPawnType learnsFight;
+    [SerializeField] public ePlayerPawnType learnsMagic;
+    [SerializeField] public ePlayerPawnType learnsDigging;
 
     [Header("Prefab")]
     [SerializeField] PlayerPawn[] playerPrefabs;
