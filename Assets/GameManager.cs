@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] PlayerValues[] playerValueList;
 
     int activePlayerID = 1;
-    public static int CurrentPlayerID=> instance.activePlayerID;
+    public static int CurrentPlayerID => instance.activePlayerID;
 
     int activePlayerFactionID = 1;
     public static int CurrentFactionID => instance.activePlayerFactionID;
@@ -106,15 +106,15 @@ public class GameManager : MonoBehaviour
         // Check if the Player have enough resources
         if (instance.TryGetPlayerValues(CurrentPlayerID, out PlayerValues playerResources))
         {
-            if(spawnedPawn.food > playerResources.food)
+            if (spawnedPawn.food > playerResources.food)
                 isPossible = false;
-                }
+        }
         if (isPossible == false) return;
 
-        playerResources.food = spawnedPawn.food;
+        playerResources.food -= spawnedPawn.food;
         PlayerHUD.UpdateHUD(instance.activePlayerID);
 
-        PlayerPawn newPawn = Instantiate(spawnedPawn.GetPawnPrefap(instance.activePlayerID), 
+        PlayerPawn newPawn = Instantiate(spawnedPawn.GetPawnPrefap(instance.activePlayerID),
             spawnPoint.transform.position, Quaternion.identity, instance.transform);
     }
 
@@ -125,9 +125,9 @@ public class GameManager : MonoBehaviour
             if (item.playerID == playerID)
             {
                 result = item;
-                return true; 
+                return true;
             }
-                
+
         }
 
         Debug.LogError("Values not found for Player " + playerID, instance);
