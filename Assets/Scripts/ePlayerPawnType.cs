@@ -22,6 +22,7 @@ public enum ePlayerPawnType
     SchoolDigging = 103,
     FarmHouse = 104,
     TunnelEntry = 105,
+    Wall = 106
 }
 
 public static class ePlayerPawnTypeExtensions
