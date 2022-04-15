@@ -29,10 +29,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] PlayerValues[] playerValueList;
 
-    int activePlayerID = 1;
+    [SerializeField] int activePlayerID = 1;
     public static int CurrentPlayerID => instance.activePlayerID;
 
-    int activePlayerFactionID = 1;
+    [SerializeField] int activePlayerFactionID = 1;
     public static int CurrentFactionID => instance.activePlayerFactionID;
 
     private void Awake()
@@ -118,6 +118,16 @@ public class GameManager : MonoBehaviour
             spawnPoint.transform.position, Quaternion.identity, instance.transform);
     }
 
+    public static bool IsEnemy(int otherPlayerID)
+    {
+        if (instance.TryGetPlayerValues(CurrentPlayerID, out PlayerValues currentPlayer)
+            && instance.TryGetPlayerValues(otherPlayerID, out PlayerValues otherPlayer))
+        {
+            return currentPlayer.factionID != otherPlayer.factionID;
+        }
+        return false;
+    }
+    
     private bool TryGetPlayerValues(int playerID, out PlayerValues result)
     {
         foreach (var item in instance.playerValueList)

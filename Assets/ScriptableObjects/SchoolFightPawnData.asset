@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 861953c784eefcb48b40b867d6208ef9, type: 3}
-  m_Name: SchoolDiggingFightPawnData
+  m_Name: SchoolFightPawnData
   m_EditorClassIdentifier: 
-  type: 103
+  type: 101
   maxHealth: 20
   maxMovement: 0
   attackPower: 0

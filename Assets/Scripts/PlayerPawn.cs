@@ -19,7 +19,6 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     [SerializeField] int playerID;
     public Sprite PlayerIcon => GameManager.GetPlayerIcon(playerID);
     public int PlayerID => playerID;
-    [SerializeField] int factionID;
 
 
     [Space]
@@ -41,7 +40,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
     public bool IsPlayerPawn => playerID == GameManager.CurrentPlayerID;
 
-    public bool IsEnemy => factionID != GameManager.CurrentFactionID;
+    public bool IsEnemy => GameManager.IsEnemy(PlayerID);
 
     // Start is called before the first frame update
     void Start()
@@ -57,7 +56,6 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public void SetOwner(int playerID, int fractionID)
     {
         this.playerID = playerID;
-        this.factionID = fractionID;
     }
 
     public void SetHexCell(HexCell cell)

@@ -22,5 +22,6 @@ MonoBehaviour:
   learnsMagic: 3
   learnsDigging: 4
   playerPrefabs:
-  - {fileID: 2418226399125894295, guid: e45fe346a5a2d824fa0f3dbecbd2b805, type: 3}
-  - {fileID: 8352560724993282687, guid: 5ab289a2c549fed4da1460373b694b0e, type: 3}
+  - {fileID: 0}
+  - {fileID: 2418226399125894294, guid: e45fe346a5a2d824fa0f3dbecbd2b805, type: 3}
+  - {fileID: 8352560724993282684, guid: 5ab289a2c549fed4da1460373b694b0e, type: 3}
