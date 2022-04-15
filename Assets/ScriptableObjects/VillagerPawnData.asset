@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: VillagerPawnData
   m_EditorClassIdentifier: 
   type: 1
-  maxHealth: 3
-  maxMovement: 3
-  attackPower: 1
-  food: 0
+  maxHealth: 5
+  maxMovement: 4
+  attackPower: 2
+  food: 10
   spawnedPawn: 0
   learnsFight: 2
   learnsMagic: 3

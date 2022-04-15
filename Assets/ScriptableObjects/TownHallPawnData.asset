@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TownHallPawnData
   m_EditorClassIdentifier: 
   type: 100
-  maxHealth: 6
+  maxHealth: 30
   maxMovement: 0
   attackPower: 0
   food: 0

@@ -38,6 +38,12 @@ public static class BalanceTableImport
     {
         string tableAsString = GetWWWViaLink(LINK_PawnBalanceTable, NAME_BalancingTable);
 
+        if(tableAsString.Length == 0)
+        {
+            Debug.LogError("Table Download Failed, Update stopped.\n");
+            return;
+        }
+
         var pawnDatas = AI_File.EDITOR_GetAssets<PlayerPawnData>(PATH_PawnDataFolder);
 
         ePlayerPawnType nextPawnType;
@@ -136,12 +142,12 @@ public static class BalanceTableImport
 #pragma warning restore CS0618
 
         DateTime maxWaiting = DateTime.UtcNow;
-        maxWaiting.AddSeconds(60);
+        maxWaiting = maxWaiting.AddSeconds(60);
 
         //wait until it's done
         while (!www.isDone)
-        {
-            if (DateTime.UtcNow > maxWaiting)
+        {         
+            if (DateTime.UtcNow.CompareTo(maxWaiting) > 0)
             {
                 Debug.LogError($"Import\tCould not download {friendlyName} within 60 seconds, download aborted.\n{link}\n");
                 return "";

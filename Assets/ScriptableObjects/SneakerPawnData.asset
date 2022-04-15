@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: SneakerPawnData
   m_EditorClassIdentifier: 
   type: 6
-  maxHealth: 0
-  maxMovement: 0
-  attackPower: 0
-  food: 0
+  maxHealth: 9
+  maxMovement: 4
+  attackPower: 4
+  food: 30
   spawnedPawn: 0
   learnsFight: 0
-  learnsMagic: 0
+  learnsMagic: 8
   learnsDigging: 0
   playerPrefabs: []

@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: DiggerPawnData
   m_EditorClassIdentifier: 
   type: 4
-  maxHealth: 4
+  maxHealth: 7
   maxMovement: 4
-  attackPower: 2
-  food: 0
-  spawnedPawns: 
-  learnsFight: 0
-  learnsMagic: 0
+  attackPower: 3
+  food: 20
+  spawnedPawn: 0
+  learnsFight: 6
+  learnsMagic: 7
   learnsDigging: 0
   playerPrefabs: []

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: SchoolFightPawnData 1
   m_EditorClassIdentifier: 
   type: 101
-  maxHealth: 5
+  maxHealth: 20
   maxMovement: 0
   attackPower: 0
-  food: 0
+  food: 40
   spawnedPawn: 0
   learnsFight: 0
   learnsMagic: 0

@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: HealerPawnData
   m_EditorClassIdentifier: 
   type: 3
-  maxHealth: 4
+  maxHealth: 7
   maxMovement: 4
-  attackPower: 2
-  food: 0
-  spawnedPawns: 
-  learnsFight: 0
+  attackPower: 3
+  food: 20
+  spawnedPawn: 0
+  learnsFight: 5
   learnsMagic: 0
-  learnsDigging: 0
+  learnsDigging: 7
   playerPrefabs: []

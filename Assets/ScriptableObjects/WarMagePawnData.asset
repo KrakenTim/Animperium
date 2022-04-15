@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: WarMagePawnData
   m_EditorClassIdentifier: 
   type: 5
-  maxHealth: 0
-  maxMovement: 0
-  attackPower: 0
-  food: 0
+  maxHealth: 7
+  maxMovement: 3
+  attackPower: 4
+  food: 30
   spawnedPawn: 0
   learnsFight: 0
   learnsMagic: 0
-  learnsDigging: 0
+  learnsDigging: 8
   playerPrefabs: []
