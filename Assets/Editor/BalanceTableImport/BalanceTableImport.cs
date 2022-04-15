@@ -36,7 +36,7 @@ public static class BalanceTableImport
     [MenuItem("Tools/Import Table/Pawn Balancing")]
     public static void UpdateBalancingTable()
     {
-        string tableAsString = GetTSVTableViaLink(LINK_PawnBalanceTable, NAME_BalancingTable);
+        string tableAsString = GetWWWViaLink(LINK_PawnBalanceTable, NAME_BalancingTable);
 
         var pawnDatas = AI_File.EDITOR_GetAssets<PlayerPawnData>(PATH_PawnDataFolder);
 
@@ -127,7 +127,7 @@ public static class BalanceTableImport
     /// <summary>
     /// returns website given by link as string
     /// </summary>
-    static string GetTSVTableViaLink(string link, string tableName)
+    static string GetWWWViaLink(string link, string friendlyName)
     {
         if (string.IsNullOrWhiteSpace(link)) return "";
 
@@ -135,16 +135,24 @@ public static class BalanceTableImport
         WWW www = new WWW(link);
 #pragma warning restore CS0618
 
-        //wait until it's done, causes issues without web connection
+        DateTime maxWaiting = DateTime.UtcNow;
+        maxWaiting.AddSeconds(60);
+
+        //wait until it's done
         while (!www.isDone)
         {
+            if (DateTime.UtcNow > maxWaiting)
+            {
+                Debug.LogError($"Import\tCould not download {friendlyName} within 60 seconds, download aborted.\n{link}\n");
+                return "";
+            }
         }
 
         // worked without errors
         if (string.IsNullOrWhiteSpace(www.error)) return www.text;
 
         // display error
-        Debug.LogError($"Import\t{tableName}: WWW ERROR!\n\t{www.error}\n{link}\n");
+        Debug.LogError($"Import\t{friendlyName}: WWW ERROR!\n\t{www.error}\n{link}\n");
         return "";
     }
 
