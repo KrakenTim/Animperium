@@ -42,10 +42,7 @@ public class GameManager : MonoBehaviour
     {
         instance.EndOldPlayerTurn();
 
-        instance.activePlayerID++;
-
-        if (instance.activePlayerID > instance.playerValueList.Length)
-            instance.activePlayerID = 1;
+        instance.SetNextPlayer();
 
         instance.StartNewPlayerTurn();
     }
@@ -59,6 +56,19 @@ public class GameManager : MonoBehaviour
         }
 
         GameInputManager.DeselectPawn();
+    }
+
+    private void SetNextPlayer()
+    {
+        instance.activePlayerID++;
+
+        if (instance.activePlayerID > instance.playerValueList.Length)
+            instance.activePlayerID = 1;
+
+        if (TryGetPlayerValues(instance.activePlayerID, out PlayerValues nextPlayer))
+        {
+            if (nextPlayer.HasLost) SetNextPlayer();
+        }
     }
 
     private void StartNewPlayerTurn()
