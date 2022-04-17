@@ -64,60 +64,68 @@ public class GameInputManager : MonoBehaviour
         selectedHexCell = HexGrid.GetHexCell(hit.point);
         //Debug.Log($"InputSelection\tSelected Cell {selectedHexCell.coordinates.ToString()}\n", selectedHexCell);
 
-        if (IsCollectPossible())
-        {
-            InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Collect);
-            InputMessageExecuter.Send(message);
-            return;
-        }
 
-        if (IsMovePossible())
+        if (IsPawnActionPossible(selectedHexCell))
         {
-            InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Move);
-            InputMessageExecuter.Send(message);
-            return;
-        }
+            if (IsCollectPossible())
+            {
+                InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Collect);
+                InputMessageExecuter.Send(message);
+                return;
+            }
 
-        if (IsSpawnPossible())
-        {
-            InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Spawn);
-            InputMessageExecuter.Send(message);
-            return;
+            if (IsMovePossible())
+            {
+                InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Move);
+                InputMessageExecuter.Send(message);
+                return;
+            }
+
+            if (IsSpawnPossible())
+            {
+                InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Spawn);
+                InputMessageExecuter.Send(message);
+                return;
+            }
         }
     }
+    /// <summary>
+    /// Checks if selected Pawn is Player Pawn, next to selected Cell and can act
+    /// </summary>
+    private bool IsPawnActionPossible(HexCell targetCell)
+    {
+        return selectedPawn != null && targetCell != null
+            && selectedPawn.CanAct && selectedPawn.IsPlayerPawn
+            && selectedPawn.HexCell.IsNeighbor(targetCell);
+    }
+
 
     private bool IsCollectPossible()
     {
-        return selectedPawn != null && selectedHexCell != null && selectedPawn.CanAct
-            && selectedPawn.IsUnit && selectedPawn.HexCell.IsNeighbor(selectedHexCell)
-            && selectedHexCell.Resource != null;
+        return selectedPawn.IsUnit  && selectedHexCell.Resource != null && selectedPawn.MP > 0;
     }
 
     private bool IsMovePossible()
     {
-        return (selectedPawn != null && selectedPawn.CanAct && selectedHexCell != null
-            && selectedPawn.IsUnit && selectedPawn.MP > 0
-            && selectedPawn.IsPlayerPawn && !selectedHexCell.HasPawn
-            && selectedHexCell.IsNeighbor(selectedPawn.HexCell));
+        return selectedPawn.IsUnit && selectedPawn.MP > 0
+            && !selectedHexCell.HasPawn;
     }
 
     private bool IsSpawnPossible()
     {
-        return (selectedPawn != null && selectedHexCell != null
-            && selectedPawn.IsPlayerPawn && !selectedHexCell.HasPawn
-            && selectedHexCell.IsNeighbor(selectedPawn.HexCell)
-            && selectedPawn.Spawn != ePlayerPawnType.NONE);
+        return !selectedHexCell.HasPawn
+               && selectedPawn.Spawn != ePlayerPawnType.NONE;
     }
 
     private bool IsAttackPossible(PlayerPawn otherPawn)
     {
-        return (selectedPawn != null && selectedPawn.AttackPower > 0 && otherPawn != null && selectedPawn.CanAct
-           && otherPawn.IsEnemy && selectedPawn.HexCell.IsNeighbor(otherPawn.HexCell));
+        return selectedPawn.AttackPower > 0 && otherPawn != null
+           && otherPawn.IsEnemy;
     }
 
     public static void ClickedOnPawn(PlayerPawn clickedPawn)
     {
-        if (instance.IsAttackPossible(clickedPawn))
+        if (instance.IsPawnActionPossible(clickedPawn.HexCell) && instance.IsAttackPossible(clickedPawn))
         {
             InputMessage message = InputMessageGenerator.CreateHexMessage(instance.selectedPawn, clickedPawn.HexCell, ePlayeractionType.Attack);
             InputMessageExecuter.Send(message);

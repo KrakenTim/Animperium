@@ -9,6 +9,7 @@ public class RessourceToken : MonoBehaviour
     [SerializeField] int amount = 1;
 
     [SerializeField] HexCell hexCell;
+    public HexCell HexCell => hexCell;
 
     private void Awake()
     {
@@ -20,12 +21,15 @@ public class RessourceToken : MonoBehaviour
     {
         if (hexCell == null)
             SetHexCell(GameManager.GetHexCell(transform.position));
+
     }
 
     private void SetHexCell(HexCell newCell)
     {
         if(hexCell != null)
             hexCell.SetResource(null);
+
+        hexCell = newCell;
 
         if (newCell != null)
             newCell.SetResource(this);

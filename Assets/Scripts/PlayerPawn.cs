@@ -83,6 +83,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         actedAlready = true;
         PlayerHUD.UpdateShownPawn();
 
+        MoveTo(resource.HexCell);
+
         resource.Harvest();
     }
 

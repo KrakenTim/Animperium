@@ -1017,17 +1017,19 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5c57c310905e15341a24912b848ec175, type: 2}
   playerValueList:
   - playerID: 1
-    factionID: 0
+    factionID: 1
     playerColor: {r: 0.43921572, g: 0.7254902, b: 0.43137258, a: 1}
     playerIcon: {fileID: 21300000, guid: a2aae0341f0a30347a7781bf8c442a45, type: 3}
     food: 10
     ownedPawns: []
   - playerID: 2
-    factionID: 0
+    factionID: 2
     playerColor: {r: 0.82745105, g: 0.6745098, b: 0.38823533, a: 1}
     playerIcon: {fileID: 21300000, guid: f7e02fa41198c654bbbf4ecd6169ad4d, type: 3}
     food: 10
     ownedPawns: []
+  activePlayerID: 1
+  activePlayerFactionID: 1
 --- !u!4 &579779217
 Transform:
   m_ObjectHideFlags: 0
