@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class InputMessageExecuter : MonoBehaviour
 {
+    private static HexGrid HexGrid => GameManager.HexGrid;
 
-    public static HexGrid HexGrid => GameManager.HexGrid;
     public static void Send(InputMessage message)
     {
         //TODO(14.04.2022): add non hotseat stuff here
@@ -17,18 +17,28 @@ public class InputMessageExecuter : MonoBehaviour
     {
         if (!InputMessageInterpreter.TryParseMessage(messageString, out InputMessage order))
         {
-            Debug.LogError("InputMessageExecuter recieved unexpected message: " + messageString);
+            Debug.LogError("MessageExecuter\t recieved unexpected message.\n\t\t" + messageString);
             return;
         }
 
+        if (order.IsOnHexGrid)
+            ExecuteHexMessage(order);
+        else
+            ExecuteGeneralMessage(order);
+    }
 
-        HexCell startCell = HexGrid.GetHexCell(order.startCell);
-        HexCell targetCell = HexGrid.GetHexCell(order.targetCell);
+    /// <summary>
+    /// Executes a Inputmessage related to Player Pawns and the Hex Grid
+    /// </summary>
+    private static void ExecuteHexMessage(InputMessage hexOrder)
+    {
+        HexCell startCell = HexGrid.GetHexCell(hexOrder.startCell);
+        HexCell targetCell = HexGrid.GetHexCell(hexOrder.targetCell);
 
         PlayerPawn startPawn = startCell.Pawn;
         PlayerPawn targetPawn = targetCell.Pawn;
 
-        switch (order.action)
+        switch (hexOrder.action)
         {
             case ePlayeractionType.Move:
                 startPawn.MoveTo(targetCell);
@@ -46,8 +56,22 @@ public class InputMessageExecuter : MonoBehaviour
                 break;
 
             default:
-                Debug.LogError("InputMessageExecuter Recieved UNDEFINED for " + order.action);
+                Debug.LogError($"MessageExecuter\t{nameof(ExecuteHexMessage)} UNDEFINED for {hexOrder.action}\n");
                 return;
+        }
+    }
+
+    private static void ExecuteGeneralMessage(InputMessage generalOrder)
+    {
+        switch (generalOrder.action)
+        {
+            case ePlayeractionType.EndTurn:
+                GameManager.EndTurn();
+                break;
+
+            default:
+                Debug.LogError($"MessageExecuter\t{nameof(ExecuteGeneralMessage)} UNDEFINED for {generalOrder.action}\n");
+                break;
         }
     }
 }
