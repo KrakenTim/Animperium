@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class GameInputManager : MonoBehaviour
@@ -21,9 +20,9 @@ public class GameInputManager : MonoBehaviour
     public static event System.Action<InputMode> ChangedInputMode;
 
     [SerializeField] InputMode myInputMode;
-    public static InputMode CurrentInputMode 
-    { 
-        get => instance.myInputMode; 
+    public static InputMode CurrentInputMode
+    {
+        get => instance.myInputMode;
 
         private set
         {
@@ -31,7 +30,7 @@ public class GameInputManager : MonoBehaviour
             ChangedInputMode?.Invoke(value);
         }
     }
-    
+
     [SerializeField] PlayerPawn selectedPawn;
     [SerializeField] HexCell selectedHexCell;
 
@@ -50,40 +49,38 @@ public class GameInputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame && MouseOverHexCheck.onHex)
+        if (MouseOverHexCheck.onHex && Mouse.current.leftButton.wasPressedThisFrame)
         {
-          ClickedOnHex();
+            ClickedOnHex();
         }
     }
 
     void ClickedOnHex()
     {
         Ray inputRay = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-        RaycastHit hit;
-        if (Physics.Raycast(inputRay, out hit))
-        {
-           selectedHexCell = HexGrid.GetHexCell(hit.point);
 
-            Debug.Log("Change Selected Cell to "+ selectedHexCell.coordinates.ToString());
-        }
+        if (!Physics.Raycast(inputRay, out RaycastHit hit)) return;
+
+        selectedHexCell = HexGrid.GetHexCell(hit.point);
+        //Debug.Log($"InputSelection\tSelected Cell {selectedHexCell.coordinates.ToString()}\n", selectedHexCell);
 
         if (IsCollectPossible())
         {
-            InputMessage message = InputMessageGenerator.CreateMessage(selectedPawn, selectedHexCell, ePlayeractionType.Collect);
+            InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Collect);
             InputMessageExecuter.Send(message);
             return;
         }
 
         if (IsMovePossible())
         {
-            InputMessage message = InputMessageGenerator.CreateMessage(selectedPawn, selectedHexCell, ePlayeractionType.Move);
+            InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Move);
             InputMessageExecuter.Send(message);
             return;
         }
 
         if (IsSpawnPossible())
         {
-            InputMessage message = InputMessageGenerator.CreateMessage(selectedPawn, selectedHexCell, ePlayeractionType.Spawn);
+            InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Spawn);
             InputMessageExecuter.Send(message);
             return;
         }
@@ -98,8 +95,8 @@ public class GameInputManager : MonoBehaviour
 
     private bool IsMovePossible()
     {
-        return (selectedPawn != null && selectedPawn.CanAct && selectedHexCell != null 
-            && selectedPawn.IsUnit && selectedPawn.MP > 0 
+        return (selectedPawn != null && selectedPawn.CanAct && selectedHexCell != null
+            && selectedPawn.IsUnit && selectedPawn.MP > 0
             && selectedPawn.IsPlayerPawn && !selectedHexCell.HasPawn
             && selectedHexCell.IsNeighbor(selectedPawn.HexCell));
     }
@@ -114,7 +111,7 @@ public class GameInputManager : MonoBehaviour
 
     private bool IsAttackPossible(PlayerPawn otherPawn)
     {
-        return (selectedPawn != null&&selectedPawn.AttackPower > 0 && otherPawn != null && selectedPawn.CanAct
+        return (selectedPawn != null && selectedPawn.AttackPower > 0 && otherPawn != null && selectedPawn.CanAct
            && otherPawn.IsEnemy && selectedPawn.HexCell.IsNeighbor(otherPawn.HexCell));
     }
 
@@ -122,13 +119,13 @@ public class GameInputManager : MonoBehaviour
     {
         if (instance.IsAttackPossible(clickedPawn))
         {
-            InputMessage message = InputMessageGenerator.CreateMessage(instance.selectedPawn, clickedPawn.HexCell, ePlayeractionType.Attack);
+            InputMessage message = InputMessageGenerator.CreateHexMessage(instance.selectedPawn, clickedPawn.HexCell, ePlayeractionType.Attack);
             InputMessageExecuter.Send(message);
         }
 
         instance.selectedPawn = clickedPawn;
 
-       // Debug.Log("Change Selected Cell to " + newlySelected.PawnType);
+        // Debug.Log("Change Selected Cell to " + newlySelected.PawnType);
 
         SelectedPawn?.Invoke(clickedPawn);
     }

@@ -48,9 +48,9 @@ public class PlayerHUD : MonoBehaviour
         FillValuesIn(selectedPawn);
     }
 
-    public static void UpdateShownPawn() 
-    { 
-        instance.FillValuesIn(instance.selectedPawn); 
+    public static void UpdateShownPawn()
+    {
+        instance.FillValuesIn(instance.selectedPawn);
     }
 
     public static void HoverPawn(PlayerPawn hoveredPawn)
@@ -80,11 +80,11 @@ public class PlayerHUD : MonoBehaviour
         pawnHP.text = "HP " + selectedPawn.HP + "/" + selectedPawn.MaxHealth;
         pawnMP.text = "MP " + selectedPawn.MP + "/" + selectedPawn.MaxMovement;
         pawnMP.enabled = selectedPawn.IsUnit;
-    }   
+    }
 
     public void Button_EndTurn()
     {
-        GameManager.EndTurn();
+        var message = InputMessageGenerator.CreateGeneralMessage(ePlayeractionType.EndTurn);
+        InputMessageExecuter.Send(message);
     }
-
 }

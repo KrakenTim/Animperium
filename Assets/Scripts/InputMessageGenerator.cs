@@ -4,14 +4,20 @@ using UnityEngine;
 
 public static class InputMessageGenerator
 {
-    public static InputMessage CreateMessage(PlayerPawn actingPawn, HexCell targetCell, ePlayeractionType action)
+    public static InputMessage CreateHexMessage(PlayerPawn actingPawn, HexCell targetCell, ePlayeractionType action)
     {
         InputMessage message = new InputMessage();
         message.startCell = actingPawn.HexCoordinates;
         message.targetCell = targetCell.coordinates;
         message.action = action;
 
-      //  Debug.Log("InputMessageGenerator created" + message.ToString());
+        return message;
+    }
+
+    public static InputMessage CreateGeneralMessage(ePlayeractionType action)
+    {
+        InputMessage message = new InputMessage();
+        message.action = action;
 
         return message;
     }

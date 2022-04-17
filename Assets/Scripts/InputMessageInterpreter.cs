@@ -7,50 +7,64 @@ public static class InputMessageInterpreter
     /// <summary>
     /// Tries to understand given message, returns true if sucessfull
     /// </summary>
-    public static bool TryParseMessage(string message, out InputMessage result)
+    public static bool TryParseMessage(string message, out InputMessage inputMessage)
     {
-        message = message.Replace(" ", "");
-        message = message.Replace("(", " ").Replace(")", " ");
-        message = message.Trim(); //removes white Space (Space)
+        inputMessage = new InputMessage();
 
-        result = new InputMessage();
+        string[] splitMessage = message.Split('_');
 
-        string[] splitMessage = message.Split(' ');
-
-        if(splitMessage.Length != 3) return false;
+        // check length
+        if (splitMessage.Length != InputMessage.PARTCount)
+        {
+            Debug.Log($"Interpreter\tMessage didn't consist of {InputMessage.PARTCount} parts.\n\t\t{message}");
+            return false;
+        }
 
         // get action
-        if(!System.Enum.TryParse(splitMessage[1], out result.action))
+        if (!System.Enum.TryParse(splitMessage[InputMessage.POSITIONAction], out inputMessage.action))
+        {
+            Debug.Log($"Interpreter\tCouldn't interpret Action '{splitMessage[InputMessage.POSITIONAction]}'.\n\t\t{message}");
             return false;
-
-        Debug.Log("Action found");
+        }
 
         // get startCell
-        string[] startCoordinates = splitMessage[0].Split(',');
-        int nextX;
-        int nextZ;
-
-        if (startCoordinates.Length != 3) return false;
-
-        if(!int.TryParse(startCoordinates[0], out nextX) || !int.TryParse(startCoordinates[2], out nextZ))
+        if (!TryParseHexCoordinate(splitMessage[InputMessage.POSITIONStart], out inputMessage.startCell))
+        {
+            Debug.Log($"Interpreter\tCouldn't parse StartCell '{splitMessage[InputMessage.POSITIONStart]}'.\n\t\t{message}");
             return false;
+        }
 
-        result.startCell = new HexCoordinates(nextX, nextZ);
-
-        Debug.Log("StartCell found");
-
-        // get targetCell
-        string[] targetCoordinates = splitMessage[2].Split(',');
-
-        if (targetCoordinates.Length != 3) return false;
-
-        if (!int.TryParse(targetCoordinates[0], out nextX) || !int.TryParse(targetCoordinates[2], out nextZ))
+        // get targetCell        
+        if (!TryParseHexCoordinate(splitMessage[InputMessage.POSITIONTarget], out inputMessage.targetCell))
+        {
+            Debug.Log($"Interpreter\tCouldn't parse TargetCell '{splitMessage[InputMessage.POSITIONTarget]}'.\n\t\t{message}");
             return false;
+        }
 
-        result.targetCell = new HexCoordinates(nextX, nextZ);
+        Debug.Log($"Interpreter\tRecieved {inputMessage.action}.\n\t\t{inputMessage.ToString()}\n");
+        return true;
+    }
 
-        Debug.Log("InputMessageInterpreter recieved" + result.ToString());
+    /// <summary>
+    /// Tries to parse given string to a Hex Coordinate
+    /// </summary>
+    private static bool TryParseHexCoordinate(string coordinateString, out HexCoordinates hexCoordinates)
+    {
+        // remove brackets
+        coordinateString = coordinateString.Substring(1, coordinateString.Length - 2);
 
+        string[] targetCoordinates = coordinateString.Split(',');
+
+        if (targetCoordinates.Length != 3
+            || !int.TryParse(targetCoordinates[0], out int nextX)   // get X-Position
+            || !int.TryParse(targetCoordinates[2], out int nextZ))  // get Z-Position
+        {
+            Debug.LogError($"Interpreter\tCouldn't parse given HexCoordinate '{coordinateString}'\n");
+            hexCoordinates = new HexCoordinates();
+            return false;
+        }
+
+        hexCoordinates = new HexCoordinates(nextX, nextZ);
         return true;
     }
 }
