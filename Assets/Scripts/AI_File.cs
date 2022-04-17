@@ -13,6 +13,11 @@ public static class AI_File
     public static string PathScriptableObjects => Application.dataPath + "/ScriptableObjects/";
 
     /// <summary>
+    /// Application.streamingAssetsPath + "/InputLogs/"
+    /// </summary>
+    public static string PathInputLogs => Application.streamingAssetsPath + "/InputLogs/";
+
+    /// <summary>
     /// removes Application.dataPath (which leads to the Assets-folder) of given path
     /// </summary>
     public static string ShortPath(string path) => path.Replace(Application.dataPath + "/", "");
@@ -26,6 +31,11 @@ public static class AI_File
             Directory.CreateDirectory(Path.GetDirectoryName(path));
 
         File.WriteAllText(path, text, System.Text.Encoding.UTF8);
+    }
+
+    public static void AppendUTF8(string text, string path)
+    {
+        File.AppendAllText(path, text, System.Text.Encoding.UTF8);
     }
 
     #region Editor Only

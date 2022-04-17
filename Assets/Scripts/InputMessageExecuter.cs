@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputMessageExecuter : MonoBehaviour
+public static class InputMessageExecuter
 {
+    public static event System.Action<string> RecievedMessage;
+
     private static HexGrid HexGrid => GameManager.HexGrid;
 
     public static void Send(InputMessage message)
@@ -15,6 +17,8 @@ public class InputMessageExecuter : MonoBehaviour
 
     public static void Recieve(string messageString)
     {
+        RecievedMessage?.Invoke(messageString);
+
         if (!InputMessageInterpreter.TryParseMessage(messageString, out InputMessage order))
         {
             Debug.LogError("MessageExecuter\t recieved unexpected message.\n\t\t" + messageString);
