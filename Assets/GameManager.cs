@@ -4,19 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [System.Serializable]
-    class PlayerValues
-    {
-        public int playerID;
-        public int factionID;
-        public Color playerColor;
-        public Sprite playerIcon;
-
-        public int food;
-
-        public List<PlayerPawn> ownedPawns;
-    }
-
     static GameManager instance;
     public bool InGame => instance != null;
 
@@ -37,12 +24,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        for (int i = 0; i < playerValueList.Length; i++)
-        {
-            if (playerValueList[i].ownedPawns == null)
-                playerValueList[i].ownedPawns = new List<PlayerPawn>();
-        }
-
         instance = this;
     }
 
@@ -88,33 +69,35 @@ public class GameManager : MonoBehaviour
         TurnStarted?.Invoke(activePlayerID);
     }
 
+    public static PlayerPawnData GetPawnData(ePlayerPawnType pawnType)
+    {
+        foreach (var data in instance.pawnDatas)
+        {
+            if (data.type == pawnType)
+                return data;
+        }
+
+        Debug.LogError("GameManager\tCouldn't find PawnData for Type " + pawnType, instance);
+
+        return null;
+    }
     public static void SpawnPawn(PlayerPawn spawner, HexCell spawnPoint)
     {
         ePlayerPawnType spawnPawnType = spawner.Spawn;
 
-        PlayerPawnData spawnedPawn = null;
+        PlayerPawnData spawnedPawnData = GetPawnData(spawnPawnType);
 
-        foreach (var data in instance.pawnDatas)
-        {
-            if (data.type == spawnPawnType)
-                spawnedPawn = data;
-        }
+        if (spawnedPawnData == null) return;
 
-        if (spawnedPawn == null) return;
+        // return if there's no playerdata or can't afford spawn
+        if (!instance.TryGetPlayerValues(CurrentPlayerID, out PlayerValues playerResources)
+            || !playerResources.HasResourcesToSpawn(spawnedPawnData))
+            return;
 
-        bool isPossible = true;
-        // Check if the Player have enough resources
-        if (instance.TryGetPlayerValues(CurrentPlayerID, out PlayerValues playerResources))
-        {
-            if (spawnedPawn.food > playerResources.food)
-                isPossible = false;
-        }
-        if (isPossible == false) return;
-
-        playerResources.food -= spawnedPawn.food;
+        playerResources.RemoveSpawnCosts(spawnedPawnData);
         PlayerHUD.UpdateHUD(instance.activePlayerID);
 
-        PlayerPawn newPawn = Instantiate(spawnedPawn.GetPawnPrefap(instance.activePlayerID),
+        PlayerPawn newPawn = Instantiate(spawnedPawnData.GetPawnPrefap(instance.activePlayerID),
             spawnPoint.transform.position, Quaternion.identity, instance.transform);
     }
 
@@ -156,7 +139,6 @@ public class GameManager : MonoBehaviour
 
         return 0;
     }
-
     public static Color GetPlayerColor(int playerID)
     {
         if (instance.TryGetPlayerValues(playerID, out PlayerValues result))
@@ -227,6 +209,29 @@ public class GameManager : MonoBehaviour
             PlayerHUD.UpdateHUD(instance.activePlayerID);
 
         }
+    }
+
+    public static void CheckIFGameEnds(int potencialLoserPlayerID)
+    {
+        if (!instance.TryGetPlayerValues(potencialLoserPlayerID, out PlayerValues loserValues))
+            return;
+
+        if (!loserValues.CheckIfHasLost()) return;
+
+        // int: fractionId, List<PlayerValues>: surviving Players
+        Dictionary<int, List<PlayerValues>> survivingPlayers = new Dictionary<int, List<PlayerValues>>();
+
+        foreach (PlayerValues player in instance.playerValueList)
+        {
+            if (player.HasLost) continue;
+
+            if(!survivingPlayers.ContainsKey(player.factionID))
+                survivingPlayers.Add(player.factionID, new List<PlayerValues>());
+
+            survivingPlayers[player.factionID].Add(player);
+        }
+
+        Debug.Log("factions left:" + survivingPlayers.Count);
     }
 
 }

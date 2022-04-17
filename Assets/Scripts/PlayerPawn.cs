@@ -66,9 +66,10 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         hexCell = cell;
 
         if (cell != null)
+        {
             cell.SetPawn(this);
-
-        UpdatePosition();
+            UpdatePosition();
+        }
     }
 
     public void Attack(PlayerPawn victim)
@@ -108,6 +109,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
             SetHexCell(null);
 
             Destroy(gameObject);
+
+            GameManager.CheckIFGameEnds(PlayerID);
         }
     }
 
