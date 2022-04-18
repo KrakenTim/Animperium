@@ -48,7 +48,7 @@ public static class InputMessageInterpreter
             return false;
         }
 
-        Debug.Log($"Interpreter\tRecieved {inputMessage.action}.\n\t\t{inputMessage.ToString()}\n");
+        Debug.Log($"Interpreter\tParsed {inputMessage.action}.\n\t\t{inputMessage.ToString()}\n");
         return true;
     }
 
