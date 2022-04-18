@@ -35,6 +35,9 @@ public class GameManager : MonoBehaviour
     int activePlayerFactionID = 1;
     public static int CurrentFactionID => instance.activePlayerFactionID;
 
+    private int turn;
+    public static int Turn => instance ? instance.turn : -1;
+
     private void Awake()
     {
         for (int i = 0; i < playerValueList.Length; i++)
@@ -84,6 +87,8 @@ public class GameManager : MonoBehaviour
     {
         if (TryGetPlayerValues(activePlayerID, out PlayerValues newPlayer))
             activePlayerFactionID = newPlayer.factionID;
+
+        turn += 1;
 
         TurnStarted?.Invoke(activePlayerID);
     }

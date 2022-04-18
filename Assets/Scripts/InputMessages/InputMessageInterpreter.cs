@@ -41,6 +41,13 @@ public static class InputMessageInterpreter
             return false;
         }
 
+        // get turn
+        if (!int.TryParse(splitMessage[InputMessage.POSITIONTurn], out inputMessage.turn))
+        {
+            Debug.Log($"Interpreter\tCouldn't parse Turn '{splitMessage[InputMessage.POSITIONTurn]}'.\n\t\t{message}");
+            return false;
+        }
+
         Debug.Log($"Interpreter\tRecieved {inputMessage.action}.\n\t\t{inputMessage.ToString()}\n");
         return true;
     }

@@ -5,31 +5,11 @@ using UnityEngine.InputSystem;
 
 public class GameInputManager : MonoBehaviour
 {
-    public enum InputMode
-    {
-        NONE = 0,
-        Movement = 1
-    }
-
     static GameInputManager instance;
 
     public static HexGrid HexGrid => GameManager.HexGrid;
 
     public static event System.Action<PlayerPawn> SelectedPawn;
-
-    public static event System.Action<InputMode> ChangedInputMode;
-
-    [SerializeField] InputMode myInputMode;
-    public static InputMode CurrentInputMode
-    {
-        get => instance.myInputMode;
-
-        private set
-        {
-            instance.myInputMode = value;
-            ChangedInputMode?.Invoke(value);
-        }
-    }
 
     [SerializeField] PlayerPawn selectedPawn;
     [SerializeField] HexCell selectedHexCell;
