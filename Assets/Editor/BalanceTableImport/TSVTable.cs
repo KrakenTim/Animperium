@@ -87,11 +87,6 @@ public class TSVTable
                 int columnIndex = owningTSV.header[columnName];
                 return this[columnIndex];
             }
-            set
-            {
-                int columnIndex = owningTSV.header[columnName];
-                this[columnIndex] = value;
-            }
         }
 
         public string this[int columnIndex]
@@ -102,7 +97,6 @@ public class TSVTable
 
                 return owningTSV.dataLines[lineIndex][columnIndex];
             }
-            set => owningTSV.dataLines[lineIndex][columnIndex] = value;
         }
 
         public override string ToString()
@@ -113,7 +107,7 @@ public class TSVTable
             string lineAsString = lineEntries[0];
             for (int i = 1; i < lineEntries.Length; i++)
             {
-                lineAsString += SEPARATOR + lineEntries[i];
+                lineAsString += owningTSV.separator + lineEntries[i];
             }
             return lineAsString;
         }

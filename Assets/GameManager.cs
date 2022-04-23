@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] int activePlayerFactionID = 1;
     public static int CurrentFactionID => instance.activePlayerFactionID;
 
+    private int turn;
+    public static int Turn => instance ? instance.turn : -1;
+
     private void Awake()
     {
         instance = this;
@@ -75,6 +78,8 @@ public class GameManager : MonoBehaviour
     {
         if (TryGetPlayerValues(activePlayerID, out PlayerValues newPlayer))
             activePlayerFactionID = newPlayer.factionID;
+
+        turn += 1;
 
         TurnStarted?.Invoke(activePlayerID);
     }

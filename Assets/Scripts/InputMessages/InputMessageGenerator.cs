@@ -11,6 +11,8 @@ public static class InputMessageGenerator
         message.targetCell = targetCell.coordinates;
         message.action = action;
 
+        message.turn = GameManager.Turn;
+
         return message;
     }
 
@@ -18,6 +20,8 @@ public static class InputMessageGenerator
     {
         InputMessage message = new InputMessage();
         message.action = action;
+
+        message.turn = GameManager.Turn;
 
         return message;
     }
