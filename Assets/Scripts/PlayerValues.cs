@@ -17,6 +17,8 @@ public class PlayerValues
     private bool hasLost = false;
     public bool HasLost => hasLost;
 
+    public string Name => "Player" + playerID;
+
     public bool CheckIfHasLost()
     {
         int units = 0;

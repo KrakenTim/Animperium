@@ -234,19 +234,30 @@ public class GameManager : MonoBehaviour
         if (!loserValues.CheckIfHasLost()) return;
 
         // int: fractionId, List<PlayerValues>: surviving Players
-        Dictionary<int, List<PlayerValues>> survivingPlayers = new Dictionary<int, List<PlayerValues>>();
+        Dictionary<int, List<PlayerValues>> remainingFactions = new Dictionary<int, List<PlayerValues>>();
 
         foreach (PlayerValues player in instance.playerValueList)
         {
             if (player.HasLost) continue;
 
-            if(!survivingPlayers.ContainsKey(player.factionID))
-                survivingPlayers.Add(player.factionID, new List<PlayerValues>());
+            if(!remainingFactions.ContainsKey(player.factionID))
+                remainingFactions.Add(player.factionID, new List<PlayerValues>());
 
-            survivingPlayers[player.factionID].Add(player);
+            remainingFactions[player.factionID].Add(player);
         }
 
-        Debug.Log("factions left:" + survivingPlayers.Count);
+        Debug.Log("factions left:" + remainingFactions.Count);
+
+        if (remainingFactions.Count < 2)
+        {
+            foreach (var faction in remainingFactions)
+            CallVictory(faction.Value);
+        }
+    }
+
+    private static void CallVictory(List<PlayerValues> winners)
+    {
+        VictoryLoseScreen.ShowVictory(winners);
     }
 
 }

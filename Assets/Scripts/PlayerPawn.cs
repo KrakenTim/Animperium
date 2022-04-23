@@ -30,10 +30,6 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     [SerializeField] bool actedAlready = false;
     public bool CanAct => !actedAlready;
 
-
-
-
-
     [SerializeField] HexCell hexCell;
     public HexCell HexCell => hexCell;
     public HexCoordinates HexCoordinates => hexCell.coordinates;
