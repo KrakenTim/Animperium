@@ -10,6 +10,13 @@ public class InputMessageLogPlayer : MonoBehaviour
 {
     [TextArea, SerializeField] string playedInputLog;
 
+    private ReplayCameraPositioner cameraPositioner;
+
+    private void Awake()
+    {
+        cameraPositioner = GetComponent<ReplayCameraPositioner>();
+    }
+
     public string CallNext()
     {
         string nextLine = playedInputLog.Split('\n')[0];
@@ -21,7 +28,17 @@ public class InputMessageLogPlayer : MonoBehaviour
         nextLine = nextLine.Trim();
 
         if (nextLine.Length > 0)
-            InputMessageExecuter.Recieve(nextLine);
+        {
+            if (InputMessageInterpreter.TryParseMessage(nextLine, out InputMessage order))
+            {
+                if (cameraPositioner && order.IsOnHexGrid && cameraPositioner.IsShiftNeeded(order, out Vector3 position))
+                    cameraPositioner.SetPosition(position);
+
+                InputMessageExecuter.Execute(order);
+            }
+            else
+                Debug.LogError("LogReplay\tCouldn't parse message.\n\t\t" + nextLine);
+        }
 
         return nextLine;
     }
