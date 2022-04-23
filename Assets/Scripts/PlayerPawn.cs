@@ -20,7 +20,6 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public Sprite PlayerIcon => GameManager.GetPlayerIcon(playerID);
     public int PlayerID => playerID;
 
-
     [Space]
     [SerializeField] int currentHealth;
     public int HP => currentHealth;
@@ -34,9 +33,9 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public HexCell HexCell => hexCell;
     public HexCoordinates HexCoordinates => hexCell.coordinates;
 
-    public bool IsPlayerPawn => playerID == GameManager.CurrentPlayerID;
+    public virtual bool IsPlayerPawn => playerID == GameManager.CurrentPlayerID;
 
-    public bool IsEnemy => GameManager.IsEnemy(PlayerID);
+    public virtual bool IsEnemy => GameManager.IsEnemy(PlayerID);
 
     // Start is called before the first frame update
     void Start()
@@ -44,7 +43,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         currentHealth = MaxHealth;
         movementPoints = MaxMovement;
 
-        GameManager.AddPawn(this);
+        if (!PawnType.IsNonPlayer())
+        GameManager.AddPlayerPawn(this);
 
         if (hexCell == null)
             SetHexCell(GameManager.GetHexCell(transform.position));
@@ -124,19 +124,19 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
             Debug.LogError("Tried to Update Position without HexCell", this);
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public virtual void OnPointerDown(PointerEventData eventData)
     {
         Debug.Log($"PlayerPawn\tClicked {PawnType}[P{playerID}]\n\t\t{hexCell.coordinates.ToString()}\n", this);
        
         GameInputManager.ClickedOnPawn(this);
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public virtual void OnPointerEnter(PointerEventData eventData)
     {
         PlayerHUD.HoverPawn(this);
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public virtual void OnPointerExit(PointerEventData eventData)
     {
         PlayerHUD.UpdateShownPawn();
     }

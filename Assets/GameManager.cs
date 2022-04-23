@@ -189,8 +189,14 @@ public class GameManager : MonoBehaviour
         return instance.myHexGrid.GetHexCell(worldPosition);
     }
 
-    public static void AddPawn(PlayerPawn pawn)
+    public static void AddPlayerPawn(PlayerPawn pawn)
     {
+        if (pawn.PawnType.IsNonPlayer())
+        {
+            Debug.LogError("Tried to add non Player Pawn unexpectedly!");
+            return;
+        }
+
         if (instance.TryGetPlayerValues(pawn.PlayerID, out PlayerValues result)
             && !result.ownedPawns.Contains(pawn))
         {
