@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: VillagerPawnData
   m_EditorClassIdentifier: 
   type: 1
+  pawnIcon: {fileID: 21300000, guid: 7ab8232a4cd231542aa854a5bcaf869b, type: 3}
   maxHealth: 5
   maxMovement: 4
   attackPower: 2

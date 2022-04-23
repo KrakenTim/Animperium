@@ -12,6 +12,7 @@ public class PlayerHUD : MonoBehaviour
     [Header("Pawn Info")]
     [SerializeField] GameObject pawnInfoRoot;
     [SerializeField] Image playerIcon;
+    [SerializeField] Image pawnIcon;
     [SerializeField] Image canActIcon;
     [SerializeField] TMPro.TMP_Text pawnType;
     [SerializeField] TMPro.TMP_Text pawnHP;
@@ -64,6 +65,7 @@ public class PlayerHUD : MonoBehaviour
         {
             pawnInfoRoot.SetActive(false);
             playerIcon.enabled = false;
+            pawnIcon.enabled = false;
             canActIcon.enabled = false;
             return;
         }
@@ -71,9 +73,11 @@ public class PlayerHUD : MonoBehaviour
         {
             pawnInfoRoot.SetActive(true);
             playerIcon.enabled = true;
+            pawnIcon.enabled = true;
         }
 
         playerIcon.sprite = selectedPawn.PlayerIcon;
+        pawnIcon.sprite = selectedPawn.PawnIcon;
         canActIcon.enabled = selectedPawn.CanAct;
         pawnType.text = selectedPawn.PawnType.ToString();
 

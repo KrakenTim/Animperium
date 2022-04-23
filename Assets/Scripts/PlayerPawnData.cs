@@ -7,6 +7,8 @@ public class PlayerPawnData : ScriptableObject
 {
     public ePlayerPawnType type;
 
+    [SerializeField] public Sprite pawnIcon;
+
     [Header("Stats")]
     public int maxHealth;
     public int maxMovement;

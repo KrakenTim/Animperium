@@ -15,6 +15,11 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public bool IsUnit => PawnType.IsUnit();
     public ePlayerPawnType Spawn => pawnData.spawnedPawn;
 
+    /// <summary>
+    /// Returns Pawn Icon if not null else it's the Players Icon
+    /// </summary>
+    public Sprite PawnIcon => (pawnData.pawnIcon != null) ? pawnData.pawnIcon : GameManager.GetPlayerIcon(PlayerID);
+
 
     [SerializeField] int playerID;
     public Sprite PlayerIcon => GameManager.GetPlayerIcon(playerID);
