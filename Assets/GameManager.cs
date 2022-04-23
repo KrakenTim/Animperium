@@ -164,14 +164,14 @@ public class GameManager : MonoBehaviour
         return Color.cyan;
     }
 
-    public static int GetPlayerFood(int playerID)
+    public static GameResources GetPlayerResources (int playerID)
     {
         if (instance.TryGetPlayerValues(playerID, out PlayerValues result))
-            return result.food;
+            return result.playerResources;
 
         Debug.LogError("Food not found for Player " + playerID, instance);
 
-        return -1;
+        return new GameResources();
     }
 
     public static Sprite GetPlayerIcon(int playerID)
@@ -220,7 +220,7 @@ public class GameManager : MonoBehaviour
             switch (resource)
             {
                 case eRessourceType.Food:
-                    result.food += amount;
+                    result.playerResources.food += amount;
                     break;
                 default:
                     Debug.LogError("AddResource UNDEFINED for " + resource);

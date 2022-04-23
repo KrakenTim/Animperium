@@ -17,6 +17,8 @@ MonoBehaviour:
   maxHealth: 5
   maxMovement: 4
   attackPower: 2
+  resourceCosts:
+    food: 10
   food: 10
   spawnedPawn: 0
   learnsFight: 2
@@ -24,5 +26,5 @@ MonoBehaviour:
   learnsDigging: 4
   playerPrefabs:
   - {fileID: 0}
-  - {fileID: 2418226399125894294, guid: e45fe346a5a2d824fa0f3dbecbd2b805, type: 3}
-  - {fileID: 8352560724993282684, guid: 5ab289a2c549fed4da1460373b694b0e, type: 3}
+  - {fileID: 1321117383620778759, guid: e45fe346a5a2d824fa0f3dbecbd2b805, type: 3}
+  - {fileID: 42655587543076885, guid: 5ab289a2c549fed4da1460373b694b0e, type: 3}

@@ -14,7 +14,6 @@ public class GameInputManager : MonoBehaviour
     [SerializeField] PlayerPawn selectedPawn;
     [SerializeField] HexCell selectedHexCell;
 
-
     private void Awake()
     {
         instance = this;
@@ -103,6 +102,15 @@ public class GameInputManager : MonoBehaviour
            && otherPawn.IsEnemy;
     }
 
+    private bool IsLearningPossible(PlayerPawn potentialSchool)
+    {
+        if (!potentialSchool.PawnType.IsSchool() 
+            || !selectedPawn.CanLearn(potentialSchool.PawnType.Teaches(), out ePlayerPawnType newPawnType))
+            return false;
+
+        return false;
+    }
+
     public static void ClickedOnPawn(PlayerPawn clickedPawn)
     {
         if (instance.IsPawnActionPossible(clickedPawn.HexCell) && instance.IsAttackPossible(clickedPawn))
@@ -111,6 +119,12 @@ public class GameInputManager : MonoBehaviour
             InputMessageExecuter.Send(message);
         }
 
+     /*   if (instance.IsPawnActionPossible(clickedPawn.HexCell) && instance.IsLearningPossible(clickedPawn))
+        {
+            InputMessage message = InputMessageGenerator.CreateHexMessage(instance.selectedPawn, clickedPawn.HexCell, ePlayeractionType.Learn);
+            InputMessageExecuter.Send(message);
+        }
+     */
         instance.selectedPawn = clickedPawn;
 
         // Debug.Log("Change Selected Cell to " + newlySelected.PawnType);

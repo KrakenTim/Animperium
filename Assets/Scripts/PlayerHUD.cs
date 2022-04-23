@@ -40,7 +40,7 @@ public class PlayerHUD : MonoBehaviour
     {
         instance.background.color = GameManager.GetPlayerColor(playerID);
 
-        instance.foodAmount.text = GameManager.GetPlayerFood(playerID) + " Food";
+        instance.foodAmount.text = GameManager.GetPlayerResources(playerID).food + " Food";
     }
 
     private void UpdateSelectedPawn(PlayerPawn selectedPawn)

@@ -43,4 +43,25 @@ public static class ePlayerPawnTypeExtensions
     {
         return (int)pawn >= 200 && (int)pawn < 300;
     }
+
+    public static bool IsSchool(this ePlayerPawnType pawn)
+    {
+        return pawn.Teaches() != eKnowledge.NONE;
+    }
+
+    public static eKnowledge Teaches(this ePlayerPawnType pawn)
+    {
+        switch (pawn)
+        {
+            case ePlayerPawnType.SchoolFight:
+                return eKnowledge.Fight;
+            case ePlayerPawnType.SchoolMagic:
+                return eKnowledge.Magic;
+            case ePlayerPawnType.SchoolDigging:
+                return eKnowledge.Digging;
+
+                default:
+                    return eKnowledge.NONE;
+        }
+    }
 }

@@ -15,6 +15,7 @@ public class PlayerPawnData : ScriptableObject
     public int attackPower;
 
     [Header("Costs")]
+    public GameResources resourceCosts;
     public int food;
 
     [Header("Spawns")]
@@ -34,5 +35,27 @@ public class PlayerPawnData : ScriptableObject
             Debug.LogError("PlayerPawnData: An unexpected ID was requested: " + playerID, this);
 
         return null;
+    }
+
+    public bool CanLearn(eKnowledge newKnowledge, out ePlayerPawnType newType)
+    {
+        switch (newKnowledge)
+        {
+            case eKnowledge.Fight:
+                newType = learnsFight;
+                break;
+            case eKnowledge.Magic:
+                newType = learnsMagic;
+                break;
+            case eKnowledge.Digging:
+                newType = learnsDigging;
+                break;
+            default:
+                Debug.LogError("PlayerPawnData: CanLearn UNDEFINED for "+newKnowledge);
+                newType = ePlayerPawnType.NONE;
+                break;
+        }
+        return newType != ePlayerPawnType.NONE;
+
     }
 }

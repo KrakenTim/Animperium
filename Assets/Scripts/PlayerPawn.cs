@@ -73,6 +73,10 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         }
     }
 
+    public bool CanLearn(eKnowledge newKnowledge, out ePlayerPawnType newType)
+    {
+        return pawnData.CanLearn(newKnowledge, out newType);
+    }
     public void Attack(PlayerPawn victim)
     {
         actedAlready = true;

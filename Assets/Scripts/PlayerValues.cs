@@ -10,7 +10,7 @@ public class PlayerValues
     public Color playerColor;
     public Sprite playerIcon;
 
-    public int food;
+    public GameResources playerResources;
 
     public List<PlayerPawn> ownedPawns = new List<PlayerPawn>();
 
@@ -69,7 +69,7 @@ public class PlayerValues
     public bool HasResourcesToSpawn(PlayerPawnData spawnData)
     {
         // Check if the Player have enough resources
-        if (spawnData.food > food)
+        if (CanAfford(spawnData.resourceCosts))
             return false;
 
         // all resources there
@@ -78,9 +78,19 @@ public class PlayerValues
 
     public void RemoveSpawnCosts(PlayerPawnData spawnData)
     {
-        food -= spawnData.food;
+        PayCosts(spawnData.resourceCosts);
+    }
 
-        if (food < 0)
-            Debug.LogError($"PlayerValues\tPlayer{playerID} got negative food!\n");
+
+    public bool CanAfford(GameResources resources)
+    {
+        if (playerResources.food < resources.food) return false;
+
+        return true;
+    }
+
+    public void PayCosts(GameResources resources)
+    {
+        playerResources.food -= resources.food;
     }
 }
