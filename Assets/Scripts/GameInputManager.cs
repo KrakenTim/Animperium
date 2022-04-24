@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Handles the player's input.
+/// </summary>
 public class GameInputManager : MonoBehaviour
 {
     static GameInputManager instance;
@@ -26,23 +29,21 @@ public class GameInputManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (MouseOverHexCheck.onHex && Mouse.current.leftButton.wasPressedThisFrame)
+        if (MouseOverHexCheck.IsOnHex && Mouse.current.leftButton.wasPressedThisFrame)
         {
             ClickedOnHex();
         }
     }
 
-    void ClickedOnHex()
+    private void ClickedOnHex()
     {
         Ray inputRay = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
 
         if (!Physics.Raycast(inputRay, out RaycastHit hit)) return;
 
         selectedHexCell = HexGrid.GetHexCell(hit.point);
-        //Debug.Log($"InputSelection\tSelected Cell {selectedHexCell.coordinates.ToString()}\n", selectedHexCell);
-
 
         if (IsPawnActionPossible(selectedHexCell))
         {
@@ -68,6 +69,7 @@ public class GameInputManager : MonoBehaviour
             }
         }
     }
+
     /// <summary>
     /// Checks if selected Pawn is Player Pawn, next to selected Cell and can act
     /// </summary>
@@ -78,10 +80,9 @@ public class GameInputManager : MonoBehaviour
             && selectedPawn.HexCell.IsNeighbor(targetCell);
     }
 
-
     private bool IsCollectPossible()
     {
-        return selectedPawn.IsUnit  && selectedHexCell.Resource != null && selectedPawn.MP > 0;
+        return selectedPawn.IsUnit && selectedHexCell.Resource != null && selectedPawn.MP > 0;
     }
 
     private bool IsMovePossible()
@@ -92,6 +93,7 @@ public class GameInputManager : MonoBehaviour
 
     private bool IsSpawnPossible()
     {
+        // TODO(24.04.22) might check if needed resources are available.
         return !selectedHexCell.HasPawn
                && selectedPawn.Spawn != ePlayerPawnType.NONE;
     }
@@ -104,31 +106,37 @@ public class GameInputManager : MonoBehaviour
 
     private bool IsLearningPossible(PlayerPawn potentialSchool)
     {
-        if (potentialSchool.PlayerID == selectedPawn.PlayerID && potentialSchool.PawnType.IsSchool() 
+        if (potentialSchool.PlayerID == selectedPawn.PlayerID && potentialSchool.PawnType.IsSchool()
             && PawnUpgradeController.TryUpgradePossible(selectedPawn.PawnType, potentialSchool.PawnType.Teaches(),
-                                                        selectedPawn.PlayerID, out PlayerPawnData newUnit, out GameResources costs ))
+                                                     selectedPawn.PlayerID, out PlayerPawnData newUnit, out GameResources costs))
             return true;
 
         return false;
     }
 
+    /// <summary>
+    /// Called if a pawn was clicked.
+    /// </summary>
     public static void ClickedOnPawn(PlayerPawn clickedPawn)
     {
+        // Check if enemy that might be attacked
         if (instance.IsPawnActionPossible(clickedPawn.HexCell) && instance.IsAttackPossible(clickedPawn))
         {
-            InputMessage message = InputMessageGenerator.CreateHexMessage(instance.selectedPawn, clickedPawn.HexCell, ePlayeractionType.Attack);
+            InputMessage message = InputMessageGenerator.CreateHexMessage(instance.selectedPawn, clickedPawn.HexCell,
+                                                                          ePlayeractionType.Attack);
             InputMessageExecuter.Send(message);
         }
 
+        // Check if school and upgrade possible
         if (instance.IsPawnActionPossible(clickedPawn.HexCell) && instance.IsLearningPossible(clickedPawn))
         {
-            InputMessage message = InputMessageGenerator.CreateHexMessage(instance.selectedPawn, clickedPawn.HexCell, ePlayeractionType.Learn);
+            InputMessage message = InputMessageGenerator.CreateHexMessage(instance.selectedPawn, clickedPawn.HexCell,
+                                                                          ePlayeractionType.Learn);
             InputMessageExecuter.Send(message);
         }
-     
-        instance.selectedPawn = clickedPawn;
 
-        // Debug.Log("Change Selected Cell to " + newlySelected.PawnType);
+        // Select clicked Pawn
+        instance.selectedPawn = clickedPawn;
 
         SelectedPawn?.Invoke(clickedPawn);
     }

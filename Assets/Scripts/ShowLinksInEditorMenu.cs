@@ -1,6 +1,9 @@
+#if UNITY_EDITOR // whole file
 using UnityEngine;
 
-#if UNITY_EDITOR
+/// <summary>
+/// Creates menu options to open several permanent links related to the project. 
+/// </summary>
 public class ShowLinksInEditorMenu
 {
     const string LINK_FolderAnimperium = "https://drive.google.com/drive/folders/1e7PfbQ4q9hplT6IxhW3Qr6Vlc4S5dLYx";
@@ -32,4 +35,4 @@ public class ShowLinksInEditorMenu
     [UnityEditor.MenuItem(PATH_linkMenu + "Trello",false, 100)]
     public static void OpenTrello() => Application.OpenURL(LINK_Trello);    
 }
-#endif
+#endif // whole file

@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Provides method to parse InputMessage from a given string, if possible.
+/// </summary>
 public static class InputMessageInterpreter
 {
     /// <summary>
-    /// Tries to understand given message, returns true if sucessfull
+    /// Tries to understand given input message, returns true if sucessfull.
     /// </summary>
     public static bool TryParseMessage(string message, out InputMessage inputMessage)
     {
@@ -53,7 +56,7 @@ public static class InputMessageInterpreter
     }
 
     /// <summary>
-    /// Tries to parse given string to a Hex Coordinate
+    /// Tries to parse given string to a Hex Coordinate.
     /// </summary>
     private static bool TryParseHexCoordinate(string coordinateString, out HexCoordinates hexCoordinates)
     {

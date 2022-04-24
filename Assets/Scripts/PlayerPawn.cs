@@ -7,22 +7,26 @@ using UnityEngine.EventSystems;
 public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] PlayerPawnData pawnData;
+
+    public ePlayerPawnType PawnType => pawnData.type;
     public int MaxHealth => pawnData.maxHealth;
     public int MaxMovement => pawnData.maxMovement;
     public int AttackPower => pawnData.attackPower;
-    public ePlayerPawnType PawnType => pawnData.type;
+    public ePlayerPawnType Spawn => pawnData.spawnedPawn;
+
     public bool IsBuilding => PawnType.IsBuilding();
     public bool IsUnit => PawnType.IsUnit();
-    public ePlayerPawnType Spawn => pawnData.spawnedPawn;
 
     /// <summary>
     /// Returns Pawn Icon if not null else it's the Players Icon
     /// </summary>
     public Sprite PawnIcon => (pawnData.pawnIcon != null) ? pawnData.pawnIcon : GameManager.GetPlayerIcon(PlayerID);
-
+    /// <summary>
+    /// Returns the players individual icon.
+    /// </summary>
+    public Sprite PlayerIcon => GameManager.GetPlayerIcon(playerID);
 
     [SerializeField] int playerID;
-    public Sprite PlayerIcon => GameManager.GetPlayerIcon(playerID);
     public int PlayerID => playerID;
 
     [Space]
@@ -33,7 +37,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
     [SerializeField] bool actedAlready = false;
     public bool CanAct => !actedAlready;
-
+    [Space]
     [SerializeField] HexCell hexCell;
     public HexCell HexCell => hexCell;
     public HexCoordinates HexCoordinates => hexCell ? hexCell.coordinates : new HexCoordinates(0, 0);
@@ -85,6 +89,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     {
         return pawnData.CanLearn(newKnowledge, out newType);
     }
+
     public void Attack(PlayerPawn victim)
     {
         actedAlready = true;

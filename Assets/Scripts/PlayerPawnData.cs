@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Holds all permanent Data related to a specific PawnType.
+/// </summary>
 [CreateAssetMenu]
 public class PlayerPawnData : ScriptableObject
 {
@@ -19,6 +22,7 @@ public class PlayerPawnData : ScriptableObject
 
     [Header("Spawns")]
     [SerializeField] public ePlayerPawnType spawnedPawn;
+    [Space]
     [SerializeField] public ePlayerPawnType learnsFight;
     [SerializeField] public ePlayerPawnType learnsMagic;
     [SerializeField] public ePlayerPawnType learnsDigging;
@@ -50,11 +54,10 @@ public class PlayerPawnData : ScriptableObject
                 newType = learnsDigging;
                 break;
             default:
-                Debug.LogError("PlayerPawnData: CanLearn UNDEFINED for "+newKnowledge);
+                Debug.LogError("PlayerPawnData: CanLearn UNDEFINED for " + newKnowledge);
                 newType = ePlayerPawnType.NONE;
                 break;
         }
         return newType != ePlayerPawnType.NONE;
-
     }
 }

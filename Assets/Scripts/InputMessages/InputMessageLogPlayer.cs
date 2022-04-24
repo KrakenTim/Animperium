@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 /// <summary>
-/// Provides Methods to step through a given InputMessageLog
+/// Provides Methods to step through a given InputMessageLog.
 /// </summary>
 public class InputMessageLogPlayer : MonoBehaviour
 {

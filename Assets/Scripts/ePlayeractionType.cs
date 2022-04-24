@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Type of input action the player performed, used in input serialisation.
+/// </summary>
 public enum ePlayeractionType
 {
     // don't use underscores '_', which we use for input message parsing    
@@ -19,6 +22,9 @@ public enum ePlayeractionType
     EndTurn = 100
 }
 
+/// <summary>
+/// Provides ways to differentiate between HexGrid and general methods.
+/// </summary>
 public static class ePlayeractionTypeExtensions
 {
     public static bool IsOnHexGrid(this ePlayeractionType action)

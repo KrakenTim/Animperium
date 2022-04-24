@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Data type holding the values related to a player.
+/// </summary>
 [System.Serializable]
 public class PlayerValues
 {
@@ -76,12 +79,6 @@ public class PlayerValues
         return true;
     }
 
-    public void RemoveSpawnCosts(PlayerPawnData spawnData)
-    {
-        PayCosts(spawnData.resourceCosts);
-    }
-
-
     public bool CanAfford(GameResources resources)
     {
         if (playerResources.food < resources.food) return false;
@@ -92,5 +89,10 @@ public class PlayerValues
     public void PayCosts(GameResources resources)
     {
         playerResources.food -= resources.food;
+    }
+
+    public void PaySpawnCosts(PlayerPawnData spawnData)
+    {
+        PayCosts(spawnData.resourceCosts);
     }
 }

@@ -1,25 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
-
+/// <summary>
+/// Provides methods to change different options in the settings menu.
+/// </summary>
 public class SettingsMenu : MonoBehaviour
 {
-    // Start is called before the first frame update
-  
+    List<int> widths = new List<int>() { 1280, 1920, 2560, 3840};
+    List<int> heights = new List<int>() { 720, 800, 1024, 1080, 1440, 2160};
+
     public void SetVolume (float volume)
     {
         Debug.Log(volume);
     }
 
-    List<int> widths = new List<int>() { 1280, 1920, 2560, 3840};
-    List<int> heights = new List<int>() { 720, 800, 1024, 1080, 1440, 2160};
-
     public void SetScreenSize(int index)
-
     {
         bool fullscreen = Screen.fullScreen;
         int width = widths[index];
@@ -28,7 +24,6 @@ public class SettingsMenu : MonoBehaviour
     }
 
     public void SetFullscreen(bool isfullscreen)
-
     {
         Screen.fullScreen = isfullscreen;
     }

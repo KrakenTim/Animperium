@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Decribes the type of pawn on the hexgrid. 
+/// </summary>
 public enum ePlayerPawnType
 {
     NONE = 0,
@@ -16,7 +19,7 @@ public enum ePlayerPawnType
     Blaster = 7,
     Veteran = 8,
 
-    //buildings 100+199
+    //buildings 100-199
     TownHall = 100,
     SchoolFight = 101,
     SchoolMagic = 102,
@@ -25,7 +28,7 @@ public enum ePlayerPawnType
     TunnelEntry = 105,
     Wall = 106,
 
-    // non player pawn 200+
+    // non-player pawn 200+
     ObsctacleStone = 200
 }
 
@@ -44,11 +47,17 @@ public static class ePlayerPawnTypeExtensions
         return (int)pawn >= 200 && (int)pawn < 300;
     }
 
+    /// <summary>
+    /// True if the pawn teaches some Knowledge.
+    /// </summary>
     public static bool IsSchool(this ePlayerPawnType pawn)
     {
         return pawn.Teaches() != eKnowledge.NONE;
     }
 
+    /// <summary>
+    /// The knowledge which can be learned through the Pawn.
+    /// </summary>
     public static eKnowledge Teaches(this ePlayerPawnType pawn)
     {
         switch (pawn)
@@ -60,8 +69,8 @@ public static class ePlayerPawnTypeExtensions
             case ePlayerPawnType.SchoolDigging:
                 return eKnowledge.Digging;
 
-                default:
-                    return eKnowledge.NONE;
+            default:
+                return eKnowledge.NONE;
         }
     }
 }

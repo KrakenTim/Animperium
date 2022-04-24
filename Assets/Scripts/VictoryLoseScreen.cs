@@ -5,6 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Class that controls the Victory/Lose screen.
+/// Fills it with content according to the match's result and provides method for a leaving button.
+/// </summary>
 public class VictoryLoseScreen : MonoBehaviour
 {
     static VictoryLoseScreen instance;
@@ -45,6 +49,10 @@ public class VictoryLoseScreen : MonoBehaviour
         instance.clickBlocker.SetActive(true);
         instance.Lose.SetActive(false);
     }
+
+    /// <summary>
+    /// Attached to a button, this loads the main menu.
+    /// </summary>
     public void LoadMenu()
     {
         Debug.Log("Loading Menu");

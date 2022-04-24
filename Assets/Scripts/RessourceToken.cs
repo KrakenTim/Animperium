@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Token to be placed on the grid field, harvest it to gain resources.
+/// </summary>
 public class RessourceToken : MonoBehaviour
 {
     [SerializeField] eRessourceType type;
@@ -10,18 +13,14 @@ public class RessourceToken : MonoBehaviour
 
     [SerializeField] HexCell hexCell;
     public HexCell HexCell => hexCell;
-
-    private void Awake()
+    
+    private void Start()
     {
         if (Type == eRessourceType.NONE || amount < 1)
             Debug.LogError($"Ressource of type {type} with an amount of {amount} found!", this);
-    }
 
-    private void Start()
-    {
         if (hexCell == null)
             SetHexCell(GameManager.GetHexCell(transform.position));
-
     }
 
     private void SetHexCell(HexCell newCell)

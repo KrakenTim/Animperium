@@ -31,7 +31,7 @@ public static class PawnUpgradeController
     }
 
     /// <summary>
-    /// Return true if the unit will upgrade throu the given knowledge one the player and the needed resources. 
+    /// Return true if the unit will upgrade through the given knowledge and the player has the needed resources. 
     /// </summary>
     public static bool TryUpgradePossible(ePlayerPawnType oldUnit, eKnowledge knowledge,
                                       int playerID, out PlayerPawnData newUnitData, out GameResources upgradeCosts)
@@ -56,10 +56,9 @@ public static class PawnUpgradeController
     }
 
     /// <summary>
-    /// Returns how much upgrading from old to new will cost
+    /// Returns how much upgrading from old to new will cost.
     /// </summary>
     public static GameResources GetUpgradeCost(PlayerPawnData oldUnitData, PlayerPawnData newUnitData)
-                                       
     {
         GameResources costs;
 

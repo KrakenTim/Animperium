@@ -2,9 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Sends and recieves InputMessages. Executes InputMessages by calling the given action.
+/// </summary>
 public static class InputMessageExecuter
 {
-    public static event System.Action<string> RecievedOrder;
+    /// <summary>
+    /// Called if a recieved InputMessage could be parsed and will be executed.
+    /// </summary>
+    public static event System.Action<string> RecievedInputMessage;
 
     private static HexGrid HexGrid => GameManager.HexGrid;
 
@@ -38,7 +44,7 @@ public static class InputMessageExecuter
     /// </summary>
     public static void Execute(InputMessage order)
     {
-        RecievedOrder?.Invoke(order.ToString());
+        RecievedInputMessage?.Invoke(order.ToString());
 
         if (order.IsOnHexGrid)
             ExecuteHexMessage(order);

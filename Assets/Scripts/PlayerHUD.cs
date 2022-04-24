@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Basic HUD which shows the player's resources and info about the currently selected or hovered unit.
+/// </summary>
 public class PlayerHUD : MonoBehaviour
 {
     private static PlayerHUD instance;
@@ -14,11 +17,13 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] Image playerIcon;
     [SerializeField] Image pawnIcon;
     [SerializeField] Image canActIcon;
+    [Space]
     [SerializeField] TMPro.TMP_Text pawnType;
     [SerializeField] TMPro.TMP_Text pawnHP;
     [SerializeField] TMPro.TMP_Text pawnMP;
 
     PlayerPawn selectedPawn;
+
     private void Awake()
     {
         instance = this;
@@ -88,7 +93,7 @@ public class PlayerHUD : MonoBehaviour
 
     public void Button_EndTurn()
     {
-        var message = InputMessageGenerator.CreateGeneralMessage(ePlayeractionType.EndTurn);
+        var message = InputMessageGenerator.CreateBasicMessage(ePlayeractionType.EndTurn);
         InputMessageExecuter.Send(message);
     }
 }
