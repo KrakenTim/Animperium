@@ -90,6 +90,12 @@ public class ServerConnection : MonoBehaviour
 
                     string[] splittedMessage = receivedCommands[0].Split(new char[] { '|' }, 2);
 
+                    if (splittedMessage.Length == 1)
+                    {
+                        Debug.Log("No parameter sent!\nCommand: " + splittedMessage[0]);
+                        splittedMessage = new string[2] { splittedMessage[0], "" };
+                    }
+
                     switch (splittedMessage[0])
                     {
                         case "ROOM_PLAYERLIST":

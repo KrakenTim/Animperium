@@ -37,12 +37,16 @@ public class MultiplayerMenu : MonoBehaviour
     #region Server Commands
     public void CreateRoom()
     {
+        if (RoomNameInput.text == string.Empty)
+            return;
         ServerConnection.Instance.CreateRoom(RoomNameInput.text);
         RoomNameInput.text = "";
     }
 
     public void SendMessage()
     {
+        if (MessageInput.text == string.Empty)
+            return;
         ServerConnection.Instance.SendTextMessage(MessageInput.text);
         MessageInput.text = "";
     }

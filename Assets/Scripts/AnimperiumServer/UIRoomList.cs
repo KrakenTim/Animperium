@@ -8,6 +8,8 @@ public class UIRoomList : UIList
 {
     public override void AddItem(string _roomName)
     {
+        if (_roomName == string.Empty)
+            return;
         Button newItem = Instantiate(ListItemPrefab, this.transform).GetComponent<Button>();
         newItem.GetComponentInChildren<TextMeshProUGUI>().text = _roomName;
         newItem.onClick.AddListener(delegate { ServerConnection.Instance.JoinRoom(_roomName); });
