@@ -16,7 +16,6 @@ public class PlayerPawnData : ScriptableObject
 
     [Header("Costs")]
     public GameResources resourceCosts;
-    public int food;
 
     [Header("Spawns")]
     [SerializeField] public ePlayerPawnType spawnedPawn;

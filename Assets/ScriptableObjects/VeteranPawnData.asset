@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: VeteranPawnData
   m_EditorClassIdentifier: 
   type: 8
+  pawnIcon: {fileID: 0}
   maxHealth: 13
   maxMovement: 3
   attackPower: 4
-  food: 40
+  resourceCosts:
+    food: 40
   spawnedPawn: 0
   learnsFight: 0
   learnsMagic: 0

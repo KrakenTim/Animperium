@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: DiggerPawnData
   m_EditorClassIdentifier: 
   type: 4
+  pawnIcon: {fileID: 0}
   maxHealth: 7
   maxMovement: 4
   attackPower: 3
-  food: 20
+  resourceCosts:
+    food: 20
   spawnedPawn: 0
   learnsFight: 6
   learnsMagic: 7
