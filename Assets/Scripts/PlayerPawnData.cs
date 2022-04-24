@@ -26,7 +26,7 @@ public class PlayerPawnData : ScriptableObject
     [Header("Prefab")]
     [SerializeField] PlayerPawn[] playerPrefabs;
 
-    public PlayerPawn GetPawnPrefap(int playerID)
+    public PlayerPawn GetPawnPrefab(int playerID)
     {
         if (playerID >= 0 && playerID < playerPrefabs.Length)
             return playerPrefabs[playerID];

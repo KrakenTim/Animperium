@@ -105,8 +105,8 @@ public class GameInputManager : MonoBehaviour
     private bool IsLearningPossible(PlayerPawn potentialSchool)
     {
         if (potentialSchool.PlayerID == selectedPawn.PlayerID && potentialSchool.PawnType.IsSchool() 
-            || PawnUpgradeController.TryUpgradePossible(selectedPawn.PawnType, potentialSchool.PawnType.Teaches(),
-                                                        selectedPawn.PlayerID, out PlayerPawnData newUnit))
+            && PawnUpgradeController.TryUpgradePossible(selectedPawn.PawnType, potentialSchool.PawnType.Teaches(),
+                                                        selectedPawn.PlayerID, out PlayerPawnData newUnit, out GameResources costs ))
             return true;
 
         return false;

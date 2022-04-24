@@ -56,9 +56,15 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
         Debug.Log(ToString());
     }
-    public void SetOwner(int playerID, int fractionID)
+
+    /// <summary>
+    /// Set the changing variable values of the pawn (HP, MP, etc.).
+    /// </summary>
+    public void Initialize(int hp, int mp, bool canAct)
     {
-        this.playerID = playerID;
+        currentHealth = hp;
+        movementPoints = mp;
+        actedAlready = canAct;
     }
 
     public void SetHexCell(HexCell cell)

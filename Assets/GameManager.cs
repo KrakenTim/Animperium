@@ -105,7 +105,12 @@ public class GameManager : MonoBehaviour
 
     public static void UpgradePawn(PlayerPawn upgraded, PlayerPawn school)
     {
-
+        if (PawnUpgradeController.TryUpgradeUnit(upgraded, school, out GameResources costs)
+            && instance.TryGetPlayerValues(upgraded.PlayerID, out PlayerValues playerValues))
+        {
+            playerValues.PayCosts(costs);
+            PlayerHUD.UpdateHUD(instance.activePlayerID);
+        }
     }
 
     /// <summary>
@@ -121,22 +126,22 @@ public class GameManager : MonoBehaviour
         if (spawnedPawnData == null) return;
 
         // return if there's no playerdata or can't afford spawn
-        if (!instance.TryGetPlayerValues(CurrentPlayerID, out PlayerValues playerResources)
+        if (!instance.TryGetPlayerValues(spawner.PlayerID, out PlayerValues playerResources)
             || !playerResources.HasResourcesToSpawn(spawnedPawnData))
             return;
 
         playerResources.RemoveSpawnCosts(spawnedPawnData);
         PlayerHUD.UpdateHUD(instance.activePlayerID);
 
-        PlaceNewPawn(spawnedPawnData, spawnPoint);
+        PlaceNewPawn(spawnedPawnData, spawnPoint, spawner.PlayerID);
     }
 
     /// <summary>
     /// Places new Pawn onto grid, according to given data and position.
     /// </summary>
-    public static PlayerPawn PlaceNewPawn(PlayerPawnData placedPawnData, HexCell spot)
+    public static PlayerPawn PlaceNewPawn(PlayerPawnData placedPawnData, HexCell spot, int playerID)
     {
-        PlayerPawn newPawn = Instantiate(placedPawnData.GetPawnPrefap(instance.activePlayerID),
+        PlayerPawn newPawn = Instantiate(placedPawnData.GetPawnPrefab(playerID),
                              spot.transform.position, Quaternion.identity, instance.transform);
 
         // Pawn adds itself to the grid on the matching position.

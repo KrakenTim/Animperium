@@ -1231,18 +1231,23 @@ MonoBehaviour:
   - {fileID: 11400000, guid: df3c4f84d574a2040a9ca6b641e97838, type: 2}
   - {fileID: 11400000, guid: 71aa9d8a7e10db845ab64fd89c8951cc, type: 2}
   - {fileID: 11400000, guid: 5c57c310905e15341a24912b848ec175, type: 2}
+  - {fileID: 11400000, guid: f663c6368412f344684fb132adb062b8, type: 2}
+  - {fileID: 11400000, guid: d2f4571bbe9a1eb4c985faef2d9cadc5, type: 2}
+  - {fileID: 11400000, guid: 9702ebbe25c71ca409dc6447a3ee1985, type: 2}
   playerValueList:
   - playerID: 1
     factionID: 1
     playerColor: {r: 0, g: 0.1387968, b: 1, a: 1}
     playerIcon: {fileID: 21300000, guid: a2aae0341f0a30347a7781bf8c442a45, type: 3}
-    food: 10
+    playerResources:
+      food: 50
     ownedPawns: []
   - playerID: 2
     factionID: 2
     playerColor: {r: 0.990566, g: 0, b: 0.037627444, a: 1}
     playerIcon: {fileID: 21300000, guid: f7e02fa41198c654bbbf4ecd6169ad4d, type: 3}
-    food: 10
+    playerResources:
+      food: 50
     ownedPawns: []
   activePlayerID: 1
   activePlayerFactionID: 1
