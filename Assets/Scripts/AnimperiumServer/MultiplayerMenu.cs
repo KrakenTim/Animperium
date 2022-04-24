@@ -76,11 +76,13 @@ public class MultiplayerMenu : MonoBehaviour
     private void OnRoomCreated(string _roomName)
     {
         OpenMenu(LobbyMenu);
+        RoomChatList.Clear();
     }
 
     private void OnRoomJoined(string _roomName)
     {
         OpenMenu(LobbyMenu);
+        RoomChatList.Clear();
     }
     #endregion
 }
