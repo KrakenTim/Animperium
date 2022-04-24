@@ -130,7 +130,7 @@ public class GameManager : MonoBehaviour
             || !playerResources.HasResourcesToSpawn(spawnedPawnData))
             return;
 
-        playerResources.RemoveSpawnCosts(spawnedPawnData);
+        playerResources.PaySpawnCosts(spawnedPawnData);
         PlayerHUD.UpdateHUD(instance.activePlayerID);
 
         PlaceNewPawn(spawnedPawnData, spawnPoint, spawner.PlayerID);
