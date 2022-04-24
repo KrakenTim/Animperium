@@ -14,6 +14,8 @@ public class ServerConnection : MonoBehaviour
     public UnityEvent<string> ReceivedRoomPlayerListEvent = new UnityEvent<string>();
     public UnityEvent<string> ReceivedTextMessageEvent = new UnityEvent<string>();
     public UnityEvent<string> ReceivedCommandEvent = new UnityEvent<string>();
+    public UnityEvent<string> RoomCreatedEvent = new UnityEvent<string>();
+    public UnityEvent<string> RoomJoinedEvent = new UnityEvent<string>();
 
     private TcpClient tcpClient;
     private NetworkStream networktStream;    
@@ -21,6 +23,7 @@ public class ServerConnection : MonoBehaviour
     private Thread heartbeatThread;
     private int heartbeatTick = 0;
     private int heartbeatIntervall = 3000; //in milliseconds
+    private string commandBuffer = "";
 
     private const string serverIP = "85.215.200.62";
     private const int serverPort = 2018;
@@ -70,41 +73,55 @@ public class ServerConnection : MonoBehaviour
         while (true)
         {
             streamDataBuffer = new Byte[256];
+            string receivedData = "";
+            string[] receivedCommands = new string [0];
             try
             {
                 if (networktStream.DataAvailable)
                 {
                     int bytesData = this.networktStream.Read(streamDataBuffer, 0, streamDataBuffer.Length);
-                    string receivedData = Encoding.ASCII.GetString(streamDataBuffer, 0, streamDataBuffer.Length);
-                    Debug.Log("Received data: " + receivedData);
+                    receivedData = Encoding.UTF8.GetString(streamDataBuffer, 0, streamDataBuffer.Length);
 
-                    string[] splittedMessage = receivedData.Split(new char[] { '|' }, 2);
+
+                    //receivedData = commandBuffer + receivedData;
+                    receivedCommands = receivedData.Split(new char[] { ';' }, 2);
+                    if (receivedCommands.Length > 1)
+                        commandBuffer = receivedCommands[1];
+
+                    string[] splittedMessage = receivedCommands[0].Split(new char[] { '|' }, 2);
 
                     switch (splittedMessage[0])
                     {
                         case "ROOM_PLAYERLIST":
                             ReceivedRoomPlayerListEvent.Invoke(splittedMessage[1]);
+                            Debug.Log("Received data: " + receivedData);
                             break;
                         case "SERVER_ROOMLIST":
                             ReceivedServerRoomListEvent.Invoke(splittedMessage[1]);
+                            Debug.Log("Received data: " + receivedData);
                             break;
                         case "SERVER_PLAYERLIST":
                             ReceivedServerPlayerListEvent.Invoke(splittedMessage[1]);
+                            Debug.Log("Received data: " + receivedData);
                             break;
                         case "TEXTMESSAGE":
                             ReceivedTextMessageEvent.Invoke(splittedMessage[1]);
+                            Debug.Log("Received data: " + receivedData);
                             break;
                         case "COMMAND":
                             ReceivedCommandEvent.Invoke(splittedMessage[1]);
                             break;
+                        case "HEARTBEAT":
+                            break;
                         default:
+                            Console.WriteLine("Can't interpret received data!\nReceived Data: " + receivedData + "\nCommand: " + receivedCommands[0]);
                             break;
                     }
                 }
             }
             catch (Exception e)
             {
-                Debug.Log("Reading Connection Error: " + e);
+                Debug.Log("Reading Connection Error: " + e + "\nReceived Data: " + receivedData + "\nCommand: " + receivedCommands[0]);
             }
             yield return new WaitForSeconds(0.05f);
         }
@@ -131,7 +148,6 @@ public class ServerConnection : MonoBehaviour
     }
 
 
-
     private void OnDisable()
     {
         CloseConnection();
@@ -139,15 +155,21 @@ public class ServerConnection : MonoBehaviour
 
     private void Send(string _message)
     {
-        byte[] msg = Encoding.ASCII.GetBytes(_message);
+        byte[] msg = Encoding.UTF8.GetBytes(_message + ';');
+
         networktStream.Write(msg, 0, msg.Length);
-        Debug.Log("Sent to server:\n" + _message);
+
+        if (_message.Split('|')[0] != "HEARTBEAT")
+        {
+            Debug.Log("Sent to server:\n" + _message);
+        }        
     }
 
     #region Sender
     public void CreateRoom(string _roomName)
     {
         Send("ROOM_CREATE|" + _roomName);
+        RoomCreatedEvent.Invoke(_roomName);
     }
 
     public void LeaveRoom()
@@ -158,6 +180,7 @@ public class ServerConnection : MonoBehaviour
     public void JoinRoom(string _roomName)
     {
         Send("ROOM_JOIN|" + _roomName);
+        RoomJoinedEvent.Invoke(_roomName);
     }
 
     public void LeaveServer()

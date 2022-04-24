@@ -22,6 +22,8 @@ public class MultiplayerMenu : MonoBehaviour
         ServerConnection.Instance.ReceivedServerRoomListEvent.AddListener(OnReceivedServerRoomList);
         ServerConnection.Instance.ReceivedRoomPlayerListEvent.AddListener(OnReceivedRoomPlayerList);
         ServerConnection.Instance.ReceivedTextMessageEvent.AddListener(OnReceivedTextMessageList);
+        ServerConnection.Instance.RoomCreatedEvent.AddListener(OnRoomCreated);
+        ServerConnection.Instance.RoomJoinedEvent.AddListener(OnRoomJoined);
         OpenMenu(MainMenu);
     }
 
@@ -65,6 +67,16 @@ public class MultiplayerMenu : MonoBehaviour
     private void OnReceivedTextMessageList(string _textMessage)
     {
         RoomChatList.AddItem(_textMessage);
+    }
+
+    private void OnRoomCreated(string _roomName)
+    {
+        OpenMenu(LobbyMenu);
+    }
+
+    private void OnRoomJoined(string _roomName)
+    {
+        OpenMenu(LobbyMenu);
     }
     #endregion
 }
