@@ -104,9 +104,10 @@ public class GameInputManager : MonoBehaviour
 
     private bool IsLearningPossible(PlayerPawn potentialSchool)
     {
-        if (!potentialSchool.PawnType.IsSchool() 
-            || !selectedPawn.CanLearn(potentialSchool.PawnType.Teaches(), out ePlayerPawnType newPawnType))
-            return false;
+        if (potentialSchool.PlayerID == selectedPawn.PlayerID && potentialSchool.PawnType.IsSchool() 
+            || PawnUpgradeController.TryUpgradePossible(selectedPawn.PawnType, potentialSchool.PawnType.Teaches(),
+                                                        selectedPawn.PlayerID, out PlayerPawnData newUnit))
+            return true;
 
         return false;
     }
@@ -119,12 +120,12 @@ public class GameInputManager : MonoBehaviour
             InputMessageExecuter.Send(message);
         }
 
-     /*   if (instance.IsPawnActionPossible(clickedPawn.HexCell) && instance.IsLearningPossible(clickedPawn))
+        if (instance.IsPawnActionPossible(clickedPawn.HexCell) && instance.IsLearningPossible(clickedPawn))
         {
             InputMessage message = InputMessageGenerator.CreateHexMessage(instance.selectedPawn, clickedPawn.HexCell, ePlayeractionType.Learn);
             InputMessageExecuter.Send(message);
         }
-     */
+     
         instance.selectedPawn = clickedPawn;
 
         // Debug.Log("Change Selected Cell to " + newlySelected.PawnType);

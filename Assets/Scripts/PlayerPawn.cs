@@ -36,7 +36,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
     [SerializeField] HexCell hexCell;
     public HexCell HexCell => hexCell;
-    public HexCoordinates HexCoordinates => hexCell.coordinates;
+    public HexCoordinates HexCoordinates => hexCell ? hexCell.coordinates : new HexCoordinates(0, 0);
 
     public virtual bool IsPlayerPawn => playerID == GameManager.CurrentPlayerID;
 
@@ -53,6 +53,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
         if (hexCell == null)
             SetHexCell(GameManager.GetHexCell(transform.position));
+
+        Debug.Log(ToString());
     }
     public void SetOwner(int playerID, int fractionID)
     {
@@ -111,11 +113,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         {
             GameManager.RemovePawn(this);
 
-            SetHexCell(null);
-
-            Destroy(gameObject);
-
-            GameManager.CheckIFGameEnds(PlayerID);
+            GameManager.CheckIfGameEnds(PlayerID);
         }
     }
 
@@ -136,7 +134,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public virtual void OnPointerDown(PointerEventData eventData)
     {
         Debug.Log($"PlayerPawn\tClicked {PawnType}[P{playerID}]\n\t\t{hexCell.coordinates.ToString()}\n", this);
-       
+
         GameInputManager.ClickedOnPawn(this);
     }
 
@@ -148,5 +146,10 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public virtual void OnPointerExit(PointerEventData eventData)
     {
         PlayerHUD.UpdateShownPawn();
+    }
+
+    public override string ToString()
+    {
+        return $"{gameObject.name}[{PawnType},Player:{PlayerID}, Position:{HexCoordinates},{HP}HP, {MP}MP, CanAct:{CanAct}]";
     }
 }

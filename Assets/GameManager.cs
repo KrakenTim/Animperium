@@ -102,7 +102,17 @@ public class GameManager : MonoBehaviour
 
         return null;
     }
+
+    public static void UpgradePawn(PlayerPawn upgraded, PlayerPawn school)
+    {
+
+    }
+
+    /// <summary>
+    /// playes a new pawn according to the spawner, if the player has the needed resource, removes the costs and places the pawn 
+    /// </summary>
     public static void SpawnPawn(PlayerPawn spawner, HexCell spawnPoint)
+
     {
         ePlayerPawnType spawnPawnType = spawner.Spawn;
 
@@ -118,8 +128,20 @@ public class GameManager : MonoBehaviour
         playerResources.RemoveSpawnCosts(spawnedPawnData);
         PlayerHUD.UpdateHUD(instance.activePlayerID);
 
-        PlayerPawn newPawn = Instantiate(spawnedPawnData.GetPawnPrefap(instance.activePlayerID),
-            spawnPoint.transform.position, Quaternion.identity, instance.transform);
+        PlaceNewPawn(spawnedPawnData, spawnPoint);
+    }
+
+    /// <summary>
+    /// Places new Pawn onto grid, according to given data and position.
+    /// </summary>
+    public static PlayerPawn PlaceNewPawn(PlayerPawnData placedPawnData, HexCell spot)
+    {
+        PlayerPawn newPawn = Instantiate(placedPawnData.GetPawnPrefap(instance.activePlayerID),
+                             spot.transform.position, Quaternion.identity, instance.transform);
+
+        // Pawn adds itself to the grid on the matching position.
+
+        return newPawn;
     }
 
     public static bool IsEnemy(int otherPlayerID)
@@ -210,13 +232,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Removes Pawn from owned pawns List of the player and takes it of the grid.
+    /// </summary>
     public static void RemovePawn(PlayerPawn pawn)
     {
         if (instance.TryGetPlayerValues(pawn.PlayerID, out PlayerValues result))
         {
             result.ownedPawns.Remove(pawn);
         }
+        pawn.SetHexCell(null);
+        Destroy(pawn.gameObject);
     }
 
     public static void AddResource(eRessourceType resource, int amount)
@@ -238,7 +264,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public static void CheckIFGameEnds(int potencialLoserPlayerID)
+    public static bool CanAfford(int playerID, GameResources costs)
+    {
+        if (instance.TryGetPlayerValues(CurrentPlayerID, out PlayerValues result))
+        {
+            return result.CanAfford(costs);
+        }
+        return false;
+    }
+
+    public static void CheckIfGameEnds(int potencialLoserPlayerID)
     {
         if (!instance.TryGetPlayerValues(potencialLoserPlayerID, out PlayerValues loserValues))
             return;
