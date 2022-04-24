@@ -49,7 +49,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         movementPoints = MaxMovement;
 
         if (!PawnType.IsNonPlayer())
-        GameManager.AddPlayerPawn(this);
+            GameManager.AddPlayerPawn(this);
 
         if (hexCell == null)
             SetHexCell(GameManager.GetHexCell(transform.position));

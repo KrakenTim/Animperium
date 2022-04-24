@@ -61,6 +61,9 @@ public class GameManager : MonoBehaviour
         GameInputManager.DeselectPawn();
     }
 
+    /// <summary>
+    /// Increases the activePlayerID to the next player that didn't lose yet.
+    /// </summary>
     private void SetNextPlayer()
     {
         instance.activePlayerID++;
@@ -68,10 +71,13 @@ public class GameManager : MonoBehaviour
         if (instance.activePlayerID > instance.playerValueList.Length)
             instance.activePlayerID = 1;
 
+        // Skip players that lost or if there's no player values
         if (TryGetPlayerValues(instance.activePlayerID, out PlayerValues nextPlayer))
         {
             if (nextPlayer.HasLost) SetNextPlayer();
         }
+        else
+            SetNextPlayer();
     }
 
     private void StartNewPlayerTurn()
