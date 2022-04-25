@@ -767,7 +767,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pawnData: {fileID: 11400000, guid: 945ac37ddbcd6444d87eb776c3b88460, type: 2}
-  playerID: 2
+  playerID: 1
   currentHealth: 0
   movementPoints: 0
   actedAlready: 0

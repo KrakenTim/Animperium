@@ -64,8 +64,9 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     /// <summary>
     /// Set the changing variable values of the pawn (HP, MP, etc.).
     /// </summary>
-    public void Initialize(int hp, int mp, bool canAct)
+    public void Initialize(int playerID, int hp, int mp, bool canAct)
     {
+        this.playerID = playerID;
         currentHealth = hp;
         movementPoints = mp;
         actedAlready = canAct;

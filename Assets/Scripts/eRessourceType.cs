@@ -8,5 +8,7 @@ using UnityEngine;
 public enum eRessourceType
 {
     NONE = 0,
-    Food = 1
+    Food = 1,
+    Wood = 2,
+    Ore = 3
 }

@@ -9,7 +9,7 @@ public class RessourceToken : MonoBehaviour
 {
     [SerializeField] eRessourceType type;
     public eRessourceType Type => type;
-    [SerializeField] int amount = 1;
+    [SerializeField] int amount = 10;
 
     [SerializeField] HexCell hexCell;
     public HexCell HexCell => hexCell;

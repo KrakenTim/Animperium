@@ -117,18 +117,23 @@ public class GameManager : MonoBehaviour
     /// playes a new pawn according to the spawner, if the player has the needed resource, removes the costs and places the pawn 
     /// </summary>
     public static void SpawnPawn(PlayerPawn spawner, HexCell spawnPoint)
-
     {
         ePlayerPawnType spawnPawnType = spawner.Spawn;
 
         PlayerPawnData spawnedPawnData = GetPawnData(spawnPawnType);
 
+        Debug.Log("1");
+
         if (spawnedPawnData == null) return;
+
+        Debug.Log("2");
 
         // return if there's no playerdata or can't afford spawn
         if (!instance.TryGetPlayerValues(spawner.PlayerID, out PlayerValues playerResources)
             || !playerResources.HasResourcesToSpawn(spawnedPawnData))
             return;
+
+        Debug.Log("3");
 
         playerResources.PaySpawnCosts(spawnedPawnData);
         PlayerHUD.UpdateHUD(instance.activePlayerID);

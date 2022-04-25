@@ -24,7 +24,7 @@ public static class PawnUpgradeController
 
         PlayerPawn newPawn = GameManager.PlaceNewPawn(newUnitData, position, upgradedUnit.PlayerID);
 
-        newPawn.Initialize(upgradedUnit.HP, upgradedUnit.MP, false);
+        newPawn.Initialize(upgradedUnit.PlayerID, upgradedUnit.HP, upgradedUnit.MP, false);
         resultingCosts = upgradeCost;
 
         return true;
