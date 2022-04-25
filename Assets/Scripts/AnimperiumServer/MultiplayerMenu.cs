@@ -68,9 +68,9 @@ public class MultiplayerMenu : MonoBehaviour
         RoomPlayerList.RefreshList(_roomPlayerList);
     }
 
-    private void OnReceivedTextMessageList(string _textMessage)
+    private void OnReceivedTextMessageList(string _playerName, string _textMessage)
     {
-        RoomChatList.AddItem(_textMessage);
+        RoomChatList.AddItem(_playerName + ": " + _textMessage);
     }
 
     private void OnRoomCreated(string _roomName)

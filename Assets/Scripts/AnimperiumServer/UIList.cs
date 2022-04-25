@@ -17,6 +17,9 @@ public class UIList : MonoBehaviour
 
     public virtual void AddItem(string _item)
     {
+        if (_item == string.Empty)
+            return;
+
         GameObject newItem = Instantiate(ListItemPrefab, this.transform);
         newItem.GetComponent<TextMeshProUGUI>().text = _item;
 
@@ -27,7 +30,7 @@ public class UIList : MonoBehaviour
     {
         Clear();
 
-        string[] items = _itemList.Split('|');
+        string[] items = _itemList.Split('&');
 
         for (int i = 0; i < items.Length; i++)
         {
