@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class OnlineGameMessageForwarder : MonoBehaviour
+public class OnlineGameManager : MonoBehaviour
 {
-    private static OnlineGameMessageForwarder instance;
+    private static OnlineGameManager instance;
 
     public static bool IsOnlineGame => instance != null;
 

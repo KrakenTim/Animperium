@@ -19,8 +19,8 @@ public static class InputMessageExecuter
     /// </summary>
     public static void Send(InputMessage message)
     {
-        if (OnlineGameMessageForwarder.IsOnlineGame)
-            OnlineGameMessageForwarder.SendCommand(message.ToString());
+        if (OnlineGameManager.IsOnlineGame)
+            OnlineGameManager.SendCommand(message.ToString());
         else // Hot Seat
             Recieve(message.ToString());
     }
@@ -100,7 +100,7 @@ public static class InputMessageExecuter
                 break;
 
             case ePlayeractionType.StartGame:
-                OnlineGameMessageForwarder.PrepareGame();
+                OnlineGameManager.PrepareGame();
                 break;
             default:
                 Debug.LogError($"MessageExecuter\t{nameof(ExecuteGeneralMessage)} UNDEFINED for {generalOrder.action}\n");
