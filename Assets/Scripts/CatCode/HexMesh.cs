@@ -42,9 +42,9 @@ public class HexMesh : MonoBehaviour
     void AddTriangle(Vector3 v1, Vector3 v2, Vector3 v3)
     {
         int vertexIndex = vertices.Count;
-        vertices.Add(v1);
-        vertices.Add(v2);
-        vertices.Add(v3);
+        vertices.Add(Perturb(v1));
+        vertices.Add(Perturb(v2));
+        vertices.Add(Perturb(v3));
         triangles.Add(vertexIndex);
         triangles.Add(vertexIndex + 1);
         triangles.Add(vertexIndex + 2);
@@ -59,7 +59,7 @@ public class HexMesh : MonoBehaviour
     }
     void Triangulate(HexDirection direction, HexCell cell)
     {
-        Vector3 center = cell.transform.localPosition;
+        Vector3 center = cell.Position;
         Vector3 v1 = center + HexMetrics.GetFirstSolidCorner(direction);
         Vector3 v2 = center + HexMetrics.GetSecondSolidCorner(direction);
 
@@ -84,7 +84,7 @@ public class HexMesh : MonoBehaviour
         Vector3 bridge = HexMetrics.GetBridge(direction);
         Vector3 v3 = v1 + bridge;
         Vector3 v4 = v2 + bridge;
-        v3.y = v4.y = neighbor.Elevation * HexMetrics.elevationStep;
+        v3.y = v4.y = neighbor.Position.y;
 
         if (cell.GetEdgeType(direction) == HexEdgeType.Slope)
         {
@@ -100,7 +100,7 @@ public class HexMesh : MonoBehaviour
         if (direction <= HexDirection.E && nextNeighbor != null)
         {
             Vector3 v5 = v2 + HexMetrics.GetBridge(direction.Next());
-            v5.y = nextNeighbor.Elevation * HexMetrics.elevationStep;
+            v5.y = nextNeighbor.neighbor.Position.y;
             if (cell.Elevation <= neighbor.Elevation)
             {
                 if (cell.Elevation <= nextNeighbor.Elevation)
@@ -142,10 +142,10 @@ public class HexMesh : MonoBehaviour
     void AddQuad(Vector3 v1, Vector3 v2, Vector3 v3, Vector3 v4)
     {
         int vertexIndex = vertices.Count;
-        vertices.Add(v1);
-        vertices.Add(v2);
-        vertices.Add(v3);
-        vertices.Add(v4);
+        vertices.Add(Perturb(v1));
+        vertices.Add(Perturb(v2));
+        vertices.Add(Perturb(v3));
+        vertices.Add(Perturb(v4));
         triangles.Add(vertexIndex);
         triangles.Add(vertexIndex + 2);
         triangles.Add(vertexIndex + 1);
@@ -217,7 +217,7 @@ public class HexMesh : MonoBehaviour
             AddTriangleColor(leftCell.color, rightCell.color, boundaryColor);
         }
     }
-    void TriangulateCornerCliffTerraces(Vector3 begin, HexCell beginCell,Vector3 left, HexCell leftCell,Vector3 right, HexCell rightCell)
+    void TriangulateCornerCliffTerraces(Vector3 begin, HexCell beginCell, Vector3 left, HexCell leftCell, Vector3 right, HexCell rightCell)
     {
         float b = 1f / (leftCell.Elevation - beginCell.Elevation);
         if (b < 0)
@@ -324,11 +324,7 @@ public class HexMesh : MonoBehaviour
         //AddTriangleColor(bottomCell.color, leftCell.color, rightCell.color);
     }
 
-    void TriangulateCornerTerraces(
-    Vector3 begin, HexCell beginCell,
-    Vector3 left, HexCell leftCell,
-    Vector3 right, HexCell rightCell
-)
+    void TriangulateCornerTerraces(Vector3 begin, HexCell beginCell, Vector3 left, HexCell leftCell, Vector3 right, HexCell rightCell)
     {
         Vector3 v3 = HexMetrics.TerraceLerp(begin, left, 1);
         Vector3 v4 = HexMetrics.TerraceLerp(begin, right, 1);
@@ -337,7 +333,7 @@ public class HexMesh : MonoBehaviour
 
         AddTriangle(begin, v3, v4);
         AddTriangleColor(beginCell.color, c3, c4);
-        
+
         for (int i = 2; i < HexMetrics.terraceSteps; i++)
         {
             Vector3 v1 = v3;
@@ -355,6 +351,16 @@ public class HexMesh : MonoBehaviour
         AddQuad(v3, v4, left, right);
         AddQuadColor(c3, c4, leftCell.color, rightCell.color);
     }
+
+    Vector3 Perturb(Vector3 position)
+    {
+        Vector4 sample = HexMetrics.SampleNoise(position);
+        position.x += (sample.x * 2f - 1f) * HexMetrics.cellPerturbStrength;
+       // position.y += (sample.y * 2f - 1f) * HexMetrics.cellPerturbStrength;
+        position.z += (sample.z * 2f - 1f) * HexMetrics.cellPerturbStrength;
+        return position;
+    }
+
 }
 
 

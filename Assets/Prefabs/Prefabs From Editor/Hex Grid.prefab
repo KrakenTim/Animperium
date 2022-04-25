@@ -51,6 +51,7 @@ MonoBehaviour:
   touchedColor: {r: 0.22841759, g: 0.6840788, b: 0.8207547, a: 1}
   cellPrefab: {fileID: 2558602782816838016, guid: 78afd61948726be40bc9a2d96ae829bf, type: 3}
   cellLabelPrefab: {fileID: 8258263730086729817, guid: 0c923b3976c68dc4ea2eebb21550f802, type: 3}
+  noiseSource: {fileID: 2800000, guid: 9c6fd078c9a7816449c32a8b7f6b3117, type: 3}
 --- !u!1 &2541496303431530990
 GameObject:
   m_ObjectHideFlags: 0
