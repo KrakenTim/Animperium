@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: BlasterPawnData
   m_EditorClassIdentifier: 
   type: 7
-  maxHealth: 5
-  maxMovement: 5
-  attackPower: 3
-  food: 0
-  spawnedPawns: 
-  learnsFight: 0
+  maxHealth: 9
+  maxMovement: 4
+  attackPower: 4
+  food: 30
+  spawnedPawn: 0
+  learnsFight: 8
   learnsMagic: 0
   learnsDigging: 0
   playerPrefabs: []

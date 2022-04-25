@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 861953c784eefcb48b40b867d6208ef9, type: 3}
   m_Name: TownHallPawnData
   m_EditorClassIdentifier: 
-  type: 1
-  maxHealth: 6
+  type: 100
+  maxHealth: 30
   maxMovement: 0
   attackPower: 0
   food: 0
-  spawnedPawns: 02000000
+  spawnedPawn: 1
+  learnsFight: 0
+  learnsMagic: 0
+  learnsDigging: 0
   playerPrefabs:
   - {fileID: 4729249582805918581, guid: bcac4d008d96e844b947ca36510aa30c, type: 3}
   - {fileID: 8381063769703048574, guid: f0540dadbdcd0f34e97eb9dc318761ab, type: 3}

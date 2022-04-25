@@ -22,6 +22,7 @@ public enum ePlayerPawnType
     SchoolDigging = 103,
     FarmHouse = 104,
     TunnelEntry = 105,
+    Wall = 106
 }
 
 public static class ePlayerPawnTypeExtensions
@@ -33,6 +34,6 @@ public static class ePlayerPawnTypeExtensions
 
     public static bool IsUnit(this ePlayerPawnType pawn)
     {
-        return pawn != ePlayerPawnType.NONE && (int)pawn < 100;
+        return (int)pawn < 100 && pawn != ePlayerPawnType.NONE;
     }
 }

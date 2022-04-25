@@ -127,7 +127,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log($"Clicked {PawnType} of Player {playerID} at HexPosition {hexCell.coordinates.ToString()}\n", this);
+        Debug.Log($"PlayerPawn\tClicked {PawnType}[P{playerID}]\n\t\t{hexCell.coordinates.ToString()}\n", this);
        
         GameInputManager.ClickedOnPawn(this);
     }

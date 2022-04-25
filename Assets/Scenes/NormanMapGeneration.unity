@@ -202,6 +202,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6522663}
   m_CullTransparentMesh: 1
+--- !u!114 &40437247 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2418226399125894294, guid: e45fe346a5a2d824fa0f3dbecbd2b805, type: 3}
+  m_PrefabInstance: {fileID: 2418226399335868789}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cedc5eb9b088854d9efb6b5543a7b9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &117687839
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,7 +225,7 @@ GameObject:
   - component: {fileID: 117687842}
   - component: {fileID: 117687841}
   m_Layer: 5
-  m_Name: Food
+  m_Name: FoodText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -236,8 +247,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 154.3, y: -0.5999985}
-  m_SizeDelta: {x: 100.412476, y: 50}
+  m_AnchoredPosition: {x: 215, y: 0}
+  m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &117687841
 MonoBehaviour:
@@ -259,7 +270,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Food
+  m_text: 0 Food
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -294,7 +305,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -366,12 +377,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1803358256}
-  m_RootOrder: 2
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -323.85, y: 0}
-  m_SizeDelta: {x: 38.559998, y: 100}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -106.25, y: -5}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &132793052
 MonoBehaviour:
@@ -975,6 +986,7 @@ GameObject:
   - component: {fileID: 579779217}
   - component: {fileID: 579779216}
   - component: {fileID: 579779218}
+  - component: {fileID: 579779219}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -995,16 +1007,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myHexGrid: {fileID: 1823811209}
-  pawnDatas: []
+  pawnDatas:
+  - {fileID: 11400000, guid: ab0bd7cec7ec7114cbe294451e3e28a8, type: 2}
+  - {fileID: 11400000, guid: d194206e442baab44b154f77cfdd7045, type: 2}
+  - {fileID: 11400000, guid: 219c0e54115317d4f83a2dfdb1552632, type: 2}
+  - {fileID: 11400000, guid: e8f99540da36897438ce8236d7e6966e, type: 2}
+  - {fileID: 11400000, guid: 945ac37ddbcd6444d87eb776c3b88460, type: 2}
+  - {fileID: 11400000, guid: df3c4f84d574a2040a9ca6b641e97838, type: 2}
+  - {fileID: 11400000, guid: 71aa9d8a7e10db845ab64fd89c8951cc, type: 2}
+  - {fileID: 11400000, guid: 5c57c310905e15341a24912b848ec175, type: 2}
   playerValueList:
   - playerID: 1
-    factionID: 0
+    factionID: 1
     playerColor: {r: 0.43921572, g: 0.7254902, b: 0.43137258, a: 1}
     playerIcon: {fileID: 21300000, guid: a2aae0341f0a30347a7781bf8c442a45, type: 3}
     food: 10
     ownedPawns: []
   - playerID: 2
-    factionID: 0
+    factionID: 2
     playerColor: {r: 0.82745105, g: 0.6745098, b: 0.38823533, a: 1}
     playerIcon: {fileID: 21300000, guid: f7e02fa41198c654bbbf4ecd6169ad4d, type: 3}
     food: 10
@@ -1035,9 +1055,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30f61e14d4b8e12469dd623555c7f01d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myInputMode: 0
-  selectedPawn: {fileID: 0}
+  selectedPawn: {fileID: 40437247}
   selectedHexCell: {fileID: 0}
+--- !u!114 &579779219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 579779215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0578ed20461d1254b9c1908a884feeda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &598442675
 GameObject:
   m_ObjectHideFlags: 0
@@ -1219,12 +1250,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1803358256}
-  m_RootOrder: 5
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -132.08313, y: 24.792234}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 50, y: 0}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &645980786
 MonoBehaviour:
@@ -2674,7 +2705,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Tolle Karte
+  m_text: PawnType
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2783,10 +2814,10 @@ RectTransform:
   m_Father: {fileID: 1803358256}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 260.2, y: -49.999992}
-  m_SizeDelta: {x: 341.33984, y: 80}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1204168837
 MonoBehaviour:
@@ -4090,7 +4121,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0.000045649565, y: 0}
-  m_SizeDelta: {x: 427.8, y: -20}
+  m_SizeDelta: {x: 425, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1708144719
 MonoBehaviour:
@@ -4188,10 +4219,10 @@ RectTransform:
   m_Children:
   - {fileID: 1560361383}
   - {fileID: 117687840}
-  - {fileID: 132793051}
+  - {fileID: 645980785}
   - {fileID: 1708144718}
   - {fileID: 1204168836}
-  - {fileID: 645980785}
+  - {fileID: 132793051}
   m_Father: {fileID: 1077577904}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5849,6 +5880,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3280613056838175751, guid: 283799bb2ea6efc479e26eebb71a0fb1, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433539748891793045, guid: 283799bb2ea6efc479e26eebb71a0fb1, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8251552487539041656, guid: 283799bb2ea6efc479e26eebb71a0fb1, type: 3}
       propertyPath: m_Name
       value: Hex Map Editor (Canvas)

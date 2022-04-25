@@ -58,3 +58,6 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# Project specific
+Assets/StreamingAssets/InputLogs
+Assets/StreamingAssets/InputLogs.meta

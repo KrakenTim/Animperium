@@ -30,10 +30,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] PlayerValues[] playerValueList;
 
     int activePlayerID = 1;
-    public static int CurrentPlayerID=> instance.activePlayerID;
+    public static int CurrentPlayerID => instance.activePlayerID;
 
     int activePlayerFactionID = 1;
     public static int CurrentFactionID => instance.activePlayerFactionID;
+
+    private int turn;
+    public static int Turn => instance ? instance.turn : -1;
 
     private void Awake()
     {
@@ -85,7 +88,39 @@ public class GameManager : MonoBehaviour
         if (TryGetPlayerValues(activePlayerID, out PlayerValues newPlayer))
             activePlayerFactionID = newPlayer.factionID;
 
+        turn += 1;
+
         TurnStarted?.Invoke(activePlayerID);
+    }
+
+    public static void SpawnPawn(PlayerPawn spawner, HexCell spawnPoint)
+    {
+        ePlayerPawnType spawnPawnType = spawner.Spawn;
+
+        PlayerPawnData spawnedPawn = null;
+
+        foreach (var data in instance.pawnDatas)
+        {
+            if (data.type == spawnPawnType)
+                spawnedPawn = data;
+        }
+
+        if (spawnedPawn == null) return;
+
+        bool isPossible = true;
+        // Check if the Player have enough resources
+        if (instance.TryGetPlayerValues(CurrentPlayerID, out PlayerValues playerResources))
+        {
+            if (spawnedPawn.food > playerResources.food)
+                isPossible = false;
+        }
+        if (isPossible == false) return;
+
+        playerResources.food -= spawnedPawn.food;
+        PlayerHUD.UpdateHUD(instance.activePlayerID);
+
+        PlayerPawn newPawn = Instantiate(spawnedPawn.GetPawnPrefap(instance.activePlayerID),
+            spawnPoint.transform.position, Quaternion.identity, instance.transform);
     }
 
     private bool TryGetPlayerValues(int playerID, out PlayerValues result)
@@ -95,9 +130,9 @@ public class GameManager : MonoBehaviour
             if (item.playerID == playerID)
             {
                 result = item;
-                return true; 
+                return true;
             }
-                
+
         }
 
         Debug.LogError("Values not found for Player " + playerID, instance);
