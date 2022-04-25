@@ -16,7 +16,7 @@ MonoBehaviour:
   pawnIcon: {fileID: 21300000, guid: 7ab8232a4cd231542aa854a5bcaf869b, type: 3}
   maxHealth: 5
   maxMovement: 4
-  attackPower: 200000
+  attackPower: 2
   resourceCosts:
     food: 10
   spawnedPawn: 0

@@ -1240,14 +1240,14 @@ MonoBehaviour:
     playerColor: {r: 0, g: 0.1387968, b: 1, a: 1}
     playerIcon: {fileID: 21300000, guid: a2aae0341f0a30347a7781bf8c442a45, type: 3}
     playerResources:
-      food: 50
+      food: 20
     ownedPawns: []
   - playerID: 2
     factionID: 2
     playerColor: {r: 0.990566, g: 0, b: 0.037627444, a: 1}
     playerIcon: {fileID: 21300000, guid: f7e02fa41198c654bbbf4ecd6169ad4d, type: 3}
     playerResources:
-      food: 50
+      food: 20
     ownedPawns: []
   activePlayerID: 1
   activePlayerFactionID: 1
@@ -1462,7 +1462,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &628363651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1522,7 +1522,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!224 &628363654
 RectTransform:
@@ -7322,7 +7322,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4729249582805918579, guid: bcac4d008d96e844b947ca36510aa30c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.65
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4729249582805918579, guid: bcac4d008d96e844b947ca36510aa30c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -7330,7 +7330,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4729249582805918579, guid: bcac4d008d96e844b947ca36510aa30c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.52
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4729249582805918579, guid: bcac4d008d96e844b947ca36510aa30c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7720,7 +7720,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8381063769703048568, guid: f0540dadbdcd0f34e97eb9dc318761ab, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 47.4
+      value: 104
       objectReference: {fileID: 0}
     - target: {fileID: 8381063769703048568, guid: f0540dadbdcd0f34e97eb9dc318761ab, type: 3}
       propertyPath: m_LocalPosition.y
@@ -7728,7 +7728,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8381063769703048568, guid: f0540dadbdcd0f34e97eb9dc318761ab, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 38.4
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 8381063769703048568, guid: f0540dadbdcd0f34e97eb9dc318761ab, type: 3}
       propertyPath: m_LocalRotation.w

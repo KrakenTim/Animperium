@@ -150,7 +150,7 @@ public class GameManager : MonoBehaviour
                              spot.transform.position, Quaternion.identity, instance.transform);
 
         // Pawn adds itself to the grid on the matching position.
-
+        newPawn.SetPlayer(playerID);
         return newPawn;
     }
 
