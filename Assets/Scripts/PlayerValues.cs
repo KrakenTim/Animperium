@@ -72,11 +72,8 @@ public class PlayerValues
     public bool HasResourcesToSpawn(PlayerPawnData spawnData)
     {
         // Check if the Player have enough resources
-        if (CanAfford(spawnData.resourceCosts))
-            return false;
+        return (CanAfford(spawnData.resourceCosts));
 
-        // all resources there
-        return true;
     }
 
     public bool CanAfford(GameResources resources)

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2459034771480838945}
   - component: {fileID: 2459034771480838950}
   - component: {fileID: 2459034771480838951}
-  - component: {fileID: 3147734229329961969}
+  - component: {fileID: 541562915468932762}
   m_Layer: 5
   m_Name: RessourceFood
   m_TagString: Untagged
@@ -102,7 +102,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3147734229329961969
+--- !u!114 &541562915468932762
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,5 +115,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
-  amount: 1
+  amount: 10
   hexCell: {fileID: 0}

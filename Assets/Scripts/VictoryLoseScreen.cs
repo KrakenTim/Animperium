@@ -12,6 +12,19 @@ using UnityEngine.SceneManagement;
 public class VictoryLoseScreen : MonoBehaviour
 {
     static VictoryLoseScreen instance;
+    /// <summary>
+    /// Seeks instance in Scene if it was set yet
+    /// </summary>
+    static VictoryLoseScreen Instance
+    {
+        get
+        { 
+            if (instance == null)
+                instance = FindObjectOfType<VictoryLoseScreen>(true);
+            return instance;
+        }
+    }
+
     [SerializeField] GameObject clickBlocker;
     [SerializeField] GameObject victory;
     [SerializeField] GameObject Lose;
@@ -35,8 +48,11 @@ public class VictoryLoseScreen : MonoBehaviour
 
     public static void ShowVictory(List<PlayerValues> winners)
     {
+        Instance.victory.SetActive(true);
 
-        instance.victory.SetActive(true);
+        if (!instance.victory.activeInHierarchy)
+            Debug.LogError("Victory Screen not visible is Canvas active?\n");
+
         instance.winnerIcon.sprite = winners[0].playerIcon;
         string winnerText = "Victory!";
 
