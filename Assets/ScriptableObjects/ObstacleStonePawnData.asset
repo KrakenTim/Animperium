@@ -10,17 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 861953c784eefcb48b40b867d6208ef9, type: 3}
-  m_Name: SneakerPawnData
+  m_Name: ObstacleStonePawnData
   m_EditorClassIdentifier: 
-  type: 6
-  pawnIcon: {fileID: 0}
-  maxHealth: 9
-  maxMovement: 4
-  attackPower: 4
-  resourceCosts:
-    food: 30
+  type: 200
+  maxHealth: 0
+  maxMovement: 0
+  attackPower: 0
+  food: 0
   spawnedPawn: 0
   learnsFight: 0
-  learnsMagic: 8
+  learnsMagic: 0
   learnsDigging: 0
   playerPrefabs: []

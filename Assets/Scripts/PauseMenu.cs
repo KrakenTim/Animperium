@@ -6,6 +6,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+/// <summary>
+/// Pause menu providing the functionality of several buttons.
+/// </summary>
 public class PauseMenu : MonoBehaviour
 {
     public GameObject PauseMenuUI;

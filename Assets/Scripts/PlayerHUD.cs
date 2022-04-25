@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Basic HUD which shows the player's resources and info about the currently selected or hovered unit.
+/// </summary>
 public class PlayerHUD : MonoBehaviour
 {
     private static PlayerHUD instance;
@@ -12,12 +15,15 @@ public class PlayerHUD : MonoBehaviour
     [Header("Pawn Info")]
     [SerializeField] GameObject pawnInfoRoot;
     [SerializeField] Image playerIcon;
+    [SerializeField] Image pawnIcon;
     [SerializeField] Image canActIcon;
+    [Space]
     [SerializeField] TMPro.TMP_Text pawnType;
     [SerializeField] TMPro.TMP_Text pawnHP;
     [SerializeField] TMPro.TMP_Text pawnMP;
 
     PlayerPawn selectedPawn;
+
     private void Awake()
     {
         instance = this;
@@ -39,7 +45,7 @@ public class PlayerHUD : MonoBehaviour
     {
         instance.background.color = GameManager.GetPlayerColor(playerID);
 
-        instance.foodAmount.text = GameManager.GetPlayerFood(playerID) + " Food";
+        instance.foodAmount.text = GameManager.GetPlayerResources(playerID).food + " Food";
     }
 
     private void UpdateSelectedPawn(PlayerPawn selectedPawn)
@@ -64,6 +70,7 @@ public class PlayerHUD : MonoBehaviour
         {
             pawnInfoRoot.SetActive(false);
             playerIcon.enabled = false;
+            pawnIcon.enabled = false;
             canActIcon.enabled = false;
             return;
         }
@@ -71,9 +78,11 @@ public class PlayerHUD : MonoBehaviour
         {
             pawnInfoRoot.SetActive(true);
             playerIcon.enabled = true;
+            pawnIcon.enabled = true;
         }
 
         playerIcon.sprite = selectedPawn.PlayerIcon;
+        pawnIcon.sprite = selectedPawn.PawnIcon;
         canActIcon.enabled = selectedPawn.CanAct;
         pawnType.text = selectedPawn.PawnType.ToString();
 
@@ -84,7 +93,7 @@ public class PlayerHUD : MonoBehaviour
 
     public void Button_EndTurn()
     {
-        var message = InputMessageGenerator.CreateGeneralMessage(ePlayeractionType.EndTurn);
+        var message = InputMessageGenerator.CreateBasicMessage(ePlayeractionType.EndTurn);
         InputMessageExecuter.Send(message);
     }
 }

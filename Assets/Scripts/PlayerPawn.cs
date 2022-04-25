@@ -7,20 +7,27 @@ using UnityEngine.EventSystems;
 public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] PlayerPawnData pawnData;
+
+    public ePlayerPawnType PawnType => pawnData.type;
     public int MaxHealth => pawnData.maxHealth;
     public int MaxMovement => pawnData.maxMovement;
     public int AttackPower => pawnData.attackPower;
-    public ePlayerPawnType PawnType => pawnData.type;
-    public bool IsBuilding => PawnType.IsBuilding();
-    public bool IsUnit => PawnType.IsUnit();
     public ePlayerPawnType Spawn => pawnData.spawnedPawn;
 
+    public bool IsBuilding => PawnType.IsBuilding();
+    public bool IsUnit => PawnType.IsUnit();
+
+    /// <summary>
+    /// Returns Pawn Icon if not null else it's the Players Icon
+    /// </summary>
+    public Sprite PawnIcon => (pawnData.pawnIcon != null) ? pawnData.pawnIcon : GameManager.GetPlayerIcon(PlayerID);
+    /// <summary>
+    /// Returns the players individual icon.
+    /// </summary>
+    public Sprite PlayerIcon => GameManager.GetPlayerIcon(playerID);
 
     [SerializeField] int playerID;
-    public Sprite PlayerIcon => GameManager.GetPlayerIcon(playerID);
     public int PlayerID => playerID;
-    [SerializeField] int factionID;
-
 
     [Space]
     [SerializeField] int currentHealth;
@@ -30,18 +37,14 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
     [SerializeField] bool actedAlready = false;
     public bool CanAct => !actedAlready;
-
-
-
-
-
+    [Space]
     [SerializeField] HexCell hexCell;
     public HexCell HexCell => hexCell;
-    public HexCoordinates HexCoordinates => hexCell.coordinates;
+    public HexCoordinates HexCoordinates => hexCell ? hexCell.coordinates : new HexCoordinates(0, 0);
 
-    public bool IsPlayerPawn => playerID == GameManager.CurrentPlayerID;
+    public virtual bool IsPlayerPawn => playerID == GameManager.CurrentPlayerID;
 
-    public bool IsEnemy => factionID != GameManager.CurrentFactionID;
+    public virtual bool IsEnemy => GameManager.IsEnemy(PlayerID);
 
     // Start is called before the first frame update
     void Start()
@@ -49,15 +52,23 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         currentHealth = MaxHealth;
         movementPoints = MaxMovement;
 
-        GameManager.AddPawn(this);
+        if (!PawnType.IsNonPlayer())
+            GameManager.AddPlayerPawn(this);
 
         if (hexCell == null)
             SetHexCell(GameManager.GetHexCell(transform.position));
+
+        Debug.Log(ToString());
     }
-    public void SetOwner(int playerID, int fractionID)
+
+    /// <summary>
+    /// Set the changing variable values of the pawn (HP, MP, etc.).
+    /// </summary>
+    public void Initialize(int hp, int mp, bool canAct)
     {
-        this.playerID = playerID;
-        this.factionID = fractionID;
+        currentHealth = hp;
+        movementPoints = mp;
+        actedAlready = canAct;
     }
 
     public void SetHexCell(HexCell cell)
@@ -68,9 +79,15 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         hexCell = cell;
 
         if (cell != null)
+        {
             cell.SetPawn(this);
+            UpdatePosition();
+        }
+    }
 
-        UpdatePosition();
+    public bool CanLearn(eKnowledge newKnowledge, out ePlayerPawnType newType)
+    {
+        return pawnData.CanLearn(newKnowledge, out newType);
     }
 
     public void Attack(PlayerPawn victim)
@@ -84,6 +101,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     {
         actedAlready = true;
         PlayerHUD.UpdateShownPawn();
+
+        MoveTo(resource.HexCell);
 
         resource.Harvest();
     }
@@ -105,9 +124,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         {
             GameManager.RemovePawn(this);
 
-            SetHexCell(null);
-
-            Destroy(gameObject);
+            GameManager.CheckIfGameEnds(PlayerID);
         }
     }
 
@@ -125,20 +142,25 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
             Debug.LogError("Tried to Update Position without HexCell", this);
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public virtual void OnPointerDown(PointerEventData eventData)
     {
         Debug.Log($"PlayerPawn\tClicked {PawnType}[P{playerID}]\n\t\t{hexCell.coordinates.ToString()}\n", this);
-       
+
         GameInputManager.ClickedOnPawn(this);
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public virtual void OnPointerEnter(PointerEventData eventData)
     {
         PlayerHUD.HoverPawn(this);
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public virtual void OnPointerExit(PointerEventData eventData)
     {
         PlayerHUD.UpdateShownPawn();
+    }
+
+    public override string ToString()
+    {
+        return $"{gameObject.name}[{PawnType},Player:{PlayerID}, Position:{HexCoordinates},{HP}HP, {MP}MP, CanAct:{CanAct}]";
     }
 }

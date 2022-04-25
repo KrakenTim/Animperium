@@ -91,9 +91,9 @@ public static class BalanceTableImport
 
         // resource costs
 
-        if (TryParse(pawnTableRow, COLUMN_FoodCost, out nextValue) && pawnData.food != nextValue)
+        if (TryParse(pawnTableRow, COLUMN_FoodCost, out nextValue) && pawnData.resourceCosts.food != nextValue)
         {
-            pawnData.food = nextValue;
+            pawnData.resourceCosts.food = nextValue;
             wasChanged = true;
         }
 
