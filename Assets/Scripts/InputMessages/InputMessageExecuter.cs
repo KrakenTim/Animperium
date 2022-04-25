@@ -4,10 +4,13 @@ using UnityEngine;
 
 public static class InputMessageExecuter
 {
-    public static event System.Action<string> RecievedMessage;
+    public static event System.Action<string> RecievedOrder;
 
     private static HexGrid HexGrid => GameManager.HexGrid;
 
+    /// <summary>
+    /// Sends the given message out, currently to itself since we've only got hotseat mode.
+    /// </summary>
     public static void Send(InputMessage message)
     {
         //TODO(14.04.2022): add non hotseat stuff here
@@ -15,15 +18,27 @@ public static class InputMessageExecuter
         Recieve(message.ToString());
     }
 
+    /// <summary>
+    /// Tries to parse the given message into an executable order, if successful executes it.
+    /// </summary>
     public static void Recieve(string messageString)
     {
-        RecievedMessage?.Invoke(messageString);
-
         if (!InputMessageInterpreter.TryParseMessage(messageString, out InputMessage order))
         {
-            Debug.LogError("MessageExecuter\t recieved unexpected message.\n\t\t" + messageString);
+            Debug.LogError("MessageExecuter\tRecieved message that couldn't be parsed.\n\t\t" + messageString);
             return;
         }
+
+        Execute(order);
+    }
+
+    /// <summary>
+    /// Executes the given input message.
+    /// Keep in mind that calling this directly in hotseat might hide errors in the InputMessage parsing.
+    /// </summary>
+    public static void Execute(InputMessage order)
+    {
+        RecievedOrder?.Invoke(order.ToString());
 
         if (order.IsOnHexGrid)
             ExecuteHexMessage(order);
@@ -65,6 +80,9 @@ public static class InputMessageExecuter
         }
     }
 
+    /// <summary>
+    /// Executes a Inputmessage unrelated to the Hex Grid
+    /// </summary>
     private static void ExecuteGeneralMessage(InputMessage generalOrder)
     {
         switch (generalOrder.action)

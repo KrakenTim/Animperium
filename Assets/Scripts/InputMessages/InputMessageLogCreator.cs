@@ -22,12 +22,12 @@ public class InputMessageLogCreator : MonoBehaviour
 
     private void Awake()
     {
-        InputMessageExecuter.RecievedMessage += RecievedMessage;
+        InputMessageExecuter.RecievedOrder += RecievedMessage;
     }
 
     private void OnDestroy()
     {
-        InputMessageExecuter.RecievedMessage -= RecievedMessage;
+        InputMessageExecuter.RecievedOrder -= RecievedMessage;
 
         ClearLogsExceptNewest(logLimit);
     }
