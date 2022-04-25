@@ -151,6 +151,7 @@ public class GameManager : MonoBehaviour
 
         // Pawn adds itself to the grid on the matching position.
         newPawn.SetPlayer(playerID);
+
         return newPawn;
     }
 

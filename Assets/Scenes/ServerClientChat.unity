@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9766748}
   - component: {fileID: 9766747}
+  - component: {fileID: 9766749}
   m_Layer: 0
   m_Name: ServerConnection
   m_TagString: Untagged
@@ -167,6 +168,12 @@ MonoBehaviour:
   ReceivedCommandEvent:
     m_PersistentCalls:
       m_Calls: []
+  RoomCreatedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  RoomJoinedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &9766748
 Transform:
   m_ObjectHideFlags: 0
@@ -181,6 +188,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9766749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9766746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b423a3326bac0cf4fa5c108803d53b7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &66866195
 GameObject:
   m_ObjectHideFlags: 0

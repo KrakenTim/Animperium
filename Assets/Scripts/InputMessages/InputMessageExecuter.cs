@@ -19,9 +19,10 @@ public static class InputMessageExecuter
     /// </summary>
     public static void Send(InputMessage message)
     {
-        //TODO(14.04.2022): add non hotseat stuff here
-
-        Recieve(message.ToString());
+        if (OnlineGameMessageForwarder.IsOnlineGame)
+            OnlineGameMessageForwarder.SendCommand(message.ToString());
+        else // Hot Seat
+            Recieve(message.ToString());
     }
 
     /// <summary>
@@ -98,6 +99,9 @@ public static class InputMessageExecuter
                 GameManager.EndTurn();
                 break;
 
+            case ePlayeractionType.StartGame:
+                OnlineGameMessageForwarder.PrepareGame();
+                break;
             default:
                 Debug.LogError($"MessageExecuter\t{nameof(ExecuteGeneralMessage)} UNDEFINED for {generalOrder.action}\n");
                 break;
