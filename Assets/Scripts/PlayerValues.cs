@@ -22,8 +22,15 @@ public class PlayerValues
 
     public string Name => "Player" + playerID;
 
+    public void GiveUp()
+    {
+        hasLost = true;
+    }
+
     public bool CheckIfHasLost()
     {
+        if (hasLost) return true;
+
         int units = 0;
         bool townHall = false;
 

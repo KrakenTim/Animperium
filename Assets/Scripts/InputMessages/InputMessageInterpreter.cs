@@ -23,6 +23,12 @@ public static class InputMessageInterpreter
             return false;
         }
 
+        if (!int.TryParse(splitMessage[InputMessage.POSITIONSenderLocalID], out inputMessage.senderLocalID))
+        {
+            Debug.Log($"Interpreter\tCouldn't interpret SenderLocalID '{splitMessage[InputMessage.POSITIONSenderLocalID]}'.\n\t\t{message}");
+            return false;
+        }
+
         // get action
         if (!System.Enum.TryParse(splitMessage[InputMessage.POSITIONAction], out inputMessage.action))
         {

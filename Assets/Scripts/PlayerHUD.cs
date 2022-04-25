@@ -93,6 +93,8 @@ public class PlayerHUD : MonoBehaviour
 
     public void Button_EndTurn()
     {
+        if (!GameManager.InputAllowed) return;
+
         var message = InputMessageGenerator.CreateBasicMessage(ePlayeractionType.EndTurn);
         InputMessageExecuter.Send(message);
     }

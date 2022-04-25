@@ -6,6 +6,8 @@ using TMPro;
 
 public class UIList : MonoBehaviour
 {
+    public const char SPLITSYMBOL = '&';
+
     [SerializeField] protected GameObject ListItemPrefab;
 
     private ScrollRect scrollRectangle;
@@ -30,7 +32,7 @@ public class UIList : MonoBehaviour
     {
         Clear();
 
-        string[] items = _itemList.Split('&');
+        string[] items = _itemList.Split(SPLITSYMBOL);
 
         for (int i = 0; i < items.Length; i++)
         {

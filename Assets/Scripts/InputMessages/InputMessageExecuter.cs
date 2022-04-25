@@ -102,6 +102,11 @@ public static class InputMessageExecuter
             case ePlayeractionType.StartGame:
                 OnlineGameManager.PrepareGame();
                 break;
+
+            case ePlayeractionType.Resign:
+                GameManager.PlayerResigned(generalOrder.senderLocalID);
+                break;
+
             default:
                 Debug.LogError($"MessageExecuter\t{nameof(ExecuteGeneralMessage)} UNDEFINED for {generalOrder.action}\n");
                 break;

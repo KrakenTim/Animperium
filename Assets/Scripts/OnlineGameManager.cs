@@ -9,18 +9,37 @@ public class OnlineGameManager : MonoBehaviour
 
     public static bool IsOnlineGame => instance != null;
 
+    public static int LocalPlayerID { get; private set; }
+
+    string[] players;
+    string myNameOnServer;
+
     private void Awake()
     {
         instance = this;
-
+     
         ServerConnection.Instance.ReceivedCommandEvent.AddListener(ReceiveCommand);
+        ServerConnection.Instance.ReceivedRoomPlayerListEvent.AddListener(OnReceivedRoomPlayerList);
+        ServerConnection.Instance.ReceivedPlayerInfoEvent.AddListener(UpdateNameOnServer);
     }
 
     private void OnDestroy()
     {
         ServerConnection.Instance.ReceivedCommandEvent.RemoveListener(ReceiveCommand);
+        ServerConnection.Instance.ReceivedRoomPlayerListEvent.RemoveListener(OnReceivedRoomPlayerList);
+        ServerConnection.Instance.ReceivedPlayerInfoEvent.RemoveListener(UpdateNameOnServer);
 
         if (instance == this) instance = null;
+    }
+
+    private void OnReceivedRoomPlayerList(string message)
+    {
+        players = message.Split(UIList.SPLITSYMBOL);
+    }
+
+    private void UpdateNameOnServer(string myName)
+    {
+        myNameOnServer = myName;
     }
 
     public static void SendCommand(string message)
@@ -28,13 +47,19 @@ public class OnlineGameManager : MonoBehaviour
         ServerConnection.Instance.SendCommand(message);
     }
 
-    private void ReceiveCommand(string message)
+    private void ReceiveCommand(string sender, string message)
     {
         InputMessageExecuter.Recieve(message);
     }
 
     public void Button_StartGame()
     {
+        for (int i = 0; i < instance.players.Length; i++)
+        {
+            if (instance.players[i] == instance.myNameOnServer)
+                LocalPlayerID = i;
+        }
+
         InputMessage message = InputMessageGenerator.CreateBasicMessage(ePlayeractionType.StartGame);
 
         SendCommand(message.ToString());
@@ -42,6 +67,16 @@ public class OnlineGameManager : MonoBehaviour
 
     public static void PrepareGame()
     {
+        for (int i = 0; i < instance.players.Length; i++)
+        {
+            if (instance.players[i] == instance.myNameOnServer)
+                LocalPlayerID = i;
+        }
+
+        Debug.Log($"My Name {instance.myNameOnServer}, My localID {LocalPlayerID}");
+
+        //LocalPlayerID = 
+
         SceneManager.LoadScene("NormanMapGeneration");
     }
 }
