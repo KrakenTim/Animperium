@@ -274,6 +274,12 @@ public class GameManager : MonoBehaviour
                 case eRessourceType.Food:
                     result.playerResources.food += amount;
                     break;
+                case eRessourceType.Wood:
+                    result.playerResources.wood += amount;
+                    break;
+                case eRessourceType.Ore:
+                    result.playerResources.ore += amount;
+                    break;
                 default:
                     Debug.LogError("AddResource UNDEFINED for " + resource);
                     return;
