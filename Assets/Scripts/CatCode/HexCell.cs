@@ -16,11 +16,31 @@ public class HexCell : MonoBehaviour
 {
     public HexCoordinates coordinates;
 
+    public Color Color
+    {
+        get
+        {
+            return color;
+        }
+        set
+        {
+            if (color == value)
+            {
+                return;
+            }
+            color = value;
+            Refresh();
+        }
+    }
+    //    public Color color;
     public Color color;
+    Color color2;
 
     int elevation;
 
     public RectTransform uiRect;
+
+    public HexGridChunk chunk;
 
     #region Not in Tutorial
 
@@ -49,6 +69,7 @@ public class HexCell : MonoBehaviour
         neighbors[(int)direction] = cell;
         cell.neighbors[(int)direction.Opposite()] = this;
     }
+
     public int Elevation
     {
         get
@@ -57,6 +78,11 @@ public class HexCell : MonoBehaviour
         }
         set
         {
+/*	        int elevation = int.MinValue;
+            if (elevation == value)
+            {
+                return;
+            }*/
             elevation = value;
             Vector3 position = transform.localPosition;
             position.y = value * HexMetrics.elevationStep;
@@ -66,6 +92,7 @@ public class HexCell : MonoBehaviour
             Vector3 uiPosition = uiRect.localPosition;
             uiPosition.z = -position.y;
             uiRect.localPosition = uiPosition;
+            Refresh();
         }
     }
     public Vector3 Position
@@ -82,6 +109,22 @@ public class HexCell : MonoBehaviour
     public HexEdgeType GetEdgeType(HexCell otherCell)
     {
         return HexMetrics.GetEdgeType(elevation, otherCell.elevation);
+    }
+
+    void Refresh()
+    {
+        if (chunk)
+        {
+            chunk.Refresh();
+            for (int i = 0; i < neighbors.Length; i++)
+            {
+                HexCell neighbor = neighbors[i];
+                if (neighbor != null && neighbor.chunk != chunk)
+                {
+                    neighbor.chunk.Refresh();
+                }
+            }
+        }
     }
 
     #region Not in Tutorial

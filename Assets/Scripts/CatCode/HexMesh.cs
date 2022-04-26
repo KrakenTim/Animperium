@@ -6,18 +6,19 @@ public class HexMesh : MonoBehaviour
 {
     Mesh hexMesh;
     MeshCollider meshCollider;
-    List<Vector3> vertices;
-    List<int> triangles;
-    List<Color> colors;
+    static List<Vector3> vertices = new List<Vector3>();
+    static List<Color> colors = new List<Color>();
+    static List<int> triangles = new List<int>();
+
 
     void Awake()
     {
         GetComponent<MeshFilter>().mesh = hexMesh = new Mesh();
         meshCollider = gameObject.AddComponent<MeshCollider>();
         hexMesh.name = "Hex Mesh";
-        vertices = new List<Vector3>();
-        colors = new List<Color>();
-        triangles = new List<int>();
+        //		vertices = new List<Vector3>();
+        //		colors = new List<Color>();
+        //		triangles = new List<int>();
     }
 
     public void Triangulate(HexCell[] cells)
@@ -383,26 +384,3 @@ public class HexMesh : MonoBehaviour
 }
 
 
-/*
-    void Triangulate(HexDirection direction, HexCell cell)
-    {
-        Vector3 center = cell.Position;
-        Vector3 v1 = center + HexMetrics.GetFirstSolidCorner(direction);
-        Vector3 v2 = center + HexMetrics.GetSecondSolidCorner(direction);
-
-        Vector3 e1 = Vector3.Lerp(v1, v2, 1f / 3f);
-        Vector3 e2 = Vector3.Lerp(v1, v2, 2f / 3f);
-
-        AddTriangle(center, v1, e1);
-        AddTriangleColor(cell.color);
-        AddTriangle(center, e1, e2);
-        AddTriangleColor(cell.color);
-        AddTriangle(center, e2, v2);
-        AddTriangleColor(cell.color);
-
-        if (direction <= HexDirection.SE)
-        {
-            TriangulateConnection(direction, cell, v1, e1, e2, v2);
-        }
-    }
-*/
