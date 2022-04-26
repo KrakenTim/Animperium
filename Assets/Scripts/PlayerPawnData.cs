@@ -19,6 +19,7 @@ public class PlayerPawnData : ScriptableObject
 
     [Header("Costs")]
     public GameResources resourceCosts;
+    public int populationCount;
 
     [Header("Spawns")]
     [SerializeField] public ePlayerPawnType spawnedPawn;
