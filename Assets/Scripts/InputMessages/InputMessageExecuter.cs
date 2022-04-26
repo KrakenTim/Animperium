@@ -2,9 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Sends and recieves InputMessages. Executes InputMessages by calling the given action.
+/// </summary>
 public static class InputMessageExecuter
 {
-    public static event System.Action<string> RecievedOrder;
+    /// <summary>
+    /// Called if a recieved InputMessage could be parsed and will be executed.
+    /// </summary>
+    public static event System.Action<string> RecievedInputMessage;
 
     private static HexGrid HexGrid => GameManager.HexGrid;
 
@@ -13,9 +19,10 @@ public static class InputMessageExecuter
     /// </summary>
     public static void Send(InputMessage message)
     {
-        //TODO(14.04.2022): add non hotseat stuff here
-
-        Recieve(message.ToString());
+        if (OnlineGameManager.IsOnlineGame)
+            OnlineGameManager.SendCommand(message.ToString());
+        else // Hot Seat
+            Recieve(message.ToString());
     }
 
     /// <summary>
@@ -38,7 +45,7 @@ public static class InputMessageExecuter
     /// </summary>
     public static void Execute(InputMessage order)
     {
-        RecievedOrder?.Invoke(order.ToString());
+        RecievedInputMessage?.Invoke(order.ToString());
 
         if (order.IsOnHexGrid)
             ExecuteHexMessage(order);
@@ -72,6 +79,7 @@ public static class InputMessageExecuter
                 GameManager.SpawnPawn(startPawn, targetCell);
                 break;
             case ePlayeractionType.Learn:
+                GameManager.UpgradePawn(startPawn, targetPawn);
                 break;
 
             default:
@@ -89,6 +97,14 @@ public static class InputMessageExecuter
         {
             case ePlayeractionType.EndTurn:
                 GameManager.EndTurn();
+                break;
+
+            case ePlayeractionType.StartGame:
+                OnlineGameManager.PrepareGame();
+                break;
+
+            case ePlayeractionType.Resign:
+                GameManager.PlayerResigned(generalOrder.senderLocalID);
                 break;
 
             default:

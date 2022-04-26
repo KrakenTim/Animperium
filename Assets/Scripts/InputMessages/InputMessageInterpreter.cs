@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Provides method to parse InputMessage from a given string, if possible.
+/// </summary>
 public static class InputMessageInterpreter
 {
     /// <summary>
-    /// Tries to understand given message, returns true if sucessfull
+    /// Tries to understand given input message, returns true if sucessfull.
     /// </summary>
     public static bool TryParseMessage(string message, out InputMessage inputMessage)
     {
@@ -17,6 +20,12 @@ public static class InputMessageInterpreter
         if (splitMessage.Length != InputMessage.PARTCount)
         {
             Debug.Log($"Interpreter\tMessage didn't consist of {InputMessage.PARTCount} parts.\n\t\t{message}");
+            return false;
+        }
+
+        if (!int.TryParse(splitMessage[InputMessage.POSITIONSenderLocalID], out inputMessage.senderLocalID))
+        {
+            Debug.Log($"Interpreter\tCouldn't interpret SenderLocalID '{splitMessage[InputMessage.POSITIONSenderLocalID]}'.\n\t\t{message}");
             return false;
         }
 
@@ -53,7 +62,7 @@ public static class InputMessageInterpreter
     }
 
     /// <summary>
-    /// Tries to parse given string to a Hex Coordinate
+    /// Tries to parse given string to a Hex Coordinate.
     /// </summary>
     private static bool TryParseHexCoordinate(string coordinateString, out HexCoordinates hexCoordinates)
     {

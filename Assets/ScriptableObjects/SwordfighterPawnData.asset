@@ -13,12 +13,18 @@ MonoBehaviour:
   m_Name: SwordfighterPawnData
   m_EditorClassIdentifier: 
   type: 2
+  pawnIcon: {fileID: 0}
   maxHealth: 8
   maxMovement: 5
   attackPower: 3
+  resourceCosts:
+    food: 20
   food: 20
   spawnedPawn: 0
   learnsFight: 0
   learnsMagic: 5
   learnsDigging: 6
-  playerPrefabs: []
+  playerPrefabs:
+  - {fileID: 0}
+  - {fileID: 7044294374554152587, guid: ede3564ad04ddb44f81ac39ef4afa07e, type: 3}
+  - {fileID: 2881751687691302302, guid: c6520623fc48b554f814931f802b845f, type: 3}

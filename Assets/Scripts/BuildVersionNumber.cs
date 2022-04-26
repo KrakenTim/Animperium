@@ -1,13 +1,19 @@
 using System;
 using System.IO;
 using TMPro;
+
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Build;
-using UnityEditor.Build.Reporting;
 #endif
+
 using UnityEngine;
 
+/// <summary>
+/// Fills a given Text with information about the version and when the last build was made
+/// from a version txt in the StreamingAssets folder.
+/// Creates/Updates said version.txt when a build is started.
+/// </summary>
 #if UNITY_EDITOR
 public class BuildVersionNumber : MonoBehaviour, IPreprocessBuildWithReport
 #else
@@ -75,7 +81,12 @@ public class BuildVersionNumber : MonoBehaviour
 
 #if UNITY_EDITOR
     public int callbackOrder => 0;
-    public void OnPreprocessBuild(BuildReport report)
+    /// <summary>
+    /// Called before a build is started.
+    /// Writes the date version and buildnumber into a version.txt in the Streaming Assets folder.
+    /// Also removes Splashscreen if possible and clears the Playerprefs if wanted.
+    /// </summary>
+    public void OnPreprocessBuild(UnityEditor.Build.Reporting.BuildReport report)
     {
 #if UNITY_PRO_LICENSE
         if (PlayerSettings.SplashScreen.show)

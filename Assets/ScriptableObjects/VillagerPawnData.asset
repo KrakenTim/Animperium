@@ -13,14 +13,17 @@ MonoBehaviour:
   m_Name: VillagerPawnData
   m_EditorClassIdentifier: 
   type: 1
+  pawnIcon: {fileID: 21300000, guid: 7ab8232a4cd231542aa854a5bcaf869b, type: 3}
   maxHealth: 5
   maxMovement: 4
   attackPower: 2
-  food: 10
+  resourceCosts:
+    food: 10
   spawnedPawn: 0
   learnsFight: 2
   learnsMagic: 3
   learnsDigging: 4
   playerPrefabs:
-  - {fileID: 2418226399125894295, guid: e45fe346a5a2d824fa0f3dbecbd2b805, type: 3}
-  - {fileID: 8352560724993282687, guid: 5ab289a2c549fed4da1460373b694b0e, type: 3}
+  - {fileID: 0}
+  - {fileID: 1321117383620778759, guid: e45fe346a5a2d824fa0f3dbecbd2b805, type: 3}
+  - {fileID: 42655587543076885, guid: 5ab289a2c549fed4da1460373b694b0e, type: 3}

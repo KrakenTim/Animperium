@@ -9,11 +9,12 @@ using System.Text;
 
 public class ServerConnection : MonoBehaviour
 {
+    public UnityEvent<string> ReceivedPlayerInfoEvent = new UnityEvent<string>();
     public UnityEvent<string> ReceivedServerRoomListEvent = new UnityEvent<string>();
     public UnityEvent<string> ReceivedServerPlayerListEvent = new UnityEvent<string>();
     public UnityEvent<string> ReceivedRoomPlayerListEvent = new UnityEvent<string>();
-    public UnityEvent<string> ReceivedTextMessageEvent = new UnityEvent<string>();
-    public UnityEvent<string> ReceivedCommandEvent = new UnityEvent<string>();
+    public UnityEvent<string, string> ReceivedTextMessageEvent = new UnityEvent<string, string>();
+    public UnityEvent<string, string> ReceivedCommandEvent = new UnityEvent<string, string>();
     public UnityEvent<string> RoomCreatedEvent = new UnityEvent<string>();
     public UnityEvent<string> RoomJoinedEvent = new UnityEvent<string>();
 
@@ -74,62 +75,76 @@ public class ServerConnection : MonoBehaviour
         {
             streamDataBuffer = new Byte[256];
             string receivedData = "";
-            string[] receivedCommands = new string [0];
             try
             {
                 if (networktStream.DataAvailable)
                 {
                     int bytesData = this.networktStream.Read(streamDataBuffer, 0, streamDataBuffer.Length);
-                    receivedData = Encoding.UTF8.GetString(streamDataBuffer, 0, streamDataBuffer.Length);
-
+                    receivedData = Encoding.UTF8.GetString(streamDataBuffer, 0, bytesData);
 
                     //receivedData = commandBuffer + receivedData;
-                    receivedCommands = receivedData.Split(new char[] { ';' }, 2);
-                    if (receivedCommands.Length > 1)
-                        commandBuffer = receivedCommands[1];
+                    string[] receivedCommands = receivedData.Split(';');
 
-                    string[] splittedMessage = receivedCommands[0].Split(new char[] { '|' }, 2);
+                    //if (receivedCommands.Length > 1)
+                    //    commandBuffer = receivedCommands[1];
 
-                    if (splittedMessage.Length == 1)
+                    for (int i = 0; i < receivedCommands.Length; i++)
                     {
-                        Debug.Log("No parameter sent!\nCommand: " + splittedMessage[0]);
-                        splittedMessage = new string[2] { splittedMessage[0], "" };
+                        if (receivedCommands[i] == string.Empty)
+                            continue;
+                        string[] splittedData = receivedCommands[i].Split('|');
+                        if (splittedData[0] != "HEARTBEAT")
+                        {
+                            Debug.Log("Received command: " + receivedCommands[i]);
+                        }
+                        InterpretMessage(splittedData);
                     }
 
-                    switch (splittedMessage[0])
-                    {
-                        case "ROOM_PLAYERLIST":
-                            ReceivedRoomPlayerListEvent.Invoke(splittedMessage[1]);
-                            Debug.Log("Received data: " + receivedData);
-                            break;
-                        case "SERVER_ROOMLIST":
-                            ReceivedServerRoomListEvent.Invoke(splittedMessage[1]);
-                            Debug.Log("Received data: " + receivedData);
-                            break;
-                        case "SERVER_PLAYERLIST":
-                            ReceivedServerPlayerListEvent.Invoke(splittedMessage[1]);
-                            Debug.Log("Received data: " + receivedData);
-                            break;
-                        case "TEXTMESSAGE":
-                            ReceivedTextMessageEvent.Invoke(splittedMessage[1]);
-                            Debug.Log("Received data: " + receivedData);
-                            break;
-                        case "COMMAND":
-                            ReceivedCommandEvent.Invoke(splittedMessage[1]);
-                            break;
-                        case "HEARTBEAT":
-                            break;
-                        default:
-                            Console.WriteLine("Can't interpret received data!\nReceived Data: " + receivedData + "\nCommand: " + receivedCommands[0]);
-                            break;
-                    }
+                    //if (splittedMessage.Length == 1)
+                    //{
+                    //    Debug.Log("No parameter sent!\nCommand: " + splittedMessage[0]);
+                    //    splittedMessage = new string[3] { splittedMessage[0], "", "" };
+                    //}
+
+
                 }
             }
             catch (Exception e)
             {
-                Debug.Log("Reading Connection Error: " + e + "\nReceived Data: " + receivedData + "\nCommand: " + receivedCommands[0]);
+                //Debug.Log("Reading Connection Error: " + e + "\nReceived Data: " + receivedData + "\nCommand: " + receivedCommands[0]);
+                Debug.Log("Reading Connection Error: " + e + "\nReceived Data: " + receivedData);
             }
             yield return new WaitForSeconds(0.05f);
+        }
+    }
+
+    private void InterpretMessage(string[] _message)
+    {
+        switch (_message[0])
+        {
+            case "PLAYER_INFO":
+                ReceivedPlayerInfoEvent.Invoke(_message[1]);
+                break;
+            case "ROOM_PLAYERLIST":
+                ReceivedRoomPlayerListEvent.Invoke(_message[1]);
+                break;
+            case "SERVER_ROOMLIST":
+                ReceivedServerRoomListEvent.Invoke(_message[1]);
+                break;
+            case "SERVER_PLAYERLIST":
+                ReceivedServerPlayerListEvent.Invoke(_message[1]);
+                break;
+            case "TEXTMESSAGE": //1: Sender Player Name, 2: Text Message
+                ReceivedTextMessageEvent.Invoke(_message[1], _message[2]);
+                break;
+            case "COMMAND": //1: Sender Player Name, 2: Command
+                ReceivedCommandEvent.Invoke(_message[1], _message[2]);
+                break;
+            case "HEARTBEAT":
+                break;
+            default:
+                Console.WriteLine("Can't interpret received message!\nMessage: " + _message);
+                break;
         }
     }
 
@@ -165,10 +180,10 @@ public class ServerConnection : MonoBehaviour
 
         networktStream.Write(msg, 0, msg.Length);
 
-        if (_message.Split('|')[0] != "HEARTBEAT")
-        {
-            Debug.Log("Sent to server:\n" + _message);
-        }        
+        //if (_message.Split('|')[0] != "HEARTBEAT")
+        //{
+        //    Debug.Log("Sent to server:\n" + _message);
+        //}        
     }
 
     #region Sender

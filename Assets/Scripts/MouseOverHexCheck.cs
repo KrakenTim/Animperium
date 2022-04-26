@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// Simple class telling if the cursor is currently over a hex grid field or not.
+/// </summary>
 public class MouseOverHexCheck : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public static bool onHex;
+    public static bool IsOnHex { get; private set; }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        onHex = true;
-     //   Debug.Log("overHex" + overHex);
+        IsOnHex = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        onHex=false;
-     //   Debug.Log("overHex" + overHex);
+        IsOnHex = false;
     }
-
 }

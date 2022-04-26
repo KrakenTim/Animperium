@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
+/// <summary>
+/// Provides methods for the buttons in the main menu.
+/// </summary>
 public class MainMenu : MonoBehaviour
 {
     public AudioSource ButtonSound;
@@ -25,7 +26,4 @@ public class MainMenu : MonoBehaviour
     {
         ButtonSound.Play();
     }
-
-
-
 }

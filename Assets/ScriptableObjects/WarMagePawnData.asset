@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: WarMagePawnData
   m_EditorClassIdentifier: 
   type: 5
+  pawnIcon: {fileID: 0}
   maxHealth: 7
   maxMovement: 3
   attackPower: 4
-  food: 30
+  resourceCosts:
+    food: 30
   spawnedPawn: 0
   learnsFight: 0
   learnsMagic: 0
