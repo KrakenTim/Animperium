@@ -1,0 +1,15 @@
+C:\Share\ChatServer\ChatServer\bin\Debug\net6.0\AnimperiumServer.exe
+C:\Share\ChatServer\ChatServer\bin\Debug\net6.0\AnimperiumServer.deps.json
+C:\Share\ChatServer\ChatServer\bin\Debug\net6.0\AnimperiumServer.runtimeconfig.json
+C:\Share\ChatServer\ChatServer\bin\Debug\net6.0\AnimperiumServer.dll
+C:\Share\ChatServer\ChatServer\bin\Debug\net6.0\AnimperiumServer.pdb
+C:\Share\ChatServer\ChatServer\obj\Debug\net6.0\AnimperiumServer.csproj.AssemblyReference.cache
+C:\Share\ChatServer\ChatServer\obj\Debug\net6.0\AnimperiumServer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Share\ChatServer\ChatServer\obj\Debug\net6.0\AnimperiumServer.AssemblyInfoInputs.cache
+C:\Share\ChatServer\ChatServer\obj\Debug\net6.0\AnimperiumServer.AssemblyInfo.cs
+C:\Share\ChatServer\ChatServer\obj\Debug\net6.0\AnimperiumServer.csproj.CoreCompileInputs.cache
+C:\Share\ChatServer\ChatServer\obj\Debug\net6.0\AnimperiumServer.dll
+C:\Share\ChatServer\ChatServer\obj\Debug\net6.0\refint\AnimperiumServer.dll
+C:\Share\ChatServer\ChatServer\obj\Debug\net6.0\AnimperiumServer.pdb
+C:\Share\ChatServer\ChatServer\obj\Debug\net6.0\AnimperiumServer.genruntimeconfig.cache
+C:\Share\ChatServer\ChatServer\obj\Debug\net6.0\ref\AnimperiumServer.dll

@@ -1,0 +1,13 @@
+W:\Games\_GamesAcademy\Semesterprojekte\Animperium\Animperium\Server\ChatServer\ChatServer\bin\Debug\netcoreapp3.1\ChatServer.exe
+W:\Games\_GamesAcademy\Semesterprojekte\Animperium\Animperium\Server\ChatServer\ChatServer\bin\Debug\netcoreapp3.1\ChatServer.deps.json
+W:\Games\_GamesAcademy\Semesterprojekte\Animperium\Animperium\Server\ChatServer\ChatServer\bin\Debug\netcoreapp3.1\ChatServer.runtimeconfig.json
+W:\Games\_GamesAcademy\Semesterprojekte\Animperium\Animperium\Server\ChatServer\ChatServer\bin\Debug\netcoreapp3.1\ChatServer.runtimeconfig.dev.json
+W:\Games\_GamesAcademy\Semesterprojekte\Animperium\Animperium\Server\ChatServer\ChatServer\bin\Debug\netcoreapp3.1\ChatServer.dll
+W:\Games\_GamesAcademy\Semesterprojekte\Animperium\Animperium\Server\ChatServer\ChatServer\bin\Debug\netcoreapp3.1\ChatServer.pdb
+W:\Games\_GamesAcademy\Semesterprojekte\Animperium\Animperium\Server\ChatServer\ChatServer\obj\Debug\netcoreapp3.1\ChatServer.csprojAssemblyReference.cache
+W:\Games\_GamesAcademy\Semesterprojekte\Animperium\Animperium\Server\ChatServer\ChatServer\obj\Debug\netcoreapp3.1\ChatServer.AssemblyInfoInputs.cache
+W:\Games\_GamesAcademy\Semesterprojekte\Animperium\Animperium\Server\ChatServer\ChatServer\obj\Debug\netcoreapp3.1\ChatServer.AssemblyInfo.cs
+W:\Games\_GamesAcademy\Semesterprojekte\Animperium\Animperium\Server\ChatServer\ChatServer\obj\Debug\netcoreapp3.1\ChatServer.csproj.CoreCompileInputs.cache
+W:\Games\_GamesAcademy\Semesterprojekte\Animperium\Animperium\Server\ChatServer\ChatServer\obj\Debug\netcoreapp3.1\ChatServer.dll
+W:\Games\_GamesAcademy\Semesterprojekte\Animperium\Animperium\Server\ChatServer\ChatServer\obj\Debug\netcoreapp3.1\ChatServer.pdb
+W:\Games\_GamesAcademy\Semesterprojekte\Animperium\Animperium\Server\ChatServer\ChatServer\obj\Debug\netcoreapp3.1\ChatServer.genruntimeconfig.cache
