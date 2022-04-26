@@ -9,12 +9,20 @@ public class LoadingScreen : MonoBehaviour
 
     public GameObject LoadingPanel;
     public float MinLoadTime;
+    public float fadeOutTime = 0.25f;
+    public float fadeInTime = 0.25f;
 
     public GameObject LoadingWheel;
     public float WheelSpeed;
 
     private string targetScene;
     private bool IsLoading;
+
+    //public Slider slider;
+    //public Text progressText;
+
+    private Image LoadingPanelBackground;
+    private Color originalColor;
 
     private void Awake()
     {
@@ -23,6 +31,9 @@ public class LoadingScreen : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+
+        LoadingPanelBackground = LoadingPanel.GetComponent<Image>();
+        originalColor = LoadingPanelBackground.color;
 
         LoadingPanel.SetActive(false);
     }
@@ -40,23 +51,59 @@ public class LoadingScreen : MonoBehaviour
         LoadingPanel.SetActive(true);
         StartCoroutine(SpinWheelRoutine());
 
+        Color changingColor = originalColor;
+        float fadeInElapsed = 0;
+        while (fadeInElapsed < fadeOutTime)
+        {
+            // slowly shift from transparent (0) to original alpha
+            changingColor.a = originalColor.a * (fadeInElapsed / fadeOutTime);
+            LoadingPanelBackground.color = changingColor;
+
+            fadeInElapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        LoadingPanelBackground.color = originalColor;
+
         AsyncOperation op = SceneManager.LoadSceneAsync(targetScene);
         float elapsedLoadTime = 0f;
 
         while (!op.isDone)
         {
-            elapsedLoadTime += Time.deltaTime;
+            //float progress = Mathf.Clamp01(op.progress / .9f);
+
+            //slider.value = progress;
+            //progressText.text = Mathf.RoundToInt(progress * 100f) + "%";
+
+            Debug.Log(Mathf.Round(op.progress * 100));
+
+            elapsedLoadTime += Time.unscaledDeltaTime;
             yield return null;
         }
 
         while (elapsedLoadTime < MinLoadTime)
         {
-            elapsedLoadTime += Time.deltaTime;
+            elapsedLoadTime += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        float fadeOutElapsed = 0f;
+        changingColor = originalColor;
+
+        while (fadeOutElapsed < fadeOutTime)
+        {
+            // slowly shift from origional alpha to transparent (0)
+            changingColor.a = originalColor.a * (1f - fadeOutElapsed / fadeOutTime) ;
+            LoadingPanelBackground.color = changingColor;
+
+            fadeOutElapsed += Time.unscaledDeltaTime;
             yield return null;
         }
 
         if (LoadingPanel)
-        LoadingPanel.SetActive(false);
+            LoadingPanel.SetActive(false);
+
+        LoadingPanelBackground.color = originalColor;
 
         IsLoading = false;
     }
@@ -72,38 +119,4 @@ public class LoadingScreen : MonoBehaviour
             yield return null;
         }
     }
-
-
-    /*
-        public GameObject loadingScreen;
-        public Slider slider;
-        public Text progressText;
-
-        private void Awake()
-        {
-            DontDestroyOnLoad(this.gameObject);
-        }
-
-        // use int instead of string to use the Unity Scene Index
-        public void LoadLevel(string NormanMapGeneration)
-        {
-            StartCoroutine(LoadAsynchronously(NormanMapGeneration));
-        }
-
-        IEnumerator LoadAsynchronously (string NormanMapGeneration)
-        {
-            AsyncOperation operation = SceneManager.LoadSceneAsync(NormanMapGeneration);
-
-            loadingScreen.SetActive(true);
-
-            while (!operation.isDone)
-            {
-                float progress = Mathf.Clamp01(operation.progress / .9f);
-
-                slider.value = progress;
-                progressText.text = progress * 100f + "%";
-
-                yield return null;
-            }
-        }*/
 }
