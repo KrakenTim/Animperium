@@ -12,6 +12,8 @@ public class PlayerHUD : MonoBehaviour
 
     [SerializeField] Image background;
     [SerializeField] TMPro.TMP_Text foodAmount;
+    [SerializeField] TMPro.TMP_Text woodAmount;
+    [SerializeField] TMPro.TMP_Text oreAmount;
     [Header("Pawn Info")]
     [SerializeField] GameObject pawnInfoRoot;
     [SerializeField] Image playerIcon;
