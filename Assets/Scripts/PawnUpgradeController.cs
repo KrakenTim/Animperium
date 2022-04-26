@@ -63,6 +63,8 @@ public static class PawnUpgradeController
         GameResources costs;
 
         costs.food = Mathf.Max(newUnitData.resourceCosts.food - oldUnitData.resourceCosts.food, 0);
+        costs.wood = Mathf.Max(newUnitData.resourceCosts.wood - oldUnitData.resourceCosts.wood, 0);
+        costs.ore = Mathf.Max(newUnitData.resourceCosts.ore - oldUnitData.resourceCosts.ore, 0);
 
         return costs;
     }

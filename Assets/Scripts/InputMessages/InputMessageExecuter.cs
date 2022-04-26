@@ -19,9 +19,10 @@ public static class InputMessageExecuter
     /// </summary>
     public static void Send(InputMessage message)
     {
-        //TODO(14.04.2022): add non hotseat stuff here
-
-        Recieve(message.ToString());
+        if (OnlineGameManager.IsOnlineGame)
+            OnlineGameManager.SendCommand(message.ToString());
+        else // Hot Seat
+            Recieve(message.ToString());
     }
 
     /// <summary>
@@ -96,6 +97,14 @@ public static class InputMessageExecuter
         {
             case ePlayeractionType.EndTurn:
                 GameManager.EndTurn();
+                break;
+
+            case ePlayeractionType.StartGame:
+                OnlineGameManager.PrepareGame();
+                break;
+
+            case ePlayeractionType.Resign:
+                GameManager.PlayerResigned(generalOrder.senderLocalID);
                 break;
 
             default:

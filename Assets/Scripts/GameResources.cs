@@ -9,4 +9,6 @@ using UnityEngine;
 public struct GameResources
 {
     public int food;
+    public int wood;
+    public int ore;
 }

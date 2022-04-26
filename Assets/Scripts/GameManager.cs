@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     static GameManager instance;
-    public bool InGame => instance != null;
+    public static bool InGame => instance != null;
 
     public static event System.Action<int> TurnStarted;
 
@@ -22,12 +22,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] int activePlayerFactionID = 1;
     public static int CurrentFactionID => instance.activePlayerFactionID;
 
+    private int localPlayerID;
+    public static int LocalPlayerID => instance.localPlayerID;
+    public static bool InputAllowed => CurrentPlayerID == LocalPlayerID;
+
     private int turn;
     public static int Turn => instance ? instance.turn : -1;
 
     private void Awake()
     {
         instance = this;
+
+        localPlayerID = OnlineGameManager.LocalPlayerID;
     }
 
     private void Start()
@@ -82,6 +88,9 @@ public class GameManager : MonoBehaviour
 
     private void StartNewPlayerTurn()
     {
+        if (!OnlineGameManager.IsOnlineGame)
+            localPlayerID = activePlayerID;
+
         if (TryGetPlayerValues(activePlayerID, out PlayerValues newPlayer))
             activePlayerFactionID = newPlayer.factionID;
 
@@ -151,6 +160,7 @@ public class GameManager : MonoBehaviour
 
         // Pawn adds itself to the grid on the matching position.
         newPawn.SetPlayer(playerID);
+
         return newPawn;
     }
 
@@ -264,6 +274,12 @@ public class GameManager : MonoBehaviour
                 case eRessourceType.Food:
                     result.playerResources.food += amount;
                     break;
+                case eRessourceType.Wood:
+                    result.playerResources.wood += amount;
+                    break;
+                case eRessourceType.Ore:
+                    result.playerResources.ore += amount;
+                    break;
                 default:
                     Debug.LogError("AddResource UNDEFINED for " + resource);
                     return;
@@ -281,6 +297,24 @@ public class GameManager : MonoBehaviour
             return result.CanAfford(costs);
         }
         return false;
+    }
+
+    public static void ResignTroughQuitting()
+    {
+        if (!OnlineGameManager.IsOnlineGame) return;
+
+        InputMessage message = InputMessageGenerator.CreateBasicMessage(ePlayeractionType.Resign);
+        InputMessageExecuter.Send(message);
+    }
+
+    public static void PlayerResigned(int playerID)
+    {
+       if (!instance.TryGetPlayerValues(playerID, out PlayerValues loserValues))
+            return;
+
+        loserValues.GiveUp();
+
+        CheckIfGameEnds(playerID);
     }
 
     public static void CheckIfGameEnds(int potencialLoserPlayerID)

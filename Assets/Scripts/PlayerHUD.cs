@@ -12,6 +12,8 @@ public class PlayerHUD : MonoBehaviour
 
     [SerializeField] Image background;
     [SerializeField] TMPro.TMP_Text foodAmount;
+    [SerializeField] TMPro.TMP_Text woodAmount;
+    [SerializeField] TMPro.TMP_Text oreAmount;
     [Header("Pawn Info")]
     [SerializeField] GameObject pawnInfoRoot;
     [SerializeField] Image playerIcon;
@@ -46,6 +48,8 @@ public class PlayerHUD : MonoBehaviour
         instance.background.color = GameManager.GetPlayerColor(playerID);
 
         instance.foodAmount.text = GameManager.GetPlayerResources(playerID).food + " Food";
+        instance.woodAmount.text = GameManager.GetPlayerResources(playerID).wood + " Wood";
+        instance.oreAmount.text = GameManager.GetPlayerResources(playerID).ore + " Ore";
     }
 
     private void UpdateSelectedPawn(PlayerPawn selectedPawn)
@@ -93,6 +97,8 @@ public class PlayerHUD : MonoBehaviour
 
     public void Button_EndTurn()
     {
+        if (!GameManager.InputAllowed) return;
+
         var message = InputMessageGenerator.CreateBasicMessage(ePlayeractionType.EndTurn);
         InputMessageExecuter.Send(message);
     }

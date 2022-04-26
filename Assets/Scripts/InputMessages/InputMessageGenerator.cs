@@ -26,6 +26,7 @@ public static class InputMessageGenerator
     public static InputMessage CreateBasicMessage(ePlayeractionType action)
     {
         InputMessage message = new InputMessage();
+        message.senderLocalID = GameManager.InGame ? GameManager.LocalPlayerID : OnlineGameManager.LocalPlayerID;
         message.action = action;
         message.turn = GameManager.Turn;
 

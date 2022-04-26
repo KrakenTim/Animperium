@@ -75,7 +75,7 @@ public class GameInputManager : MonoBehaviour
     /// </summary>
     private bool IsPawnActionPossible(HexCell targetCell)
     {
-        return selectedPawn != null && targetCell != null
+        return GameManager.InputAllowed && selectedPawn != null && targetCell != null
             && selectedPawn.CanAct && selectedPawn.IsPlayerPawn
             && selectedPawn.HexCell.IsNeighbor(targetCell);
     }
