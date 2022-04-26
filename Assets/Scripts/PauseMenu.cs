@@ -87,8 +87,12 @@ public class PauseMenu : MonoBehaviour
     {
         GameManager.ResignTroughQuitting();
 
+        if (LoadingScreen.instance)
+            LoadingScreen.instance.LoadScene("MainMenu");
+        else
+            SceneManager.LoadScene("MainMenu");
+
         Debug.Log("Loading Menu");
-        SceneManager.LoadScene("MainMenu");
     }
 
     public void QuitGame()

@@ -12,13 +12,20 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("NormanMapGeneration");
+        
+        if (LoadingScreen.instance)
+        LoadingScreen.instance.LoadScene("NormanMapGeneration");
+        else
+            SceneManager.LoadScene("NormanMapGeneration");
         Debug.Log("Game Start");
     }
 
     public void PlayOnline()
     {
-        SceneManager.LoadScene("ServerClientChat");
+        if (LoadingScreen.instance)
+            LoadingScreen.instance.LoadScene("ServerClientChat");
+        else
+            SceneManager.LoadScene("ServerClientChat");
         Debug.Log("Start Online Play");
     }
 
