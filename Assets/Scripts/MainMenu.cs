@@ -16,6 +16,12 @@ public class MainMenu : MonoBehaviour
         Debug.Log("Game Start");
     }
 
+    public void PlayOnline()
+    {
+        SceneManager.LoadScene("ServerClientChat");
+        Debug.Log("Start Online Play");
+    }
+
     public void ExitGame()
     {
         Application.Quit();
