@@ -311,3 +311,5 @@ MonoBehaviour:
   swivelMaxZoom: 45
   moveSpeedMinZoom: 300
   moveSpeedMaxZoom: 100
+  rotationSpeed: 100
+  grid: {fileID: 0}
