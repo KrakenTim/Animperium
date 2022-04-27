@@ -5,12 +5,16 @@ using UnityEngine;
 [System.Serializable]
 public struct InputMessage
 {
-    public const int POSITIONAction = 0;
-    public const int POSITIONStart = 1;
-    public const int POSITIONTarget = 2;
-    public const int POSITIONTurn = 3;
+    public const int POSITIONSenderLocalID = 0;
+    public const int POSITIONAction = 1;
+    public const int POSITIONStart = 2;
+    public const int POSITIONTarget = 3;
+    public const int POSITIONTurn = 4;
 
-    public const int PARTCount = 4;
+    public const int PARTCount = 5;
+
+
+    public int senderLocalID;
 
     public ePlayeractionType action;
     [Space]
@@ -26,6 +30,6 @@ public struct InputMessage
 
     public override string ToString()
     {
-        return $"{action.ToString()}_{startCell.ToString()}_{targetCell.ToString()}_{turn}";
+        return $"{senderLocalID}_{action.ToString()}_{startCell.ToString()}_{targetCell.ToString()}_{turn}";
     }
 }

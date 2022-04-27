@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: TownHallPawnData
   m_EditorClassIdentifier: 
   type: 100
+  pawnIcon: {fileID: 21300000, guid: 87bfcc362a533f94693546d523e6f285, type: 3}
   maxHealth: 30
   maxMovement: 0
   attackPower: 0
@@ -22,5 +23,6 @@ MonoBehaviour:
   learnsMagic: 0
   learnsDigging: 0
   playerPrefabs:
-  - {fileID: 4729249582805918581, guid: bcac4d008d96e844b947ca36510aa30c, type: 3}
-  - {fileID: 8381063769703048574, guid: f0540dadbdcd0f34e97eb9dc318761ab, type: 3}
+  - {fileID: 0}
+  - {fileID: 4729249582805918578, guid: bcac4d008d96e844b947ca36510aa30c, type: 3}
+  - {fileID: 8381063769703048569, guid: f0540dadbdcd0f34e97eb9dc318761ab, type: 3}

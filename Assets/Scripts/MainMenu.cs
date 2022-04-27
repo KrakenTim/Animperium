@@ -2,17 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
+/// <summary>
+/// Provides methods for the buttons in the main menu.
+/// </summary>
 public class MainMenu : MonoBehaviour
 {
     public AudioSource ButtonSound;
 
     public void StartGame()
     {
-        SceneManager.LoadScene("NormanMapGeneration");
+        
+        if (LoadingScreen.instance)
+        LoadingScreen.instance.LoadScene("NormanMapGeneration");
+        else
+            SceneManager.LoadScene("NormanMapGeneration");
         Debug.Log("Game Start");
+    }
+
+    public void PlayOnline()
+    {
+        if (LoadingScreen.instance)
+            LoadingScreen.instance.LoadScene("ServerClientChat");
+        else
+            SceneManager.LoadScene("ServerClientChat");
+        Debug.Log("Start Online Play");
     }
 
     public void ExitGame()
@@ -25,7 +39,4 @@ public class MainMenu : MonoBehaviour
     {
         ButtonSound.Play();
     }
-
-
-
 }

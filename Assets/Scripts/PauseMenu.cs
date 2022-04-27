@@ -6,6 +6,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+/// <summary>
+/// Pause menu providing the functionality of several buttons.
+/// </summary>
 public class PauseMenu : MonoBehaviour
 {
     public GameObject PauseMenuUI;
@@ -82,12 +85,20 @@ public class PauseMenu : MonoBehaviour
 
     public void LoadMenu()
     {
+        GameManager.ResignTroughQuitting();
+
+        if (LoadingScreen.instance)
+            LoadingScreen.instance.LoadScene("MainMenu");
+        else
+            SceneManager.LoadScene("MainMenu");
+
         Debug.Log("Loading Menu");
-        SceneManager.LoadScene("MainMenu");
     }
 
     public void QuitGame()
     {
+        GameManager.ResignTroughQuitting();
+
         Debug.Log("Game Close");
         Application.Quit();
     }

@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: SneakerPawnData
   m_EditorClassIdentifier: 
   type: 6
+  pawnIcon: {fileID: 0}
   maxHealth: 9
   maxMovement: 4
   attackPower: 4
-  food: 30
+  resourceCosts:
+    food: 30
   spawnedPawn: 0
   learnsFight: 0
   learnsMagic: 8

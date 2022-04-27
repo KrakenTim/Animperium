@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+/// <summary>
+/// Creates InputLog based on the InputMessages received by the InputMessageExecuter.
+/// </summary>
 public class InputMessageLogCreator : MonoBehaviour
 {
     /// <summary>
@@ -22,12 +25,12 @@ public class InputMessageLogCreator : MonoBehaviour
 
     private void Awake()
     {
-        InputMessageExecuter.RecievedOrder += RecievedMessage;
+        InputMessageExecuter.RecievedInputMessage += RecievedMessage;
     }
 
     private void OnDestroy()
     {
-        InputMessageExecuter.RecievedOrder -= RecievedMessage;
+        InputMessageExecuter.RecievedInputMessage -= RecievedMessage;
 
         ClearLogsExceptNewest(logLimit);
     }
