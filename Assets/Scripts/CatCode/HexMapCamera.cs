@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class HexMapCamera : MonoBehaviour
 {
+    #region Not in tutorial
+    static HexMapCamera instance;
+    #endregion Not in tutorial
+
     public float zoomSensitivity;
 
     public float stickMinZoom, stickMaxZoom;
@@ -14,7 +18,7 @@ public class HexMapCamera : MonoBehaviour
 
     public float rotationSpeed;
 
-    float zoom = 1f;
+    float zoom = 0f;
 
     float rotationAngle;
 
@@ -25,9 +29,21 @@ public class HexMapCamera : MonoBehaviour
 
     void Awake()
     {
+        #region Not in tutorial
+        instance = this;
+        #endregion Not in tutorial
+
         swivel = transform.GetChild(0);
         stick = swivel.GetChild(0);
     }
+
+    #region Not in tutorial
+    private void OnDestroy()
+    {
+        if (instance == this) instance = null;
+    }
+    #endregion Not in tutorial
+
     void Update()
     {
         float zoomDelta = Mouse.current.scroll.ReadValue().y * zoomSensitivity;
@@ -41,7 +57,6 @@ public class HexMapCamera : MonoBehaviour
         {
             AdjustRotation(rotationDelta);
         }
-
 
         float xDelta = Input.GetAxis("Horizontal"); // Altes system
         float zDelta = Input.GetAxis("Vertical"); // Altes system
@@ -59,7 +74,7 @@ public class HexMapCamera : MonoBehaviour
 
         Vector3 position = transform.localPosition;
         position += direction * distance;
-        transform.localPosition = position;
+        transform.localPosition = ClampPosition(position);
     }
 
     void AdjustZoom(float delta)
@@ -72,6 +87,15 @@ public class HexMapCamera : MonoBehaviour
         float angle = Mathf.Lerp(swivelMinZoom, swivelMaxZoom, zoom);
         swivel.localRotation = Quaternion.Euler(angle, 0f, 0f);
     }
+
+    #region Not in tutorial
+    public static void SetPosition(Vector3 position)
+    {
+        if (instance)
+            instance.transform.localPosition = instance.ClampPosition(position);
+    }
+    #endregion Not in tutorial
+
     Vector3 ClampPosition(Vector3 position)
     {
         float xMax = (grid.chunkCountX * HexMetrics.chunkSizeX - 0.5f) * (2f * HexMetrics.innerRadius);

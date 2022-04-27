@@ -22,6 +22,8 @@ public class BuildVersionNumber : MonoBehaviour
 {
     #region Variables
 
+    private static BuildVersionNumber instance;
+
     public static string Path_VersionFile => Application.streamingAssetsPath + "/version.txt";
 
     const bool RemovePlayerPrefsBeforeBuild = true;
@@ -42,12 +44,26 @@ public class BuildVersionNumber : MonoBehaviour
 
     private void OnEnable()
     {
+        if (instance != null)
+        {
+            Show(false);
+            return;
+        }
+
+        instance = this;
+
         if (versionText == null)
             UpdateVersionText();
 
         Show(defaultVisible);
 
         DontDestroyOnLoad(GetComponentInParent<Canvas>().gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
+            instance = null;
     }
 
     public void Show(bool isVisible)

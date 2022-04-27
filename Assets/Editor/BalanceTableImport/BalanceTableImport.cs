@@ -24,6 +24,10 @@ public static class BalanceTableImport
     const string COLUMN_AttackPower = "AttackPower";
 
     const string COLUMN_FoodCost = "FoodCost";
+    const string COLUMN_WoodCost = "WoodCost";
+    const string COLUMN_OreCost = "OreCost";
+
+    const string COLUMN_PopulationCount = "PopulationCount";
 
     const string COLUMN_SpawnedPawn = "SpawnedPawn";
     const string COLUMN_LearnFight = "LearnFight";
@@ -38,7 +42,7 @@ public static class BalanceTableImport
     {
         string tableAsString = GetWWWViaLink(LINK_PawnBalanceTable, NAME_BalancingTable);
 
-        if(tableAsString.Length == 0)
+        if (tableAsString.Length == 0)
         {
             Debug.LogError("Table Download Failed, Update stopped.\n");
             return;
@@ -97,6 +101,24 @@ public static class BalanceTableImport
             wasChanged = true;
         }
 
+        if (TryParse(pawnTableRow, COLUMN_WoodCost, out nextValue) && pawnData.resourceCosts.wood != nextValue)
+        {
+            pawnData.resourceCosts.wood = nextValue;
+            wasChanged = true;
+        }
+
+        if (TryParse(pawnTableRow, COLUMN_OreCost, out nextValue) && pawnData.resourceCosts.ore != nextValue)
+        {
+            pawnData.resourceCosts.ore = nextValue;
+            wasChanged = true;
+        }
+
+        if (TryParse(pawnTableRow, COLUMN_PopulationCount, out nextValue) && pawnData.populationCount != nextValue)
+        {
+            pawnData.populationCount = nextValue;
+            wasChanged = true;
+        }
+
         // spawn
 
         if (TryParse(pawnTableRow, COLUMN_SpawnedPawn, out nextPawnType, allowEmpty: true) && pawnData.spawnedPawn != nextPawnType)
@@ -146,7 +168,7 @@ public static class BalanceTableImport
 
         //wait until it's done
         while (!www.isDone)
-        {         
+        {
             if (DateTime.UtcNow.CompareTo(maxWaiting) > 0)
             {
                 Debug.LogError($"Import\tCould not download {friendlyName} within 60 seconds, download aborted.\n{link}\n");

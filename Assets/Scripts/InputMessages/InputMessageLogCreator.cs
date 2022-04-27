@@ -65,7 +65,7 @@ public class InputMessageLogCreator : MonoBehaviour
     /// </summary>
     private string CreateLogName()
     {
-        return $"Game_{DateTime.UtcNow.ToString("yyMMdd_HHmmss")}.{logFileExtension}";
+        return $"Game_{DateTime.Now.ToString("yyMMdd_HHmmss")}.{logFileExtension}";
     }
 
     /// <summary>

@@ -61,3 +61,4 @@ crashlytics-build.properties
 # Project specific
 Assets/StreamingAssets/InputLogs
 Assets/StreamingAssets/InputLogs.meta
+UserSettings/EditorUserSettings.asset
