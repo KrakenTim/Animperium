@@ -33,11 +33,14 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
 
-        localPlayerID = OnlineGameManager.LocalPlayerID;
+        localPlayerID = OnlineGameManager.IsOnlineGame ? OnlineGameManager.LocalPlayerID : activePlayerFactionID;
     }
 
     private void Start()
     {
+        if (TryGetPlayerValues(localPlayerID, out PlayerValues player))
+            HexMapCamera.SetPosition(player.GetTownHall().WorldPosition);
+
         StartNewPlayerTurn();
     }
 
@@ -173,7 +176,7 @@ public class GameManager : MonoBehaviour
         }
         return false;
     }
-    
+
     private bool TryGetPlayerValues(int playerID, out PlayerValues result)
     {
         foreach (var item in instance.playerValueList)
@@ -212,7 +215,7 @@ public class GameManager : MonoBehaviour
         return Color.cyan;
     }
 
-    public static GameResources GetPlayerResources (int playerID)
+    public static GameResources GetPlayerResources(int playerID)
     {
         if (instance.TryGetPlayerValues(playerID, out PlayerValues result))
             return result.playerResources;
@@ -309,7 +312,7 @@ public class GameManager : MonoBehaviour
 
     public static void PlayerResigned(int playerID)
     {
-       if (!instance.TryGetPlayerValues(playerID, out PlayerValues loserValues))
+        if (!instance.TryGetPlayerValues(playerID, out PlayerValues loserValues))
             return;
 
         loserValues.GiveUp();
@@ -331,7 +334,7 @@ public class GameManager : MonoBehaviour
         {
             if (player.HasLost) continue;
 
-            if(!remainingFactions.ContainsKey(player.factionID))
+            if (!remainingFactions.ContainsKey(player.factionID))
                 remainingFactions.Add(player.factionID, new List<PlayerValues>());
 
             remainingFactions[player.factionID].Add(player);
@@ -342,7 +345,7 @@ public class GameManager : MonoBehaviour
         if (remainingFactions.Count < 2)
         {
             foreach (var faction in remainingFactions)
-            CallVictory(faction.Value);
+                CallVictory(faction.Value);
         }
     }
 

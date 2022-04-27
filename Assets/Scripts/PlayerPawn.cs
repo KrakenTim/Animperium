@@ -41,10 +41,12 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     [SerializeField] HexCell hexCell;
     public HexCell HexCell => hexCell;
     public HexCoordinates HexCoordinates => hexCell ? hexCell.coordinates : new HexCoordinates(0, 0);
+    public Vector3 WorldPosition => transform.position;
 
     public virtual bool IsPlayerPawn => playerID == GameManager.CurrentPlayerID;
 
     public virtual bool IsEnemy => GameManager.IsEnemy(PlayerID);
+
 
     // Start is called before the first frame update
     void Start()
