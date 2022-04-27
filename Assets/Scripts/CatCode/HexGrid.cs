@@ -191,6 +191,14 @@ public class HexGrid : MonoBehaviour
         }
     }
 
+    public void ShowUI(bool visible)
+    {
+        for (int i = 0; i < chunks.Length; i++)
+        {
+            chunks[i].ShowUI(visible);
+        }
+    }
+
     #region Not in Tutorial
 
     public HexCell GetHexCell(Vector3 worldposition)
@@ -204,6 +212,21 @@ public class HexGrid : MonoBehaviour
     {
         int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
         return cells[index];
+    }
+
+    public HexCell GetCell(HexCoordinates coordinates)
+    {
+        int z = coordinates.Z; 
+        if (z < 0 || z >= cellCountZ)
+        {
+            return null;
+        }
+        int x = coordinates.X + z / 2; 
+        if (x < 0 || x >= cellCountX)
+        {
+            return null;
+        }
+        return cells[x + z * cellCountX];
     }
 
     #endregion Not in Tutorial

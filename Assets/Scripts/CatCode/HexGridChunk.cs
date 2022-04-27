@@ -14,6 +14,7 @@ public class HexGridChunk : MonoBehaviour
         hexMesh = GetComponentInChildren<HexMesh>();
 
         cells = new HexCell[HexMetrics.chunkSizeX * HexMetrics.chunkSizeZ];
+        ShowUI(false);
     }
 
 //	void Start () {
@@ -31,6 +32,11 @@ public class HexGridChunk : MonoBehaviour
     {
         //		hexMesh.Triangulate(cells);
         enabled = true;
+    }
+
+    public void ShowUI(bool visible)
+    {
+        gridCanvas.gameObject.SetActive(visible);
     }
 
     void LateUpdate()
