@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
@@ -6,15 +7,22 @@ public class HexMesh : MonoBehaviour
 {
     Mesh hexMesh;
     MeshCollider meshCollider;
-    static List<Vector3> vertices = new List<Vector3>();
-    static List<Color> colors = new List<Color>();
-    static List<int> triangles = new List<int>();
-
+    [NonSerialized] public List<Vector3> vertices;
+    [NonSerialized] public List<Color> colors;
+    [NonSerialized] public List<int> triangles;
+    //    static List<Vector3> vertices = new List<Vector3>();
+    //    static List<Color> colors = new List<Color>();
+    //    static List<int> triangles = new List<int>();
+    public bool useCollider, useColors, useUVCoordinates; //true true false
+    [NonSerialized] List<Vector2> uvs;
 
     void Awake()
     {
         GetComponent<MeshFilter>().mesh = hexMesh = new Mesh();
-        meshCollider = gameObject.AddComponent<MeshCollider>();
+        if (useCollider)
+        {
+            meshCollider = gameObject.AddComponent<MeshCollider>();
+        }
         hexMesh.name = "Hex Mesh";
 //		vertices = new List<Vector3>();
 //		colors = new List<Color>();
@@ -22,78 +30,138 @@ public class HexMesh : MonoBehaviour
     }
 
 
-    void AddTriangle(Vector3 v1, Vector3 v2, Vector3 v3)
+    public void AddTriangle(Vector3 v1, Vector3 v2, Vector3 v3)
     {
         int vertexIndex = vertices.Count;
-        vertices.terrain.Add(HexMetrics.Perturb(v1));
-        vertices.terrain.Add(HexMetrics.Perturb(v2));
-        vertices.terrain.Add(HexMetrics.Perturb(v3));
-        triangles.terrain.Add(vertexIndex);
-        triangles.terrain.Add(vertexIndex + 1);
-        triangles.terrain.Add(vertexIndex + 2);
+        vertices.Add(HexMetrics.Perturb(v1));
+        vertices.Add(HexMetrics.Perturb(v2));
+        vertices.Add(HexMetrics.Perturb(v3));
+        triangles.Add(vertexIndex);
+        triangles.Add(vertexIndex + 1);
+        triangles.Add(vertexIndex + 2);
     }
 
 
-    void AddTriangleColor(Color c1, Color c2, Color c3)
+    public void AddTriangleColor(Color c1, Color c2, Color c3)
     {
-        colors.terrain.Add(c1);
-        colors.terrain.Add(c2);
-        colors.terrain.Add(c3);
+        colors.Add(c1);
+        colors.Add(c2);
+        colors.Add(c3);
     }
 
 
-    void AddTriangleColor(Color color)
+    public void AddTriangleColor(Color color)
     {
-        colors.terrain.Add(color);
-        colors.terrain.Add(color);
-        colors.terrain.Add(color);
+        colors.Add(color);
+        colors.Add(color);
+        colors.Add(color);
     }
 
-    void AddQuad(Vector3 v1, Vector3 v2, Vector3 v3, Vector3 v4)
+    public void AddQuad(Vector3 v1, Vector3 v2, Vector3 v3, Vector3 v4)
     {
         int vertexIndex = vertices.Count;
-        vertices.terrain.Add(HexMetrics.Perturb(v1));
-        vertices.terrain.Add(HexMetrics.Perturb(v2));
-        vertices.terrain.Add(HexMetrics.Perturb(v3));
-        vertices.terrain.Add(HexMetrics.Perturb(v4));
-        triangles.terrain.Add(vertexIndex);
-        triangles.terrain.Add(vertexIndex + 2);
-        triangles.terrain.Add(vertexIndex + 1);
-        triangles.terrain.Add(vertexIndex + 1);
-        triangles.terrain.Add(vertexIndex + 2);
-        triangles.terrain.Add(vertexIndex + 3);
+        vertices.Add(HexMetrics.Perturb(v1));
+        vertices.Add(HexMetrics.Perturb(v2));
+        vertices.Add(HexMetrics.Perturb(v3));
+        vertices.Add(HexMetrics.Perturb(v4));
+        triangles.Add(vertexIndex);
+        triangles.Add(vertexIndex + 2);
+        triangles.Add(vertexIndex + 1);
+        triangles.Add(vertexIndex + 1);
+        triangles.Add(vertexIndex + 2);
+        triangles.Add(vertexIndex + 3);
     }
-    void AddQuadColor(Color c1, Color c2)
+    public void AddQuadColor(Color c1, Color c2)
     {
-        colors.terrain.Add(c1);
-        colors.terrain.Add(c1);
-        colors.terrain.Add(c2);
-        colors.terrain.Add(c2);
+        colors.Add(c1);
+        colors.Add(c1);
+        colors.Add(c2);
+        colors.Add(c2);
     }
-    void AddQuadColor(Color c1, Color c2, Color c3, Color c4)
+    public void AddQuadColor(Color c1, Color c2, Color c3, Color c4)
     {
-        colors.terrain.Add(c1);
-        colors.terrain.Add(c2);
-        colors.terrain.Add(c3);
-        colors.terrain.Add(c4);
+        colors.Add(c1);
+        colors.Add(c2);
+        colors.Add(c3);
+        colors.Add(c4);
     }
 
     public void Clear()
     {
         hexMesh.Clear();
-        vertices.Clear();
-        colors.Clear();
-        triangles.Clear();
+        vertices = ListPool<Vector3>.Get();
+        if (useColors)
+        {
+            colors = ListPool<Color>.Get();
+        }
+        if (useUVCoordinates)
+        {
+            uvs = ListPool<Vector2>.Get();
+        }
+        triangles = ListPool<int>.Get();
     }
 
     public void Apply()
     {
         hexMesh.SetVertices(vertices);
-        hexMesh.SetColors(colors);
+        ListPool<Vector3>.Add(vertices);
+        if (useColors)
+        {
+            hexMesh.SetColors(colors);
+            ListPool<Color>.Add(colors);
+        }
+        if (useUVCoordinates)
+        {
+            hexMesh.SetUVs(0, uvs);
+            ListPool<Vector2>.Add(uvs);
+        }
         hexMesh.SetTriangles(triangles, 0);
+        ListPool<int>.Add(triangles);
         hexMesh.RecalculateNormals();
-        meshCollider.sharedMesh = hexMesh;
+        if (useCollider)
+        {
+            meshCollider.sharedMesh = hexMesh;
+        }
+    }
+    public void AddTriangleUV(Vector2 uv1, Vector2 uv2, Vector2 uv3)
+    {
+        uvs.Add(uv1);
+        uvs.Add(uv2);
+        uvs.Add(uv3);
+    }
+
+    public void AddQuadUV(Vector2 uv1, Vector2 uv2, Vector2 uv3, Vector2 uv4)
+    {
+        uvs.Add(uv1);
+        uvs.Add(uv2);
+        uvs.Add(uv3);
+        uvs.Add(uv4);
+    }
+    public void AddQuadUV(float uMin, float uMax, float vMin, float vMax)
+    {
+        uvs.Add(new Vector2(uMin, vMin));
+        uvs.Add(new Vector2(uMax, vMin));
+        uvs.Add(new Vector2(uMin, vMax));
+        uvs.Add(new Vector2(uMax, vMax));
     }
 }
 
 
+public static class ListPool<T>
+{
+    static Stack<List<T>> stack = new Stack<List<T>>();
+
+    public static List<T> Get()
+    {
+        if (stack.Count > 0)
+        {
+            return stack.Pop();
+        }
+        return new List<T>();
+    }
+    public static void Add(List<T> list)
+    {
+        list.Clear();
+        stack.Push(list);
+    }
+}
