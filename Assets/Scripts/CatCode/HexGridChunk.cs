@@ -5,13 +5,14 @@ public class HexGridChunk : MonoBehaviour
 {
     HexCell[] cells;
 
-    HexMesh hexMesh;
+    public HexMesh terrain;
+    //	HexMesh hexMesh;    
     Canvas gridCanvas;
 
     void Awake()
     {
         gridCanvas = GetComponentInChildren<Canvas>();
-        hexMesh = GetComponentInChildren<HexMesh>();
+//		hexMesh = GetComponentInChildren<HexMesh>();
 
         cells = new HexCell[HexMetrics.chunkSizeX * HexMetrics.chunkSizeZ];
         ShowUI(false);
@@ -38,10 +39,29 @@ public class HexGridChunk : MonoBehaviour
     {
         gridCanvas.gameObject.SetActive(visible);
     }
-
     void LateUpdate()
     {
-        hexMesh.Triangulate(cells);
+        Triangulate();
+        //		hexMesh.Triangulate(cells);
         enabled = false;
+    }
+
+    public void Triangulate(HexCell[] cells)
+    {
+        terrain.Clear();
+        //		hexMesh.Clear();
+        //		vertices.Clear();
+        //		colors.Clear();
+        //		triangles.Clear();
+        for (int i = 0; i < cells.Length; i++)
+        {
+            Triangulate(cells[i]);
+        }
+        terrain.Apply();
+        //		hexMesh.vertices = vertices.ToArray();
+        //		hexMesh.colors = colors.ToArray();
+        //		hexMesh.triangles = triangles.ToArray();
+        //		hexMesh.RecalculateNormals();
+        //		meshCollider.sharedMesh = hexMesh;
     }
 }
