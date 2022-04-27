@@ -29,6 +29,8 @@ public static class HexMetrics
 
     public const int chunkSizeX = 5, chunkSizeZ = 5;
 
+    public const float waterElevationOffset = -0.5f;
+
     public static Texture2D noiseSource;
 
     static Vector3[] corners = {

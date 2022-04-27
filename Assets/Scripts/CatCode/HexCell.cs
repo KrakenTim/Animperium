@@ -14,7 +14,6 @@ public enum HexEdgeType
 
 public class HexCell : MonoBehaviour
 {
-    public HexCoordinates coordinates;
 
     public Color Color
     {
@@ -34,13 +33,49 @@ public class HexCell : MonoBehaviour
     }
     //    public Color color;
     public Color color;
-    Color color2;
 
+    public int WaterLevel
+    {
+        get
+        {
+            return waterLevel;
+        }
+        set
+        {
+            if (waterLevel == value)
+            {
+                return;
+            }
+            waterLevel = value;
+            Refresh();
+        }
+    }
+
+    int waterLevel;
+    public bool IsUnderwater
+    {
+        get
+        {
+            return waterLevel > elevation;
+        }
+    }
+
+    public HexCoordinates coordinates;
+    
     int elevation;
 
     public RectTransform uiRect;
 
     public HexGridChunk chunk;
+    public float WaterSurfaceY
+    {
+        get
+        {
+            return
+                (waterLevel + HexMetrics.waterElevationOffset) *
+                HexMetrics.elevationStep;
+        }
+    }
 
     #region Not in Tutorial
 
