@@ -6,7 +6,7 @@ using TMPro;
 public class TurnTimer : MonoBehaviour
 {
     [SerializeField] TMP_Text turnTimer;
-    public int seconds = 90;
+    public int seconds;
     public bool deductingTime;
 
     // Update is called once per frame
@@ -30,7 +30,8 @@ public class TurnTimer : MonoBehaviour
         GameManager.EndTurn();
 
         if (seconds <= 0)
-            seconds = 90;
+            seconds.ToString();
+            //seconds = 90;
 
         deductingTime = false;
     }
