@@ -18,6 +18,11 @@ public static class AI_File
     public static string PathInputLogs => Application.streamingAssetsPath + "/InputLogs/";
 
     /// <summary>
+    /// Application.streamingAssetsPath + "/TempMaps/"
+    /// </summary>
+    public static string PathTempMaps => Application.streamingAssetsPath + "/TempMaps/";
+
+    /// <summary>
     /// removes Application.dataPath (which leads to the Assets-folder) of given path
     /// </summary>
     public static string ShortPath(string path) => path.Replace(Application.dataPath + "/", "");

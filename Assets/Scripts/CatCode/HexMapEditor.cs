@@ -11,6 +11,10 @@ public class HexMapEditor : MonoBehaviour
 
     private Color activeColor;
 
+    #region Not in Tutorial
+    public int tempSaveColorID;
+    #endregion Not in Tutorial
+
     private int activeElevation;
 
     int brushSize;
@@ -69,6 +73,10 @@ public class HexMapEditor : MonoBehaviour
             if (applyColor)
             {
                 cell.Color = activeColor;
+
+                # region Not in Tutorial
+                cell.tempSaveColorID = tempSaveColorID;
+                #endregion Not in Tutorial
             }
             if (applyElevation)
             {
@@ -84,6 +92,10 @@ public class HexMapEditor : MonoBehaviour
         if (applyColor)
         {
             activeColor = colors[index];
+
+            #region Not in Tutorial
+            tempSaveColorID = index;
+            #endregion Not in Tutorial
         }
     }
 
