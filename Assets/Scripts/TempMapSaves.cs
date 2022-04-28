@@ -96,7 +96,10 @@ public class TempMapSaves : MonoBehaviour
             cells[cellID].Elevation = int.Parse(nextLine[0]);
 
             if (editor)
+            {
                 cells[cellID].Color = editor.colors[int.Parse(nextLine[1])];
+                cells[cellID].tempSaveColorID = int.Parse(nextLine[1]);
+            }
         }
 
         foreach (var item in grid.GetAllChunks())
