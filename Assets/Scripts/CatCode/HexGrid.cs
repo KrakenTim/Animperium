@@ -24,8 +24,13 @@ public class HexGrid : MonoBehaviour
     //	HexMesh hexMesh;
 
 
-    void Awake()
+    public void Awake()
     {
+        #region Not in Editor
+        if (GetComponent<TempMapSaves>().LoadsInsteadOfHexGrid)
+            return;
+        #endregion Not in Editor
+
         HexMetrics.noiseSource = noiseSource;
         //		gridCanvas = GetComponentInChildren<Canvas>();
         //		hexMesh = GetComponentInChildren<HexMesh>();
@@ -36,7 +41,6 @@ public class HexGrid : MonoBehaviour
         CreateChunks();
         CreateCells();
     }
-
 
     //	void Start () {
     //		hexMesh.Triangulate(cells);
@@ -216,17 +220,27 @@ public class HexGrid : MonoBehaviour
 
     public HexCell GetCell(HexCoordinates coordinates)
     {
-        int z = coordinates.Z; 
+        int z = coordinates.Z;
         if (z < 0 || z >= cellCountZ)
         {
             return null;
         }
-        int x = coordinates.X + z / 2; 
+        int x = coordinates.X + z / 2;
         if (x < 0 || x >= cellCountX)
         {
             return null;
         }
         return cells[x + z * cellCountX];
+    }
+
+    public HexCell[] GetAllCells()
+    {
+        return cells;
+    }
+
+    public HexGridChunk[] GetAllChunks()
+    {
+        return chunks;
     }
 
     #endregion Not in Tutorial

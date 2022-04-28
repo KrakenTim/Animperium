@@ -51,6 +51,8 @@ public class HexCell : MonoBehaviour
     private RessourceToken resource;
     public RessourceToken Resource => resource;
 
+    public int tempSaveColorID = 0;
+
     #endregion Not in Tutorial
 
     [SerializeField]

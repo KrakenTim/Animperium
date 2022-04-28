@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2541496302950810130}
   - component: {fileID: 2541496302950810129}
+  - component: {fileID: 8532971557129459080}
   m_Layer: 0
   m_Name: Hex Grid
   m_TagString: Untagged
@@ -51,3 +52,18 @@ MonoBehaviour:
   cellLabelPrefab: {fileID: 8258263730086729817, guid: 0c923b3976c68dc4ea2eebb21550f802, type: 3}
   noiseSource: {fileID: 2800000, guid: 9c6fd078c9a7816449c32a8b7f6b3117, type: 3}
   chunkPrefab: {fileID: 8386681081349579316, guid: 1169e07bf5f29994389abdd1963f6d2d, type: 3}
+--- !u!114 &8532971557129459080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2541496302950810128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07894056748662142b4665d42b2ef8a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  editor: {fileID: 0}
+  loadMapOnAwake: 1
+  loadMap: "4\t3\n2\t4\n2\t4\n2\t4\n2\t4\n2\t4\n2\t4\n1\t4\n1\t4\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n2\t4\n2\t4\n2\t4\n2\t4\n2\t4\n1\t4\n1\t4\n1\t4\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n2\t4\n2\t4\n2\t4\n1\t4\n1\t4\n2\t4\n1\t4\n1\t4\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n1\t4\n1\t4\n1\t4\n1\t4\n1\t4\n2\t4\n1\t4\n1\t4\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n1\t4\n1\t4\n1\t4\n1\t4\n1\t4\n2\t4\n1\t4\n1\t4\n1\t4\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n1\t4\n1\t4\n2\t4\n2\t4\n2\t4\n1\t4\n1\t4\n1\t4\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n2\t4\n2\t4\n2\t4\n2\t4\n1\t4\n1\t4\n1\t4\n1\t4\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n1\t4\n1\t4\n1\t4\n1\t4\n1\t4\n1\t4\n1\t4\n1\t4\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n1\t4\n1\t4\n1\t4\n1\t4\n1\t4\n1\t4\n1\t4\n1\t4\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n1\t4\n1\t4\n1\t4\n1\t4\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t3\n0\t3\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n1\t4\n1\t4\n1\t4\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t3\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n1\t4\n1\t4\n1\t4\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n1\t4\n1\t4\n1\t4\n1\t4\n1\t4\n1\t4\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n1\t4\n1\t4\n1\t4\n1\t4\n1\t4\n1\t4\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n1\t4\n1\t4\n1\t4\n1\t4\n1\t4\n1\t4\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0\n0\t0"

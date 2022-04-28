@@ -99,4 +99,14 @@ public class PlayerValues
     {
         PayCosts(spawnData.resourceCosts);
     }
+
+    public PlayerPawn GetTownHall()
+    {
+        foreach (var pawn in ownedPawns)
+        {
+            if (pawn.PawnType == ePlayerPawnType.TownHall)
+                return pawn;
+        }
+        return null;
+    }
 }
