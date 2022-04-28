@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
     private int turn;
     public static int Turn => instance ? instance.turn : -1;
 
+    Dictionary<int, Transform> spawnFolderTransforms = new Dictionary<int, Transform>();
+
     private void Awake()
     {
         instance = this;
@@ -41,6 +43,7 @@ public class GameManager : MonoBehaviour
         if (TryGetPlayerValues(localPlayerID, out PlayerValues player))
             HexMapCamera.SetPosition(player.GetTownHall().WorldPosition);
 
+        SetupPawnFolders();
         StartNewPlayerTurn();
     }
 
@@ -100,6 +103,25 @@ public class GameManager : MonoBehaviour
         turn += 1;
 
         TurnStarted?.Invoke(activePlayerID);
+    }
+
+    /// <summary>
+    /// Adds PlayerIDs and connected Transform to spawnFolderTransforms.
+    /// Renames spawn list transforms to player names.
+    /// Creates additional sorting transforms below the game manager if needed.
+    /// </summary>
+    private void SetupPawnFolders()
+    {
+        while (playerValueList.Length >= transform.childCount)
+        {
+            var s = new GameObject();
+            s.transform.parent = transform;
+        }
+        for (int i = 1; i <= playerValueList.Length; i++)
+        {
+            spawnFolderTransforms.Add(playerValueList[i - 1].playerID, transform.GetChild(i));
+            transform.GetChild(i).gameObject.name = playerValueList[i - 1].Name;
+        }
     }
 
     public static PlayerPawnData GetPawnData(ePlayerPawnType pawnType)

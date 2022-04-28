@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -60,7 +61,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         if (hexCell == null)
             SetHexCell(GameManager.GetHexCell(transform.position));
 
-        Debug.Log(ToString());
+        Debug.Log(ToString() + "\n");
     }
 
     /// <summary>
@@ -171,4 +172,34 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     {
         return $"{gameObject.name}[{PawnType},Player:{PlayerID}, Position:{HexCoordinates},{HP}HP, {MP}MP, CanAct:{CanAct}]";
     }
+
+    public void UpdateHexCellViaEditor()
+    {
+        HexCell below = GameManager.GetHexCell(transform.position);
+
+        if (below.HasPawn)
+        {
+            Debug.Log($"PlayerPawn\tTwo Pawns on the same position.\n\t\t{below.Pawn.ToString()}\n\t\t{this.ToString()}\n");
+            return;
+        }
+
+        SetHexCell(below);
+        Debug.Log($"PlayerPawn\tPlaced {PawnType}({WorldPosition}).\n\t\t{ToString()}\n");
+    }
 }
+
+#if UNITY_EDITOR
+/// <summary>
+/// Extends the default Unity Editor for the Class.
+/// </summary>
+[CustomEditor(typeof(PlayerPawn))]
+public class PlayerPawnEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        if (GUILayout.Button("Set Pawn to Hex"))
+            ((PlayerPawn)target).UpdateHexCellViaEditor();
+        base.OnInspectorGUI();
+    }
+}
+#endif // UNITY_EDITOR
