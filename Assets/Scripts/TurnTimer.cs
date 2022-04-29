@@ -7,7 +7,7 @@ public class TurnTimer : MonoBehaviour
 {
     [SerializeField] TMP_Text turnTimer;
     public int maxSecondsPerTurn = 90;
-    public int remainingSeconds;
+    public int remainingSeconds = 90;
     public bool deductingTime;
 
     private void Awake()
