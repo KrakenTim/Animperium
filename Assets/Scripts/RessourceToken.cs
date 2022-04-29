@@ -31,9 +31,14 @@ public class RessourceToken : MonoBehaviour
         hexCell = newCell;
 
         if (newCell != null)
+        {
             newCell.SetResource(this);
-    }
 
+            if (hexCell)
+                transform.position = hexCell.transform.position;
+        }
+    }
+    
     public void Harvest()
     {
         GameManager.AddResource(Type, amount);
