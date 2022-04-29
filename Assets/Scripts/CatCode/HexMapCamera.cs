@@ -24,6 +24,7 @@ public class HexMapCamera : MonoBehaviour
 
     Transform swivel, stick;
 
+    [Tooltip("Manual Assignment Of Grid Required")]
     public HexGrid grid;
 
     void Awake()
