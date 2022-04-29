@@ -62,3 +62,5 @@ crashlytics-build.properties
 Assets/StreamingAssets/InputLogs
 Assets/StreamingAssets/InputLogs.meta
 UserSettings/EditorUserSettings.asset
+Assets/StreamingAssets/TempMaps
+Assets/StreamingAssets/TempMaps.meta

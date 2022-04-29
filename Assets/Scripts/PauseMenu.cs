@@ -92,6 +92,9 @@ public class PauseMenu : MonoBehaviour
         else
             SceneManager.LoadScene("MainMenu");
 
+        Time.timeScale = 1f;
+        GameIsPaused = false;
+
         Debug.Log("Loading Menu");
     }
 

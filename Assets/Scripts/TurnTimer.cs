@@ -6,8 +6,19 @@ using TMPro;
 public class TurnTimer : MonoBehaviour
 {
     [SerializeField] TMP_Text turnTimer;
-    public int seconds = 90;
+    public int maxSecondsPerTurn = 90;
+    public int remainingSeconds = 90;
     public bool deductingTime;
+
+    private void Awake()
+    {
+        GameManager.TurnStarted += ResetTimer;
+    }
+
+    private void OnDiestroy()
+    {
+        GameManager.TurnStarted -= ResetTimer;
+    }
 
     // Update is called once per frame
     void Update()
@@ -17,21 +28,24 @@ public class TurnTimer : MonoBehaviour
             deductingTime = true;
             StartCoroutine(DeductSeconds());
 
-            turnTimer.text = "Turn Time: " + seconds.ToString();
+            turnTimer.text = "Turn Time: " + remainingSeconds.ToString();
         }
     }
 
     IEnumerator DeductSeconds()
     {
         yield return new WaitForSeconds(1);
-        seconds -= 1;
+        remainingSeconds -= 1;
 
-        if (seconds <= 0)
+        if (remainingSeconds <= 0)
         GameManager.EndTurn();
 
-        if (seconds <= 0)
-            seconds = 90;
-
         deductingTime = false;
+    }
+
+    private void ResetTimer(int unusedPlayerID)
+    {
+        remainingSeconds = maxSecondsPerTurn;
+        turnTimer.text = "Turn Time: " + remainingSeconds.ToString();
     }
 }
