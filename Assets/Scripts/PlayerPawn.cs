@@ -30,6 +30,12 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     [SerializeField] int playerID;
     public int PlayerID => playerID;
 
+    /// <summary>
+    /// used to more easily track pawns which are otherwise similar.
+    /// </summary>
+    [HideInInspector] public int pawnID = 0;
+    public string PawnName => $"{PawnType}{playerID} ({pawnID})";
+
     [Space]
     [SerializeField] int currentHealth;
     public int HP => currentHealth;

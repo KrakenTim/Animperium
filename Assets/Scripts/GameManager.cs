@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     private int turn;
     public static int Turn => instance ? instance.turn : -1;
 
+    int spawnedPawnID = 0;
     Dictionary<int, Transform> spawnFolderTransforms = new Dictionary<int, Transform>();
 
     private void Awake()
@@ -181,7 +182,7 @@ public class GameManager : MonoBehaviour
     public static PlayerPawn PlaceNewPawn(PlayerPawnData placedPawnData, HexCell spot, int playerID)
     {
         PlayerPawn newPawn = Instantiate(placedPawnData.GetPawnPrefab(playerID),
-                             spot.transform.position, Quaternion.identity, instance.transform);
+                             spot.transform.position, Quaternion.identity, instance.spawnFolderTransforms[playerID]);
 
         // Pawn adds itself to the grid on the matching position.
         newPawn.SetPlayer(playerID);
@@ -273,6 +274,13 @@ public class GameManager : MonoBehaviour
         if (instance.TryGetPlayerValues(pawn.PlayerID, out PlayerValues result)
             && !result.ownedPawns.Contains(pawn))
         {
+            if (pawn.pawnID == 0)
+            {
+                instance.spawnedPawnID += 1;
+                pawn.pawnID = instance.spawnedPawnID;
+                pawn.gameObject.name = pawn.PawnName;
+            }
+
             result.ownedPawns.Add(pawn);
         }
     }
