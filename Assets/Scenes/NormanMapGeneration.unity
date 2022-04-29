@@ -6068,7 +6068,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnTimer: {fileID: 560884623}
   maxSecondsPerTurn: 90
-  remainingSeconds: 0
+  remainingSeconds: 90
   deductingTime: 0
 --- !u!1 &1807617788
 GameObject:
