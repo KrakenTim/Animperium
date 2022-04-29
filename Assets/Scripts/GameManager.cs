@@ -29,6 +29,9 @@ public class GameManager : MonoBehaviour
     private int turn;
     public static int Turn => instance ? instance.turn : -1;
 
+    int spawnedPawnID = 0;
+    Dictionary<int, Transform> spawnFolderTransforms = new Dictionary<int, Transform>();
+
     private void Awake()
     {
         instance = this;
@@ -41,6 +44,7 @@ public class GameManager : MonoBehaviour
         if (TryGetPlayerValues(localPlayerID, out PlayerValues player))
             HexMapCamera.SetPosition(player.GetTownHall().WorldPosition);
 
+        SetupPawnFolders();
         StartNewPlayerTurn();
     }
 
@@ -102,6 +106,25 @@ public class GameManager : MonoBehaviour
         TurnStarted?.Invoke(activePlayerID);
     }
 
+    /// <summary>
+    /// Adds PlayerIDs and connected Transform to spawnFolderTransforms.
+    /// Renames spawn list transforms to player names.
+    /// Creates additional sorting transforms below the game manager if needed.
+    /// </summary>
+    private void SetupPawnFolders()
+    {
+        while (playerValueList.Length >= transform.childCount)
+        {
+            var s = new GameObject();
+            s.transform.parent = transform;
+        }
+        for (int i = 1; i <= playerValueList.Length; i++)
+        {
+            spawnFolderTransforms.Add(playerValueList[i - 1].playerID, transform.GetChild(i));
+            transform.GetChild(i).gameObject.name = playerValueList[i - 1].Name;
+        }
+    }
+
     public static PlayerPawnData GetPawnData(ePlayerPawnType pawnType)
     {
         foreach (var data in instance.pawnDatas)
@@ -159,7 +182,7 @@ public class GameManager : MonoBehaviour
     public static PlayerPawn PlaceNewPawn(PlayerPawnData placedPawnData, HexCell spot, int playerID)
     {
         PlayerPawn newPawn = Instantiate(placedPawnData.GetPawnPrefab(playerID),
-                             spot.transform.position, Quaternion.identity, instance.transform);
+                             spot.transform.position, Quaternion.identity, instance.spawnFolderTransforms[playerID]);
 
         // Pawn adds itself to the grid on the matching position.
         newPawn.SetPlayer(playerID);
@@ -251,6 +274,13 @@ public class GameManager : MonoBehaviour
         if (instance.TryGetPlayerValues(pawn.PlayerID, out PlayerValues result)
             && !result.ownedPawns.Contains(pawn))
         {
+            if (pawn.pawnID == 0)
+            {
+                instance.spawnedPawnID += 1;
+                pawn.pawnID = instance.spawnedPawnID;
+                pawn.gameObject.name = pawn.PawnName;
+            }
+
             result.ownedPawns.Add(pawn);
         }
     }
