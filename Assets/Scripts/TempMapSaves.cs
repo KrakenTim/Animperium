@@ -37,13 +37,18 @@ public class TempMapSaves : MonoBehaviour
         if (loadMapOnAwake)
             LoadString();
 
+#if !UNITY_EDITOR
         if (hideInBuild != null)
             hideInBuild.SetActive(false);
+#endif
     }
 
     public void Button_SaveMap() => CreateSave();
 
     public void Button_LoadMap() => LoadString();
+
+    public void Button_MirrorLowerHalf() => MirrorLowerHalf();
+    public void Button_MirrorUpperHalf() => MirrorUpperHalf();
 
     private void CreateSave()
     {
@@ -107,6 +112,22 @@ public class TempMapSaves : MonoBehaviour
         foreach (var item in grid.GetAllChunks())
             item.Refresh();
     }
+
+    private void MirrorLowerHalf()
+    {
+        HexCell[] cells = grid.GetAllCells();
+
+        for (int i = 0; i < cells.Length / 2f; i++)
+            cells[cells.Length - (1 + i)].Copy(cells[i]);
+    }
+
+    private void MirrorUpperHalf()
+    {
+        HexCell[] cells = grid.GetAllCells();
+
+        for (int i = 0; i < cells.Length / 2f; i++)
+            cells[i].Copy(cells[cells.Length - (1 + i)]);
+    }
 }
 
 #if UNITY_EDITOR
@@ -125,6 +146,16 @@ public class SaveMapButtonEditor : Editor
 
         if (GUILayout.Button("Load Map String"))
             ((TempMapSaves)target).Button_LoadMap();
+
+        GUILayout.Space(10);
+
+        if (GUILayout.Button("Mirror Lower Half"))
+            ((TempMapSaves)target).Button_MirrorLowerHalf();
+
+        if (GUILayout.Button("Mirror Upper Half"))
+            ((TempMapSaves)target).Button_MirrorUpperHalf();
+
+        GUILayout.Space(10);
 
         base.OnInspectorGUI();
     }

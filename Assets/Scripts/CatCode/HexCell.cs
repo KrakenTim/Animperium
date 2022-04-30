@@ -61,7 +61,7 @@ public class HexCell : MonoBehaviour
     }
 
     public HexCoordinates coordinates;
-    
+
     int elevation;
 
     public RectTransform uiRect;
@@ -115,11 +115,11 @@ public class HexCell : MonoBehaviour
         }
         set
         {
-/*	        int elevation = int.MinValue;
-            if (elevation == value)
-            {
-                return;
-            }*/
+            /*	        int elevation = int.MinValue;
+                        if (elevation == value)
+                        {
+                            return;
+                        }*/
             elevation = value;
             Vector3 position = transform.localPosition;
             position.y = value * HexMetrics.elevationStep;
@@ -176,7 +176,7 @@ public class HexCell : MonoBehaviour
 
     public void SetResource(RessourceToken newResource)
     {
-        if (resource == null || newResource ==null)
+        if (resource == null || newResource == null)
             resource = newResource;
         else
             Debug.LogError($"Resource to set two Pawns onto same HexCell{coordinates.ToString()}!\n", this);
@@ -189,14 +189,20 @@ public class HexCell : MonoBehaviour
             if (item == cell) return true;
         }
 
-        return false; 
+        return false;
+    }
+
+    public void Copy(HexCell blueprint)
+    {
+        Color = blueprint.Color;
+        tempSaveColorID = blueprint.tempSaveColorID;
+
+        Elevation = blueprint.Elevation;
     }
 
     #endregion Not in Tutorial
 
 }
-
-
 
 public static class HexDirectionExtensions
 {
@@ -213,6 +219,4 @@ public static class HexDirectionExtensions
     {
         return direction == HexDirection.NW ? HexDirection.NE : (direction + 1);
     }
-
-
 }
