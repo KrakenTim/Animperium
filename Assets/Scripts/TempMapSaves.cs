@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Should be placed on same GameObject as HexGrid
@@ -12,6 +13,8 @@ public class TempMapSaves : MonoBehaviour
 {
     HexGrid grid;
     [SerializeField] HexMapEditor editor;
+
+    [SerializeField] GameObject hideInBuild;
 
     [Space]
     [SerializeField] public bool loadMapOnAwake = true;
@@ -33,17 +36,14 @@ public class TempMapSaves : MonoBehaviour
 
         if (loadMapOnAwake)
             LoadString();
+
+        if (hideInBuild != null)
+            hideInBuild.SetActive(false);
     }
 
-    public void Button_SaveMap()
-    {
-        CreateSave();
-    }
+    public void Button_SaveMap() => CreateSave();
 
-    public void Button_LoadMap()
-    {
-        LoadString();
-    }
+    public void Button_LoadMap() => LoadString();
 
     private void CreateSave()
     {
@@ -68,7 +68,7 @@ public class TempMapSaves : MonoBehaviour
         Debug.Log($"Created new temporary Map named {logFileName}\nAt: {AI_File.PathTempMaps + logFileName}");
     }
 
-    public void LoadString()
+    private void LoadString()
     {
         if (string.IsNullOrWhiteSpace(loadMap)) return;
 
@@ -83,6 +83,8 @@ public class TempMapSaves : MonoBehaviour
 
             grid.chunkCountX = int.Parse(nextLine[0]);
             grid.chunkCountZ = int.Parse(nextLine[1]);
+
+            grid.Clear();
             grid.Awake();
         }
 
@@ -118,8 +120,11 @@ public class SaveMapButtonEditor : Editor
 {
     public override void OnInspectorGUI()
     {
+        if (GUILayout.Button("Save Map"))
+            ((TempMapSaves)target).Button_SaveMap();
+
         if (GUILayout.Button("Load Map String"))
-            ((TempMapSaves)target).LoadString();
+            ((TempMapSaves)target).Button_LoadMap();
 
         base.OnInspectorGUI();
     }

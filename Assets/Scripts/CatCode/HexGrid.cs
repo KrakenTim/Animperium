@@ -243,5 +243,17 @@ public class HexGrid : MonoBehaviour
         return chunks;
     }
 
+    public void Clear()
+    {
+        if (chunks == null) return;
+
+        for (int i = 0; i < chunks.Length; i++)
+        {
+            if (chunks[i])
+                Destroy(chunks[i].gameObject);
+        }
+        chunks = null;
+    }
+
     #endregion Not in Tutorial
 }

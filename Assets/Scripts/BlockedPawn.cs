@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -28,3 +29,14 @@ public class BlockedPawn : PlayerPawn
         
     }
 }
+
+#if UNITY_EDITOR
+/// <summary>
+/// Extends the default Unity Editor for the Class.
+/// </summary>
+[CustomEditor(typeof(BlockedPawn))]
+public class BlockedPawnEditor : PlayerPawnEditor
+{
+    //identical to base class editor
+}
+#endif // UNITY_EDITOR
