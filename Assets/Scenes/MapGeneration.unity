@@ -784,6 +784,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1828720154}
     m_Modifications:
+    - target: {fileID: 3742140056524107426, guid: 247db13c59166bf42bc70fe38d954528, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2541496304369869977}
+    - target: {fileID: 3742140056524107426, guid: 247db13c59166bf42bc70fe38d954528, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Button_MirrorLowerHalf
+      objectReference: {fileID: 0}
     - target: {fileID: 3742140056524107428, guid: 247db13c59166bf42bc70fe38d954528, type: 3}
       propertyPath: m_Name
       value: TempMapEditorButton_MirrorLower
@@ -931,6 +939,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1828720154}
     m_Modifications:
+    - target: {fileID: 3742140056524107426, guid: 247db13c59166bf42bc70fe38d954528, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2541496304369869977}
+    - target: {fileID: 3742140056524107426, guid: 247db13c59166bf42bc70fe38d954528, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Button_MirrorUpperHalf
+      objectReference: {fileID: 0}
     - target: {fileID: 3742140056524107428, guid: 247db13c59166bf42bc70fe38d954528, type: 3}
       propertyPath: m_Name
       value: TempMapEditorButton_MirrorUpper
