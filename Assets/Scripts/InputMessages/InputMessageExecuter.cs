@@ -79,7 +79,7 @@ public static class InputMessageExecuter
                 GameManager.SpawnPawn(startPawn, targetCell, startPawn.Spawn);
                 break;
             case ePlayeractionType.Learn:
-                GameManager.UpgradePawn(startPawn, targetPawn);
+                GameManager.UpgradePawn(startPawn, targetPawn, hexOrder.newPawn);
                 break;
             case ePlayeractionType.Build:
                 startPawn.Build(targetCell, hexOrder.newPawn);

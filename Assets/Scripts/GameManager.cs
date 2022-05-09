@@ -150,9 +150,9 @@ public class GameManager : MonoBehaviour
         return result;
     }
 
-    public static void UpgradePawn(PlayerPawn upgraded, PlayerPawn school)
+    public static void UpgradePawn(PlayerPawn upgraded, PlayerPawn school, ePlayerPawnType newPawn)
     {
-        if (PawnUpgradeController.TryUpgradeUnit(upgraded, school, out GameResources costs)
+        if (PawnUpgradeController.TryUpgradeUnit(upgraded, school, newPawn, out GameResources costs)
             && instance.TryGetPlayerValues(upgraded.PlayerID, out PlayerValues playerValues))
         {
             playerValues.PayCosts(costs);
@@ -170,6 +170,13 @@ public class GameManager : MonoBehaviour
         if (!spawner.CanAct)
         {
             Debug.LogError($"GameManager\tTried to place {newPawnType} at {spawnPoint}, but Spawner can't act\n\t\n{spawner}", spawner);
+            return false;
+        }
+
+        if (spawnPoint.HasPawn)
+        {
+            Debug.LogError($"GameManager\tTried to place {newPawnType} at {spawnPoint}, " +
+                           $"but there's a {spawnPoint.Pawn.PawnType} already.\n\t\n{spawner}\n\t\t {spawnPoint.Pawn}", spawner);
             return false;
         }
 

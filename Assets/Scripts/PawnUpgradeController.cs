@@ -8,9 +8,9 @@ public static class PawnUpgradeController
     /// Upgrades a given unit according to knowledge learned from school.
     /// Return Upgrade costs
     /// </summary>
-    public static bool TryUpgradeUnit(PlayerPawn upgradedUnit, PlayerPawn school, out GameResources resultingCosts)
+    public static bool TryUpgradeUnit(PlayerPawn upgradedUnit, PlayerPawn school, ePlayerPawnType newUnitType, out GameResources resultingCosts)
     {
-        if (!TryUpgradePossible(upgradedUnit.PawnType, school.PawnType.Teaches(),
+        if (!TryUpgradePossible(upgradedUnit.PawnData, newUnitType,
                                       upgradedUnit.PlayerID, out PlayerPawnData newUnitData, out GameResources upgradeCost))
         {
             Debug.LogError($"Called upgradedUnit unexpectedly!\nUnit\t{upgradedUnit.ToString()}\nSchool\t{school.ToString()}");
@@ -33,20 +33,25 @@ public static class PawnUpgradeController
     /// <summary>
     /// Return true if the unit will upgrade through the given knowledge and the player has the needed resources. 
     /// </summary>
-    public static bool TryUpgradePossible(ePlayerPawnType oldUnit, eKnowledge knowledge,
+    public static bool TryUpgradePossible(PlayerPawnData oldUnitData, ePlayerPawnType newUnit,
                                       int playerID, out PlayerPawnData newUnitData, out GameResources upgradeCosts)
     {
-        PlayerPawnData oldUnitData = GameManager.GetPawnData(oldUnit);
+        newUnitData = null;
 
         // Check if unit profits from learning
-        if (!oldUnitData.CanLearn(knowledge, out ePlayerPawnType newUnitType))
+        foreach (var possibleUpgrade in oldUnitData.PossibleUnitUpgrades())
         {
-            newUnitData = null;
+            if (possibleUpgrade.type == newUnit)
+            {
+                newUnitData = possibleUpgrade;
+                break;
+            }
+        }
+        if (newUnitData == null)
+        {
             upgradeCosts = new GameResources();
             return false;
         }
-
-        newUnitData = GameManager.GetPawnData(newUnitType);
 
         upgradeCosts = GetUpgradeCost(oldUnitData, newUnitData);
 

@@ -7,11 +7,11 @@ using UnityEngine;
 /// </summary>
 public static class InputMessageGenerator
 {
-    public static InputMessage CreateBuildMessage(PlayerPawn actingPawn, HexCell targetCell, ePlayerPawnType buildPawn)
+    public static InputMessage CreatePawnMessage(PlayerPawn actingPawn, HexCell targetCell, ePlayeractionType action, ePlayerPawnType newPawn)
     {
-        InputMessage message = CreateHexMessage(actingPawn, targetCell, ePlayeractionType.Build);
+        InputMessage message = CreateHexMessage(actingPawn, targetCell, action);
 
-        message.newPawn = buildPawn;
+        message.newPawn = newPawn;
 
         return message;
     }

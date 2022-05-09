@@ -29,7 +29,7 @@ public class InteractionMenuManager : MonoBehaviour
     }
 
     // destroy old Buttons
-    public static void OpenBuildMenu()
+    public static void OpenPawnCreationMenu(HexCell targetCell, PlayerPawnData upgradedUnit = null)
     {
         foreach (var button in instance.buttonList)
         {
@@ -38,16 +38,22 @@ public class InteractionMenuManager : MonoBehaviour
         instance.buttonList.Clear();
 
         // create new Buttons
-        foreach (var pawnData in GameManager.GetBuildingData())
+        foreach (var pawnData in upgradedUnit !=null? upgradedUnit.PossibleUnitUpgrades():GameManager.GetBuildingData())
         {
+
+            if (pawnData.GetPawnPrefab(GameManager.LocalPlayerID) == null)
+            {
+                Debug.LogWarning($"PlayerPawnData\tNo Prefab for Player {GameManager.LocalPlayerID} for {pawnData.type}\n", pawnData);
+                continue;
+            }
             InteractionContextButton nextButton = Instantiate(instance.buttonPrefab, instance.buttonFrame.transform);
 
-            nextButton.Initialise(pawnData);
+            nextButton.Initialise(pawnData, targetCell, upgradedUnit);
 
             instance.buttonList.Add(nextButton);
         }
 
-        instance.SetVisible(true);
+        instance.SetVisible(instance.buttonList.Count > 0);
     }
 
     public static void Close()
