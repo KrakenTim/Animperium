@@ -11,7 +11,7 @@ public class PlayerValues
     public int playerID;
     public int factionID;
     public Color playerColor;
-    public Sprite playerIcon;
+    public ColorableIcon playerIcon;
 
     public GameResources playerResources;
 

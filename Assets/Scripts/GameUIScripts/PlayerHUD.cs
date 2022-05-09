@@ -16,8 +16,10 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] TMPro.TMP_Text oreAmount;
     [Header("Pawn Info")]
     [SerializeField] GameObject pawnInfoRoot;
-    [SerializeField] Image playerIcon;
-    [SerializeField] Image pawnIcon;
+    [SerializeField] Image playerIconColored;
+    [SerializeField] Image playerIconBase;
+    [SerializeField] Image pawnIconColored;
+    [SerializeField] Image pawnIconBase;
     [SerializeField] Image canActIcon;
     [Space]
     [SerializeField] TMPro.TMP_Text pawnType;
@@ -73,20 +75,25 @@ public class PlayerHUD : MonoBehaviour
         if (selectedPawn == null)
         {
             pawnInfoRoot.SetActive(false);
-            playerIcon.enabled = false;
-            pawnIcon.enabled = false;
+            playerIconColored.enabled = false;
+            playerIconBase.enabled = false;
+            pawnIconColored.enabled = false;
+            pawnIconBase.enabled = false;
             canActIcon.enabled = false;
             return;
         }
         else
         {
             pawnInfoRoot.SetActive(true);
-            playerIcon.enabled = true;
-            pawnIcon.enabled = true;
+            playerIconColored.enabled = true;
+            playerIconBase.enabled = true;
+            pawnIconColored.enabled = true;
+            pawnIconBase.enabled = true;
         }
 
-        playerIcon.sprite = selectedPawn.PlayerIcon;
-        pawnIcon.sprite = selectedPawn.PawnIcon;
+        IconProvider.SetupPlayer(ref playerIconBase, ref playerIconColored, selectedPawn.PlayerID);
+        IconProvider.SetupPawn(ref playerIconBase, ref playerIconColored, selectedPawn.PlayerID, selectedPawn.PawnData);
+
         canActIcon.enabled = selectedPawn.CanAct;
         pawnType.text = selectedPawn.PawnName;
 

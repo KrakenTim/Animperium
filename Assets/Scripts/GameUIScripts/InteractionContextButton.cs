@@ -9,7 +9,8 @@ public class InteractionContextButton : MonoBehaviour
 
     private PlayerPawnData pawnData;
     [Space]
-    [SerializeField] Image pawnIcon;
+    [SerializeField] Image pawnIconColored;
+    [SerializeField] Image pawnIconBase;
     [SerializeField] TMPro.TMP_Text pawnName;
     [Space]
     [SerializeField] TMPro.TMP_Text foodCost;
@@ -25,9 +26,8 @@ public class InteractionContextButton : MonoBehaviour
 
         gameObject.name = buttonPawn + "InteractionContextButton";
 
-        pawnIcon.sprite = pawnData.pawnIcon;
-        if (pawnIcon.sprite == null)
-            pawnIcon.sprite = GameManager.GetPlayerIcon(GameManager.LocalPlayerID);
+        IconProvider.SetupPawn(ref pawnIconColored, ref pawnIconBase, GameManager.LocalPlayerID, pawnData);
+
         pawnName.text = pawnData.PawnName;
 
         SetCosts(pawnData.resourceCosts);

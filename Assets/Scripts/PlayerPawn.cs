@@ -9,7 +9,7 @@ using UnityEngine.Events;
 public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] PlayerPawnData pawnData;
-
+    public PlayerPawnData PawnData => pawnData;
     public ePlayerPawnType PawnType => pawnData.type;
     public int MaxHealth => pawnData.maxHealth;
     public int MaxMovement => pawnData.maxMovement;
@@ -22,11 +22,11 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     /// <summary>
     /// Returns Pawn Icon if not null else it's the Players Icon
     /// </summary>
-    public Sprite PawnIcon => (pawnData.pawnIcon != null) ? pawnData.pawnIcon : GameManager.GetPlayerIcon(PlayerID);
+    public ColorableIcon PawnIcon => pawnData.pawnIcon;
     /// <summary>
     /// Returns the players individual icon.
     /// </summary>
-    public Sprite PlayerIcon => GameManager.GetPlayerIcon(playerID);
+    public ColorableIcon PlayerIcon => GameManager.GetPlayerIcon(playerID);
 
     [SerializeField] int playerID;
     public int PlayerID => playerID;

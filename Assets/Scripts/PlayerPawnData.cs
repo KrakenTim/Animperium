@@ -11,7 +11,7 @@ public class PlayerPawnData : ScriptableObject
     public ePlayerPawnType type;
     public string PawnName => type.ToString();
 
-    [SerializeField] public Sprite pawnIcon;
+    [SerializeField] public ColorableIcon pawnIcon;
 
     [Header("Stats")]
     public int maxHealth;
