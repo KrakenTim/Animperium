@@ -20,7 +20,7 @@ public class PlayerValues
     private bool hasLost = false;
     public bool HasLost => hasLost;
 
-    public string Name => "Player" + playerID;
+    public string Name => OnlineGameManager.IsOnlineGame? OnlineGameManager.myNameOnServer : "Player" + playerID;
 
     public void GiveUp()
     {
