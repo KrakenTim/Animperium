@@ -16,10 +16,9 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] TMPro.TMP_Text oreAmount;
     [Header("Pawn Info")]
     [SerializeField] GameObject pawnInfoRoot;
-    [SerializeField] Image playerIconColored;
-    [SerializeField] Image playerIconBase;
-    [SerializeField] Image pawnIconColored;
-    [SerializeField] Image pawnIconBase;
+    [Space]
+    [SerializeField] ColorableImage playerIcon;
+    [SerializeField] ColorableImage pawnIcon;    
     [SerializeField] Image canActIcon;
     [Space]
     [SerializeField] TMPro.TMP_Text pawnType;
@@ -75,31 +74,32 @@ public class PlayerHUD : MonoBehaviour
         if (selectedPawn == null)
         {
             pawnInfoRoot.SetActive(false);
-            playerIconColored.enabled = false;
-            playerIconBase.enabled = false;
-            pawnIconColored.enabled = false;
-            pawnIconBase.enabled = false;
+            playerIcon.SetVisible(false);
+            pawnIcon.SetVisible(false);
             canActIcon.enabled = false;
             return;
         }
         else
         {
             pawnInfoRoot.SetActive(true);
-            playerIconColored.enabled = true;
-            playerIconBase.enabled = true;
-            pawnIconColored.enabled = true;
-            pawnIconBase.enabled = true;
+            playerIcon.SetVisible(true);
+            pawnIcon.SetVisible(true);
         }
 
-        IconProvider.SetupPlayer(ref playerIconBase, ref playerIconColored, selectedPawn.PlayerID);
-        IconProvider.SetupPawn(ref playerIconBase, ref playerIconColored, selectedPawn.PlayerID, selectedPawn.PawnData);
+        playerIcon.SetPlayer(selectedPawn.PlayerID);
+        pawnIcon.SetPawn(selectedPawn);
 
         canActIcon.enabled = selectedPawn.CanAct;
         pawnType.text = selectedPawn.PawnName;
 
         pawnHP.text = "HP " + selectedPawn.HP + "/" + selectedPawn.MaxHealth;
-        pawnMP.text = "MP " + selectedPawn.MP + "/" + selectedPawn.MaxMovement;
-        pawnMP.enabled = selectedPawn.IsUnit;
+        if (selectedPawn.IsUnit)
+        {
+            pawnMP.text = "MP " + selectedPawn.MP + "/" + selectedPawn.MaxMovement;
+            pawnMP.enabled = true;
+        }
+        else
+            pawnMP.enabled = false;
     }
 
     public void Button_EndTurn()

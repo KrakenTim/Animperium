@@ -22,11 +22,11 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     /// <summary>
     /// Returns Pawn Icon if not null else it's the Players Icon
     /// </summary>
-    public ColorableIcon PawnIcon => pawnData.pawnIcon;
+    public ColorableIconData PawnIcon => pawnData.PawnIcon;
     /// <summary>
     /// Returns the players individual icon.
     /// </summary>
-    public ColorableIcon PlayerIcon => GameManager.GetPlayerIcon(playerID);
+    public ColorableIconData PlayerIcon => GameManager.GetPlayerIcon(playerID);
 
     [SerializeField] int playerID;
     public int PlayerID => playerID;

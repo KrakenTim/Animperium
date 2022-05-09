@@ -30,8 +30,7 @@ public class VictoryLoseScreen : MonoBehaviour
     [SerializeField] GameObject Lose;
     [Space]
     [SerializeField] TMP_Text victoryText;
-    [SerializeField] Image winnerIconColored;
-    [SerializeField] Image winnerIconBase;
+    [SerializeField] ColorableImage winnerIcon;
 
     private void Awake()
     {
@@ -54,7 +53,7 @@ public class VictoryLoseScreen : MonoBehaviour
         if (!instance.victory.activeInHierarchy)
             Debug.LogError("Victory Screen not visible is Canvas active?\n");
 
-        IconProvider.SetupPlayer(ref instance.winnerIconColored, ref instance.winnerIconBase, winners[0].playerID);
+        instance.winnerIcon.SetPlayer(winners[0]);
         string winnerText = "Victory!";
 
         foreach (var player in winners)

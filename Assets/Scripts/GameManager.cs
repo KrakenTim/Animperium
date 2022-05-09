@@ -262,14 +262,14 @@ public class GameManager : MonoBehaviour
         return new GameResources();
     }
 
-    public static ColorableIcon GetPlayerIcon(int playerID)
+    public static ColorableIconData GetPlayerIcon(int playerID)
     {
         if (instance.TryGetPlayerValues(playerID, out PlayerValues result))
-            return result.playerIcon;
+            return result.PlayerIcon;
 
         Debug.LogError("Icon not found for Player " + playerID, instance);
 
-        return new ColorableIcon();
+        return new ColorableIconData();
     }
 
     public static HexCell GetHexCell(Vector3 worldPosition)
