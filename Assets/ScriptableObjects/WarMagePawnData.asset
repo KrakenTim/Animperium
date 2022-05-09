@@ -19,6 +19,9 @@ MonoBehaviour:
   attackPower: 4
   resourceCosts:
     food: 30
+    wood: 10
+    ore: 10
+  populationCount: 1
   spawnedPawn: 0
   learnsFight: 0
   learnsMagic: 0

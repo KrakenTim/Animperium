@@ -138,6 +138,18 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
+    public static List<PlayerPawnData>GetBuildingData()
+    {
+        List<PlayerPawnData> result = new List<PlayerPawnData>();
+
+        foreach (var data in instance.pawnDatas)
+        {
+            if (data.IsBuilding) 
+                result.Add(data);
+        }
+        return result;
+    }
+
     public static void UpgradePawn(PlayerPawn upgraded, PlayerPawn school)
     {
         if (PawnUpgradeController.TryUpgradeUnit(upgraded, school, out GameResources costs)
@@ -148,32 +160,34 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+
     /// <summary>
     /// playes a new pawn according to the spawner, if the player has the needed resource, removes the costs and places the pawn 
     /// </summary>
-    public static void SpawnPawn(PlayerPawn spawner, HexCell spawnPoint)
+    public static bool SpawnPawn(PlayerPawn spawner, HexCell spawnPoint, ePlayerPawnType newPawnType)
     {
-        ePlayerPawnType spawnPawnType = spawner.Spawn;
+        if (!spawner.CanAct)
+        {
+            Debug.LogError($"GameManager\tTried to place {newPawnType} at {spawnPoint}, but Spawner can't act\n\t\n{spawner}", spawner);
+            return false;
+        }
 
-        PlayerPawnData spawnedPawnData = GetPawnData(spawnPawnType);
+        PlayerPawnData spawnedPawnData = GetPawnData(newPawnType);
 
-        Debug.Log("1");
-
-        if (spawnedPawnData == null) return;
-
-        Debug.Log("2");
+        if (spawnedPawnData == null) return false;
 
         // return if there's no playerdata or can't afford spawn
         if (!instance.TryGetPlayerValues(spawner.PlayerID, out PlayerValues playerResources)
             || !playerResources.HasResourcesToSpawn(spawnedPawnData))
-            return;
-
-        Debug.Log("3");
+            return false;
 
         playerResources.PaySpawnCosts(spawnedPawnData);
         PlayerHUD.UpdateHUD(instance.activePlayerID);
 
         PlaceNewPawn(spawnedPawnData, spawnPoint, spawner.PlayerID);
+
+        return true;
     }
 
     /// <summary>
@@ -186,7 +200,7 @@ public class GameManager : MonoBehaviour
 
         // Pawn adds itself to the grid on the matching position.
         newPawn.SetPlayer(playerID);
-
+        newPawn.GetsSpawned();
         return newPawn;
     }
 

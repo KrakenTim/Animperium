@@ -12,10 +12,12 @@ public class GameInputManager : MonoBehaviour
 
     public static HexGrid HexGrid => GameManager.HexGrid;
 
-    public static event System.Action<PlayerPawn> SelectedPawn;
+    public static event System.Action<PlayerPawn> SelectPawn;
 
     [SerializeField] PlayerPawn selectedPawn;
+    public static PlayerPawn SelectedPawn => instance.selectedPawn;
     [SerializeField] HexCell selectedHexCell;
+    public static HexCell SelectedHexCell => instance.selectedHexCell;
 
     private void Awake()
     {
@@ -31,13 +33,20 @@ public class GameInputManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (MouseOverHexCheck.IsOnHex && Mouse.current.leftButton.wasPressedThisFrame)
+        if (MouseOverHexCheck.IsOnHex)
         {
-            ClickedOnHex();
+            if (Mouse.current.leftButton.wasReleasedThisFrame)
+            {
+                ClickedOnHex(wasLeftClick: true);
+            }
+            else if (Mouse.current.rightButton.wasReleasedThisFrame)
+            {
+                ClickedOnHex(wasLeftClick: false);
+            }
         }
     }
 
-    private void ClickedOnHex()
+    private void ClickedOnHex(bool wasLeftClick)
     {
         Ray inputRay = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
 
@@ -47,25 +56,34 @@ public class GameInputManager : MonoBehaviour
 
         if (IsPawnActionPossible(selectedHexCell))
         {
-            if (IsCollectPossible())
+            if (wasLeftClick)
             {
-                InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Collect);
-                InputMessageExecuter.Send(message);
-                return;
-            }
+                if (IsCollectPossible())
+                {
+                    InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Collect);
+                    InputMessageExecuter.Send(message);
+                    return;
+                }
 
-            if (IsMovePossible())
-            {
-                InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Move);
-                InputMessageExecuter.Send(message);
-                return;
-            }
+                if (IsSpawnPossible())
+                {
+                    InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Spawn);
+                    InputMessageExecuter.Send(message);
+                    return;
+                }
 
-            if (IsSpawnPossible())
+                if (IsBuildingPossible())
+                InteractionMenuManager.OpenBuildMenu();
+
+            }
+            else // rightClick
             {
-                InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Spawn);
-                InputMessageExecuter.Send(message);
-                return;
+                if (IsMovePossible())
+                {
+                    InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Move);
+                    InputMessageExecuter.Send(message);
+                    return;
+                }
             }
         }
     }
@@ -96,6 +114,11 @@ public class GameInputManager : MonoBehaviour
         // TODO(24.04.22) might check if needed resources are available.
         return !selectedHexCell.HasPawn
                && selectedPawn.Spawn != ePlayerPawnType.NONE;
+    }
+
+    private bool IsBuildingPossible()
+    {
+        return selectedPawn.PawnType == ePlayerPawnType.Villager && !selectedHexCell.HasPawn;
     }
 
     private bool IsAttackPossible(PlayerPawn otherPawn)
@@ -138,12 +161,12 @@ public class GameInputManager : MonoBehaviour
         // Select clicked Pawn
         instance.selectedPawn = clickedPawn;
 
-        SelectedPawn?.Invoke(clickedPawn);
+        SelectPawn?.Invoke(clickedPawn);
     }
 
     public static void DeselectPawn()
     {
         instance.selectedPawn = null;
-        SelectedPawn?.Invoke(null);
+        SelectPawn?.Invoke(null);
     }
 }

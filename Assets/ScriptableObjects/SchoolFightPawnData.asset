@@ -19,11 +19,14 @@ MonoBehaviour:
   attackPower: 0
   resourceCosts:
     food: 40
-    wood: 0
+    wood: 50
     ore: 0
   populationCount: 0
   spawnedPawn: 0
   learnsFight: 0
   learnsMagic: 0
   learnsDigging: 0
-  playerPrefabs: []
+  playerPrefabs:
+  - {fileID: 0}
+  - {fileID: 7845875270959048770, guid: 644d54e98e1300e40bff91ad20eca502, type: 3}
+  - {fileID: 1474889369384364353, guid: ac0a6e172f84ccf4a8f5563c4adde8a5, type: 3}

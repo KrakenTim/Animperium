@@ -9,6 +9,7 @@ using UnityEngine;
 public class PlayerPawnData : ScriptableObject
 {
     public ePlayerPawnType type;
+    public string PawnName => type.ToString();
 
     [SerializeField] public Sprite pawnIcon;
 
@@ -30,6 +31,8 @@ public class PlayerPawnData : ScriptableObject
 
     [Header("Prefab")]
     [SerializeField] PlayerPawn[] playerPrefabs;
+
+    public bool IsBuilding => type.IsBuilding();
 
     public PlayerPawn GetPawnPrefab(int playerID)
     {

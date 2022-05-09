@@ -9,10 +9,10 @@ public struct InputMessage
     public const int POSITIONAction = 1;
     public const int POSITIONStart = 2;
     public const int POSITIONTarget = 3;
-    public const int POSITIONTurn = 4;
+    public const int POSITIONNewPawn = 4;
+    public const int POSITIONTurn = 5;
 
-    public const int PARTCount = 5;
-
+    public const int PARTCount = 6;
 
     public int senderLocalID;
 
@@ -20,6 +20,8 @@ public struct InputMessage
     [Space]
     public HexCoordinates startCell;
     public HexCoordinates targetCell;
+    [Space]
+    public ePlayerPawnType newPawn;
 
     public int turn;
 
@@ -30,6 +32,6 @@ public struct InputMessage
 
     public override string ToString()
     {
-        return $"{senderLocalID}_{action.ToString()}_{startCell.ToString()}_{targetCell.ToString()}_{turn}";
+        return $"{senderLocalID}_{action.ToString()}_{startCell.ToString()}_{targetCell.ToString()}_{newPawn}_{turn}";
     }
 }

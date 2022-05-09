@@ -31,7 +31,7 @@ public class PlayerHUD : MonoBehaviour
         instance = this;
 
         GameManager.TurnStarted += UpdateHUD;
-        GameInputManager.SelectedPawn += UpdateSelectedPawn;
+        GameInputManager.SelectPawn += UpdateSelectedPawn;
     }
 
     private void OnDestroy()
@@ -40,7 +40,7 @@ public class PlayerHUD : MonoBehaviour
             instance = null;
 
         GameManager.TurnStarted -= UpdateHUD;
-        GameInputManager.SelectedPawn -= UpdateSelectedPawn;
+        GameInputManager.SelectPawn -= UpdateSelectedPawn;
     }
 
     public static void UpdateHUD(int playerID)
@@ -88,7 +88,7 @@ public class PlayerHUD : MonoBehaviour
         playerIcon.sprite = selectedPawn.PlayerIcon;
         pawnIcon.sprite = selectedPawn.PawnIcon;
         canActIcon.enabled = selectedPawn.CanAct;
-        pawnType.text = selectedPawn.PawnType.ToString();
+        pawnType.text = selectedPawn.PawnName;
 
         pawnHP.text = "HP " + selectedPawn.HP + "/" + selectedPawn.MaxHealth;
         pawnMP.text = "MP " + selectedPawn.MP + "/" + selectedPawn.MaxMovement;

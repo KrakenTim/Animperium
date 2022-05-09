@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 [System.Serializable]
 public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
@@ -54,6 +55,16 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
     public virtual bool IsEnemy => GameManager.IsEnemy(PlayerID);
 
+    [Space]
+    [SerializeField] UnityEvent onAttack;
+    [SerializeField] UnityEvent onBuild;
+    [SerializeField] UnityEvent onCollect;
+    [SerializeField] UnityEvent onMove;
+    [SerializeField] UnityEvent onSpawn;
+    [Space]
+    [SerializeField] UnityEvent onDamaged;
+    [SerializeField] UnityEvent onDeath;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -86,6 +97,14 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         this.playerID = playerID;
     }
 
+    /// <summary>
+    /// Called when a pawn is added during the game.
+    /// </summary>
+    public void GetsSpawned()
+    {
+        onSpawn.Invoke();
+    }
+
     public void SetHexCell(HexCell cell)
     {
         if (hexCell != null)
@@ -109,6 +128,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     {
         actedAlready = true;
         PlayerHUD.UpdateShownPawn();
+
+        onAttack?.Invoke();
         victim.Damaged(AttackPower);
     }
 
@@ -119,7 +140,18 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
         MoveTo(resource.HexCell);
 
+        onCollect?.Invoke();
         resource.Harvest();
+    }
+
+    public void Build(HexCell targetCell, ePlayerPawnType buildUnit)
+    {
+        if (!GameManager.SpawnPawn(this, targetCell, buildUnit)) return;
+
+        actedAlready = true;
+        PlayerHUD.UpdateShownPawn();
+
+        onBuild?.Invoke();
     }
 
     public void MoveTo(HexCell targetPosition)
@@ -128,6 +160,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
         PlayerHUD.UpdateShownPawn();
 
+        onMove?.Invoke();
         SetHexCell(targetPosition);
     }
 
@@ -137,10 +170,13 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
         if (currentHealth <= 0)
         {
+            onDeath?.Invoke();
             GameManager.RemovePawn(this);
 
             GameManager.CheckIfGameEnds(PlayerID);
         }
+        else
+            onDamaged?.Invoke();
     }
 
     public void RefreshTurn()
