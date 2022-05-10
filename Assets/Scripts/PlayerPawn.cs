@@ -65,7 +65,6 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     [SerializeField] UnityEvent onDamaged;
     [SerializeField] UnityEvent onDeath;
 
-
     // Start is called before the first frame update
     void Awake()
     {

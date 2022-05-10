@@ -364,6 +364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8fd964e5f7a34146846e0a7602b30cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  background: {fileID: 2748126013569991873}
   buttonPrefab: {fileID: 6676196228226382491, guid: f5613948ffd5e2a409d31ccb568eebd6, type: 3}
   buttonFrame: {fileID: 2748126013569991877}
   mouseRaycastBlocker: {fileID: 2748126013872883533}

@@ -53,6 +53,27 @@ MonoBehaviour:
   movementPoints: 0
   actedAlready: 0
   hexCell: {fileID: 0}
+  onAttack:
+    m_PersistentCalls:
+      m_Calls: []
+  onBuild:
+    m_PersistentCalls:
+      m_Calls: []
+  onCollect:
+    m_PersistentCalls:
+      m_Calls: []
+  onMove:
+    m_PersistentCalls:
+      m_Calls: []
+  onSpawn:
+    m_PersistentCalls:
+      m_Calls: []
+  onDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!135 &1321117382879854820
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -159,9 +180,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5000001
-  m_Height: 2
+  m_Height: 163.99463
   m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Center: {x: 0.000000059604645, y: 61.99728, z: -0.00000011920929}
 --- !u!1001 &3987207847056895387
 PrefabInstance:
   m_ObjectHideFlags: 0
