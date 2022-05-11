@@ -9,7 +9,6 @@ using UnityEngine.InputSystem;
 public class GameInputManager : MonoBehaviour
 {
     static GameInputManager instance;
-
     public static HexGrid HexGrid => GameManager.HexGrid;
 
     public static event System.Action<PlayerPawn> SelectPawn;
@@ -111,9 +110,9 @@ public class GameInputManager : MonoBehaviour
 
     private bool IsSpawnPossible()
     {
-        // TODO(24.04.22) might check if needed resources are available.
+        // TODO(24.04.22) might check if needed resources are available and you have enough space in population to spawn.
         return !selectedHexCell.HasPawn
-               && selectedPawn.Spawn != ePlayerPawnType.NONE;
+               && selectedPawn.Spawn != ePlayerPawnType.NONE && GameManager.PlayerPopulation(selectedPawn.PlayerID) < GameManager.MaxPopulation;
     }
 
     private bool IsBuildingPossible()

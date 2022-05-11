@@ -19,7 +19,7 @@ public static class PawnUpgradeController
         }
 
         HexCell position = upgradedUnit.HexCell;
-        GameManager.RemovePawn(upgradedUnit);
+        GameManager.RemovePlayerPawn(upgradedUnit);
 
 
         PlayerPawn newPawn = GameManager.PlaceNewPawn(newUnitData, position, upgradedUnit.PlayerID);

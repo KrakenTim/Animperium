@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
 
     int spawnedPawnID = 0;
     Dictionary<int, Transform> spawnFolderTransforms = new Dictionary<int, Transform>();
+    public int maxPopulation = 5;
+    public static int MaxPopulation => instance.maxPopulation;
 
     private void Awake()
     {
@@ -259,6 +261,16 @@ public class GameManager : MonoBehaviour
         return Color.cyan;
     }
 
+    public static int PlayerPopulation(int playerID)
+    {
+        if (instance.TryGetPlayerValues(playerID, out PlayerValues result))
+            return result.populationCount;
+
+        Debug.LogError("Population Count not found for Player " + playerID, instance);
+
+        return MaxPopulation;
+    }
+
     public static GameResources GetPlayerResources(int playerID)
     {
         if (instance.TryGetPlayerValues(playerID, out PlayerValues result))
@@ -303,17 +315,19 @@ public class GameManager : MonoBehaviour
             }
 
             result.ownedPawns.Add(pawn);
+            result.populationCount += pawn.PawnData.populationCount;
         }
     }
 
     /// <summary>
     /// Removes Pawn from owned pawns List of the player and takes it of the grid.
     /// </summary>
-    public static void RemovePawn(PlayerPawn pawn)
+    public static void RemovePlayerPawn(PlayerPawn pawn)
     {
         if (instance.TryGetPlayerValues(pawn.PlayerID, out PlayerValues result))
         {
             result.ownedPawns.Remove(pawn);
+            result.populationCount -= pawn.PawnData.populationCount;
         }
         pawn.SetHexCell(null);
         Destroy(pawn.gameObject);

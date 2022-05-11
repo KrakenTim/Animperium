@@ -170,7 +170,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         if (currentHealth <= 0)
         {
             onDeath?.Invoke();
-            GameManager.RemovePawn(this);
+            GameManager.RemovePlayerPawn(this);
 
             GameManager.CheckIfGameEnds(PlayerID);
         }

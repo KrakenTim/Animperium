@@ -11,6 +11,7 @@ public class PlayerValues
     public int playerID;
     public int factionID;
     public Color playerColor;
+    public int populationCount;
     [SerializeField] private ColorableIconData playerIcon;
     public ColorableIconData PlayerIcon => IconProvider.GetCheckedPlayer(playerIcon);
 

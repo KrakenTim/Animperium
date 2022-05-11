@@ -5034,6 +5034,18 @@ PrefabInstance:
       propertyPath: myHexGrid
       value: 
       objectReference: {fileID: 1823811209}
+    - target: {fileID: 7888250784874348216, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: maxPopulation
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7888250784874348216, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: playerValueList.Array.data[0].populationCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7888250784874348216, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: playerValueList.Array.data[1].populationCount
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7888250784874348217, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
       propertyPath: m_RootOrder
       value: 9
