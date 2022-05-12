@@ -59,6 +59,7 @@ public class HexCell : MonoBehaviour
             return waterLevel > elevation;
         }
     }
+    
 
     public HexCoordinates coordinates;
 
@@ -96,7 +97,7 @@ public class HexCell : MonoBehaviour
     [SerializeField]
     private bool Underground;
 
-    public HexCell GetNeighbor(HexDirection direction)
+public HexCell GetNeighbor(HexDirection direction)
     {
         return neighbors[(int)direction];
     }
