@@ -21,9 +21,9 @@ public enum ePlayerPawnType
 
     //buildings 100-199
     TownHall = 100,
-    SchoolFight = 101,
-    SchoolMagic = 102,
-    SchoolDigging = 103,
+    School = 101, // formerly SchoolFight
+    //SchoolMagic = 102,
+    //SchoolDigging = 103,
     FarmHouse = 104,
     TunnelEntry = 105,
     Wall = 106,
@@ -52,25 +52,6 @@ public static class ePlayerPawnTypeExtensions
     /// </summary>
     public static bool IsSchool(this ePlayerPawnType pawn)
     {
-        return pawn.Teaches() != eKnowledge.NONE;
-    }
-
-    /// <summary>
-    /// The knowledge which can be learned through the Pawn.
-    /// </summary>
-    public static eKnowledge Teaches(this ePlayerPawnType pawn)
-    {
-        switch (pawn)
-        {
-            case ePlayerPawnType.SchoolFight:
-                return eKnowledge.Fight;
-            case ePlayerPawnType.SchoolMagic:
-                return eKnowledge.Magic;
-            case ePlayerPawnType.SchoolDigging:
-                return eKnowledge.Digging;
-
-            default:
-                return eKnowledge.NONE;
-        }
+        return pawn == ePlayerPawnType.School;
     }
 }

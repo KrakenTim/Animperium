@@ -10,23 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 861953c784eefcb48b40b867d6208ef9, type: 3}
-  m_Name: SchoolFightPawnData
+  m_Name: FarmHousePawnData
   m_EditorClassIdentifier: 
-  type: 101
-  pawnIcon: {fileID: 0}
-  maxHealth: 20
+  type: 104
+  pawnIcon:
+    colored: {fileID: 0}
+    baseIcon: {fileID: 0}
+  maxHealth: 130
   maxMovement: 0
   attackPower: 0
   resourceCosts:
-    food: 40
-    wood: 50
+    food: 30
+    wood: 20
     ore: 0
   populationCount: 0
-  spawnedPawn: 0
+  spawnedPawn: 1
   learnsFight: 0
   learnsMagic: 0
   learnsDigging: 0
   playerPrefabs:
   - {fileID: 0}
-  - {fileID: 7845875270959048770, guid: 644d54e98e1300e40bff91ad20eca502, type: 3}
-  - {fileID: 1474889369384364353, guid: ac0a6e172f84ccf4a8f5563c4adde8a5, type: 3}
+  - {fileID: 7044294374554152587, guid: d95cb5f7c55d8c64f8a4737cf2cedb77, type: 3}
+  - {fileID: 7044294374554152587, guid: 789ac02d6ae4db941b799131db620003, type: 3}

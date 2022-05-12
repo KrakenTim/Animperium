@@ -13,17 +13,22 @@ MonoBehaviour:
   m_Name: WarMagePawnData
   m_EditorClassIdentifier: 
   type: 5
-  pawnIcon: {fileID: 0}
-  maxHealth: 7
+  pawnIcon:
+    colored: {fileID: 0}
+    baseIcon: {fileID: 0}
+  maxHealth: 90
   maxMovement: 3
-  attackPower: 4
+  attackPower: 42
   resourceCosts:
-    food: 30
-    wood: 10
+    food: 28
+    wood: 18
     ore: 10
   populationCount: 1
   spawnedPawn: 0
   learnsFight: 0
   learnsMagic: 0
   learnsDigging: 8
-  playerPrefabs: []
+  playerPrefabs:
+  - {fileID: 0}
+  - {fileID: 7044294374554152587, guid: 6b78354b36532ec4aa7f37c055d3ae2c, type: 3}
+  - {fileID: 7044294374554152587, guid: 8694f489921bf9f40b52d91bbe4716e3, type: 3}
