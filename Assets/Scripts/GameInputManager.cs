@@ -94,7 +94,7 @@ public class GameInputManager : MonoBehaviour
     {
         return GameManager.InputAllowed && selectedPawn != null && targetCell != null
             && selectedPawn.CanAct && selectedPawn.IsPlayerPawn
-            && selectedPawn.HexCell.IsNeighbor(targetCell);
+            && selectedPawn.HexCell.IsNeighbor(targetCell) && targetCell.CanMoveOnto(selectedPawn.HexCell);
     }
 
     private bool IsCollectPossible()
