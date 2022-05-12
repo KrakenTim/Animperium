@@ -198,6 +198,8 @@ public class HexCell : MonoBehaviour
         tempSaveColorID = blueprint.tempSaveColorID;
 
         Elevation = blueprint.Elevation;
+
+        WaterLevel = blueprint.WaterLevel;
     }
 
     #endregion Not in Tutorial
