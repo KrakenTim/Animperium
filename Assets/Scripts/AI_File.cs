@@ -65,6 +65,7 @@ public static class AI_File
 
         return result;
     }
+#endif //UNITY_EDITOR
 
     /// <summary>
     /// Returns all Files and their paths found in the given path, excluding meta files.
@@ -91,7 +92,6 @@ public static class AI_File
 
         return filePaths;
     }
-#endif //UNITY_EDITOR
 
     #endregion Editor Only
 }
