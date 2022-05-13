@@ -12,7 +12,7 @@ public class OnlineGameManager : MonoBehaviour
     public static int LocalPlayerID { get; private set; }
 
     string[] players;
-    string myNameOnServer;
+     public static string myNameOnServer;
 
     private void Awake()
     {
@@ -56,7 +56,7 @@ public class OnlineGameManager : MonoBehaviour
     {
         for (int i = 0; i < instance.players.Length; i++)
         {
-            if (instance.players[i] == instance.myNameOnServer)
+            if (instance.players[i] == myNameOnServer)
                 LocalPlayerID = i;
         }
 
@@ -69,11 +69,11 @@ public class OnlineGameManager : MonoBehaviour
     {
         for (int i = 0; i < instance.players.Length; i++)
         {
-            if (instance.players[i] == instance.myNameOnServer)
+            if (instance.players[i] == myNameOnServer)
                 LocalPlayerID = i;
         }
 
-        Debug.Log($"My Name {instance.myNameOnServer}, My localID {LocalPlayerID}");
+        Debug.Log($"My Name {myNameOnServer}, My localID {LocalPlayerID}");
 
         //LocalPlayerID = 
 

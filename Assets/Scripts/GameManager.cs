@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
 
     int spawnedPawnID = 0;
     Dictionary<int, Transform> spawnFolderTransforms = new Dictionary<int, Transform>();
+    public int maxPopulation = 5;
+    public static int MaxPopulation => instance.maxPopulation;
 
     private void Awake()
     {
@@ -138,9 +140,21 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    public static void UpgradePawn(PlayerPawn upgraded, PlayerPawn school)
+    public static List<PlayerPawnData>GetBuildingData()
     {
-        if (PawnUpgradeController.TryUpgradeUnit(upgraded, school, out GameResources costs)
+        List<PlayerPawnData> result = new List<PlayerPawnData>();
+
+        foreach (var data in instance.pawnDatas)
+        {
+            if (data.IsBuilding) 
+                result.Add(data);
+        }
+        return result;
+    }
+
+    public static void UpgradePawn(PlayerPawn upgraded, PlayerPawn school, ePlayerPawnType newPawn)
+    {
+        if (PawnUpgradeController.TryUpgradeUnit(upgraded, school, newPawn, out GameResources costs)
             && instance.TryGetPlayerValues(upgraded.PlayerID, out PlayerValues playerValues))
         {
             playerValues.PayCosts(costs);
@@ -148,32 +162,41 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+
     /// <summary>
     /// playes a new pawn according to the spawner, if the player has the needed resource, removes the costs and places the pawn 
     /// </summary>
-    public static void SpawnPawn(PlayerPawn spawner, HexCell spawnPoint)
+    public static bool SpawnPawn(PlayerPawn spawner, HexCell spawnPoint, ePlayerPawnType newPawnType)
     {
-        ePlayerPawnType spawnPawnType = spawner.Spawn;
+        if (!spawner.CanAct)
+        {
+            Debug.LogError($"GameManager\tTried to place {newPawnType} at {spawnPoint}, but Spawner can't act\n\t\n{spawner}", spawner);
+            return false;
+        }
 
-        PlayerPawnData spawnedPawnData = GetPawnData(spawnPawnType);
+        if (spawnPoint.HasPawn)
+        {
+            Debug.LogError($"GameManager\tTried to place {newPawnType} at {spawnPoint}, " +
+                           $"but there's a {spawnPoint.Pawn.PawnType} already.\n\t\n{spawner}\n\t\t {spawnPoint.Pawn}", spawner);
+            return false;
+        }
 
-        Debug.Log("1");
+        PlayerPawnData spawnedPawnData = GetPawnData(newPawnType);
 
-        if (spawnedPawnData == null) return;
-
-        Debug.Log("2");
+        if (spawnedPawnData == null) return false;
 
         // return if there's no playerdata or can't afford spawn
         if (!instance.TryGetPlayerValues(spawner.PlayerID, out PlayerValues playerResources)
             || !playerResources.HasResourcesToSpawn(spawnedPawnData))
-            return;
-
-        Debug.Log("3");
+            return false;
 
         playerResources.PaySpawnCosts(spawnedPawnData);
         PlayerHUD.UpdateHUD(instance.activePlayerID);
 
         PlaceNewPawn(spawnedPawnData, spawnPoint, spawner.PlayerID);
+
+        return true;
     }
 
     /// <summary>
@@ -186,7 +209,6 @@ public class GameManager : MonoBehaviour
 
         // Pawn adds itself to the grid on the matching position.
         newPawn.SetPlayer(playerID);
-
         return newPawn;
     }
 
@@ -238,6 +260,16 @@ public class GameManager : MonoBehaviour
         return Color.cyan;
     }
 
+    public static int PlayerPopulation(int playerID)
+    {
+        if (instance.TryGetPlayerValues(playerID, out PlayerValues result))
+            return result.populationCount;
+
+        Debug.LogError("Population Count not found for Player " + playerID, instance);
+
+        return MaxPopulation;
+    }
+
     public static GameResources GetPlayerResources(int playerID)
     {
         if (instance.TryGetPlayerValues(playerID, out PlayerValues result))
@@ -248,14 +280,14 @@ public class GameManager : MonoBehaviour
         return new GameResources();
     }
 
-    public static Sprite GetPlayerIcon(int playerID)
+    public static ColorableIconData GetPlayerIcon(int playerID)
     {
         if (instance.TryGetPlayerValues(playerID, out PlayerValues result))
-            return result.playerIcon;
+            return result.PlayerIcon;
 
         Debug.LogError("Icon not found for Player " + playerID, instance);
 
-        return null;
+        return new ColorableIconData();
     }
 
     public static HexCell GetHexCell(Vector3 worldPosition)
@@ -282,17 +314,19 @@ public class GameManager : MonoBehaviour
             }
 
             result.ownedPawns.Add(pawn);
+            result.populationCount += pawn.PawnData.populationCount;
         }
     }
 
     /// <summary>
     /// Removes Pawn from owned pawns List of the player and takes it of the grid.
     /// </summary>
-    public static void RemovePawn(PlayerPawn pawn)
+    public static void RemovePlayerPawn(PlayerPawn pawn)
     {
         if (instance.TryGetPlayerValues(pawn.PlayerID, out PlayerValues result))
         {
             result.ownedPawns.Remove(pawn);
+            result.populationCount -= pawn.PawnData.populationCount;
         }
         pawn.SetHexCell(null);
         Destroy(pawn.gameObject);

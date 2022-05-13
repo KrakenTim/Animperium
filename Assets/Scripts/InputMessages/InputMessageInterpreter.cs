@@ -50,6 +50,13 @@ public static class InputMessageInterpreter
             return false;
         }
 
+        // get new pawn
+        if (!System.Enum.TryParse(splitMessage[InputMessage.POSITIONNewPawn], out inputMessage.newPawn))
+        {
+            Debug.Log($"Interpreter\tCouldn't parse new Pawn '{splitMessage[InputMessage.POSITIONNewPawn]}'.\n\t\t{message}");
+            return false;
+        }
+
         // get turn
         if (!int.TryParse(splitMessage[InputMessage.POSITIONTurn], out inputMessage.turn))
         {

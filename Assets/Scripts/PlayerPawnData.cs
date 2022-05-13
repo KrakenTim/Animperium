@@ -9,8 +9,10 @@ using UnityEngine;
 public class PlayerPawnData : ScriptableObject
 {
     public ePlayerPawnType type;
+    public string PawnName => type.ToString();
 
-    [SerializeField] public Sprite pawnIcon;
+    [SerializeField] private ColorableIconData pawnIcon;
+    public ColorableIconData PawnIcon => IconProvider.GetCheckedPawn(pawnIcon, type);
 
     [Header("Stats")]
     public int maxHealth;
@@ -31,12 +33,21 @@ public class PlayerPawnData : ScriptableObject
     [Header("Prefab")]
     [SerializeField] PlayerPawn[] playerPrefabs;
 
+    public bool IsBuilding => type.IsBuilding();
+
+    public bool IsUpgradePossible => learnsFight != ePlayerPawnType.NONE
+                                  || learnsMagic != ePlayerPawnType.NONE 
+                                  || learnsDigging != ePlayerPawnType.NONE;
     public PlayerPawn GetPawnPrefab(int playerID)
     {
         if (playerID >= 0 && playerID < playerPrefabs.Length)
+        {
+            if (playerPrefabs[playerID] == null)
+                Debug.LogError($"PlayerPawnData: No Prefab defined for {type} and PlayerID " + playerID, this);
             return playerPrefabs[playerID];
+        }
         else
-            Debug.LogError("PlayerPawnData: An unexpected ID was requested: " + playerID, this);
+            Debug.LogError($"PlayerPawnData: An unexpected ID was requested for {type}: " + playerID, this);
 
         return null;
     }
@@ -60,5 +71,21 @@ public class PlayerPawnData : ScriptableObject
                 break;
         }
         return newType != ePlayerPawnType.NONE;
+    }
+
+    public List<PlayerPawnData> PossibleUnitUpgrades()
+    {
+        List<PlayerPawnData> upgrade = new List<PlayerPawnData>();
+
+        if (learnsFight != ePlayerPawnType.NONE)
+            upgrade.Add(GameManager.GetPawnData(learnsFight));
+
+        if (learnsMagic != ePlayerPawnType.NONE)
+            upgrade.Add(GameManager.GetPawnData(learnsMagic));
+
+        if (learnsDigging != ePlayerPawnType.NONE)
+            upgrade.Add(GameManager.GetPawnData(learnsDigging));
+        
+        return upgrade;
     }
 }

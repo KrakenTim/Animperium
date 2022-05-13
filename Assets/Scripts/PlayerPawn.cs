@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 [System.Serializable]
 public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] PlayerPawnData pawnData;
-
+    public PlayerPawnData PawnData => pawnData;
     public ePlayerPawnType PawnType => pawnData.type;
     public int MaxHealth => pawnData.maxHealth;
     public int MaxMovement => pawnData.maxMovement;
@@ -21,11 +22,11 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     /// <summary>
     /// Returns Pawn Icon if not null else it's the Players Icon
     /// </summary>
-    public Sprite PawnIcon => (pawnData.pawnIcon != null) ? pawnData.pawnIcon : GameManager.GetPlayerIcon(PlayerID);
+    public ColorableIconData PawnIcon => pawnData.PawnIcon;
     /// <summary>
     /// Returns the players individual icon.
     /// </summary>
-    public Sprite PlayerIcon => GameManager.GetPlayerIcon(playerID);
+    public ColorableIconData PlayerIcon => GameManager.GetPlayerIcon(playerID);
 
     [SerializeField] int playerID;
     public int PlayerID => playerID;
@@ -53,8 +54,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public virtual bool IsPlayerPawn => playerID == GameManager.CurrentPlayerID;
 
     public virtual bool IsEnemy => GameManager.IsEnemy(PlayerID);
-
-
+    
     // Start is called before the first frame update
     void Awake()
     {
@@ -85,7 +85,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     {
         this.playerID = playerID;
     }
-
+    
     public void SetHexCell(HexCell cell)
     {
         if (hexCell != null)
@@ -109,6 +109,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     {
         actedAlready = true;
         PlayerHUD.UpdateShownPawn();
+        
         victim.Damaged(AttackPower);
     }
 
@@ -118,8 +119,16 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         PlayerHUD.UpdateShownPawn();
 
         MoveTo(resource.HexCell);
-
+        
         resource.Harvest();
+    }
+
+    public void Build(HexCell targetCell, ePlayerPawnType buildUnit)
+    {
+        if (!GameManager.SpawnPawn(this, targetCell, buildUnit)) return;
+
+        actedAlready = true;
+        PlayerHUD.UpdateShownPawn();        
     }
 
     public void MoveTo(HexCell targetPosition)
@@ -127,7 +136,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         movementPoints -= 1;
 
         PlayerHUD.UpdateShownPawn();
-
+        
         SetHexCell(targetPosition);
     }
 
@@ -137,7 +146,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
         if (currentHealth <= 0)
         {
-            GameManager.RemovePawn(this);
+            GameManager.RemovePlayerPawn(this);
 
             GameManager.CheckIfGameEnds(PlayerID);
         }

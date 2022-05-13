@@ -1,10 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
 /// Should be placed on same GameObject as HexGrid
@@ -22,9 +21,10 @@ public class TempMapSaves : MonoBehaviour
     [SerializeField] [TextArea] string loadMap;
 
     /// <summary>
-    /// log file extension (without the dot)
+    /// log file extension with the dot
     /// </summary>
-    const string logFileExtension = "tempMap";
+    const string logFileExtension = ".tempMap";
+    const string autoFileNamePrefix = "TempMap_";
 
     private void Awake()
     {
@@ -43,6 +43,13 @@ public class TempMapSaves : MonoBehaviour
 #endif
     }
 
+    private void OnDestroy()
+    {
+        if (GameManager.InGame) return;
+        
+        CreateSave(onlyIfNew: true);
+    }
+
     public void Button_SaveMap() => CreateSave();
 
     public void Button_LoadMap() => LoadString();
@@ -50,7 +57,7 @@ public class TempMapSaves : MonoBehaviour
     public void Button_MirrorLowerHalf() => MirrorLowerHalf();
     public void Button_MirrorUpperHalf() => MirrorUpperHalf();
 
-    private void CreateSave()
+    private void CreateSave(bool onlyIfNew = false)
     {
         string mapSave = grid.chunkCountX + "\t" + grid.chunkCountZ + "\n";
         foreach (var cell in grid.GetAllCells())
@@ -59,15 +66,22 @@ public class TempMapSaves : MonoBehaviour
         }
 
         loadMap = mapSave.TrimEnd();
-        CreateFile(mapSave.TrimEnd());
+        CreateFile(loadMap, onlyIfNew);
     }
 
     /// <summary>
     /// Creates a new map file in the corresponding folder
     /// </summary>
-    private void CreateFile(string content)
+    private void CreateFile(string content, bool onlyIfNew = false)
     {
-        string logFileName = $"TempMap_{DateTime.Now.ToString("yyMMdd_HHmmss")}.{logFileExtension}";
+        if (onlyIfNew)
+        {
+            if (TryGetNewestTempMapPath(out string newestTempMapPath)
+                && content.CompareTo(File.ReadAllText(newestTempMapPath)) == 0)
+                return;
+        }
+
+        string logFileName = $"{autoFileNamePrefix}{DateTime.Now.ToString("yyMMdd_HHmmss")}{logFileExtension}";
         AI_File.WriteUTF8(content, AI_File.PathTempMaps + logFileName);
 
         Debug.Log($"Created new temporary Map named {logFileName}\nAt: {AI_File.PathTempMaps + logFileName}");
@@ -127,6 +141,25 @@ public class TempMapSaves : MonoBehaviour
 
         for (int i = 0; i < cells.Length / 2f; i++)
             cells[i].Copy(cells[cells.Length - (1 + i)]);
+    }
+
+    private Dictionary<string, string> GetTempMaps()
+    {
+        return AI_File.GetFiles(AI_File.PathTempMaps, $"{autoFileNamePrefix}*{logFileExtension}", true);
+    }
+
+    private bool TryGetNewestTempMapPath(out string result)
+    {
+        List<string> paths = new List<string>(GetTempMaps().Values);
+
+        if (paths.Count == 0)
+        {
+            result = string.Empty;
+            return false;
+        }
+
+        result = paths[paths.Count - 1];
+        return true;
     }
 }
 

@@ -76,10 +76,13 @@ public static class InputMessageExecuter
                 startPawn.Collect(targetCell.Resource);
                 break;
             case ePlayeractionType.Spawn:
-                GameManager.SpawnPawn(startPawn, targetCell);
+                GameManager.SpawnPawn(startPawn, targetCell, startPawn.Spawn);
                 break;
             case ePlayeractionType.Learn:
-                GameManager.UpgradePawn(startPawn, targetPawn);
+                GameManager.UpgradePawn(startPawn, targetPawn, hexOrder.newPawn);
+                break;
+            case ePlayeractionType.Build:
+                startPawn.Build(targetCell, hexOrder.newPawn);
                 break;
 
             default:

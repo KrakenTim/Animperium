@@ -11,7 +11,9 @@ public class PlayerValues
     public int playerID;
     public int factionID;
     public Color playerColor;
-    public Sprite playerIcon;
+    public int populationCount;
+    [SerializeField] private ColorableIconData playerIcon;
+    public ColorableIconData PlayerIcon => IconProvider.GetCheckedPlayer(playerIcon);
 
     public GameResources playerResources;
 
@@ -20,7 +22,7 @@ public class PlayerValues
     private bool hasLost = false;
     public bool HasLost => hasLost;
 
-    public string Name => "Player" + playerID;
+    public string Name => OnlineGameManager.IsOnlineGame ? OnlineGameManager.myNameOnServer : "Player" + playerID;
 
     public void GiveUp()
     {

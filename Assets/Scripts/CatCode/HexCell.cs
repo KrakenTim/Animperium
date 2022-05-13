@@ -60,6 +60,7 @@ public class HexCell : MonoBehaviour
         }
     }
 
+
     public HexCoordinates coordinates;
 
     int elevation;
@@ -192,12 +193,26 @@ public class HexCell : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// sets visual aspects identical to the given Cell
+    /// </summary>
     public void Copy(HexCell blueprint)
     {
         Color = blueprint.Color;
         tempSaveColorID = blueprint.tempSaveColorID;
 
         Elevation = blueprint.Elevation;
+
+        WaterLevel = blueprint.WaterLevel;
+    }
+
+    /// <summary>
+    /// True if a pawn might step onto the HexCell
+    /// </summary>
+    /// <param name="origin">the cell the pawn starts at</param>
+    public bool CanMoveOnto(HexCell origin)
+    {
+        return Mathf.Abs(origin.Elevation - Elevation) < 2 && !IsUnderwater && tempSaveColorID != HexMapEditor.COLOR_Water;
     }
 
     #endregion Not in Tutorial
