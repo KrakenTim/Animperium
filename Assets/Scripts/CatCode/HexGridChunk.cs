@@ -3,10 +3,14 @@ using UnityEngine.UI;
 
 public class HexGridChunk : MonoBehaviour
 {
+
     HexCell[] cells;
 
     public HexMesh terrain, water;
     //	HexMesh hexMesh;    
+
+    public HexFeatureManager features;
+
     Canvas gridCanvas;
 
     void Awake()
@@ -50,6 +54,8 @@ public class HexGridChunk : MonoBehaviour
     {
         terrain.Clear();
         water.Clear();
+        features.Clear();
+
 //		hexMesh.Clear();
 //		vertices.Clear();
 //		colors.Clear();
@@ -60,6 +66,7 @@ public class HexGridChunk : MonoBehaviour
         }
         terrain.Apply();
         water.Apply();
+        features.Apply();
 //		hexMesh.vertices = vertices.ToArray();
 //		hexMesh.colors = colors.ToArray();
 //		hexMesh.triangles = triangles.ToArray();
@@ -72,6 +79,10 @@ public class HexGridChunk : MonoBehaviour
         for (HexDirection d = HexDirection.NE; d <= HexDirection.NW; d++)
         {
             Triangulate(d, cell);
+        }
+        if (!cell.IsUnderwater)
+        {
+            features.AddFeature(cell.Position);
         }
     }
 
@@ -89,6 +100,10 @@ public class HexGridChunk : MonoBehaviour
         if (cell.IsUnderwater)
         {
             TriangulateWater(direction, cell, center);
+        }
+        if (!cell.IsUnderwater)
+        {
+            features.AddFeature((center + e.v1 + e.v3) * (1f / 3f));
         }
     }
 

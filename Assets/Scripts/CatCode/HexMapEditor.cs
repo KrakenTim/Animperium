@@ -16,18 +16,26 @@ public class HexMapEditor : MonoBehaviour
     #endregion Not in Tutorial
 
     private int activeElevation;
+
     int activeWaterLevel;
+    
+    int activeUrbanLevel;
 
     int brushSize;
 
-    bool applyElevation = true;
+    bool applyElevation;
+
     bool applyWaterLevel = true;
+
+    bool applyUrbanLevel;
 
     bool applyColor;
 
+
     void Awake()
     {
-        SelectColor(0);
+        SelectColor(-1);
+        applyElevation = false;
     }
 
     void Update()
@@ -67,6 +75,15 @@ public class HexMapEditor : MonoBehaviour
             }
         }
     }
+    public void SetApplyUrbanLevel(bool toggle)
+    {
+        applyUrbanLevel = toggle;
+    }
+
+    public void SetUrbanLevel(float level)
+    {
+        activeUrbanLevel = (int)level;
+    }
 
     void EditCell(HexCell cell)
     {
@@ -87,6 +104,10 @@ public class HexMapEditor : MonoBehaviour
             if (applyWaterLevel)
             {
                 cell.WaterLevel = activeWaterLevel;
+            }
+            if (applyUrbanLevel)
+            {
+                cell.UrbanLevel = activeUrbanLevel;
             }
             //		hexGrid.Refresh();
         }

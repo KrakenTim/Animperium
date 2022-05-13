@@ -59,7 +59,25 @@ public class HexCell : MonoBehaviour
             return waterLevel > elevation;
         }
     }
-    
+
+    public int UrbanLevel
+    {
+        get
+        {
+            return urbanLevel;
+        }
+        set
+        {
+            if (urbanLevel != value)
+            {
+                urbanLevel = value;
+                RefreshSelfOnly();
+            }
+        }
+    }
+
+    int urbanLevel;
+
 
     public HexCoordinates coordinates;
 
@@ -164,7 +182,10 @@ public HexCell GetNeighbor(HexDirection direction)
             }
         }
     }
-
+    void RefreshSelfOnly()
+    {
+        chunk.Refresh();
+    }
     #region Not in Tutorial
 
     public void SetPawn(PlayerPawn pawn)
