@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InteractionContextButton : MonoBehaviour
+public class InteractionContextButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private PlayerPawnData newPawnData;
     [Space]
@@ -13,6 +14,10 @@ public class InteractionContextButton : MonoBehaviour
     [SerializeField] TMPro.TMP_Text foodCost;
     [SerializeField] TMPro.TMP_Text woodCost;
     [SerializeField] TMPro.TMP_Text oreCost;
+
+    [Space]
+    [SerializeField] GameObject notPossibleBox;
+    [SerializeField] TMPro.TMP_Text notPossibleMessage;
 
     private Button myButton;
     private PlayerPawnData actingUnit;
@@ -34,6 +39,8 @@ public class InteractionContextButton : MonoBehaviour
         if (myButton == null)
             myButton = GetComponent<Button>();
 
+        notPossibleBox.SetActive(false);
+
         switch (actionType)
         {
             case ePlayeractionType.Spawn:
@@ -46,7 +53,11 @@ public class InteractionContextButton : MonoBehaviour
             case ePlayeractionType.BuildingUpgrade:
                 // get upgarde cost for building on target cell
                 SetCosts(PawnUpgradeController.GetUpgradeCost(targetCell.Pawn.PawnData, newPawnData));
-                myButton.interactable = GameManager.GetUpgradeCount(GameManager.LocalPlayerID) >= GameManager.SchoolNeededUpgrades;
+
+                int neededUpgrades = GameManager.SchoolNeededUpgrades - GameManager.GetUpgradeCount(GameManager.LocalPlayerID);
+                myButton.interactable = neededUpgrades <= 0;
+                if (!myButton.interactable)
+                    notPossibleMessage.text = $"Need to Upgrade {neededUpgrades} more Upgraded units.";
                 break;
 
             default:
@@ -61,6 +72,9 @@ public class InteractionContextButton : MonoBehaviour
         oreCost.text = costs.ore.ToString();
 
         myButton.interactable = GameManager.CanAfford(GameManager.LocalPlayerID, costs);
+
+        if (!myButton.interactable)
+            notPossibleMessage.text = "Not enough Resources!";
     }
 
     public void Button_ButtonPressed()
@@ -71,5 +85,16 @@ public class InteractionContextButton : MonoBehaviour
         InputMessage newMessage = InputMessageGenerator.CreatePawnMessage(GameInputManager.SelectedPawn,
                                                               targetCell, actionType, newPawnData.type);
         InputMessageExecuter.Send(newMessage);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (!myButton.interactable)
+            notPossibleBox.SetActive(true);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        notPossibleBox.SetActive(false);
     }
 }
