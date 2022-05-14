@@ -43,18 +43,18 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     [SerializeField] int movementPoints;
     public int MP => movementPoints;
 
-    [SerializeField] bool canAct = true;
+    bool _canAct = true;
     /// <summary>
     /// True if Pawn can act, setting it to false sets movement points to zero.
     /// </summary>
     public bool CanAct
     {
-        get => canAct;
+        get => _canAct;
         private set
         {
-            canAct = value;
+            _canAct = value;
 
-            if (!canAct)
+            if (!_canAct)
             {
                 movementPoints = 0;
                 PlayerHUD.UpdateShownPawn();
