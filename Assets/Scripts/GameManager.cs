@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
     Dictionary<int, Transform> spawnFolderTransforms = new Dictionary<int, Transform>();
     public int maxPopulation = 5;
     public static int MaxPopulation => instance.maxPopulation;
+    public int schoolNeededUpgardes;
+    public static int SchoolNeededUpgardes => instance.schoolNeededUpgardes;
 
     private void Awake()
     {
@@ -162,6 +164,7 @@ public class GameManager : MonoBehaviour
         {
             playerValues.PayCosts(costs);
             PlayerHUD.UpdateHUD(instance.activePlayerID);
+            playerValues.upgradeCounter++;
         }
     }
 
@@ -176,6 +179,16 @@ public class GameManager : MonoBehaviour
 
             PlayerHUD.UpdateHUD(instance.activePlayerID);
         }
+    }
+
+    public static int GetUpgradeCount(int playerID)
+    {
+        if (instance.TryGetPlayerValues(playerID, out PlayerValues result))
+            return result.upgradeCounter;
+
+        Debug.LogError("Upgrade Count failed for Player " + playerID, instance);
+
+        return 0;
     }
 
     /// <summary>
