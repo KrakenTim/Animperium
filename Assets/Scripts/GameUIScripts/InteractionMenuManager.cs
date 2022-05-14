@@ -46,28 +46,7 @@ public class InteractionMenuManager : MonoBehaviour
 
         if (actingUnit != null)
         {
-            int maxTier = targetCell.Pawn.PawnData.tier;
-
-            List<PlayerPawnData> allUpgrades = new List<PlayerPawnData>();
-            List<PlayerPawnData> upgradesToCheck = actingUnit.PossibleUnitUpgrades(maxTier);
-            List<PlayerPawnData> newUpgrades = new List<PlayerPawnData>();
-
-            PlayerPawnData next = actingUnit;
-
-            while (upgradesToCheck.Count > 0)
-            {
-                foreach(var nextPawn in upgradesToCheck)
-                {
-                    if (!allUpgrades.Contains(nextPawn))
-                    allUpgrades.Add(nextPawn);
-                    newUpgrades.AddRange(nextPawn.PossibleUnitUpgrades(maxTier));
-                }
-                upgradesToCheck.Clear();
-                upgradesToCheck.AddRange(newUpgrades);
-                newUpgrades.Clear();
-            }
-           
-            instance.CreateButtonEntries(allUpgrades, ePlayeractionType.UnitUpgrade, targetCell, actingUnit);
+            instance.CreateButtonEntries(actingUnit.AllPossiblesUnitUpgrades(targetCell.Pawn.PawnData.tier), ePlayeractionType.UnitUpgrade, targetCell, actingUnit);
 
             instance.AddPossibleTargetUpgrades(targetCell, actingUnit);
         }

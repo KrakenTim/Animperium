@@ -21,10 +21,9 @@ public static class PawnUpgradeController
         HexCell position = upgradedUnit.HexCell;
         GameManager.RemovePlayerPawn(upgradedUnit);
 
-
         PlayerPawn newPawn = GameManager.PlaceNewPawn(newUnitData, position, upgradedUnit.PlayerID);
 
-        newPawn.Initialize(upgradedUnit.PlayerID, upgradedUnit.HP, upgradedUnit.MP, false);
+        newPawn.Initialize(upgradedUnit.PlayerID, newUnitData.maxHealth - (upgradedUnit.PawnData.maxHealth - upgradedUnit.HP), upgradedUnit.MP, false);
         resultingCosts = upgradeCost;
 
         return true;

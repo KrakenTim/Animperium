@@ -120,4 +120,28 @@ public class PlayerPawnData : ScriptableObject
 
         return upgrade;
     }
+    /// <summary>
+    /// Returns all possible future Upgrades (including upgrades of upgrades etc.)
+    /// </summary>
+    /// <returns></returns>
+    public List<PlayerPawnData> AllPossiblesUnitUpgrades(int tierLimit = int.MaxValue)
+    {
+        List<PlayerPawnData> allUpgrades = new List<PlayerPawnData>();
+        List<PlayerPawnData> upgradesToCheck = PossibleUnitUpgrades(tierLimit);
+        List<PlayerPawnData> newUpgrades = new List<PlayerPawnData>();
+
+        while (upgradesToCheck.Count > 0)
+        {
+            foreach (var nextPawn in upgradesToCheck)
+            {
+                if (!allUpgrades.Contains(nextPawn))
+                    allUpgrades.Add(nextPawn);
+                newUpgrades.AddRange(nextPawn.PossibleUnitUpgrades(tierLimit));
+            }
+            upgradesToCheck.Clear();
+            upgradesToCheck.AddRange(newUpgrades);
+            newUpgrades.Clear();
+        }
+        return allUpgrades;
+    }
 }
