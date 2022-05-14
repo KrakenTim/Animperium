@@ -10,26 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 861953c784eefcb48b40b867d6208ef9, type: 3}
-  m_Name: SchoolPawnData
+  m_Name: School2PawnData
   m_EditorClassIdentifier: 
-  type: 101
+  type: 150
   pawnIcon:
     colored: {fileID: 0}
     baseIcon: {fileID: 0}
-  maxHealth: 200
+  maxHealth: 250
   maxMovement: 0
   attackPower: 0
   resourceCosts:
-    food: 40
-    wood: 50
+    food: 44
+    wood: 60
     ore: 0
   populationCount: 0
   spawnedPawn: 0
   learnsFight: 0
   learnsMagic: 0
   learnsDigging: 0
-  linearUpgrade: 150
   playerPrefabs:
   - {fileID: 0}
-  - {fileID: 7845875270959048770, guid: 644d54e98e1300e40bff91ad20eca502, type: 3}
-  - {fileID: 1474889369384364353, guid: ac0a6e172f84ccf4a8f5563c4adde8a5, type: 3}
+  - {fileID: 7845875270959048770, guid: 9cabc8bf47e76e94caafe7936630e858, type: 3}
+  - {fileID: 1474889369384364353, guid: 345b875c05c88ac45bd9a48e5c452d9b, type: 3}

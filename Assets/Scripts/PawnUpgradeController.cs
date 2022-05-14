@@ -8,12 +8,12 @@ public static class PawnUpgradeController
     /// Upgrades a given unit according to knowledge learned from school.
     /// Return Upgrade costs
     /// </summary>
-    public static bool TryUpgradeUnit(PlayerPawn upgradedUnit, PlayerPawn school, ePlayerPawnType newUnitType, out GameResources resultingCosts)
+    public static bool TryUpgradePawn(PlayerPawn upgradedUnit, ePlayerPawnType newUnitType, out GameResources resultingCosts)
     {
         if (!TryUpgradePossible(upgradedUnit.PawnData, newUnitType,
                                       upgradedUnit.PlayerID, out PlayerPawnData newUnitData, out GameResources upgradeCost))
         {
-            Debug.LogError($"Called upgradedUnit unexpectedly!\nUnit\t{upgradedUnit.ToString()}\nSchool\t{school.ToString()}");
+            Debug.LogError($"Called upgradedUnit unexpectedly!\nUnit\t{upgradedUnit.ToString()}\n");
             resultingCosts = upgradeCost;
             return false;
         }
@@ -31,7 +31,7 @@ public static class PawnUpgradeController
     }
 
     /// <summary>
-    /// Return true if the unit will upgrade through the given knowledge and the player has the needed resources. 
+    /// Return true if the unit will upgrade is possible and the player has the needed resources. 
     /// </summary>
     public static bool TryUpgradePossible(PlayerPawnData oldUnitData, ePlayerPawnType newUnit,
                                       int playerID, out PlayerPawnData newUnitData, out GameResources upgradeCosts)

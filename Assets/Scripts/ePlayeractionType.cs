@@ -16,8 +16,9 @@ public enum ePlayeractionType
     Attack = 2,
     Collect = 3,
     Spawn = 4,
-    Learn = 5,
+    UnitUpgrade = 5,
     Build = 6,
+    BuildingUpgrade = 7,
 
     // General, non-Hex Actions 100+
     EndTurn = 100,

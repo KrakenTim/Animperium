@@ -29,6 +29,8 @@ public class PlayerPawnData : ScriptableObject
     [SerializeField] public ePlayerPawnType learnsFight;
     [SerializeField] public ePlayerPawnType learnsMagic;
     [SerializeField] public ePlayerPawnType learnsDigging;
+    [Space]
+    [SerializeField] public ePlayerPawnType linearUpgrade;
 
     [Header("Prefab")]
     [SerializeField] PlayerPawn[] playerPrefabs;
@@ -85,6 +87,9 @@ public class PlayerPawnData : ScriptableObject
 
         if (learnsDigging != ePlayerPawnType.NONE)
             upgrade.Add(GameManager.GetPawnData(learnsDigging));
+
+        if (linearUpgrade != ePlayerPawnType.NONE)
+            upgrade.Add(GameManager.GetPawnData(linearUpgrade));
         
         return upgrade;
     }

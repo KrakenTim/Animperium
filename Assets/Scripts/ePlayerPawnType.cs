@@ -19,14 +19,16 @@ public enum ePlayerPawnType
     Blaster = 7,
     Veteran = 8,
 
-    //buildings 100-199
+    // Buildings 100 - 199 
+    //base buildings 100-149
     TownHall = 100,
     School = 101, // formerly SchoolFight
-    //SchoolMagic = 102,
-    //SchoolDigging = 103,
     FarmHouse = 104,
     TunnelEntry = 105,
     Wall = 106,
+
+    // building upgrades 150 - 199
+    School2 = 150, // formerly SchoolFight Lv.2
 
     // non-player pawn 200+
     ObsctacleStone = 200
@@ -42,6 +44,11 @@ public static class ePlayerPawnTypeExtensions
     {
         return (int)pawn >= 100 && (int)pawn < 200;
     }
+    public static bool IsBuildingUpgrade(this ePlayerPawnType pawn)
+    { 
+        return (int)pawn >= 150 && (int)pawn < 200;
+    }
+
     public static bool IsNonPlayer(this ePlayerPawnType pawn)
     {
         return (int)pawn >= 200 && (int)pawn < 300;
@@ -52,6 +59,6 @@ public static class ePlayerPawnTypeExtensions
     /// </summary>
     public static bool IsSchool(this ePlayerPawnType pawn)
     {
-        return pawn == ePlayerPawnType.School;
+        return pawn == ePlayerPawnType.School || pawn == ePlayerPawnType.School2;
     }
 }

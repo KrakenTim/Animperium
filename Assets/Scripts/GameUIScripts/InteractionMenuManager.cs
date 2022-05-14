@@ -35,7 +35,7 @@ public class InteractionMenuManager : MonoBehaviour
     }
 
     // destroy old Buttons
-    public static void OpenPawnCreationMenu(HexCell targetCell, PlayerPawnData upgradedUnit = null)
+    public static void OpenPawnCreationMenu(HexCell targetCell, PlayerPawnData actingUnit = null)
     {
         foreach (var button in instance.buttonList)
         {
@@ -43,8 +43,21 @@ public class InteractionMenuManager : MonoBehaviour
         }
         instance.buttonList.Clear();
 
-        // create new Buttons
-        foreach (var pawnData in upgradedUnit !=null? upgradedUnit.PossibleUnitUpgrades():GameManager.GetBuildingData())
+        if (actingUnit != null)
+        {
+            instance.CreateButtonEntries(actingUnit.PossibleUnitUpgrades(), ePlayeractionType.UnitUpgrade, targetCell, actingUnit);
+
+            instance.AddPossibleTargetUpgrades(targetCell, actingUnit);
+        }
+        else
+            instance.CreateButtonEntries(GameManager.GetBuildingData(withoutUpgrades: true), ePlayeractionType.Build, targetCell, actingUnit);
+
+        instance.SetVisible(instance.buttonList.Count > 0);
+    }
+
+    private void CreateButtonEntries(List<PlayerPawnData> pawnOptions, ePlayeractionType actionType, HexCell targetCell, PlayerPawnData actingUnit)
+    {
+        foreach (var pawnData in pawnOptions)
         {
             if (pawnData.GetPawnPrefab(GameManager.LocalPlayerID) == null)
             {
@@ -53,15 +66,24 @@ public class InteractionMenuManager : MonoBehaviour
             }
             InteractionContextButton nextButton = Instantiate(instance.buttonPrefab, instance.buttonFrame.transform);
 
-            nextButton.Initialise(pawnData, targetCell, upgradedUnit);
+            nextButton.Initialise(pawnData, targetCell, actingUnit, actionType);
 
             instance.buttonList.Add(nextButton);
-
-            // instance.background.color = GameManager.GetPlayerColor(playerID);
         }
-
-        instance.SetVisible(instance.buttonList.Count > 0);
     }
+
+    private void AddPossibleTargetUpgrades(HexCell targetCell, PlayerPawnData actingUnit)
+    {
+        if (!targetCell.HasPawn || actingUnit.type != ePlayerPawnType.Villager) return;
+
+        if (targetCell.Pawn.PawnData.linearUpgrade != ePlayerPawnType.NONE)
+        {
+            PlayerPawnData upgradedPawn = GameManager.GetPawnData(targetCell.Pawn.PawnData.linearUpgrade);
+
+            CreateButtonEntries(new List<PlayerPawnData>() { upgradedPawn }, ePlayeractionType.BuildingUpgrade, targetCell, actingUnit);
+        }
+    }
+
     public static void BackgroundFrame(int playerID)
     {
         instance.background.color = GameManager.GetPlayerColor(playerID);

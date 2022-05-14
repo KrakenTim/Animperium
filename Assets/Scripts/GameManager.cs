@@ -140,21 +140,24 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    public static List<PlayerPawnData>GetBuildingData()
+    public static List<PlayerPawnData> GetBuildingData(bool withoutUpgrades)
     {
         List<PlayerPawnData> result = new List<PlayerPawnData>();
 
         foreach (var data in instance.pawnDatas)
         {
-            if (data.IsBuilding) 
+            if (data.IsBuilding)
+            {
+                if (withoutUpgrades && data.type.IsBuildingUpgrade()) continue;
                 result.Add(data);
+            }
         }
         return result;
     }
 
-    public static void UpgradePawn(PlayerPawn upgraded, PlayerPawn school, ePlayerPawnType newPawn)
+    public static void UpgradeUnit(PlayerPawn upgraded, PlayerPawn school, ePlayerPawnType newPawn)
     {
-        if (PawnUpgradeController.TryUpgradeUnit(upgraded, school, newPawn, out GameResources costs)
+        if (PawnUpgradeController.TryUpgradePawn(upgraded, newPawn, out GameResources costs)
             && instance.TryGetPlayerValues(upgraded.PlayerID, out PlayerValues playerValues))
         {
             playerValues.PayCosts(costs);
@@ -162,7 +165,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public static void UpgradeBuilding(PlayerPawn builder, PlayerPawn building)
+    {
+        if (PawnUpgradeController.TryUpgradePawn(building, building.PawnData.linearUpgrade, out GameResources costs)
+            && instance.TryGetPlayerValues(builder.PlayerID, out PlayerValues playerValues))
+        {
+            playerValues.PayCosts(costs);
 
+            builder.UpgradedBuilding(building);
+
+            PlayerHUD.UpdateHUD(instance.activePlayerID);
+        }
+    }
 
     /// <summary>
     /// playes a new pawn according to the spawner, if the player has the needed resource, removes the costs and places the pawn 

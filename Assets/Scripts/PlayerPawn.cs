@@ -43,8 +43,24 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     [SerializeField] int movementPoints;
     public int MP => movementPoints;
 
-    [SerializeField] bool actedAlready = false;
-    public bool CanAct => !actedAlready;
+    [SerializeField] bool canAct = true;
+    /// <summary>
+    /// True if Pawn can act, setting it to false sets movement points to zero.
+    /// </summary>
+    public bool CanAct
+    {
+        get => canAct;
+        private set
+        {
+            canAct = value;
+
+            if (!canAct)
+            {
+                movementPoints = 0;
+                PlayerHUD.UpdateShownPawn();
+            }
+        }
+    }
     [Space]
     [SerializeField] HexCell hexCell;
     public HexCell HexCell => hexCell;
@@ -54,7 +70,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public virtual bool IsPlayerPawn => playerID == GameManager.CurrentPlayerID;
 
     public virtual bool IsEnemy => GameManager.IsEnemy(PlayerID);
-    
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -78,14 +94,14 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         SetPlayer(playerID);
         currentHealth = hp;
         movementPoints = mp;
-        actedAlready = canAct;
+        this.CanAct = canAct;
     }
 
     public void SetPlayer(int playerID)
     {
         this.playerID = playerID;
     }
-    
+
     public void SetHexCell(HexCell cell)
     {
         if (hexCell != null)
@@ -107,19 +123,16 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
     public void Attack(PlayerPawn victim)
     {
-        actedAlready = true;
-        PlayerHUD.UpdateShownPawn();
-        
+        CanAct = false;
+
         victim.Damaged(AttackPower);
     }
 
     public void Collect(RessourceToken resource)
     {
-        actedAlready = true;
-        PlayerHUD.UpdateShownPawn();
-
         MoveTo(resource.HexCell);
-        
+        CanAct = false;
+
         resource.Harvest();
     }
 
@@ -127,8 +140,12 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     {
         if (!GameManager.SpawnPawn(this, targetCell, buildUnit)) return;
 
-        actedAlready = true;
-        PlayerHUD.UpdateShownPawn();        
+        CanAct = false;
+    }
+
+    public void UpgradedBuilding(PlayerPawn upgradeBuilding)
+    {
+        CanAct = false;
     }
 
     public void MoveTo(HexCell targetPosition)
@@ -136,7 +153,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         movementPoints -= 1;
 
         PlayerHUD.UpdateShownPawn();
-        
+
         SetHexCell(targetPosition);
     }
 
@@ -155,7 +172,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public void RefreshTurn()
     {
         movementPoints = MaxMovement;
-        actedAlready = false;
+        CanAct = true;
     }
 
     private void UpdatePosition()

@@ -5,9 +5,7 @@ using UnityEngine.UI;
 
 public class InteractionContextButton : MonoBehaviour
 {
-    [SerializeField] private ePlayerPawnType buttonPawn;
-
-    private PlayerPawnData pawnData;
+    private PlayerPawnData newPawnData;
     [Space]
     [SerializeField] ColorableImage pawnIcon;
     [SerializeField] TMPro.TMP_Text pawnName;
@@ -17,28 +15,43 @@ public class InteractionContextButton : MonoBehaviour
     [SerializeField] TMPro.TMP_Text oreCost;
 
     private Button myButton;
-    private PlayerPawnData upgradedUnit;
+    private PlayerPawnData actingUnit;
     private HexCell targetCell;
-    public void Initialise(PlayerPawnData pawnData, HexCell targetCell, PlayerPawnData upgradedUnit = null)
-    { 
-        this.pawnData = pawnData;
-        this.upgradedUnit = upgradedUnit;
+    private ePlayeractionType actionType;
+    public void Initialise(PlayerPawnData newPawnData, HexCell targetCell, PlayerPawnData actingUnit, ePlayeractionType actionType)
+    {
+        this.newPawnData = newPawnData;
+        this.actingUnit = actingUnit;
         this.targetCell = targetCell;
-        buttonPawn = pawnData.type;
+        this.actionType = actionType;
 
-        gameObject.name = buttonPawn + "InteractionContextButton";
+        gameObject.name = newPawnData.type + "InteractionContextButton";
 
-        pawnIcon.SetPawn(pawnData, GameManager.LocalPlayerID);
+        pawnIcon.SetPawn(newPawnData, GameManager.LocalPlayerID);
 
-        pawnName.text = pawnData.PawnName;
+        pawnName.text = newPawnData.PawnName;
 
         if (myButton == null)
             myButton = GetComponent<Button>();
 
-        if (upgradedUnit == null)
-            SetCosts(pawnData.resourceCosts);
-        else
-            SetCosts(PawnUpgradeController.GetUpgradeCost(upgradedUnit, pawnData));
+        switch (actionType)
+        {
+            case ePlayeractionType.Spawn:
+            case ePlayeractionType.Build:
+                SetCosts(newPawnData.resourceCosts);
+                break;
+            case ePlayeractionType.UnitUpgrade:
+                SetCosts(PawnUpgradeController.GetUpgradeCost(actingUnit, newPawnData));
+                break;
+            case ePlayeractionType.BuildingUpgrade:
+                // get upgarde cost for building on target cell
+                SetCosts(PawnUpgradeController.GetUpgradeCost(targetCell.Pawn.PawnData, newPawnData));
+                break;
+
+            default:
+                Debug.LogError("ContextButton\tInitialised UNDEFINED for " + actionType);
+                break;
+        }
     }
     private void SetCosts(GameResources costs)
     {
@@ -51,17 +64,11 @@ public class InteractionContextButton : MonoBehaviour
 
     public void Button_ButtonPressed()
     {
-        Debug.Log($"InteractionButton\t {gameObject} wants to build a {pawnData.PawnName}. \n", gameObject);
+        Debug.Log($"InteractionButton\t {gameObject} wants to build a {newPawnData.PawnName}. \n", gameObject);
         InteractionMenuManager.Close();
 
-        InputMessage newMessage;
-
-        if (upgradedUnit == null)
-        newMessage = InputMessageGenerator.CreatePawnMessage(GameInputManager.SelectedPawn, 
-                                                             targetCell, ePlayeractionType.Build, buttonPawn);
-        else
-            newMessage = InputMessageGenerator.CreatePawnMessage(GameInputManager.SelectedPawn,
-                                                                 targetCell, ePlayeractionType.Learn, buttonPawn);
+        InputMessage newMessage = InputMessageGenerator.CreatePawnMessage(GameInputManager.SelectedPawn,
+                                                              targetCell, actionType, newPawnData.type);
         InputMessageExecuter.Send(newMessage);
     }
 }

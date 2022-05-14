@@ -42,10 +42,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 972751005055244084}
     m_Modifications:
-    - target: {fileID: 374402629011779104, guid: 50a83b6ee62b2a143b03e80d03ab2713, type: 3}
-      propertyPath: m_fontSize
-      value: 27.1
-      objectReference: {fileID: 0}
     - target: {fileID: 557935001019055422, guid: 50a83b6ee62b2a143b03e80d03ab2713, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -128,10 +124,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 972751005055244084}
     m_Modifications:
-    - target: {fileID: 374402629011779104, guid: 50a83b6ee62b2a143b03e80d03ab2713, type: 3}
-      propertyPath: m_fontSize
-      value: 27.1
-      objectReference: {fileID: 0}
     - target: {fileID: 557935001019055422, guid: 50a83b6ee62b2a143b03e80d03ab2713, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -214,10 +206,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 972751005055244084}
     m_Modifications:
-    - target: {fileID: 374402629011779104, guid: 50a83b6ee62b2a143b03e80d03ab2713, type: 3}
-      propertyPath: m_fontSize
-      value: 27.1
-      objectReference: {fileID: 0}
     - target: {fileID: 557935001019055422, guid: 50a83b6ee62b2a143b03e80d03ab2713, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -300,10 +288,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 972751005055244084}
     m_Modifications:
-    - target: {fileID: 374402629011779104, guid: 50a83b6ee62b2a143b03e80d03ab2713, type: 3}
-      propertyPath: m_fontSize
-      value: 27.1
-      objectReference: {fileID: 0}
     - target: {fileID: 557935001019055422, guid: 50a83b6ee62b2a143b03e80d03ab2713, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -386,10 +370,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 972751005055244084}
     m_Modifications:
-    - target: {fileID: 374402629011779104, guid: 50a83b6ee62b2a143b03e80d03ab2713, type: 3}
-      propertyPath: m_fontSize
-      value: 27.1
-      objectReference: {fileID: 0}
     - target: {fileID: 557935001019055422, guid: 50a83b6ee62b2a143b03e80d03ab2713, type: 3}
       propertyPath: m_RootOrder
       value: 0
