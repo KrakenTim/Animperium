@@ -28,6 +28,7 @@ public static class BalanceTableImport
     const string COLUMN_OreCost = "OreCost";
 
     const string COLUMN_PopulationCount = "PopulationCount";
+    const string COLUMN_Tier = "Tier";
 
     const string COLUMN_SpawnedPawn = "SpawnedPawn";
     const string COLUMN_LearnFight = "LearnFight";
@@ -116,6 +117,12 @@ public static class BalanceTableImport
         if (TryParse(pawnTableRow, COLUMN_PopulationCount, out nextValue) && pawnData.populationCount != nextValue)
         {
             pawnData.populationCount = nextValue;
+            wasChanged = true;
+        }
+
+        if (TryParse(pawnTableRow, COLUMN_Tier, out nextValue) && pawnData.tier != nextValue)
+        {
+            pawnData.tier = nextValue;
             wasChanged = true;
         }
 

@@ -18,6 +18,8 @@ public class PlayerPawnData : ScriptableObject
     public int maxHealth;
     public int maxMovement;
     public int attackPower;
+    [Space]
+    public int tier;
 
     [Header("Costs")]
     public GameResources resourceCosts;
