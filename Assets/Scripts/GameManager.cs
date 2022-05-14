@@ -221,7 +221,7 @@ public class GameManager : MonoBehaviour
         playerResources.PaySpawnCosts(spawnedPawnData);
         PlayerHUD.UpdateHUD(instance.activePlayerID);
 
-        PlaceNewPawn(spawnedPawnData, spawnPoint, spawner.PlayerID);
+        PlaceNewPawn(spawnedPawnData, spawnPoint, spawner.PlayerID, spawner.HexCell);
 
         return true;
     }
@@ -229,13 +229,17 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Places new Pawn onto grid, according to given data and position.
     /// </summary>
-    public static PlayerPawn PlaceNewPawn(PlayerPawnData placedPawnData, HexCell spot, int playerID)
+    public static PlayerPawn PlaceNewPawn(PlayerPawnData placedPawnData, HexCell spot, int playerID, HexCell origin = null)
     {
         PlayerPawn newPawn = Instantiate(placedPawnData.GetPawnPrefab(playerID),
                              spot.transform.position, Quaternion.identity, instance.spawnFolderTransforms[playerID]);
 
         // Pawn adds itself to the grid on the matching position.
         newPawn.SetPlayer(playerID);
+
+        if (origin != null)
+            newPawn.LookAway(origin);
+
         return newPawn;
     }
 

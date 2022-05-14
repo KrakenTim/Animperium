@@ -5209,6 +5209,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2264528629969971885, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2264528629969971885, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2264528629969971885, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2264528629969971885, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2264528629969971885, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
     - target: {fileID: 7888250784874348199, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
       propertyPath: m_Name
       value: GameManager

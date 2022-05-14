@@ -66,6 +66,16 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public HexCell HexCell => hexCell;
     public HexCoordinates HexCoordinates => hexCell ? hexCell.coordinates : new HexCoordinates(0, 0);
     public Vector3 WorldPosition => transform.position;
+    public float RotationY
+    {
+        get => transform.eulerAngles.y;
+        set
+        {
+            Vector3 euler = transform.eulerAngles;
+            euler.y = value;
+            transform.eulerAngles = euler;
+        }
+    }
 
     public virtual bool IsPlayerPawn => playerID == GameManager.CurrentPlayerID;
 
@@ -116,6 +126,23 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         }
     }
 
+    /// <summary>
+    /// Turns the character to look away from the given cell
+    /// </summary>
+    public void LookAway(HexCell cellInBack)
+    {
+        Vector3 target = transform.position + (transform.position - cellInBack.Position);
+        target.y = transform.position.y;
+
+        LookAt(target);
+    }
+
+    public void LookAt(Vector3 worldPosition)
+    {
+        worldPosition.y = transform.position.y;
+        transform.LookAt(worldPosition);
+    }
+
     public bool CanLearn(eKnowledge newKnowledge, out ePlayerPawnType newType)
     {
         return pawnData.CanLearn(newKnowledge, out newType);
@@ -154,7 +181,11 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
         PlayerHUD.UpdateShownPawn();
 
+        // rotates pawn according to direction it came from
+        HexCell oldPosition = hexCell;
+
         SetHexCell(targetPosition);
+        LookAway(oldPosition);
     }
 
     public void Damaged(int damageAmount)
