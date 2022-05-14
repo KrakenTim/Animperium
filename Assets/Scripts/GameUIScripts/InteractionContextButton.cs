@@ -46,7 +46,7 @@ public class InteractionContextButton : MonoBehaviour
             case ePlayeractionType.BuildingUpgrade:
                 // get upgarde cost for building on target cell
                 SetCosts(PawnUpgradeController.GetUpgradeCost(targetCell.Pawn.PawnData, newPawnData));
-                myButton.interactable = GameManager.GetUpgradeCount(GameManager.LocalPlayerID) >= GameManager.SchoolNeededUpgardes;
+                myButton.interactable = GameManager.GetUpgradeCount(GameManager.LocalPlayerID) >= GameManager.SchoolNeededUpgrades;
                 break;
 
             default:

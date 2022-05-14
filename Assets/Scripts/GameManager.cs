@@ -33,8 +33,8 @@ public class GameManager : MonoBehaviour
     Dictionary<int, Transform> spawnFolderTransforms = new Dictionary<int, Transform>();
     public int maxPopulation = 5;
     public static int MaxPopulation => instance.maxPopulation;
-    public int schoolNeededUpgardes;
-    public static int SchoolNeededUpgardes => instance.schoolNeededUpgardes;
+    public int schoolNeededUpgrades;
+    public static int SchoolNeededUpgrades => instance.schoolNeededUpgrades;
 
     private void Awake()
     {
