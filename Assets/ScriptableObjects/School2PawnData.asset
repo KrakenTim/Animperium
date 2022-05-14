@@ -19,6 +19,7 @@ MonoBehaviour:
   maxHealth: 250
   maxMovement: 0
   attackPower: 0
+  tier: 2
   resourceCosts:
     food: 44
     wood: 60
@@ -28,6 +29,7 @@ MonoBehaviour:
   learnsFight: 0
   learnsMagic: 0
   learnsDigging: 0
+  linearUpgrade: 0
   playerPrefabs:
   - {fileID: 0}
   - {fileID: 7845875270959048770, guid: 9cabc8bf47e76e94caafe7936630e858, type: 3}

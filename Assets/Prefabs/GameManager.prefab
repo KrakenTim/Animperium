@@ -68,6 +68,7 @@ MonoBehaviour:
     factionID: 1
     playerColor: {r: 0, g: 0.1387968, b: 1, a: 1}
     populationCount: 0
+    upgradeCounter: 0
     playerIcon:
       colored: {fileID: 0}
       baseIcon: {fileID: 0}
@@ -80,6 +81,7 @@ MonoBehaviour:
     factionID: 2
     playerColor: {r: 0.990566, g: 0, b: 0.037627444, a: 1}
     populationCount: 0
+    upgradeCounter: 0
     playerIcon:
       colored: {fileID: 0}
       baseIcon: {fileID: 0}
@@ -90,7 +92,8 @@ MonoBehaviour:
     ownedPawns: []
   activePlayerID: 1
   activePlayerFactionID: 1
-  maxPopulation: 5
+  maxPopulation: 8
+  schoolNeededUpgrades: 5
 --- !u!114 &7888250784874348218
 MonoBehaviour:
   m_ObjectHideFlags: 0

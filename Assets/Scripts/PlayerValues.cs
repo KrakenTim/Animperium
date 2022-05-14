@@ -89,6 +89,8 @@ public class PlayerValues
     public bool CanAfford(GameResources resources)
     {
         if (playerResources.food < resources.food) return false;
+        if (playerResources.wood < resources.wood) return false;
+        if (playerResources.ore < resources.ore) return false;
 
         return true;
     }
@@ -96,6 +98,8 @@ public class PlayerValues
     public void PayCosts(GameResources resources)
     {
         playerResources.food -= resources.food;
+        playerResources.wood -= resources.wood;
+        playerResources.ore -= resources.ore;
     }
 
     public void PaySpawnCosts(PlayerPawnData spawnData)

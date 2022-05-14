@@ -159,7 +159,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
     public void Damaged(int damageAmount)
     {
-        currentHealth -= damageAmount;
+        currentHealth = Mathf.Max(currentHealth - damageAmount, 0);
 
         if (currentHealth <= 0)
         {

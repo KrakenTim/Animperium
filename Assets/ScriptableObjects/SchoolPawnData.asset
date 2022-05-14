@@ -19,6 +19,7 @@ MonoBehaviour:
   maxHealth: 200
   maxMovement: 0
   attackPower: 0
+  tier: 1
   resourceCosts:
     food: 40
     wood: 50
