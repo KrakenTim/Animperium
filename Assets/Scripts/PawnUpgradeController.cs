@@ -38,7 +38,7 @@ public static class PawnUpgradeController
         newUnitData = null;
 
         // Check if unit profits from learning
-        foreach (var possibleUpgrade in oldUnitData.PossibleUnitUpgrades())
+        foreach (var possibleUpgrade in oldUnitData.AllPossiblesUnitUpgrades())
         {
             if (possibleUpgrade.type == newUnit)
             {
