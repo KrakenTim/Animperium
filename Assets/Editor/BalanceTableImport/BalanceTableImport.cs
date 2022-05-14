@@ -154,7 +154,7 @@ public static class BalanceTableImport
 
         if (wasChanged)
         {
-            Debug.Log($"Balancing Import updated {pawnData.type}\n");
+            Debug.Log($"Balancing Import updated {pawnData.type}\n", pawnData);
             EditorUtility.SetDirty(pawnData);
         }
     }

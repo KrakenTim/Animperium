@@ -77,22 +77,47 @@ public class PlayerPawnData : ScriptableObject
         return newType != ePlayerPawnType.NONE;
     }
 
-    public List<PlayerPawnData> PossibleUnitUpgrades()
+    public List<PlayerPawnData> PossibleUnitUpgrades(int tierLimit = int.MaxValue)
     {
         List<PlayerPawnData> upgrade = new List<PlayerPawnData>();
 
+        PlayerPawnData nextData;
+
         if (learnsFight != ePlayerPawnType.NONE)
-            upgrade.Add(GameManager.GetPawnData(learnsFight));
+        {
+            nextData = GameManager.GetPawnData(learnsFight);
+
+            if (nextData.tier <= tierLimit)
+            upgrade.Add(nextData);
+        }
 
         if (learnsMagic != ePlayerPawnType.NONE)
-            upgrade.Add(GameManager.GetPawnData(learnsMagic));
+
+        {
+            nextData = GameManager.GetPawnData(learnsMagic);
+
+            if (nextData.tier <= tierLimit)
+                upgrade.Add(nextData);
+        }
 
         if (learnsDigging != ePlayerPawnType.NONE)
-            upgrade.Add(GameManager.GetPawnData(learnsDigging));
+
+        {
+            nextData = GameManager.GetPawnData(learnsDigging);
+
+            if (nextData.tier <= tierLimit)
+                upgrade.Add(nextData);
+        }
 
         if (linearUpgrade != ePlayerPawnType.NONE)
-            upgrade.Add(GameManager.GetPawnData(linearUpgrade));
-        
+
+        {
+            nextData = GameManager.GetPawnData(linearUpgrade);
+
+            if (nextData.tier <= tierLimit)
+                upgrade.Add(nextData);
+        }
+
         return upgrade;
     }
 }

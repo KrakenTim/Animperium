@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -45,7 +46,28 @@ public class InteractionMenuManager : MonoBehaviour
 
         if (actingUnit != null)
         {
-            instance.CreateButtonEntries(actingUnit.PossibleUnitUpgrades(), ePlayeractionType.UnitUpgrade, targetCell, actingUnit);
+            int maxTier = targetCell.Pawn.PawnData.tier;
+
+            List<PlayerPawnData> allUpgrades = new List<PlayerPawnData>();
+            List<PlayerPawnData> upgradesToCheck = actingUnit.PossibleUnitUpgrades(maxTier);
+            List<PlayerPawnData> newUpgrades = new List<PlayerPawnData>();
+
+            PlayerPawnData next = actingUnit;
+
+            while (upgradesToCheck.Count > 0)
+            {
+                foreach(var nextPawn in upgradesToCheck)
+                {
+                    if (!allUpgrades.Contains(nextPawn))
+                    allUpgrades.Add(nextPawn);
+                    newUpgrades.AddRange(nextPawn.PossibleUnitUpgrades(maxTier));
+                }
+                upgradesToCheck.Clear();
+                upgradesToCheck.AddRange(newUpgrades);
+                newUpgrades.Clear();
+            }
+           
+            instance.CreateButtonEntries(allUpgrades, ePlayeractionType.UnitUpgrade, targetCell, actingUnit);
 
             instance.AddPossibleTargetUpgrades(targetCell, actingUnit);
         }
