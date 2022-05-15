@@ -14,7 +14,7 @@ public class PlayerValues
     public int populationCount;
     public int upgradeCounter;
     [SerializeField] private ColorableIconData playerIcon;
-    public ColorableIconData PlayerIcon => IconProvider.GetCheckedPlayer(playerIcon);
+    public ColorableIconData PlayerIcon => IconProvider.GetCheckedPlayer(playerIcon, name);
 
     public GameResources playerResources;
 
@@ -23,7 +23,8 @@ public class PlayerValues
     private bool hasLost = false;
     public bool HasLost => hasLost;
 
-    public string Name => OnlineGameManager.IsOnlineGame ? OnlineGameManager.myNameOnServer : "Player" + playerID;
+    public string name;
+    public string DefaultName => "Player " + playerID;
 
     public void GiveUp()
     {

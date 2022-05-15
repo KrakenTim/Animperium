@@ -13,12 +13,15 @@ MonoBehaviour:
   m_Name: FarmHousePawnData
   m_EditorClassIdentifier: 
   type: 104
+  friendlyName: Farm House
   pawnIcon:
+    type: 0
     colored: {fileID: 0}
     baseIcon: {fileID: 0}
   maxHealth: 130
   maxMovement: 0
   attackPower: 0
+  viewRange: 2
   tier: 0
   resourceCosts:
     food: 30

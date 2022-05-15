@@ -13,12 +13,15 @@ MonoBehaviour:
   m_Name: TownHallPawnData
   m_EditorClassIdentifier: 
   type: 100
+  friendlyName: Town Hall
   pawnIcon:
+    type: 0
     colored: {fileID: 0}
     baseIcon: {fileID: 0}
   maxHealth: 300
   maxMovement: 0
   attackPower: 0
+  viewRange: 4
   tier: 4
   resourceCosts:
     food: 0

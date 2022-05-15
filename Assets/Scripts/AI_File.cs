@@ -81,6 +81,8 @@ public static class AI_File
             return filePaths;
         }
 
+        if (!Directory.Exists(path)) return filePaths;
+
         string[] rawPaths = Directory.GetFiles(path, searchPattern, includeSubfolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
 
         foreach (var nextPath in rawPaths)

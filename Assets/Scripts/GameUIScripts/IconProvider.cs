@@ -6,6 +6,7 @@ using UnityEngine.UI;
 [System.Serializable]
 public struct ColorableIconData
 {
+    [HideInInspector] public string text;
     public Sprite colored;
     public Sprite baseIcon;
 }
@@ -30,15 +31,22 @@ public class IconProvider : MonoBehaviour
     public static ColorableIconData GetCheckedPawn(ColorableIconData pawnIcon, ePlayerPawnType type)
     {
         if (pawnIcon.colored == null && pawnIcon.baseIcon == null)
+        {
             pawnIcon = type.IsBuilding() ? instance.fallbackBuilding : instance.fallbackUnit;
+
+            pawnIcon.text =GameManager.GetPawnData(type).friendlyName;
+        }
 
         return pawnIcon;
     }
 
-    public static ColorableIconData GetCheckedPlayer(ColorableIconData playerIcon)
+    public static ColorableIconData GetCheckedPlayer(ColorableIconData playerIcon, string playerName)
     {
         if (playerIcon.colored == null && playerIcon.baseIcon == null)
+        {
             playerIcon = instance.fallbackPlayer;
+            playerIcon.text = playerName;
+        }
 
         return playerIcon;
     }    

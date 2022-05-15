@@ -40,7 +40,21 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
 
-        localPlayerID = OnlineGameManager.IsOnlineGame ? OnlineGameManager.LocalPlayerID : activePlayerFactionID;
+        if (OnlineGameManager.IsOnlineGame)
+        {
+            localPlayerID = OnlineGameManager.LocalPlayerID;
+
+            OnlineGameManager.SetupPlayers(playerValueList);
+        }
+        else
+            localPlayerID = activePlayerID;
+
+        // set missing names to default
+        for (int i = 0; i < playerValueList.Length; i++)
+        {
+            if (string.IsNullOrWhiteSpace(playerValueList[i].name))
+                playerValueList[i].name = playerValueList[i].DefaultName;
+        }
     }
 
     private void Start()
@@ -125,7 +139,7 @@ public class GameManager : MonoBehaviour
         for (int i = 1; i <= playerValueList.Length; i++)
         {
             spawnFolderTransforms.Add(playerValueList[i - 1].playerID, transform.GetChild(i));
-            transform.GetChild(i).gameObject.name = playerValueList[i - 1].Name;
+            transform.GetChild(i).gameObject.name = playerValueList[i - 1].name;
         }
     }
 
@@ -142,7 +156,7 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    public static List<PlayerPawnData> GetBuildingData(bool withoutUpgrades)
+    public static List<PlayerPawnData> GetBuildingDatas(bool withoutUpgrades, bool excludeTownHall = false)
     {
         List<PlayerPawnData> result = new List<PlayerPawnData>();
 
@@ -151,7 +165,9 @@ public class GameManager : MonoBehaviour
             if (data.IsBuilding)
             {
                 if (withoutUpgrades && data.type.IsBuildingUpgrade()) continue;
-                result.Add(data);
+
+                if (!excludeTownHall || data.type != ePlayerPawnType.TownHall)
+                    result.Add(data);
             }
         }
         return result;
@@ -341,7 +357,7 @@ public class GameManager : MonoBehaviour
             {
                 instance.spawnedPawnID += 1;
                 pawn.pawnID = instance.spawnedPawnID;
-                pawn.gameObject.name = pawn.PawnName;
+                pawn.gameObject.name = pawn.FriendlyName;
             }
 
             result.ownedPawns.Add(pawn);

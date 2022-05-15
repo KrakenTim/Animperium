@@ -14,8 +14,9 @@ public class PlaceholderPawnVisual : MonoBehaviour
         PlayerPawn myPawn = GetComponentInParent<PlayerPawn>();
         if (myPawn == null) return;
 
+        // Update Text
         TMPro.TMP_Text[] myTexts = GetComponentsInChildren<TMPro.TMP_Text>();
         foreach (var textfield in myTexts)
-            textfield.text = myPawn.PawnType.ToString();
+            textfield.text = myPawn.FriendlyName;
     }
 }

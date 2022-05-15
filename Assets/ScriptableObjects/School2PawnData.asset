@@ -13,12 +13,15 @@ MonoBehaviour:
   m_Name: School2PawnData
   m_EditorClassIdentifier: 
   type: 150
+  friendlyName: School II
   pawnIcon:
+    type: 0
     colored: {fileID: 0}
     baseIcon: {fileID: 0}
   maxHealth: 250
   maxMovement: 0
   attackPower: 0
+  viewRange: 3
   tier: 2
   resourceCosts:
     food: 44

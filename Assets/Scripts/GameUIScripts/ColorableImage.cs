@@ -7,6 +7,7 @@ public class ColorableImage : MonoBehaviour
 {
     [SerializeField] Image coloredIcon;
     [SerializeField] Image baseIcon;
+    [SerializeField] TMPro.TMP_Text text;
     [Space]
     [SerializeField, Range(0.125f, 1f)] float onlyColoredIntensity = 0.5f;
 
@@ -54,15 +55,24 @@ public class ColorableImage : MonoBehaviour
         if (iconData.baseIcon)
         {
             baseIcon.sprite = iconData.baseIcon;
-            baseIcon.enabled = true;            
+            baseIcon.enabled = true;
         }
         else
             baseIcon.enabled = false;
+
+        if (!string.IsNullOrEmpty(iconData.text))
+        {
+            text.text = iconData.text;
+            text.enabled = true;
+        }
+        else
+            text.enabled = false;
     }
 
     public void SetVisible(bool isEnabled)
     {
         coloredIcon.enabled = isEnabled;
         baseIcon.enabled = isEnabled;
+        text.enabled = isEnabled;
     }
 }

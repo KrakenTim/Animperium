@@ -14,6 +14,9 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] TMPro.TMP_Text foodAmount;
     [SerializeField] TMPro.TMP_Text woodAmount;
     [SerializeField] TMPro.TMP_Text oreAmount;
+    [Space]
+    [SerializeField] GameObject endTurnButton;
+ 
     [Header("Pawn Info")]
     [SerializeField] GameObject pawnInfoRoot;
     [Space]
@@ -33,6 +36,8 @@ public class PlayerHUD : MonoBehaviour
 
         GameManager.TurnStarted += UpdateHUD;
         GameInputManager.SelectPawn += UpdateSelectedPawn;
+
+        FillValuesIn(null);
     }
 
     private void OnDestroy()
@@ -47,10 +52,13 @@ public class PlayerHUD : MonoBehaviour
     public static void UpdateHUD(int playerID)
     {
         instance.background.color = GameManager.GetPlayerColor(playerID);
+        
+        GameResources resources = GameManager.GetPlayerResources(GameManager.LocalPlayerID);
+        instance.foodAmount.text = resources.food + " Food";
+        instance.woodAmount.text = resources.wood + " Wood";
+        instance.oreAmount.text = resources.ore + " Ore";
 
-        instance.foodAmount.text = GameManager.GetPlayerResources(playerID).food + " Food";
-        instance.woodAmount.text = GameManager.GetPlayerResources(playerID).wood + " Wood";
-        instance.oreAmount.text = GameManager.GetPlayerResources(playerID).ore + " Ore";
+        instance.endTurnButton.SetActive(GameManager.InputAllowed);
     }
 
     private void UpdateSelectedPawn(PlayerPawn selectedPawn)
@@ -90,7 +98,7 @@ public class PlayerHUD : MonoBehaviour
         pawnIcon.SetPawn(selectedPawn);
 
         canActIcon.enabled = selectedPawn.CanAct;
-        pawnType.text = selectedPawn.PawnName;
+        pawnType.text = selectedPawn.FriendlyName;
 
         pawnHP.text = "HP " + selectedPawn.HP + "/" + selectedPawn.MaxHealth;
         if (selectedPawn.IsUnit)

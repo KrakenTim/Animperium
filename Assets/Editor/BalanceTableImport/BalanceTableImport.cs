@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
@@ -22,6 +23,7 @@ public static class BalanceTableImport
     const string COLUMN_MaxHealth = "MaxHealth";
     const string COLUMN_MaxMovement = "MaxMovement";
     const string COLUMN_AttackPower = "AttackPower";
+    const string COLUMN_ViewRange = "ViewRange";
 
     const string COLUMN_FoodCost = "FoodCost";
     const string COLUMN_WoodCost = "WoodCost";
@@ -29,11 +31,13 @@ public static class BalanceTableImport
 
     const string COLUMN_PopulationCount = "PopulationCount";
     const string COLUMN_Tier = "Tier";
+    const string COLUMN_FriendlyName = "FriendlyName";
 
     const string COLUMN_SpawnedPawn = "SpawnedPawn";
     const string COLUMN_LearnFight = "LearnFight";
     const string COLUMN_LearnMagic = "LearnMagic";
     const string COLUMN_LearnDigging = "LearnDigging";
+    const string COLUMN_LinearUpgrade = "LinearUpgrade";
 
     /// <summary>
     /// gets the current table fom google and applies it's values to the scriptable objects
@@ -74,8 +78,17 @@ public static class BalanceTableImport
         int nextValue;
         bool wasChanged = false;
 
-        // stats
+        // friendly name
+        string newName = pawnTableRow[COLUMN_FriendlyName];
+        if (string.IsNullOrWhiteSpace(newName))
+            newName = SplitCamelCase(pawnData.type.ToString());
+        if (pawnData.friendlyName != newName)
+        {
+            pawnData.friendlyName = newName;
+            wasChanged = true;
+        }
 
+        // stats       
         if (TryParse(pawnTableRow, COLUMN_MaxHealth, out nextValue) && pawnData.maxHealth != nextValue)
         {
             pawnData.maxHealth = nextValue;
@@ -91,6 +104,12 @@ public static class BalanceTableImport
         if (TryParse(pawnTableRow, COLUMN_AttackPower, out nextValue) && pawnData.attackPower != nextValue)
         {
             pawnData.attackPower = nextValue;
+            wasChanged = true;
+        }
+
+        if (TryParse(pawnTableRow, COLUMN_ViewRange, out nextValue) && pawnData.viewRange != nextValue)
+        {
+            pawnData.viewRange = nextValue;
             wasChanged = true;
         }
 
@@ -149,6 +168,11 @@ public static class BalanceTableImport
         if (TryParse(pawnTableRow, COLUMN_LearnDigging, out nextPawnType, allowEmpty: true) && pawnData.learnsDigging != nextPawnType)
         {
             pawnData.learnsDigging = nextPawnType;
+            wasChanged = true;
+        }
+        if (TryParse(pawnTableRow, COLUMN_LinearUpgrade, out nextPawnType, allowEmpty: true) && pawnData.linearUpgrade != nextPawnType)
+        {
+            pawnData.linearUpgrade = nextPawnType;
             wasChanged = true;
         }
 
@@ -216,6 +240,11 @@ public static class BalanceTableImport
 
     static void ParsingError(TSVTable.Line line, string columnName, string expectedType) =>
        Debug.LogError($"Balancing\tGot no {expectedType} with '{line[columnName]}' in {columnName}\n\t\t{line.ToString()}\n");
+
+    static string SplitCamelCase(this string str)
+    {
+        return Regex.Replace(Regex.Replace(str, @"(\P{Ll})(\P{Ll}\p{Ll})", "$1 $2"), @"(\p{Ll})(\P{Ll})", "$1 $2");
+    }
 }
 
 #endif // UNITY_EDITOR - whole file

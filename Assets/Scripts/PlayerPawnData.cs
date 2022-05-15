@@ -9,7 +9,7 @@ using UnityEngine;
 public class PlayerPawnData : ScriptableObject
 {
     public ePlayerPawnType type;
-    public string PawnName => type.ToString();
+    [SerializeField] public string friendlyName;
 
     [SerializeField] private ColorableIconData pawnIcon;
     public ColorableIconData PawnIcon => IconProvider.GetCheckedPawn(pawnIcon, type);
@@ -18,6 +18,7 @@ public class PlayerPawnData : ScriptableObject
     public int maxHealth;
     public int maxMovement;
     public int attackPower;
+    public int viewRange;
     [Space]
     public int tier;
 

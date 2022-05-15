@@ -58,7 +58,7 @@ public class VictoryLoseScreen : MonoBehaviour
 
         foreach (var player in winners)
         {
-            winnerText += "\n" + player.Name;
+            winnerText += "\n" + player.name;
         }
 
         instance.victoryText.text = winnerText;

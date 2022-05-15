@@ -43,12 +43,12 @@ public class TempMapSaves : MonoBehaviour
 #endif
     }
 
-    //private void OnDestroy()
-    //{
-    //    if (GameManager.InGame) return;
-        
-    //    CreateSave(onlyIfNew: true);
-    //}
+    private void OnDisable()
+    {
+        if (GameManager.InGame) return;
+
+        CreateSave(onlyIfNew: true);
+    }
 
     public void Button_SaveMap() => CreateSave();
 

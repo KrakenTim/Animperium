@@ -16,11 +16,13 @@ public class InteractionMenuManager : MonoBehaviour
 
     List<InteractionContextButton> buttonList;
 
+    Color currentPlayerColor;
+
     private void Awake()
     {
         instance = this;
 
-        GameManager.TurnStarted += BackgroundFrame;
+        GameManager.TurnStarted += TurnStarted;
 
         buttonList = new List<InteractionContextButton>(buttonFrame.GetComponentsInChildren<InteractionContextButton>());
 
@@ -32,7 +34,7 @@ public class InteractionMenuManager : MonoBehaviour
         if (instance = this)
             instance = null;
 
-        GameManager.TurnStarted -= BackgroundFrame;
+        GameManager.TurnStarted -= TurnStarted;
     }
 
     // destroy old Buttons
@@ -51,7 +53,7 @@ public class InteractionMenuManager : MonoBehaviour
             instance.AddPossibleTargetUpgrades(targetCell, actingUnit);
         }
         else
-            instance.CreateButtonEntries(GameManager.GetBuildingData(withoutUpgrades: true), ePlayeractionType.Build, targetCell, actingUnit);
+            instance.CreateButtonEntries(GameManager.GetBuildingDatas(withoutUpgrades: true, excludeTownHall: true), ePlayeractionType.Build, targetCell, actingUnit);
 
         instance.SetVisible(instance.buttonList.Count > 0);
     }
@@ -67,7 +69,7 @@ public class InteractionMenuManager : MonoBehaviour
             }
             InteractionContextButton nextButton = Instantiate(instance.buttonPrefab, instance.buttonFrame.transform);
 
-            nextButton.Initialise(pawnData, targetCell, actingUnit, actionType);
+            nextButton.Initialise(pawnData, targetCell, actingUnit, actionType, currentPlayerColor);
 
             instance.buttonList.Add(nextButton);
         }
@@ -85,9 +87,15 @@ public class InteractionMenuManager : MonoBehaviour
         }
     }
 
-    public static void BackgroundFrame(int playerID)
+    /// <summary>
+    /// Reacts to a new player taking over their turn.
+    /// </summary>
+    private void TurnStarted(int playerID)
     {
-        instance.background.color = GameManager.GetPlayerColor(playerID);
+        InteractionMenuManager.Close();
+
+        instance.currentPlayerColor = GameManager.GetPlayerColor(playerID);
+        instance.background.color = instance.currentPlayerColor;
     }
 
     public static void Close()

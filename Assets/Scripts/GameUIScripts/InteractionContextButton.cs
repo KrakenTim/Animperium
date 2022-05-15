@@ -18,12 +18,15 @@ public class InteractionContextButton : MonoBehaviour, IPointerEnterHandler, IPo
     [Space]
     [SerializeField] GameObject notPossibleBox;
     [SerializeField] TMPro.TMP_Text notPossibleMessage;
+    [SerializeField] Image notPossibleBackground;
 
     private Button myButton;
     private PlayerPawnData actingUnit;
     private HexCell targetCell;
     private ePlayeractionType actionType;
-    public void Initialise(PlayerPawnData newPawnData, HexCell targetCell, PlayerPawnData actingUnit, ePlayeractionType actionType)
+
+    public void Initialise(PlayerPawnData newPawnData, HexCell targetCell, PlayerPawnData actingUnit, ePlayeractionType actionType,
+                           Color playerColor)
     {
         this.newPawnData = newPawnData;
         this.actingUnit = actingUnit;
@@ -34,7 +37,7 @@ public class InteractionContextButton : MonoBehaviour, IPointerEnterHandler, IPo
 
         pawnIcon.SetPawn(newPawnData, GameManager.LocalPlayerID);
 
-        pawnName.text = newPawnData.PawnName;
+        pawnName.text = newPawnData.friendlyName;
 
         if (myButton == null)
             myButton = GetComponent<Button>();
@@ -51,35 +54,51 @@ public class InteractionContextButton : MonoBehaviour, IPointerEnterHandler, IPo
                 SetCosts(PawnUpgradeController.GetUpgradeCost(actingUnit, newPawnData));
                 break;
             case ePlayeractionType.BuildingUpgrade:
-                // get upgarde cost for building on target cell
+                // get upgrade cost for building on target cell
                 SetCosts(PawnUpgradeController.GetUpgradeCost(targetCell.Pawn.PawnData, newPawnData));
-
-                int neededUpgrades = GameManager.SchoolNeededUpgrades - GameManager.GetUpgradeCount(GameManager.LocalPlayerID);
-                myButton.interactable = neededUpgrades <= 0;
-                if (!myButton.interactable)
-                    notPossibleMessage.text = $"Need to Upgrade {neededUpgrades} more Upgraded units.";
+                CheckUpgradeUnlocked();
                 break;
 
             default:
                 Debug.LogError("ContextButton\tInitialised UNDEFINED for " + actionType);
                 break;
         }
+
+        if (!myButton.interactable)
+            notPossibleBackground.color = playerColor;
     }
+
+    /// <summary>
+    /// Sets ressources according to needs, prepares NotPossible if the player doesn't have enough.
+    /// </summary>
     private void SetCosts(GameResources costs)
     {
         foodCost.text = costs.food.ToString();
         woodCost.text = costs.wood.ToString();
         oreCost.text = costs.ore.ToString();
 
-        myButton.interactable = GameManager.CanAfford(GameManager.LocalPlayerID, costs);
+        if (!GameManager.CanAfford(GameManager.LocalPlayerID, costs))
+            PrepareNotPossible("Not enough Resources!");
+    }
 
-        if (!myButton.interactable)
-            notPossibleMessage.text = "Not enough Resources!";
+    /// <summary>
+    /// Checks if there are already enough buildings unlocked, prepares NotPossible otherwise.
+    /// </summary>
+    private void CheckUpgradeUnlocked()
+    {
+        int neededUpgrades = GameManager.SchoolNeededUpgrades - GameManager.GetUpgradeCount(GameManager.LocalPlayerID);
+        if (neededUpgrades > 0)
+        {
+            if (neededUpgrades > 1)
+                PrepareNotPossible($"Need to upgrade {neededUpgrades} more units!");
+            else
+                PrepareNotPossible($"Need to upgrade one more unit!");
+        }
     }
 
     public void Button_ButtonPressed()
     {
-        Debug.Log($"InteractionButton\t {gameObject} wants to build a {newPawnData.PawnName}. \n", gameObject);
+        Debug.Log($"InteractionButton\t {gameObject} wants to build a {newPawnData.friendlyName}. \n", gameObject);
         InteractionMenuManager.Close();
 
         InputMessage newMessage = InputMessageGenerator.CreatePawnMessage(GameInputManager.SelectedPawn,
@@ -96,5 +115,11 @@ public class InteractionContextButton : MonoBehaviour, IPointerEnterHandler, IPo
     public void OnPointerExit(PointerEventData eventData)
     {
         notPossibleBox.SetActive(false);
+    }
+
+    private void PrepareNotPossible(string messageText)
+    {
+        notPossibleMessage.text = messageText;
+        myButton.interactable = false;
     }
 }
