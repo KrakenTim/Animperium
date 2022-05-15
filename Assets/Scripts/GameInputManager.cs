@@ -129,7 +129,7 @@ public class GameInputManager : MonoBehaviour
     private bool IsLearningPossible(PlayerPawn potentialSchool)
     {
         if (potentialSchool.PlayerID == selectedPawn.PlayerID && potentialSchool.PawnType.IsSchool()
-            && selectedPawn.PawnData.IsUpgradePossible)
+            && selectedPawn.PawnData.IsLearnUpgradePossible)
             return true;
 
         return false;

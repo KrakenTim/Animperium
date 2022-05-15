@@ -19,20 +19,25 @@ public static class BalanceTableImport
 
     const string NAME_BalancingTable = "Pawn Balance Table";
 
+    //Characteristics
     const string COLUMN_PawnType = "PawnType";
+    const string COLUMN_FriendlyName = "FriendlyName";
+    const string COLUMN_Tier = "Tier";
+    const string COLUMN_UpgradesForUnlock = "UpgradesForUnlock";
+
+    // Stats
     const string COLUMN_MaxHealth = "MaxHealth";
     const string COLUMN_MaxMovement = "MaxMovement";
     const string COLUMN_AttackPower = "AttackPower";
     const string COLUMN_ViewRange = "ViewRange";
 
+    // Costs
     const string COLUMN_FoodCost = "FoodCost";
     const string COLUMN_WoodCost = "WoodCost";
     const string COLUMN_OreCost = "OreCost";
-
     const string COLUMN_PopulationCount = "PopulationCount";
-    const string COLUMN_Tier = "Tier";
-    const string COLUMN_FriendlyName = "FriendlyName";
 
+    // Spawn & Upgrades
     const string COLUMN_SpawnedPawn = "SpawnedPawn";
     const string COLUMN_LearnFight = "LearnFight";
     const string COLUMN_LearnMagic = "LearnMagic";
@@ -78,7 +83,7 @@ public static class BalanceTableImport
         int nextValue;
         bool wasChanged = false;
 
-        // friendly name
+        // Friendly Name
         string newName = pawnTableRow[COLUMN_FriendlyName];
         if (string.IsNullOrWhiteSpace(newName))
             newName = SplitCamelCase(pawnData.type.ToString());
@@ -88,73 +93,69 @@ public static class BalanceTableImport
             wasChanged = true;
         }
 
-        // stats       
+        if (TryParse(pawnTableRow, COLUMN_Tier, out nextValue) && pawnData.tier != nextValue)
+        {
+            pawnData.tier = nextValue;
+            wasChanged = true;
+        }
+        if (TryParse(pawnTableRow, COLUMN_UpgradesForUnlock, out nextValue, allowEmpty: true) && pawnData.upgradesForUnlock != nextValue)
+        {
+            pawnData.upgradesForUnlock = nextValue;
+            wasChanged = true;
+        }
+
+        // Stats       
         if (TryParse(pawnTableRow, COLUMN_MaxHealth, out nextValue) && pawnData.maxHealth != nextValue)
         {
             pawnData.maxHealth = nextValue;
             wasChanged = true;
         }
-
         if (TryParse(pawnTableRow, COLUMN_MaxMovement, out nextValue) && pawnData.maxMovement != nextValue)
         {
             pawnData.maxMovement = nextValue;
             wasChanged = true;
         }
-
         if (TryParse(pawnTableRow, COLUMN_AttackPower, out nextValue) && pawnData.attackPower != nextValue)
         {
             pawnData.attackPower = nextValue;
             wasChanged = true;
         }
-
         if (TryParse(pawnTableRow, COLUMN_ViewRange, out nextValue) && pawnData.viewRange != nextValue)
         {
             pawnData.viewRange = nextValue;
             wasChanged = true;
         }
 
-        // resource costs
-
+        // Costs
         if (TryParse(pawnTableRow, COLUMN_FoodCost, out nextValue) && pawnData.resourceCosts.food != nextValue)
         {
             pawnData.resourceCosts.food = nextValue;
             wasChanged = true;
         }
-
         if (TryParse(pawnTableRow, COLUMN_WoodCost, out nextValue) && pawnData.resourceCosts.wood != nextValue)
         {
             pawnData.resourceCosts.wood = nextValue;
             wasChanged = true;
         }
-
         if (TryParse(pawnTableRow, COLUMN_OreCost, out nextValue) && pawnData.resourceCosts.ore != nextValue)
         {
             pawnData.resourceCosts.ore = nextValue;
             wasChanged = true;
         }
-
         if (TryParse(pawnTableRow, COLUMN_PopulationCount, out nextValue) && pawnData.populationCount != nextValue)
         {
             pawnData.populationCount = nextValue;
             wasChanged = true;
         }
 
-        if (TryParse(pawnTableRow, COLUMN_Tier, out nextValue) && pawnData.tier != nextValue)
-        {
-            pawnData.tier = nextValue;
-            wasChanged = true;
-        }
-
-        // spawn
-
+        // Spawn
         if (TryParse(pawnTableRow, COLUMN_SpawnedPawn, out nextPawnType, allowEmpty: true) && pawnData.spawnedPawn != nextPawnType)
         {
             pawnData.spawnedPawn = nextPawnType;
             wasChanged = true;
         }
 
-        // learning
-
+        // Upgrades
         if (TryParse(pawnTableRow, COLUMN_LearnFight, out nextPawnType, allowEmpty: true) && pawnData.learnsFight != nextPawnType)
         {
             pawnData.learnsFight = nextPawnType;
@@ -219,7 +220,7 @@ public static class BalanceTableImport
     {
         if (!Enum.TryParse(line[columnName], out setValue))
         {
-            if (!(allowEmpty && line[columnName].Length == 0))
+            if (!(allowEmpty && string.IsNullOrWhiteSpace(line[columnName])))
             {
                 ParsingError(line, columnName, typeof(TEnum).Name);
                 return false;
@@ -228,12 +229,15 @@ public static class BalanceTableImport
         return true;
     }
 
-    static bool TryParse(TSVTable.Line line, string columnName, out int setValue)
+    static bool TryParse(TSVTable.Line line, string columnName, out int setValue, bool allowEmpty = false)
     {
-        if (int.TryParse(line[columnName], out setValue) == false)
+        if (!int.TryParse(line[columnName], out setValue))
         {
-            ParsingError(line, columnName, typeof(int).Name);
-            return false;
+            if (!(allowEmpty && string.IsNullOrWhiteSpace(line[columnName])))
+            {
+                ParsingError(line, columnName, typeof(int).Name);
+                return false;
+            }            
         }
         return true;
     }
@@ -241,6 +245,9 @@ public static class BalanceTableImport
     static void ParsingError(TSVTable.Line line, string columnName, string expectedType) =>
        Debug.LogError($"Balancing\tGot no {expectedType} with '{line[columnName]}' in {columnName}\n\t\t{line.ToString()}\n");
 
+    /// <summary>
+    /// Recognises Camel Case and places spaces between words.
+    /// </summary>
     static string SplitCamelCase(this string str)
     {
         return Regex.Replace(Regex.Replace(str, @"(\P{Ll})(\P{Ll}\p{Ll})", "$1 $2"), @"(\p{Ll})(\P{Ll})", "$1 $2");

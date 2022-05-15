@@ -60,6 +60,11 @@ public class InteractionMenuManager : MonoBehaviour
 
     private void CreateButtonEntries(List<PlayerPawnData> pawnOptions, ePlayeractionType actionType, HexCell targetCell, PlayerPawnData actingUnit)
     {
+        // sort by name
+        pawnOptions.Sort((x,y)=> x.friendlyName.CompareTo(y.friendlyName));
+        // sort by tier
+        pawnOptions.Sort((x, y) => x.tier.CompareTo(y.tier));
+
         foreach (var pawnData in pawnOptions)
         {
             if (pawnData.GetPawnPrefab(GameManager.LocalPlayerID) == null)

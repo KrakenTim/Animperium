@@ -10,6 +10,7 @@ public struct ColorableIconData
     public Sprite colored;
     public Sprite baseIcon;
 }
+
 public class IconProvider : MonoBehaviour
 {
     private static IconProvider instance;

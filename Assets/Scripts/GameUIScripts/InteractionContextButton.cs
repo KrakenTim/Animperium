@@ -52,11 +52,12 @@ public class InteractionContextButton : MonoBehaviour, IPointerEnterHandler, IPo
                 break;
             case ePlayeractionType.UnitUpgrade:
                 SetCosts(PawnUpgradeController.GetUpgradeCost(actingUnit, newPawnData));
+                CheckUpgradeUnlocked(newPawnData);
                 break;
             case ePlayeractionType.BuildingUpgrade:
                 // get upgrade cost for building on target cell
                 SetCosts(PawnUpgradeController.GetUpgradeCost(targetCell.Pawn.PawnData, newPawnData));
-                CheckUpgradeUnlocked();
+                CheckUpgradeUnlocked(newPawnData);
                 break;
 
             default:
@@ -82,11 +83,11 @@ public class InteractionContextButton : MonoBehaviour, IPointerEnterHandler, IPo
     }
 
     /// <summary>
-    /// Checks if there are already enough buildings unlocked, prepares NotPossible otherwise.
+    /// Checks if the pawnData is unlocked, prepares NotPossible otherwise.
     /// </summary>
-    private void CheckUpgradeUnlocked()
+    private void CheckUpgradeUnlocked(PlayerPawnData pawnUpgrade)
     {
-        int neededUpgrades = GameManager.SchoolNeededUpgrades - GameManager.GetUpgradeCount(GameManager.LocalPlayerID);
+        int neededUpgrades = pawnUpgrade.upgradesForUnlock - GameManager.GetUpgradeCount(GameManager.LocalPlayerID);
         if (neededUpgrades > 0)
         {
             if (neededUpgrades > 1)

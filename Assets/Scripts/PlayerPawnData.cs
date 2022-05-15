@@ -9,7 +9,8 @@ using UnityEngine;
 public class PlayerPawnData : ScriptableObject
 {
     public ePlayerPawnType type;
-    [SerializeField] public string friendlyName;
+    public string friendlyName;
+    public int tier;
 
     [SerializeField] private ColorableIconData pawnIcon;
     public ColorableIconData PawnIcon => IconProvider.GetCheckedPawn(pawnIcon, type);
@@ -19,29 +20,29 @@ public class PlayerPawnData : ScriptableObject
     public int maxMovement;
     public int attackPower;
     public int viewRange;
-    [Space]
-    public int tier;
 
     [Header("Costs")]
     public GameResources resourceCosts;
     public int populationCount;
 
-    [Header("Spawns")]
-    [SerializeField] public ePlayerPawnType spawnedPawn;
+    [Header("Upgrades")]
+    public ePlayerPawnType linearUpgrade;
     [Space]
-    [SerializeField] public ePlayerPawnType learnsFight;
-    [SerializeField] public ePlayerPawnType learnsMagic;
-    [SerializeField] public ePlayerPawnType learnsDigging;
-    [Space]
-    [SerializeField] public ePlayerPawnType linearUpgrade;
+    public ePlayerPawnType learnsFight;
+    public ePlayerPawnType learnsMagic;
+    public ePlayerPawnType learnsDigging;
+
+    [Header("Other")]
+    public int upgradesForUnlock;
+    public ePlayerPawnType spawnedPawn;
 
     [Header("Prefab")]
     [SerializeField] PlayerPawn[] playerPrefabs;
 
     public bool IsBuilding => type.IsBuilding();
 
-    public bool IsUpgradePossible => learnsFight != ePlayerPawnType.NONE
-                                  || learnsMagic != ePlayerPawnType.NONE 
+    public bool IsLearnUpgradePossible => learnsFight != ePlayerPawnType.NONE
+                                  || learnsMagic != ePlayerPawnType.NONE
                                   || learnsDigging != ePlayerPawnType.NONE;
     public PlayerPawn GetPawnPrefab(int playerID)
     {
@@ -89,7 +90,7 @@ public class PlayerPawnData : ScriptableObject
             nextData = GameManager.GetPawnData(learnsFight);
 
             if (nextData.tier <= tierLimit)
-            upgrade.Add(nextData);
+                upgrade.Add(nextData);
         }
 
         if (learnsMagic != ePlayerPawnType.NONE)
