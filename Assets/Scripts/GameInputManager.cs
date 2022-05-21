@@ -135,24 +135,41 @@ public class GameInputManager : MonoBehaviour
         return false;
     }
 
+    private bool IsHealingPossible(PlayerPawn healTarget)
+    {
+        return selectedPawn.CanHeal && healTarget.IsWounded && healTarget.IsUnit && !healTarget.IsEnemy;
+    }
+
     /// <summary>
     /// Called if a pawn was clicked.
     /// </summary>
     public static void ClickedOnPawn(PlayerPawn clickedPawn)
     {
-        // Check if enemy that might be attacked
-        if (instance.IsPawnActionPossible(clickedPawn.HexCell) && instance.IsAttackPossible(clickedPawn))
+        if (instance.IsPawnActionPossible(clickedPawn.HexCell))
         {
-            InputMessage message = InputMessageGenerator.CreateHexMessage(instance.selectedPawn, clickedPawn.HexCell,
-                                                                          ePlayeractionType.Attack);
-            InputMessageExecuter.Send(message);
-        }
 
-        // Check if school and upgrade possible
-        if (instance.IsPawnActionPossible(clickedPawn.HexCell) && instance.IsLearningPossible(clickedPawn))
-        {
-            InteractionMenuManager.OpenPawnCreationMenu(clickedPawn.HexCell, instance.selectedPawn.PawnData);
-            return;
+            // Check if enemy that might be attacked
+            if (instance.IsAttackPossible(clickedPawn))
+            {
+                InputMessage message = InputMessageGenerator.CreateHexMessage(instance.selectedPawn, clickedPawn.HexCell,
+                                                                              ePlayeractionType.Attack);
+                InputMessageExecuter.Send(message);
+            }
+
+            if (instance.IsHealingPossible(clickedPawn))
+            {
+                InputMessage message = InputMessageGenerator.CreateHexMessage(instance.selectedPawn, clickedPawn.HexCell,
+                                                                              ePlayeractionType.Heal);
+                InputMessageExecuter.Send(message);
+                return;
+            }
+
+            // Check if school and upgrade possible
+            if (instance.IsLearningPossible(clickedPawn))
+            {
+                InteractionMenuManager.OpenPawnCreationMenu(clickedPawn.HexCell, instance.selectedPawn.PawnData);
+                return;
+            }
         }
 
         // Select clicked Pawn

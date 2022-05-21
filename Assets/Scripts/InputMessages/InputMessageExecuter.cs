@@ -64,6 +64,9 @@ public static class InputMessageExecuter
         PlayerPawn startPawn = startCell.Pawn;
         PlayerPawn targetPawn = targetCell.Pawn;
 
+        if (startPawn.IsUnit)
+            startPawn.LookAt(targetCell.Position);
+
         switch (hexOrder.action)
         {
             case ePlayeractionType.Move:
@@ -86,6 +89,9 @@ public static class InputMessageExecuter
                 break;
             case ePlayeractionType.BuildingUpgrade:
                 GameManager.UpgradeBuilding(startPawn, targetPawn);
+                break;
+            case ePlayeractionType.Heal:
+                startPawn.HealTarget(targetPawn);
                 break;
 
             default:

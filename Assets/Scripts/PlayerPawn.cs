@@ -15,6 +15,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public int MaxMovement => pawnData.maxMovement;
     public int AttackPower => pawnData.attackPower;
     public ePlayerPawnType Spawn => pawnData.spawnedPawn;
+    public bool CanHeal => (PawnType == ePlayerPawnType.Healer);
 
     public bool IsBuilding => PawnType.IsBuilding();
     public bool IsUnit => PawnType.IsUnit();
@@ -40,6 +41,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     [Space]
     [SerializeField] int currentHealth;
     public int HP => currentHealth;
+    public bool IsWounded => currentHealth < MaxHealth;
     [SerializeField] int movementPoints;
     public int MP => movementPoints;
 
@@ -77,7 +79,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         }
     }
 
-    public virtual bool IsPlayerPawn => playerID == GameManager.CurrentPlayerID;
+    public virtual bool IsPlayerPawn => playerID == GameManager.ActivePlayerID;
 
     public virtual bool IsEnemy => GameManager.IsEnemy(PlayerID);
 
@@ -152,7 +154,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     {
         CanAct = false;
 
-        victim.Damaged(AttackPower);
+        victim.Damaged(this, AttackPower);
     }
 
     public void Collect(RessourceToken resource)
@@ -188,16 +190,30 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         LookAway(oldPosition);
     }
 
-    public void Damaged(int damageAmount)
+    public void Damaged(PlayerPawn attacker, int damageAmount)
     {
         currentHealth = Mathf.Max(currentHealth - damageAmount, 0);
 
         if (currentHealth <= 0)
         {
             GameManager.RemovePlayerPawn(this);
-
-            GameManager.CheckIfGameEnds(PlayerID);
         }
+        else
+            LookAt(attacker.WorldPosition);
+    }
+
+    public void HealTarget(PlayerPawn healTarget)
+    {
+        if (!healTarget.IsWounded || healTarget.IsEnemy) return;
+
+        healTarget.GetHealed(pawnData.specialPower);
+
+        CanAct = false;
+    }
+
+    public void GetHealed(int healedAmount)
+    {
+        currentHealth = Mathf.Min(currentHealth + healedAmount, MaxHealth);
     }
 
     public void RefreshTurn()

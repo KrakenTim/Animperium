@@ -31,6 +31,9 @@ public class PlayerValues
         hasLost = true;
     }
 
+    /// <summary>
+    /// True if the player doesn't have a townhall anymore or no units and can't spawn any.
+    /// </summary>
     public bool CheckIfHasLost()
     {
         if (hasLost) return true;

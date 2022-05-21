@@ -14,27 +14,26 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] PlayerPawnData[] pawnDatas;
 
-    [SerializeField] PlayerValues[] playerValueList;
-
     [SerializeField] int activePlayerID = 1;
-    public static int CurrentPlayerID => instance.activePlayerID;
+    public static int ActivePlayerID => instance.activePlayerID;
 
     [SerializeField] int activePlayerFactionID = 1;
     public static int CurrentFactionID => instance.activePlayerFactionID;
 
     private int localPlayerID;
     public static int LocalPlayerID => instance.localPlayerID;
-    public static bool InputAllowed => CurrentPlayerID == LocalPlayerID;
+    public static bool InputAllowed => ActivePlayerID == LocalPlayerID;
 
     private int turn;
     public static int Turn => instance ? instance.turn : -1;
 
     int spawnedPawnID = 0;
-    Dictionary<int, Transform> spawnFolderTransforms = new Dictionary<int, Transform>();
     public int maxPopulation = 5;
     public static int MaxPopulation => instance.maxPopulation;
     public int schoolNeededUpgrades;
     public static int SchoolNeededUpgrades => instance.schoolNeededUpgrades;
+
+    [SerializeField] private PlayerValueProvider playerValueProvider;
 
     private void Awake()
     {
@@ -43,18 +42,11 @@ public class GameManager : MonoBehaviour
         if (OnlineGameManager.IsOnlineGame)
         {
             localPlayerID = OnlineGameManager.LocalPlayerID;
-
-            OnlineGameManager.SetupPlayers(playerValueList);
         }
         else
             localPlayerID = activePlayerID;
 
-        // set missing names to default
-        for (int i = 0; i < playerValueList.Length; i++)
-        {
-            if (string.IsNullOrWhiteSpace(playerValueList[i].name))
-                playerValueList[i].name = playerValueList[i].DefaultName;
-        }
+        playerValueProvider.SetupPlayerNames();
     }
 
     private void Start()
@@ -62,7 +54,7 @@ public class GameManager : MonoBehaviour
         if (TryGetPlayerValues(localPlayerID, out PlayerValues player))
             HexMapCamera.SetPosition(player.GetTownHall().WorldPosition);
 
-        SetupPawnFolders();
+        playerValueProvider.SetupPawnFolders();
         StartNewPlayerTurn();
     }
 
@@ -74,11 +66,15 @@ public class GameManager : MonoBehaviour
 
     public static void EndTurn()
     {
+        Debug.Log("Ending Turn of Player " + ActivePlayerID + "\n");
+
         instance.EndOldPlayerTurn();
 
-        instance.SetNextPlayer();
+        instance.activePlayerID = instance.playerValueProvider.NextActivePlayer(ActivePlayerID);
 
         instance.StartNewPlayerTurn();
+
+        Debug.Log("Ending Turn of Player " + ActivePlayerID + "\n");
     }
 
     private void EndOldPlayerTurn()
@@ -92,25 +88,6 @@ public class GameManager : MonoBehaviour
         GameInputManager.DeselectPawn();
     }
 
-    /// <summary>
-    /// Increases the activePlayerID to the next player that didn't lose yet.
-    /// </summary>
-    private void SetNextPlayer()
-    {
-        instance.activePlayerID++;
-
-        if (instance.activePlayerID > instance.playerValueList.Length)
-            instance.activePlayerID = 1;
-
-        // Skip players that lost or if there's no player values
-        if (TryGetPlayerValues(instance.activePlayerID, out PlayerValues nextPlayer))
-        {
-            if (nextPlayer.HasLost) SetNextPlayer();
-        }
-        else
-            SetNextPlayer();
-    }
-
     private void StartNewPlayerTurn()
     {
         if (!OnlineGameManager.IsOnlineGame)
@@ -122,25 +99,6 @@ public class GameManager : MonoBehaviour
         turn += 1;
 
         TurnStarted?.Invoke(activePlayerID);
-    }
-
-    /// <summary>
-    /// Adds PlayerIDs and connected Transform to spawnFolderTransforms.
-    /// Renames spawn list transforms to player names.
-    /// Creates additional sorting transforms below the game manager if needed.
-    /// </summary>
-    private void SetupPawnFolders()
-    {
-        while (playerValueList.Length >= transform.childCount)
-        {
-            var s = new GameObject();
-            s.transform.parent = transform;
-        }
-        for (int i = 1; i <= playerValueList.Length; i++)
-        {
-            spawnFolderTransforms.Add(playerValueList[i - 1].playerID, transform.GetChild(i));
-            transform.GetChild(i).gameObject.name = playerValueList[i - 1].name;
-        }
     }
 
     public static PlayerPawnData GetPawnData(ePlayerPawnType pawnType)
@@ -247,8 +205,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public static PlayerPawn PlaceNewPawn(PlayerPawnData placedPawnData, HexCell spot, int playerID, HexCell origin = null)
     {
-        PlayerPawn newPawn = Instantiate(placedPawnData.GetPawnPrefab(playerID),
-                             spot.transform.position, Quaternion.identity, instance.spawnFolderTransforms[playerID]);
+        PlayerPawn newPawn = Instantiate(placedPawnData.GetPawnPrefab(playerID), spot.transform.position,
+                                         Quaternion.identity, instance.playerValueProvider.GetPlayerPawnParrent(playerID));
 
         // Pawn adds itself to the grid on the matching position.
         newPawn.SetPlayer(playerID);
@@ -261,31 +219,12 @@ public class GameManager : MonoBehaviour
 
     public static bool IsEnemy(int otherPlayerID)
     {
-        if (instance.TryGetPlayerValues(CurrentPlayerID, out PlayerValues currentPlayer)
-            && instance.TryGetPlayerValues(otherPlayerID, out PlayerValues otherPlayer))
-        {
-            return currentPlayer.factionID != otherPlayer.factionID;
-        }
-        return false;
+        return instance.playerValueProvider.isEnemy(otherPlayerID);
     }
 
     private bool TryGetPlayerValues(int playerID, out PlayerValues result)
     {
-        foreach (var item in instance.playerValueList)
-        {
-            if (item.playerID == playerID)
-            {
-                result = item;
-                return true;
-            }
-
-        }
-
-        Debug.LogError("Values not found for Player " + playerID, instance);
-
-        result = new PlayerValues();
-
-        return false;
+        return playerValueProvider.TryGetPlayerValues(playerID, out result);
     }
 
     public static int GetPlayerFactionID(int playerID)
@@ -377,11 +316,13 @@ public class GameManager : MonoBehaviour
         }
         pawn.SetHexCell(null);
         Destroy(pawn.gameObject);
+
+        instance.CheckIfGameEnds(pawn.PlayerID);
     }
 
     public static void AddResource(eRessourceType resource, int amount)
     {
-        if (instance.TryGetPlayerValues(CurrentPlayerID, out PlayerValues result))
+        if (instance.TryGetPlayerValues(ActivePlayerID, out PlayerValues result))
         {
             switch (resource)
             {
@@ -406,7 +347,7 @@ public class GameManager : MonoBehaviour
 
     public static bool CanAfford(int playerID, GameResources costs)
     {
-        if (instance.TryGetPlayerValues(CurrentPlayerID, out PlayerValues result))
+        if (instance.TryGetPlayerValues(ActivePlayerID, out PlayerValues result))
         {
             return result.CanAfford(costs);
         }
@@ -428,35 +369,15 @@ public class GameManager : MonoBehaviour
 
         loserValues.GiveUp();
 
-        CheckIfGameEnds(playerID);
+        instance.CheckIfGameEnds(playerID);
     }
 
-    public static void CheckIfGameEnds(int potencialLoserPlayerID)
+    private void CheckIfGameEnds(int potencialLoserPlayerID)
     {
-        if (!instance.TryGetPlayerValues(potencialLoserPlayerID, out PlayerValues loserValues))
-            return;
 
-        if (!loserValues.CheckIfHasLost()) return;
-
-        // int: fractionId, List<PlayerValues>: surviving Players
-        Dictionary<int, List<PlayerValues>> remainingFactions = new Dictionary<int, List<PlayerValues>>();
-
-        foreach (PlayerValues player in instance.playerValueList)
+        if (instance.playerValueProvider.CheckIfGameEnds(potencialLoserPlayerID, out List<PlayerValues> winners))
         {
-            if (player.HasLost) continue;
-
-            if (!remainingFactions.ContainsKey(player.factionID))
-                remainingFactions.Add(player.factionID, new List<PlayerValues>());
-
-            remainingFactions[player.factionID].Add(player);
-        }
-
-        Debug.Log("factions left:" + remainingFactions.Count);
-
-        if (remainingFactions.Count < 2)
-        {
-            foreach (var faction in remainingFactions)
-                CallVictory(faction.Value);
+            CallVictory(winners);
         }
     }
 
@@ -464,5 +385,4 @@ public class GameManager : MonoBehaviour
     {
         VictoryLoseScreen.ShowVictory(winners);
     }
-
 }

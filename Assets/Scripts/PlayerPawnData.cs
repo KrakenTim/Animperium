@@ -20,6 +20,9 @@ public class PlayerPawnData : ScriptableObject
     public int maxMovement;
     public int attackPower;
     public int viewRange;
+    [Space]
+    [Tooltip("Generic field for Unit specific ability.\nHealer: Healing Power")]
+    public int specialPower;
 
     [Header("Costs")]
     public GameResources resourceCosts;
