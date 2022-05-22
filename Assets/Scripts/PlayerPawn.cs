@@ -160,7 +160,10 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     {
         CanAct = false;
 
-        victim.Damaged(this, AttackPower);
+        if (PawnType == ePlayerPawnType.Blaster && victim.IsBuilding)
+            victim.Damaged(this, Mathf.Max(AttackPower, pawnData.specialPower));
+        else
+            victim.Damaged(this, AttackPower);
     }
 
     public void Collect(RessourceToken resource)

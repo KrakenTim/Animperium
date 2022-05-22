@@ -21,7 +21,8 @@ MonoBehaviour:
     baseIcon: {fileID: 0}
   maxHealth: 50
   maxMovement: 4
-  attackPower: 2000
+  attackPower: 20
+  attackRange: 1
   viewRange: 3
   specialPower: 0
   resourceCosts:

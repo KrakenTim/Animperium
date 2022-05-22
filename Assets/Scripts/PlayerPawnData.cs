@@ -22,7 +22,7 @@ public class PlayerPawnData : ScriptableObject
     public int attackRange = 1;
     public int viewRange = 2;
     [Space]
-    [Tooltip("Generic field for Unit specific ability.\nHealer: Healing Power")]
+    [Tooltip("Generic field for Unit specific ability.\nHealer: Healing Power\nBlaseter: Damage vs Buildings")]
     public int specialPower;
 
     [Header("Costs")]
