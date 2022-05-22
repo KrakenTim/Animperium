@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
 
+        SettingsMenu.SetVolumeToPreference();
+
         if (OnlineGameManager.IsOnlineGame)
         {
             localPlayerID = OnlineGameManager.LocalPlayerID;
