@@ -216,6 +216,11 @@ public class HexCell : MonoBehaviour
         return Mathf.Abs(origin.Elevation - Elevation) < 2 && !IsUnderwater && tempSaveColorID != HexMapEditor.COLOR_Water;
     }
 
+    public int DistanceTo(HexCell other)
+    {
+        return coordinates.DistanceTo(other.coordinates);
+    }
+
     #endregion Not in Tutorial
 
 }

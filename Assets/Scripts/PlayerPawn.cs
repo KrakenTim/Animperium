@@ -14,6 +14,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public int MaxHealth => pawnData.maxHealth;
     public int MaxMovement => pawnData.maxMovement;
     public int AttackPower => pawnData.attackPower;
+    public int AttackRange => pawnData.attackRange;
     public ePlayerPawnType Spawn => pawnData.spawnedPawn;
     public bool CanHeal => (PawnType == ePlayerPawnType.Healer);
     public bool IsMagicUser => (PawnType == ePlayerPawnType.Warmage || PawnType == ePlayerPawnType.Healer);
@@ -148,6 +149,11 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public bool CanLearn(eKnowledge newKnowledge, out ePlayerPawnType newType)
     {
         return pawnData.CanLearn(newKnowledge, out newType);
+    }
+
+    public bool InAttackRange(PlayerPawn otherPawn)
+    {
+        return HexCell.DistanceTo(otherPawn.HexCell) <= pawnData.attackRange;
     }
 
     public void Attack(PlayerPawn victim)
