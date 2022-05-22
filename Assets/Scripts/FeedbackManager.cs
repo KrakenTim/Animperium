@@ -13,6 +13,7 @@ public class FeedbackManager : MonoBehaviour
     public class PlayeractionFeedback
     {
         public GameObject vfxStarter;
+        [Space]
         public AudioClip sfxTarget;
         public GameObject vfxTarget;
 
@@ -28,6 +29,7 @@ public class FeedbackManager : MonoBehaviour
     }
 
     [SerializeField] AudioSource simpleAudioSource;
+    [SerializeField] Transform vfxParentTransform;
 
     [Header("Player Action Feedback")]
     [SerializeField] PlayeractionFeedback attackPhysical;
@@ -41,7 +43,9 @@ public class FeedbackManager : MonoBehaviour
     [SerializeField] PlayeractionFeedback unitUpgrade;
 
     [Header("World Action Feedback")]
+    [SerializeField] PlayeractionFeedback unitWounded;
     [SerializeField] PlayeractionFeedback unitKilled;
+    [SerializeField] PlayeractionFeedback buildingDamaged;
     [SerializeField] PlayeractionFeedback buildingDestroyed;
 
     [Space]
@@ -64,26 +68,60 @@ public class FeedbackManager : MonoBehaviour
     /// <summary>
     /// Plays the feedback for the given action by the player on the Hex Grid.
     /// </summary>
-    public static void PlayHexActionFeedback(PlayerPawn actingPawn, HexCell target, ePlayeractionType action)
+    public static void PlayHexActionFeedback(PlayerPawn actingPawn, HexCell targetCell, ePlayeractionType action)
     {
         if (!action.IsOnHexGrid()) return;
 
         PlayeractionFeedback usedFeedBack = instance.GetPlayeractionFeedback(action, actingPawn);
 
-        instance.PlayFeedback(usedFeedBack);
+        instance.PlayPawnFeedback(actingPawn, targetCell, usedFeedBack);
     }
 
+    /// <summary>
+    /// Plays the matching damaged effect, depending it it's a unit or building.
+    /// </summary>
+    public static void PlayPawnDamaged(PlayerPawn damagedPawn)
+    {
+        if (damagedPawn.IsBuilding)
+            instance.PlayPawnFeedback(damagedPawn, null, instance.buildingDamaged);
+        else
+            instance.PlayPawnFeedback(damagedPawn, null, instance.unitWounded);
+    }
+
+    /// <summary>
+    /// Plays the matching destroyed effect, depending it it's a unit or building.
+    /// </summary>
     public static void PlayPawnDestroyed(PlayerPawn destroyedPawn)
     {
         if (destroyedPawn.IsBuilding)
-            instance.PlayFeedback(instance.buildingDestroyed);
+            instance.PlayPawnFeedback(destroyedPawn, null, instance.buildingDestroyed);
         else
-            instance.PlayFeedback(instance.unitKilled);
+            instance.PlayPawnFeedback(destroyedPawn, null, instance.unitKilled);
     }
 
-    private void PlayFeedback(PlayeractionFeedback playedFeedback)
+    /// <summary>
+    /// Plays given feedback at the matching positions.
+    /// </summary>
+    private void PlayPawnFeedback(PlayerPawn actingPawn, HexCell targetCell, PlayeractionFeedback playedFeedback)
     {
+        if (playedFeedback.sfxTarget != null)
         simpleAudioSource.PlayOneShot(playedFeedback.sfxTarget);
+
+        if (actingPawn != null && playedFeedback.vfxStarter != null)
+            SpawnVFX(playedFeedback.vfxStarter, actingPawn.WorldPosition);
+
+        if (targetCell != null && playedFeedback.vfxTarget != null)
+            SpawnVFX(playedFeedback.vfxTarget, targetCell.Position);
+    }
+
+    /// <summary>
+    /// Creates instance of given prefab at given position, destroys it after a while.
+    /// </summary>
+    private void SpawnVFX(GameObject vfxPrefab, Vector3 worldPosition)
+    {
+        GameObject newVFXEffect = Instantiate(vfxPrefab, worldPosition, Quaternion.identity, vfxParentTransform);
+
+        Destroy(newVFXEffect, 10f);
     }
 
     /// <summary>
@@ -144,7 +182,10 @@ public class FeedbackManager : MonoBehaviour
             }
         }
 
+        buildingDamaged.FillEmpty(fallbackPlaceholder);
         buildingDestroyed.FillEmpty(fallbackPlaceholder);
+
+        unitWounded.FillEmpty(fallbackPlaceholder);
         unitKilled.FillEmpty(fallbackPlaceholder);
     }
 }

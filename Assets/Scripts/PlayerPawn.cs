@@ -201,7 +201,10 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
             GameManager.RemovePlayerPawn(this);
         }
         else
+        {
+            FeedbackManager.PlayPawnDamaged(this);
             LookAt(attacker.WorldPosition);
+        }
     }
 
     public void HealTarget(PlayerPawn healTarget)

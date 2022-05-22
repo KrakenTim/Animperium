@@ -5112,10 +5112,6 @@ PrefabInstance:
       propertyPath: fallbackPlayceholder.sfxTarget
       value: 
       objectReference: {fileID: 8300000, guid: cc51c8e196abf4845bb1fbe17ab7041d, type: 3}
-    - target: {fileID: 6796558578657829819, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7888250784874348199, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
       propertyPath: m_Name
       value: GameManager

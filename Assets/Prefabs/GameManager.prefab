@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5341483308447288073
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7206047196898258010}
+  m_Layer: 0
+  m_Name: ActiveVFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7206047196898258010
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5341483308447288073}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7888250785865957958}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7888250784874348199
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,10 +209,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   simpleAudioSource: {fileID: 7299776127649470983}
+  vfxParentTransform: {fileID: 7206047196898258010}
   attackPhysical:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 8300000, guid: e8082c8d6376c0b4ba4579e9a8d1471d, type: 3}
-    vfxTarget: {fileID: 0}
+    vfxTarget: {fileID: 4633198538089898126, guid: 72fdd5eb46294f04e9e6a39fa9a9d465, type: 3}
   attackMagical:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 8300000, guid: e6f7fcbfafe9ac24692174029bc4a34a, type: 3}
@@ -198,11 +229,11 @@ MonoBehaviour:
   collect:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 0}
-    vfxTarget: {fileID: 0}
+    vfxTarget: {fileID: 7454404239667455979, guid: 998c30944255c70468d21b8360d3ecbd, type: 3}
   heal:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 0}
-    vfxTarget: {fileID: 0}
+    vfxTarget: {fileID: 2461910562588449030, guid: 99a4b6cc5408f2b40b97293e1b4c0d3b, type: 3}
   move:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 0}
@@ -210,23 +241,31 @@ MonoBehaviour:
   spawn:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 0}
-    vfxTarget: {fileID: 0}
+    vfxTarget: {fileID: 2307038947836724324, guid: efbc0f6cd7c784f46a5018d151254beb, type: 3}
   unitUpgrade:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 0}
     vfxTarget: {fileID: 0}
+  unitWounded:
+    vfxStarter: {fileID: 0}
+    sfxTarget: {fileID: 0}
+    vfxTarget: {fileID: 6802571928107050630, guid: d9e47dde16ce0684ca04a9459f590f36, type: 3}
   unitKilled:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 8300000, guid: cc51c8e196abf4845bb1fbe17ab7041d, type: 3}
-    vfxTarget: {fileID: 0}
+    vfxTarget: {fileID: 8498737401905061243, guid: b8b38fa4debd7ad4ebfce6a7704ec06f, type: 3}
+  buildingDamaged:
+    vfxStarter: {fileID: 0}
+    sfxTarget: {fileID: 0}
+    vfxTarget: {fileID: 2245076815631913198, guid: d4962ea9e1d50d247b37ac56605c991e, type: 3}
   buildingDestroyed:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 8300000, guid: 2d57dfb0bfaa69f48933476e7368abc2, type: 3}
-    vfxTarget: {fileID: 0}
+    vfxTarget: {fileID: 8498737401905061243, guid: b8b38fa4debd7ad4ebfce6a7704ec06f, type: 3}
   fallbackPlaceholder:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 8300000, guid: 09e0f6ab0035cf04ab812618c8f97b4c, type: 3}
-    vfxTarget: {fileID: 0}
+    vfxTarget: {fileID: 5813044050156017725, guid: 5637637238d9eb649be8840ef5ff2051, type: 3}
 --- !u!82 &6796558578657829819
 AudioSource:
   m_ObjectHideFlags: 0
@@ -238,7 +277,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -3518468685682175167, guid: d4a575a55c8aec94abf23add4661e0bc, type: 2}
   m_audioClip: {fileID: 8300000, guid: a4f0d9bb1bedcb648ac639529eef2f6c, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -479,6 +518,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 7206047196898258010}
   - {fileID: 7888250786343806333}
   - {fileID: 4856992633141105932}
   - {fileID: 6645201814734447515}
@@ -556,7 +596,7 @@ Transform:
   - {fileID: 5717475115291306949}
   - {fileID: 5717475116028139194}
   m_Father: {fileID: 7888250785865957958}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &955021792958805474
 PrefabInstance:
@@ -2049,7 +2089,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3549062577435740921, guid: 8b36739492c2e054ab0a75579574ab49, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3549062577435740921, guid: 8b36739492c2e054ab0a75579574ab49, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2139,7 +2179,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3549062577435740921, guid: 8b36739492c2e054ab0a75579574ab49, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3549062577435740921, guid: 8b36739492c2e054ab0a75579574ab49, type: 3}
       propertyPath: m_LocalPosition.x
