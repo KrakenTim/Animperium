@@ -98,6 +98,8 @@ public static class InputMessageExecuter
                 Debug.LogError($"MessageExecuter\t{nameof(ExecuteHexMessage)} UNDEFINED for {hexOrder.action}\n");
                 return;
         }
+
+        FeedbackManager.PlayHexActionFeedback(startPawn, targetCell, hexOrder.action);
     }
 
     /// <summary>
