@@ -5109,6 +5109,42 @@ PrefabInstance:
       value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 3666991950448948645, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: heal.vfxTarget
+      value: 
+      objectReference: {fileID: 7951210200212892235, guid: b45214479387071429f2bffdf316dc9a, type: 3}
+    - target: {fileID: 3666991950448948645, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: spawn.vfxTarget
+      value: 
+      objectReference: {fileID: 421734948009586996, guid: aded19ffa4e251741a63975c5289881d, type: 3}
+    - target: {fileID: 3666991950448948645, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: collect.vfxTarget
+      value: 
+      objectReference: {fileID: 3230823078359691624, guid: 4718df90336956046b4d6e437a8acad6, type: 3}
+    - target: {fileID: 3666991950448948645, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: unitKilled.vfxTarget
+      value: 
+      objectReference: {fileID: 1831105910641597094, guid: 07e78b222f0215b4d9800588526c62d8, type: 3}
+    - target: {fileID: 3666991950448948645, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: unitWounded.vfxTarget
+      value: 
+      objectReference: {fileID: 1923310505308076153, guid: 0556c50a656e5fe418cee33cce25970c, type: 3}
+    - target: {fileID: 3666991950448948645, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: attackPhysical.vfxTarget
+      value: 
+      objectReference: {fileID: 2175246725602617431, guid: 14a6c5869db0b504da2a5335c6ec1827, type: 3}
+    - target: {fileID: 3666991950448948645, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: buildingDamaged.vfxTarget
+      value: 
+      objectReference: {fileID: 5217322890011745940, guid: ef5fa9398fbf37847a2a6bc8a0bf5f8a, type: 3}
+    - target: {fileID: 3666991950448948645, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: buildingDestroyed.vfxTarget
+      value: 
+      objectReference: {fileID: 1831105910641597094, guid: 07e78b222f0215b4d9800588526c62d8, type: 3}
+    - target: {fileID: 3666991950448948645, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: fallbackPlaceholder.vfxTarget
+      value: 
+      objectReference: {fileID: 498469468147163515, guid: aafd1b8d5fc061e4fba71d421431e976, type: 3}
+    - target: {fileID: 3666991950448948645, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
       propertyPath: fallbackPlayceholder.sfxTarget
       value: 
       objectReference: {fileID: 8300000, guid: cc51c8e196abf4845bb1fbe17ab7041d, type: 3}
