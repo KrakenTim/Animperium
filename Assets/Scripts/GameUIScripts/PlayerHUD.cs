@@ -16,19 +16,23 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] TMPro.TMP_Text oreAmount;
     [Space]
     [SerializeField] GameObject endTurnButton;
- 
+
     [Header("Pawn Info")]
     [SerializeField] GameObject pawnInfoRoot;
+    [SerializeField] GameObject pawnInfoAttackPower;
     [Space]
     [SerializeField] ColorableImage playerIcon;
-    [SerializeField] ColorableImage pawnIcon;    
+    [SerializeField] ColorableImage pawnIcon;
     [SerializeField] Image canActIcon;
     [Space]
     [SerializeField] TMPro.TMP_Text pawnType;
     [SerializeField] TMPro.TMP_Text pawnHP;
     [SerializeField] TMPro.TMP_Text pawnMP;
+    [SerializeField] TMPro.TMP_Text attackPower;
+    [SerializeField] TMPro.TMP_Text population;
 
     PlayerPawn selectedPawn;
+    PlayerValues populationCount;
 
     private void Awake()
     {
@@ -52,7 +56,7 @@ public class PlayerHUD : MonoBehaviour
     public static void UpdateHUD(int playerID)
     {
         instance.background.color = GameManager.GetPlayerColor(playerID);
-        
+
         GameResources resources = GameManager.GetPlayerResources(GameManager.LocalPlayerID);
         instance.foodAmount.text = resources.food + " Food";
         instance.woodAmount.text = resources.wood + " Wood";
@@ -65,6 +69,7 @@ public class PlayerHUD : MonoBehaviour
     {
         this.selectedPawn = selectedPawn;
         FillValuesIn(selectedPawn);
+        population.text = GameManager.PlayerPopulation(GameManager.LocalPlayerID) + "/" + GameManager.MaxPopulation + " Population";
     }
 
     public static void UpdateShownPawn()
@@ -82,6 +87,7 @@ public class PlayerHUD : MonoBehaviour
         if (selectedPawn == null)
         {
             pawnInfoRoot.SetActive(false);
+            pawnInfoAttackPower.SetActive(false);
             playerIcon.SetVisible(false);
             pawnIcon.SetVisible(false);
             canActIcon.enabled = false;
@@ -90,6 +96,7 @@ public class PlayerHUD : MonoBehaviour
         else
         {
             pawnInfoRoot.SetActive(true);
+            pawnInfoAttackPower.SetActive(true);
             playerIcon.SetVisible(true);
             pawnIcon.SetVisible(true);
         }
@@ -101,13 +108,18 @@ public class PlayerHUD : MonoBehaviour
         pawnType.text = selectedPawn.FriendlyName;
 
         pawnHP.text = "HP " + selectedPawn.HP + "/" + selectedPawn.MaxHealth;
+
         if (selectedPawn.IsUnit)
         {
             pawnMP.text = "MP " + selectedPawn.MP + "/" + selectedPawn.MaxMovement;
             pawnMP.enabled = true;
+            attackPower.text = "Attack Power: " + selectedPawn.AttackPower;
         }
         else
+        {
             pawnMP.enabled = false;
+            attackPower.text = "Attack Power: 0";
+        }
     }
 
     public void Button_EndTurn()

@@ -15,6 +15,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public int MaxMovement => pawnData.maxMovement;
     public int AttackPower => pawnData.attackPower;
     public int AttackRange => pawnData.attackRange;
+    public int Population => pawnData.population;
     public ePlayerPawnType Spawn => pawnData.spawnedPawn;
     public bool CanHeal => (PawnType == ePlayerPawnType.Healer);
     public bool IsMagicUser => (PawnType == ePlayerPawnType.Warmage || PawnType == ePlayerPawnType.Healer);
