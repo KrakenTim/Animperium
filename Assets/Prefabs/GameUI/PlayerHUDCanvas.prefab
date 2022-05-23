@@ -508,6 +508,7 @@ MonoBehaviour:
   oreAmount: {fileID: 3853409834619382308}
   endTurnButton: {fileID: 3853409834976573755}
   pawnInfoRoot: {fileID: 3853409834830887120}
+  pawnInfoAttackPower: {fileID: 0}
   playerIcon: {fileID: 2237971766527903242}
   pawnIcon: {fileID: 318869283973352716}
   canActIcon: {fileID: 3853409836409356865}
@@ -1038,7 +1039,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_TargetDisplay: 0
 --- !u!114 &3853409835433183283
 MonoBehaviour:

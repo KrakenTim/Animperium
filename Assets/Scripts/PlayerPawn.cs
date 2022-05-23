@@ -44,6 +44,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     [SerializeField] int currentHealth;
     public int HP => currentHealth;
     public bool IsWounded => currentHealth < MaxHealth;
+    public HealthBar healthBar { get; private set; }
+    
     [SerializeField] int movementPoints;
     public int MP => movementPoints;
 
@@ -97,7 +99,12 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         if (hexCell == null)
             SetHexCell(GameManager.GetHexCell(transform.position));
 
-        Debug.Log(ToString() + "\n");
+        healthBar = HealthbarManager.AddHealthbar(this);
+    }
+
+    private void OnDestroy()
+    {
+        HealthbarManager.RemoveHealthbar(this);
     }
 
     /// <summary>
@@ -159,12 +166,12 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
     public void Attack(PlayerPawn victim)
     {
-        CanAct = false;
-
         if (PawnType == ePlayerPawnType.Blaster && victim.IsBuilding)
             victim.Damaged(this, Mathf.Max(AttackPower, pawnData.specialPower));
         else
             victim.Damaged(this, AttackPower);
+
+        CanAct = false;
     }
 
     public void Collect(RessourceToken resource)
@@ -204,6 +211,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     {
         currentHealth = Mathf.Max(currentHealth - damageAmount, 0);
 
+        healthBar?.UpdateHealthBar();
+
         if (currentHealth <= 0)
         {
             FeedbackManager.PlayPawnDestroyed(this);
@@ -229,6 +238,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public void GetHealed(int healedAmount)
     {
         currentHealth = Mathf.Min(currentHealth + healedAmount, MaxHealth);
+
+        healthBar?.UpdateHealthBar();
     }
 
     public void RefreshTurn()

@@ -62,6 +62,7 @@ public class PlayerHUD : MonoBehaviour
         instance.woodAmount.text = resources.wood + " Wood";
         instance.oreAmount.text = resources.ore + " Ore";
 
+        instance.population.text = GameManager.PlayerPopulation(GameManager.LocalPlayerID) + "/" + GameManager.MaxPopulation + " Population";
         instance.endTurnButton.SetActive(GameManager.InputAllowed);
     }
 
@@ -69,7 +70,6 @@ public class PlayerHUD : MonoBehaviour
     {
         this.selectedPawn = selectedPawn;
         FillValuesIn(selectedPawn);
-        population.text = GameManager.PlayerPopulation(GameManager.LocalPlayerID) + "/" + GameManager.MaxPopulation + " Population";
     }
 
     public static void UpdateShownPawn()
