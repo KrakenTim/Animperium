@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class HexMapEditor : MonoBehaviour
 {
+    public static HexMapEditor Instance;
+
+    public static event System.Action<int> BrushSizeChanged;
 
     public Color[] colors;
 
@@ -11,6 +14,8 @@ public class HexMapEditor : MonoBehaviour
 
     private Color activeColor;
 
+    public int brushSize;
+    
     #region Not in Tutorial
     public int tempSaveColorID;
     #endregion Not in Tutorial
@@ -20,8 +25,6 @@ public class HexMapEditor : MonoBehaviour
     int activeWaterLevel;
     
     int activeUrbanLevel;
-
-    int brushSize;
 
     bool applyElevation;
 
@@ -36,6 +39,15 @@ public class HexMapEditor : MonoBehaviour
     {
         SelectColor(-1);
         applyElevation = false;
+        if (Instance == null) 
+        { 
+            Instance = this;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this) { Instance = null; }
     }
 
     void Update()
@@ -138,6 +150,10 @@ public class HexMapEditor : MonoBehaviour
     public void SetBrushSize(float size)
     {
         brushSize = (int)size;
+        if(BrushSizeChanged != null)
+        {
+            BrushSizeChanged.Invoke(brushSize);
+        }
     }
 
     public void ShowUI(bool visible)
