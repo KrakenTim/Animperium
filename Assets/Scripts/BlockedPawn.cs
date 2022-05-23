@@ -14,6 +14,18 @@ public class BlockedPawn : PlayerPawn
 
     public override bool IsEnemy => false;
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        int rotationFactor = HexCoordinates.X * HexCoordinates.Y * HexCoordinates.Z;
+
+        Vector3 angle = transform.eulerAngles;
+        angle.y = (rotationFactor % 6) * 60f;
+
+        transform.eulerAngles = angle;
+    }
+
     public override void OnPointerDown(PointerEventData eventData)
     {
         

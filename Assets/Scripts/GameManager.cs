@@ -303,6 +303,8 @@ public class GameManager : MonoBehaviour
 
             result.ownedPawns.Add(pawn);
             result.populationCount += pawn.PawnData.populationCount;
+
+            PlayerHUD.UpdateHUD(LocalPlayerID);
         }
     }
 
@@ -315,6 +317,8 @@ public class GameManager : MonoBehaviour
         {
             result.ownedPawns.Remove(pawn);
             result.populationCount -= pawn.PawnData.populationCount;
+
+            PlayerHUD.UpdateHUD(LocalPlayerID);
         }
         pawn.SetHexCell(null);
         Destroy(pawn.gameObject);
