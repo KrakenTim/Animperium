@@ -39,6 +39,7 @@ public class HealthbarManager : MonoBehaviour
     /// </summary>
     public static void RemoveHealthbar(PlayerPawn pawn)
     {
+        if (pawn && pawn.healthBar && pawn.healthBar.gameObject)
         Destroy(pawn.healthBar.gameObject);
     }
 }

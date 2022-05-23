@@ -88,7 +88,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public virtual bool IsEnemy => GameManager.IsEnemy(PlayerID);
 
     // Start is called before the first frame update
-    void Awake()
+    protected virtual void Awake()
     {
         currentHealth = MaxHealth;
         movementPoints = MaxMovement;
