@@ -8,22 +8,17 @@ using UnityEngine.UI;
 /// </summary>
 public class SettingsMenu : MonoBehaviour
 {
+    const string VOLOUME_Master = "MasterVolume";
+
     [SerializeField] Slider VolumeSlider;
 
-    List<int> widths = new List<int>() { 1280, 1280, 1280, 1920, 2560, 3840};
-    List<int> heights = new List<int>() { 720, 800, 1024, 1080, 1440, 2160};
+    List<int> widths = new List<int>() { 1280, 1280, 1280, 1920, 2560, 3840 };
+    List<int> heights = new List<int>() { 720, 800, 1024, 1080, 1440, 2160 };
 
     void Start()
     {
-        if (!PlayerPrefs.HasKey("musicVolume"))
-        {
-            PlayerPrefs.SetFloat("musicVolume", 1);
-            Load();
-        }
-        else
-        {
-            Load();
-        }
+        SetVolumeToPreference();
+        Load();
     }
 
     public void ChangeVolume()
@@ -32,14 +27,22 @@ public class SettingsMenu : MonoBehaviour
         Save();
     }
 
+    public static void SetVolumeToPreference()
+    {
+        if (!PlayerPrefs.HasKey(VOLOUME_Master))
+            PlayerPrefs.SetFloat(VOLOUME_Master, 1f);
+            
+        AudioListener.volume = PlayerPrefs.GetFloat(VOLOUME_Master);
+    }
+
     private void Load()
     {
-        VolumeSlider.value = PlayerPrefs.GetFloat("musicVolume");
+        VolumeSlider.value = PlayerPrefs.GetFloat(VOLOUME_Master);
     }
 
     private void Save()
     {
-        PlayerPrefs.SetFloat("musicVolume", VolumeSlider.value);
+        PlayerPrefs.SetFloat(VOLOUME_Master, VolumeSlider.value);
     }
     //public void SetVolume (float volume)
     //{

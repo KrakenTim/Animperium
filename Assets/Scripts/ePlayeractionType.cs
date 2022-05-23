@@ -19,6 +19,7 @@ public enum ePlayeractionType
     UnitUpgrade = 5,
     Build = 6,
     BuildingUpgrade = 7,
+    Heal = 8,
 
     // General, non-Hex Actions 100+
     EndTurn = 100,

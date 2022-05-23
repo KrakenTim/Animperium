@@ -23,6 +23,7 @@ MonoBehaviour:
   maxMovement: 4
   attackPower: 24
   viewRange: 3
+  specialPower: 25
   resourceCosts:
     food: 16
     wood: 3

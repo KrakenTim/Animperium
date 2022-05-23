@@ -91,7 +91,7 @@ public class OnlineGameManager : MonoBehaviour
         SceneManager.LoadScene("NormanMapGeneration");
     }
 
-    public static void SetupPlayers(PlayerValues[] playerValueList)
+    public static void SetupPlayerNames(PlayerValues[] playerValueList)
     {
         string nextName;
 

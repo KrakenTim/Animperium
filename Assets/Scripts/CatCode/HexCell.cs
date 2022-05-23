@@ -208,11 +208,17 @@ public class HexCell : MonoBehaviour
 
     /// <summary>
     /// True if a pawn might step onto the HexCell
+    /// False if cell is under water or there's a cliff height difference between them.
     /// </summary>
     /// <param name="origin">the cell the pawn starts at</param>
     public bool CanMoveOnto(HexCell origin)
     {
         return Mathf.Abs(origin.Elevation - Elevation) < 2 && !IsUnderwater && tempSaveColorID != HexMapEditor.COLOR_Water;
+    }
+
+    public int DistanceTo(HexCell other)
+    {
+        return coordinates.DistanceTo(other.coordinates);
     }
 
     #endregion Not in Tutorial

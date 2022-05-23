@@ -16,10 +16,14 @@ public class PlayerPawnData : ScriptableObject
     public ColorableIconData PawnIcon => IconProvider.GetCheckedPawn(pawnIcon, type);
 
     [Header("Stats")]
-    public int maxHealth;
+    public int maxHealth = 1;
     public int maxMovement;
     public int attackPower;
-    public int viewRange;
+    public int attackRange = 1;
+    public int viewRange = 2;
+    [Space]
+    [Tooltip("Generic field for Unit specific ability.\nHealer: Healing Power\nBlaseter: Damage vs Buildings")]
+    public int specialPower;
 
     [Header("Costs")]
     public GameResources resourceCosts;

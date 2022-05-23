@@ -72,7 +72,7 @@ public class GameInputManager : MonoBehaviour
                 }
 
                 if (IsBuildingPossible())
-                InteractionMenuManager.OpenPawnCreationMenu(selectedHexCell);
+                    InteractionMenuManager.OpenPawnCreationMenu(selectedHexCell);
 
             }
             else // rightClick
@@ -90,11 +90,14 @@ public class GameInputManager : MonoBehaviour
     /// <summary>
     /// Checks if selected Pawn is Player Pawn, next to selected Cell and can act
     /// </summary>
-    private bool IsPawnActionPossible(HexCell targetCell)
+    private bool IsPawnActionPossible(HexCell targetCell, int interactionRange = 1)
     {
         return GameManager.InputAllowed && selectedPawn != null && targetCell != null
             && selectedPawn.CanAct && selectedPawn.IsPlayerPawn
-            && selectedPawn.HexCell.IsNeighbor(targetCell) && targetCell.CanMoveOnto(selectedPawn.HexCell);
+            && selectedPawn.HexCell.DistanceTo(targetCell) <= interactionRange
+
+            // only check if character can step onto cell, if it's not a interaction that's possible at range.
+            && (interactionRange > 1 || targetCell.CanMoveOnto(selectedPawn.HexCell));
     }
 
     private bool IsCollectPossible()
@@ -123,7 +126,7 @@ public class GameInputManager : MonoBehaviour
     private bool IsAttackPossible(PlayerPawn otherPawn)
     {
         return selectedPawn.AttackPower > 0 && otherPawn != null
-           && otherPawn.IsEnemy;
+           && otherPawn.IsEnemy && selectedPawn.InAttackRange(otherPawn);
     }
 
     private bool IsLearningPossible(PlayerPawn potentialSchool)
@@ -135,24 +138,47 @@ public class GameInputManager : MonoBehaviour
         return false;
     }
 
+    private bool IsHealingPossible(PlayerPawn healTarget)
+    {
+        return selectedPawn.CanHeal && healTarget.IsWounded && healTarget.IsUnit && !healTarget.IsEnemy;
+    }
+
     /// <summary>
     /// Called if a pawn was clicked.
     /// </summary>
     public static void ClickedOnPawn(PlayerPawn clickedPawn)
     {
-        // Check if enemy that might be attacked
-        if (instance.IsPawnActionPossible(clickedPawn.HexCell) && instance.IsAttackPossible(clickedPawn))
+        if (instance.selectedPawn && instance.IsPawnActionPossible(clickedPawn.HexCell, instance.selectedPawn.AttackRange))
         {
-            InputMessage message = InputMessageGenerator.CreateHexMessage(instance.selectedPawn, clickedPawn.HexCell,
-                                                                          ePlayeractionType.Attack);
-            InputMessageExecuter.Send(message);
+
+            // Check if enemy that might be attacked
+            if (instance.IsAttackPossible(clickedPawn))
+            {
+                InputMessage message = InputMessageGenerator.CreateHexMessage(instance.selectedPawn, clickedPawn.HexCell,
+                                                                              ePlayeractionType.Attack);
+                InputMessageExecuter.Send(message);
+            }
         }
 
-        // Check if school and upgrade possible
-        if (instance.IsPawnActionPossible(clickedPawn.HexCell) && instance.IsLearningPossible(clickedPawn))
+        if (instance.IsPawnActionPossible(clickedPawn.HexCell))
         {
-            InteractionMenuManager.OpenPawnCreationMenu(clickedPawn.HexCell, instance.selectedPawn.PawnData);
-            return;
+
+
+
+            if (instance.IsHealingPossible(clickedPawn))
+            {
+                InputMessage message = InputMessageGenerator.CreateHexMessage(instance.selectedPawn, clickedPawn.HexCell,
+                                                                              ePlayeractionType.Heal);
+                InputMessageExecuter.Send(message);
+                return;
+            }
+
+            // Check if school and upgrade possible
+            if (instance.IsLearningPossible(clickedPawn))
+            {
+                InteractionMenuManager.OpenPawnCreationMenu(clickedPawn.HexCell, instance.selectedPawn.PawnData);
+                return;
+            }
         }
 
         // Select clicked Pawn
