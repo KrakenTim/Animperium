@@ -115,7 +115,7 @@ public class HexCell : MonoBehaviour
     [SerializeField]
     private bool Underground;
 
-public HexCell GetNeighbor(HexDirection direction)
+    public HexCell GetNeighbor(HexDirection direction)
     {
         return neighbors[(int)direction];
     }
@@ -214,12 +214,32 @@ public HexCell GetNeighbor(HexDirection direction)
         return false;
     }
 
+    /// <summary>
+    /// sets visual aspects identical to the given Cell
+    /// </summary>
     public void Copy(HexCell blueprint)
     {
         Color = blueprint.Color;
         tempSaveColorID = blueprint.tempSaveColorID;
 
         Elevation = blueprint.Elevation;
+
+        WaterLevel = blueprint.WaterLevel;
+    }
+
+    /// <summary>
+    /// True if a pawn might step onto the HexCell
+    /// False if cell is under water or there's a cliff height difference between them.
+    /// </summary>
+    /// <param name="origin">the cell the pawn starts at</param>
+    public bool CanMoveOnto(HexCell origin)
+    {
+        return Mathf.Abs(origin.Elevation - Elevation) < 2 && !IsUnderwater && tempSaveColorID != HexMapEditor.COLOR_Water;
+    }
+
+    public int DistanceTo(HexCell other)
+    {
+        return coordinates.DistanceTo(other.coordinates);
     }
 
     #endregion Not in Tutorial

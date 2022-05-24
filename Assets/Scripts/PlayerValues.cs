@@ -11,7 +11,10 @@ public class PlayerValues
     public int playerID;
     public int factionID;
     public Color playerColor;
-    public Sprite playerIcon;
+    public int populationCount;
+    public int upgradeCounter;
+    [SerializeField] private ColorableIconData playerIcon;
+    public ColorableIconData PlayerIcon => IconProvider.GetCheckedPlayer(playerIcon, name);
 
     public GameResources playerResources;
 
@@ -20,13 +23,17 @@ public class PlayerValues
     private bool hasLost = false;
     public bool HasLost => hasLost;
 
-    public string Name => "Player" + playerID;
+    public string name;
+    public string DefaultName => "Player " + playerID;
 
     public void GiveUp()
     {
         hasLost = true;
     }
 
+    /// <summary>
+    /// True if the player doesn't have a townhall anymore or no units and can't spawn any.
+    /// </summary>
     public bool CheckIfHasLost()
     {
         if (hasLost) return true;
@@ -86,6 +93,8 @@ public class PlayerValues
     public bool CanAfford(GameResources resources)
     {
         if (playerResources.food < resources.food) return false;
+        if (playerResources.wood < resources.wood) return false;
+        if (playerResources.ore < resources.ore) return false;
 
         return true;
     }
@@ -93,6 +102,8 @@ public class PlayerValues
     public void PayCosts(GameResources resources)
     {
         playerResources.food -= resources.food;
+        playerResources.wood -= resources.wood;
+        playerResources.ore -= resources.ore;
     }
 
     public void PaySpawnCosts(PlayerPawnData spawnData)

@@ -3,29 +3,33 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 [System.Serializable]
 public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] PlayerPawnData pawnData;
-
+    public PlayerPawnData PawnData => pawnData;
     public ePlayerPawnType PawnType => pawnData.type;
     public int MaxHealth => pawnData.maxHealth;
     public int MaxMovement => pawnData.maxMovement;
     public int AttackPower => pawnData.attackPower;
+    public int AttackRange => pawnData.attackRange;
+    public int Population => pawnData.population;
     public ePlayerPawnType Spawn => pawnData.spawnedPawn;
-
+    public bool CanHeal => (PawnType == ePlayerPawnType.Healer);
+    public bool IsMagicUser => (PawnType == ePlayerPawnType.Warmage || PawnType == ePlayerPawnType.Healer);
     public bool IsBuilding => PawnType.IsBuilding();
     public bool IsUnit => PawnType.IsUnit();
 
     /// <summary>
     /// Returns Pawn Icon if not null else it's the Players Icon
     /// </summary>
-    public Sprite PawnIcon => (pawnData.pawnIcon != null) ? pawnData.pawnIcon : GameManager.GetPlayerIcon(PlayerID);
+    public ColorableIconData PawnIcon => pawnData.PawnIcon;
     /// <summary>
     /// Returns the players individual icon.
     /// </summary>
-    public Sprite PlayerIcon => GameManager.GetPlayerIcon(playerID);
+    public ColorableIconData PlayerIcon => GameManager.GetPlayerIcon(playerID);
 
     [SerializeField] int playerID;
     public int PlayerID => playerID;
@@ -34,29 +38,57 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     /// used to more easily track pawns which are otherwise similar.
     /// </summary>
     [HideInInspector] public int pawnID = 0;
-    public string PawnName => $"{PawnType}{playerID} ({pawnID})";
+    public string FriendlyName => PawnData.friendlyName;
 
     [Space]
     [SerializeField] int currentHealth;
     public int HP => currentHealth;
+    public bool IsWounded => currentHealth < MaxHealth;
+    public HealthBar healthBar { get; private set; }
+    
     [SerializeField] int movementPoints;
     public int MP => movementPoints;
 
-    [SerializeField] bool actedAlready = false;
-    public bool CanAct => !actedAlready;
+    bool _canAct = true;
+    /// <summary>
+    /// True if Pawn can act, setting it to false sets movement points to zero.
+    /// </summary>
+    public bool CanAct
+    {
+        get => _canAct;
+        private set
+        {
+            _canAct = value;
+
+            if (!_canAct)
+            {
+                movementPoints = 0;
+                PlayerHUD.UpdateShownPawn();
+            }
+        }
+    }
     [Space]
     [SerializeField] HexCell hexCell;
     public HexCell HexCell => hexCell;
     public HexCoordinates HexCoordinates => hexCell ? hexCell.coordinates : new HexCoordinates(0, 0);
     public Vector3 WorldPosition => transform.position;
+    public float RotationY
+    {
+        get => transform.eulerAngles.y;
+        set
+        {
+            Vector3 euler = transform.eulerAngles;
+            euler.y = value;
+            transform.eulerAngles = euler;
+        }
+    }
 
-    public virtual bool IsPlayerPawn => playerID == GameManager.CurrentPlayerID;
+    public virtual bool IsPlayerPawn => playerID == GameManager.ActivePlayerID;
 
     public virtual bool IsEnemy => GameManager.IsEnemy(PlayerID);
 
-
     // Start is called before the first frame update
-    void Awake()
+    protected virtual void Awake()
     {
         currentHealth = MaxHealth;
         movementPoints = MaxMovement;
@@ -67,7 +99,12 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         if (hexCell == null)
             SetHexCell(GameManager.GetHexCell(transform.position));
 
-        Debug.Log(ToString() + "\n");
+        healthBar = HealthbarManager.AddHealthbar(this);
+    }
+
+    private void OnDestroy()
+    {
+        HealthbarManager.RemoveHealthbar(this);
     }
 
     /// <summary>
@@ -78,7 +115,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         SetPlayer(playerID);
         currentHealth = hp;
         movementPoints = mp;
-        actedAlready = canAct;
+        this.CanAct = canAct;
     }
 
     public void SetPlayer(int playerID)
@@ -100,26 +137,61 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         }
     }
 
+    /// <summary>
+    /// Turns the character to look away from the given cell
+    /// </summary>
+    public void LookAway(HexCell cellInBack)
+    {
+        Vector3 target = transform.position + (transform.position - cellInBack.Position);
+        target.y = transform.position.y;
+
+        LookAt(target);
+    }
+
+    public void LookAt(Vector3 worldPosition)
+    {
+        worldPosition.y = transform.position.y;
+        transform.LookAt(worldPosition);
+    }
+
     public bool CanLearn(eKnowledge newKnowledge, out ePlayerPawnType newType)
     {
         return pawnData.CanLearn(newKnowledge, out newType);
     }
 
+    public bool InAttackRange(PlayerPawn otherPawn)
+    {
+        return HexCell.DistanceTo(otherPawn.HexCell) <= pawnData.attackRange;
+    }
+
     public void Attack(PlayerPawn victim)
     {
-        actedAlready = true;
-        PlayerHUD.UpdateShownPawn();
-        victim.Damaged(AttackPower);
+        if (PawnType == ePlayerPawnType.Blaster && victim.IsBuilding)
+            victim.Damaged(this, Mathf.Max(AttackPower, pawnData.specialPower));
+        else
+            victim.Damaged(this, AttackPower);
+
+        CanAct = false;
     }
 
     public void Collect(RessourceToken resource)
     {
-        actedAlready = true;
-        PlayerHUD.UpdateShownPawn();
-
         MoveTo(resource.HexCell);
+        CanAct = false;
 
         resource.Harvest();
+    }
+
+    public void Build(HexCell targetCell, ePlayerPawnType buildUnit)
+    {
+        if (!GameManager.SpawnPawn(this, targetCell, buildUnit)) return;
+
+        CanAct = false;
+    }
+
+    public void UpgradedBuilding(PlayerPawn upgradeBuilding)
+    {
+        CanAct = false;
     }
 
     public void MoveTo(HexCell targetPosition)
@@ -128,25 +200,52 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
         PlayerHUD.UpdateShownPawn();
 
+        // rotates pawn according to direction it came from
+        HexCell oldPosition = hexCell;
+
         SetHexCell(targetPosition);
+        LookAway(oldPosition);
     }
 
-    public void Damaged(int damageAmount)
+    public void Damaged(PlayerPawn attacker, int damageAmount)
     {
-        currentHealth -= damageAmount;
+        currentHealth = Mathf.Max(currentHealth - damageAmount, 0);
+
+        healthBar?.UpdateHealthBar();
 
         if (currentHealth <= 0)
         {
-            GameManager.RemovePawn(this);
+            FeedbackManager.PlayPawnDestroyed(this);
 
-            GameManager.CheckIfGameEnds(PlayerID);
+            GameManager.RemovePlayerPawn(this);
         }
+        else
+        {
+            FeedbackManager.PlayPawnDamaged(this);
+            LookAt(attacker.WorldPosition);
+        }
+    }
+
+    public void HealTarget(PlayerPawn healTarget)
+    {
+        if (!healTarget.IsWounded || healTarget.IsEnemy) return;
+
+        healTarget.GetHealed(pawnData.specialPower);
+
+        CanAct = false;
+    }
+
+    public void GetHealed(int healedAmount)
+    {
+        currentHealth = Mathf.Min(currentHealth + healedAmount, MaxHealth);
+
+        healthBar?.UpdateHealthBar();
     }
 
     public void RefreshTurn()
     {
         movementPoints = MaxMovement;
-        actedAlready = false;
+        CanAct = true;
     }
 
     private void UpdatePosition()

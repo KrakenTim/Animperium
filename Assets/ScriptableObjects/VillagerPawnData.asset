@@ -13,16 +13,29 @@ MonoBehaviour:
   m_Name: VillagerPawnData
   m_EditorClassIdentifier: 
   type: 1
-  pawnIcon: {fileID: 21300000, guid: 7ab8232a4cd231542aa854a5bcaf869b, type: 3}
-  maxHealth: 5
+  friendlyName: Worker
+  tier: 0
+  pawnIcon:
+    text: 
+    colored: {fileID: 0}
+    baseIcon: {fileID: 0}
+  maxHealth: 50
   maxMovement: 4
-  attackPower: 2
+  attackPower: 20
+  attackRange: 1
+  viewRange: 3
+  specialPower: 0
   resourceCosts:
     food: 10
-  spawnedPawn: 0
+    wood: 0
+    ore: 0
+  populationCount: 1
+  linearUpgrade: 0
   learnsFight: 2
   learnsMagic: 3
   learnsDigging: 4
+  upgradesForUnlock: 0
+  spawnedPawn: 0
   playerPrefabs:
   - {fileID: 0}
   - {fileID: 1321117383620778759, guid: e45fe346a5a2d824fa0f3dbecbd2b805, type: 3}
