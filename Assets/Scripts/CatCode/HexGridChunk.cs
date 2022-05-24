@@ -82,7 +82,7 @@ public class HexGridChunk : MonoBehaviour
         }
         if (!cell.IsUnderwater)
         {
-            features.AddFeature(cell.Position);
+            features.AddFeature(cell, cell.Position);
         }
     }
 
@@ -103,7 +103,7 @@ public class HexGridChunk : MonoBehaviour
         }
         if (!cell.IsUnderwater)
         {
-            features.AddFeature((center + e.v1 + e.v3) * (1f / 3f));
+            features.AddFeature(cell, (center + e.v1 + e.v3) * (1f / 3f));
         }
     }
 

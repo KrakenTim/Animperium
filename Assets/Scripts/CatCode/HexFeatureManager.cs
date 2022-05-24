@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class HexFeatureManager : MonoBehaviour
 {
-    public Transform featurePrefab;
+    public Transform[] urbanPrefabs;
 
 	Transform container;
 
@@ -18,14 +18,14 @@ public class HexFeatureManager : MonoBehaviour
 
 	public void Apply() { }
 
-	public void AddFeature(Vector3 position)
+	public void AddFeature(HexCell cell, Vector3 position)
 	{
 		HexHash hash = HexMetrics.SampleHashGrid(position);
-		if (hash.a >= 0.5f)
+		if (hash.a >= cell.UrbanLevel * 0.25f)// tutorial sais * 0.25 for 4 urban levels
 		{
 			return;
 		}
-		Transform instance = Instantiate(featurePrefab);
+		Transform instance = Instantiate(urbanPrefabs[cell.UrbanLevel - 1]);
 		position.y += instance.localScale.y * 0.5f;
         instance.localPosition = position;
 		instance.localRotation = Quaternion.Euler(0f, 360f * hash.b, 0f);
