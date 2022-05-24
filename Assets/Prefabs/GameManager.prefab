@@ -217,7 +217,7 @@ MonoBehaviour:
   attackMagical:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 8300000, guid: e6f7fcbfafe9ac24692174029bc4a34a, type: 3}
-    vfxTarget: {fileID: 0}
+    vfxTarget: {fileID: 7774352354477206996, guid: 45fd841b7f565a14396fa9d25d75de88, type: 3}
   build:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 8300000, guid: c7e7262b88d47e74d84c02916384f338, type: 3}
