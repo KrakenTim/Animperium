@@ -213,7 +213,7 @@ MonoBehaviour:
   attackPhysical:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 8300000, guid: e8082c8d6376c0b4ba4579e9a8d1471d, type: 3}
-    vfxTarget: {fileID: 4633198538089898126, guid: 72fdd5eb46294f04e9e6a39fa9a9d465, type: 3}
+    vfxTarget: {fileID: 2175246725602617431, guid: 14a6c5869db0b504da2a5335c6ec1827, type: 3}
   attackMagical:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 8300000, guid: e6f7fcbfafe9ac24692174029bc4a34a, type: 3}
@@ -229,11 +229,11 @@ MonoBehaviour:
   collect:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 0}
-    vfxTarget: {fileID: 7454404239667455979, guid: 998c30944255c70468d21b8360d3ecbd, type: 3}
+    vfxTarget: {fileID: 3230823078359691624, guid: 4718df90336956046b4d6e437a8acad6, type: 3}
   heal:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 0}
-    vfxTarget: {fileID: 2461910562588449030, guid: 99a4b6cc5408f2b40b97293e1b4c0d3b, type: 3}
+    vfxTarget: {fileID: 7951210200212892235, guid: b45214479387071429f2bffdf316dc9a, type: 3}
   move:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 0}
@@ -241,7 +241,7 @@ MonoBehaviour:
   spawn:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 0}
-    vfxTarget: {fileID: 2307038947836724324, guid: efbc0f6cd7c784f46a5018d151254beb, type: 3}
+    vfxTarget: {fileID: 421734948009586996, guid: aded19ffa4e251741a63975c5289881d, type: 3}
   unitUpgrade:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 0}
@@ -249,23 +249,23 @@ MonoBehaviour:
   unitWounded:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 0}
-    vfxTarget: {fileID: 6802571928107050630, guid: d9e47dde16ce0684ca04a9459f590f36, type: 3}
+    vfxTarget: {fileID: 1923310505308076153, guid: 0556c50a656e5fe418cee33cce25970c, type: 3}
   unitKilled:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 8300000, guid: cc51c8e196abf4845bb1fbe17ab7041d, type: 3}
-    vfxTarget: {fileID: 8498737401905061243, guid: b8b38fa4debd7ad4ebfce6a7704ec06f, type: 3}
+    vfxTarget: {fileID: 1831105910641597094, guid: 07e78b222f0215b4d9800588526c62d8, type: 3}
   buildingDamaged:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 0}
-    vfxTarget: {fileID: 2245076815631913198, guid: d4962ea9e1d50d247b37ac56605c991e, type: 3}
+    vfxTarget: {fileID: 5217322890011745940, guid: ef5fa9398fbf37847a2a6bc8a0bf5f8a, type: 3}
   buildingDestroyed:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 8300000, guid: 2d57dfb0bfaa69f48933476e7368abc2, type: 3}
-    vfxTarget: {fileID: 8498737401905061243, guid: b8b38fa4debd7ad4ebfce6a7704ec06f, type: 3}
+    vfxTarget: {fileID: 1831105910641597094, guid: 07e78b222f0215b4d9800588526c62d8, type: 3}
   fallbackPlaceholder:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 8300000, guid: 09e0f6ab0035cf04ab812618c8f97b4c, type: 3}
-    vfxTarget: {fileID: 5813044050156017725, guid: 5637637238d9eb649be8840ef5ff2051, type: 3}
+    vfxTarget: {fileID: 498469468147163515, guid: aafd1b8d5fc061e4fba71d421431e976, type: 3}
 --- !u!82 &6796558578657829819
 AudioSource:
   m_ObjectHideFlags: 0
@@ -277,7 +277,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -3518468685682175167, guid: d4a575a55c8aec94abf23add4661e0bc, type: 2}
   m_audioClip: {fileID: 8300000, guid: a4f0d9bb1bedcb648ac639529eef2f6c, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 1

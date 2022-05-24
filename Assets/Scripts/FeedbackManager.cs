@@ -105,21 +105,25 @@ public class FeedbackManager : MonoBehaviour
     private void PlayPawnFeedback(PlayerPawn actingPawn, HexCell targetCell, PlayeractionFeedback playedFeedback)
     {
         if (playedFeedback.sfxTarget != null)
-        simpleAudioSource.PlayOneShot(playedFeedback.sfxTarget);
+            simpleAudioSource.PlayOneShot(playedFeedback.sfxTarget);
+
+        Vector3 rotation = new Vector3();
+        if (actingPawn != null)
+            rotation.y = actingPawn.transform.eulerAngles.y;
 
         if (actingPawn != null && playedFeedback.vfxStarter != null)
-            SpawnVFX(playedFeedback.vfxStarter, actingPawn.WorldPosition);
+            SpawnVFX(playedFeedback.vfxStarter, actingPawn.WorldPosition, rotation);
 
         if (targetCell != null && playedFeedback.vfxTarget != null)
-            SpawnVFX(playedFeedback.vfxTarget, targetCell.Position);
+            SpawnVFX(playedFeedback.vfxTarget, targetCell.Position, rotation);
     }
 
     /// <summary>
     /// Creates instance of given prefab at given position, destroys it after a while.
     /// </summary>
-    private void SpawnVFX(GameObject vfxPrefab, Vector3 worldPosition)
+    private void SpawnVFX(GameObject vfxPrefab, Vector3 worldPosition, Vector3 eulerRotation)
     {
-        GameObject newVFXEffect = Instantiate(vfxPrefab, worldPosition, Quaternion.identity, vfxParentTransform);
+        GameObject newVFXEffect = Instantiate(vfxPrefab, worldPosition, Quaternion.Euler(eulerRotation), vfxParentTransform);
 
         Destroy(newVFXEffect, 10f);
     }
@@ -169,7 +173,7 @@ public class FeedbackManager : MonoBehaviour
             if (action.IsOnHexGrid())
             {
                 if (action == ePlayeractionType.Attack)
-                
+
                 {
                     attackPhysical.FillEmpty(fallbackPlaceholder);
                     attackMagical.FillEmpty(fallbackPlaceholder);
