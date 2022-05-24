@@ -79,6 +79,8 @@ public class PauseMenu : MonoBehaviour
     void Pause()
     {
         PauseMenuUI.SetActive(true);
+        
+        if (!OnlineGameManager.IsOnlineGame)
         Time.timeScale = 0f;
         GameIsPaused = true;
     }
