@@ -22,7 +22,7 @@ public static class HexMetrics
     public const float verticalTerraceStepSize = 1f / (terracesPerSlope + 1);
 
     public const float cellPerturbStrength = 4f; //Verzerrung
-    
+
     public const float noiseScale = 0.003f;
 
     public const float elevationPerturbStrength = 1.5f;
@@ -30,6 +30,12 @@ public static class HexMetrics
     public const int chunkSizeX = 5, chunkSizeZ = 5;
 
     public const float waterElevationOffset = -0.5f;
+
+    public const int hashGridSize = 256;
+
+    public const float hashGridScale = 0.25f;
+
+    static HexHash[] hashGrid;
 
     public static Texture2D noiseSource;
 
@@ -113,4 +119,30 @@ public static class HexMetrics
         return position;
     }
 
+    public static void InitializeHashGrid(int seed)
+    {
+        hashGrid = new HexHash[hashGridSize * hashGridSize];
+        Random.State currentState = Random.state;
+        Random.InitState(seed);
+        for (int i = 0; i < hashGrid.Length; i++)
+        {
+            hashGrid[i] = HexHash.Create();
+        }
+        Random.state = currentState;
+    }
+
+    public static HexHash SampleHashGrid(Vector3 position)
+    {
+        int x = (int)(position.x * hashGridScale) % hashGridSize;
+        if (x < 0)
+        {
+            x += hashGridSize;
+        }
+        int z = (int)(position.z * hashGridScale) % hashGridSize;
+        if (z < 0)
+        {
+            z += hashGridSize;
+        }
+        return hashGrid[x + z * hashGridSize];
+    }
 }

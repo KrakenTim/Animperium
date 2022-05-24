@@ -1,5 +1,52 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1353865561616397363
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3195935495011467803}
+  - component: {fileID: 3433870787092031042}
+  m_Layer: 0
+  m_Name: Features
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3195935495011467803
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353865561616397363}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8386681081349579317}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3433870787092031042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353865561616397363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df3461ddb5ed0f449a722cddf6c681b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  urbanPrefabs:
+  - {fileID: 4021377216017226566, guid: 3b7aaea82ce2d77439126c015eb6252e, type: 3}
+  - {fileID: 4021377216017226566, guid: 62f324b36f8be8349b64d976053f8e1c, type: 3}
+  - {fileID: 4021377216017226566, guid: e190427ee50ffe240a21663c0bce8078, type: 3}
 --- !u!1 &3088399508924577482
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,6 +175,7 @@ Transform:
   - {fileID: 8386681081865148872}
   - {fileID: 8386681081868112532}
   - {fileID: 4276718732926831752}
+  - {fileID: 3195935495011467803}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -145,6 +193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrain: {fileID: 8386681081868112529}
   water: {fileID: 2344685784733891154}
+  features: {fileID: 3433870787092031042}
 --- !u!1 &8386681081865148873
 GameObject:
   m_ObjectHideFlags: 0

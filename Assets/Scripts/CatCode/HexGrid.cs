@@ -11,6 +11,7 @@ public class HexGrid : MonoBehaviour
 
     int cellCountX, cellCountZ;
     public int chunkCountX = 4, chunkCountZ = 3;
+    public int seed;
 
     public Color defaultColor = Color.white;
     public Color touchedColor = Color.green;
@@ -24,14 +25,15 @@ public class HexGrid : MonoBehaviour
     //	HexMesh hexMesh;
 
 
+
     public void Awake()
     {
         #region Not in Editor
         if (GetComponent<TempMapSaves>().LoadsInsteadOfHexGrid)
             return;
         #endregion Not in Editor
-
         HexMetrics.noiseSource = noiseSource;
+        HexMetrics.InitializeHashGrid(seed);
         //		gridCanvas = GetComponentInChildren<Canvas>();
         //		hexMesh = GetComponentInChildren<HexMesh>();
 
@@ -48,7 +50,11 @@ public class HexGrid : MonoBehaviour
 
     void OnEnable()
     {
-        HexMetrics.noiseSource = noiseSource;
+        if (!HexMetrics.noiseSource)
+        {
+            HexMetrics.noiseSource = noiseSource;
+            HexMetrics.InitializeHashGrid(seed);
+        }
     }
 
     //	public void Refresh () {
