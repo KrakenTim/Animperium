@@ -20,9 +20,9 @@ public class PlayerValues
             return populationCount;
         }
         set
-        { 
-            populationCount = value; 
-            OnValuesChanged.Invoke(playerID);
+        {
+            populationCount = value;
+            OnValuesChanged?.Invoke(playerID);
         }
     }
 
@@ -40,6 +40,8 @@ public class PlayerValues
 
     public string name;
     public string DefaultName => "Player " + playerID;
+
+    public CameraValues lastCameraValues = new CameraValues();
 
     /// <summary>
     /// Is called if a relevant value of a player is changed, hands over the player's ID.

@@ -48,14 +48,14 @@ public class GameManager : MonoBehaviour
         }
         else
             localPlayerID = activePlayerID;
-
-        playerValueProvider.SetupPlayerNames();
     }
 
     private void Start()
     {
+        playerValueProvider.SetupPlayerStart();
+
         if (TryGetPlayerValues(localPlayerID, out PlayerValues player))
-            HexMapCamera.SetPosition(player.GetTownHall().WorldPosition);
+            HexMapCamera.SetPosition(player.lastCameraValues.localPosition);
 
         playerValueProvider.SetupPawnFolders();
         StartNewPlayerTurn();
@@ -82,6 +82,9 @@ public class GameManager : MonoBehaviour
         {
             foreach (var pawn in oldPlayer.ownedPawns)
                 pawn.RefreshTurn();
+
+            if (!OnlineGameManager.IsOnlineGame)
+                oldPlayer.lastCameraValues = HexMapCamera.GetCurrentCameraValues();
         }
 
         GameInputManager.DeselectPawn();
@@ -93,7 +96,12 @@ public class GameManager : MonoBehaviour
             localPlayerID = activePlayerID;
 
         if (TryGetPlayerValues(activePlayerID, out PlayerValues newPlayer))
+        {
             activePlayerFactionID = newPlayer.factionID;
+
+            if (!OnlineGameManager.IsOnlineGame)
+                HexMapCamera.SetCameraValues(newPlayer.lastCameraValues);
+        }
 
         turn += 1;
 
