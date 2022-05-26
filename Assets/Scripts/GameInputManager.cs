@@ -102,7 +102,8 @@ public class GameInputManager : MonoBehaviour
 
     private bool IsCollectPossible()
     {
-        return selectedPawn.IsUnit && selectedHexCell.Resource != null && selectedPawn.MP > 0;
+        return selectedHexCell.Resource != null 
+               && selectedHexCell.Resource.CanCollect(selectedPawn) && selectedPawn.MP > 0;
     }
 
     private bool IsMovePossible()
@@ -120,7 +121,7 @@ public class GameInputManager : MonoBehaviour
 
     private bool IsBuildingPossible()
     {
-        return selectedPawn.PawnType == ePlayerPawnType.Villager && !selectedHexCell.HasPawn;
+        return selectedPawn.PawnType == ePlayerPawnType.Villager && !selectedHexCell.HasPawn && selectedHexCell.Resource == null;
     }
 
     private bool IsAttackPossible(PlayerPawn otherPawn)

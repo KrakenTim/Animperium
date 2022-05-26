@@ -46,4 +46,27 @@ public class RessourceToken : MonoBehaviour
         SetHexCell(null);
         Destroy(gameObject);
     }
+
+    /// <summary>
+    /// True if pawn can collect Ressource type.
+    /// </summary>
+    public bool CanCollect(PlayerPawn pawn)
+    {
+        switch (pawn.PawnType)
+        {
+            case ePlayerPawnType.Villager:
+                if (type == eRessourceType.Ore)
+                    return false;
+                break;
+
+            case ePlayerPawnType.Digger:
+                if (type != eRessourceType.Ore)
+                    return false;
+                break;
+
+            default:
+                return false;
+        }
+        return true; //pawn.CanAct;
+    }
 }

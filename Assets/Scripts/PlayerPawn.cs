@@ -45,7 +45,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public int HP => currentHealth;
     public bool IsWounded => currentHealth < MaxHealth;
     public HealthBar healthBar { get; private set; }
-    
+
     [SerializeField] int movementPoints;
     public int MP => movementPoints;
 
@@ -222,7 +222,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         else
         {
             FeedbackManager.PlayPawnDamaged(this);
-            LookAt(attacker.WorldPosition);
+            if (IsUnit)
+                LookAt(attacker.WorldPosition);
         }
     }
 
