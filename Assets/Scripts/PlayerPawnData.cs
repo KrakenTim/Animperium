@@ -19,7 +19,6 @@ public class PlayerPawnData : ScriptableObject
     public int maxHealth = 1;
     public int maxMovement;
     public int attackPower;
-    public int population;
     public int attackRange = 1;
     public int viewRange = 2;
     [Space]
