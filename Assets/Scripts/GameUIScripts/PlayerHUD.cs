@@ -11,11 +11,6 @@ public class PlayerHUD : MonoBehaviour
     private static PlayerHUD instance;
 
     [SerializeField] Image background;
-    [SerializeField] TMPro.TMP_Text foodAmount;
-    [SerializeField] TMPro.TMP_Text woodAmount;
-    [SerializeField] TMPro.TMP_Text oreAmount;
-    [Space]
-    [SerializeField] GameObject endTurnButton;
 
     [Header("Pawn Info")]
     [SerializeField] GameObject pawnInfoRoot;
@@ -29,7 +24,6 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] TMPro.TMP_Text pawnHP;
     [SerializeField] TMPro.TMP_Text pawnMP;
     [SerializeField] TMPro.TMP_Text attackPower;
-    [SerializeField] TMPro.TMP_Text population;
 
     PlayerPawn selectedPawn;
     PlayerValues populationCount;
@@ -38,7 +32,7 @@ public class PlayerHUD : MonoBehaviour
     {
         instance = this;
 
-        GameManager.TurnStarted += UpdateHUD;
+        GameManager.TurnStarted += UpdateHUDColor;
         GameInputManager.SelectPawn += UpdateSelectedPawn;
 
         FillValuesIn(null);
@@ -49,21 +43,13 @@ public class PlayerHUD : MonoBehaviour
         if (instance == this)
             instance = null;
 
-        GameManager.TurnStarted -= UpdateHUD;
+        GameManager.TurnStarted -= UpdateHUDColor;
         GameInputManager.SelectPawn -= UpdateSelectedPawn;
     }
 
-    public static void UpdateHUD(int playerID)
+    public static void UpdateHUDColor(int playerID)
     {
         instance.background.color = GameManager.GetPlayerColor(playerID);
-
-        GameResources resources = GameManager.GetPlayerResources(GameManager.LocalPlayerID);
-        instance.foodAmount.text = resources.food + " Food";
-        instance.woodAmount.text = resources.wood + " Wood";
-        instance.oreAmount.text = resources.ore + " Ore";
-
-        instance.population.text = GameManager.PlayerPopulation(GameManager.LocalPlayerID) + "/" + GameManager.MaxPopulation + " Population";
-        instance.endTurnButton.SetActive(GameManager.InputAllowed);
     }
 
     private void UpdateSelectedPawn(PlayerPawn selectedPawn)
@@ -120,13 +106,5 @@ public class PlayerHUD : MonoBehaviour
             pawnMP.enabled = false;
             attackPower.text = "Attack Power: 0";
         }
-    }
-
-    public void Button_EndTurn()
-    {
-        if (!GameManager.InputAllowed) return;
-
-        var message = InputMessageGenerator.CreateBasicMessage(ePlayeractionType.EndTurn);
-        InputMessageExecuter.Send(message);
     }
 }
