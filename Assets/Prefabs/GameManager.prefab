@@ -211,9 +211,9 @@ MonoBehaviour:
   simpleAudioSource: {fileID: 7299776127649470983}
   vfxParentTransform: {fileID: 7206047196898258010}
   attackPhysical:
-    vfxStarter: {fileID: 0}
+    vfxStarter: {fileID: 2175246725602617431, guid: 14a6c5869db0b504da2a5335c6ec1827, type: 3}
     sfxTarget: {fileID: 8300000, guid: e8082c8d6376c0b4ba4579e9a8d1471d, type: 3}
-    vfxTarget: {fileID: 2175246725602617431, guid: 14a6c5869db0b504da2a5335c6ec1827, type: 3}
+    vfxTarget: {fileID: 0}
   attackMagical:
     vfxStarter: {fileID: 0}
     sfxTarget: {fileID: 8300000, guid: e6f7fcbfafe9ac24692174029bc4a34a, type: 3}

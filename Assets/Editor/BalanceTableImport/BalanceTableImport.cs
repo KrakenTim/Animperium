@@ -30,6 +30,7 @@ public static class BalanceTableImport
     const string COLUMN_MaxMovement = "MaxMovement";
     const string COLUMN_AttackPower = "AttackPower";
     const string COLUMN_ViewRange = "ViewRange";
+    const string COLUMN_SpecialPower = "SpecialPower";
 
     // Costs
     const string COLUMN_FoodCost = "FoodCost";
@@ -123,6 +124,11 @@ public static class BalanceTableImport
         if (TryParse(pawnTableRow, COLUMN_ViewRange, out nextValue) && pawnData.viewRange != nextValue)
         {
             pawnData.viewRange = nextValue;
+            wasChanged = true;
+        }
+        if (TryParse(pawnTableRow, COLUMN_SpecialPower, out nextValue, allowEmpty:true) && pawnData.specialPower != nextValue)
+        {
+            pawnData.specialPower = nextValue;
             wasChanged = true;
         }
 
