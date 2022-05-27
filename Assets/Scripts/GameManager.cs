@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     public static int SchoolNeededUpgrades => instance.schoolNeededUpgrades;
 
     [SerializeField] private PlayerValueProvider playerValueProvider;
+    public static PlayerValueProvider PlayerValueProvider => instance.playerValueProvider;
 
     private void Awake()
     {
@@ -47,14 +48,14 @@ public class GameManager : MonoBehaviour
         }
         else
             localPlayerID = activePlayerID;
-
-        playerValueProvider.SetupPlayerNames();
     }
 
     private void Start()
     {
+        playerValueProvider.SetupPlayerStart();
+
         if (TryGetPlayerValues(localPlayerID, out PlayerValues player))
-            HexMapCamera.SetPosition(player.GetTownHall().WorldPosition);
+            HexMapCamera.SetPosition(player.lastCameraValues.localPosition);
 
         playerValueProvider.SetupPawnFolders();
         StartNewPlayerTurn();
@@ -68,15 +69,11 @@ public class GameManager : MonoBehaviour
 
     public static void EndTurn()
     {
-        Debug.Log("Ending Turn of Player " + ActivePlayerID + "\n");
-
         instance.EndOldPlayerTurn();
 
         instance.activePlayerID = instance.playerValueProvider.NextActivePlayer(ActivePlayerID);
 
         instance.StartNewPlayerTurn();
-
-        Debug.Log("Ending Turn of Player " + ActivePlayerID + "\n");
     }
 
     private void EndOldPlayerTurn()
@@ -85,6 +82,9 @@ public class GameManager : MonoBehaviour
         {
             foreach (var pawn in oldPlayer.ownedPawns)
                 pawn.RefreshTurn();
+
+            if (!OnlineGameManager.IsOnlineGame)
+                oldPlayer.lastCameraValues = HexMapCamera.GetCurrentCameraValues();
         }
 
         GameInputManager.DeselectPawn();
@@ -96,7 +96,12 @@ public class GameManager : MonoBehaviour
             localPlayerID = activePlayerID;
 
         if (TryGetPlayerValues(activePlayerID, out PlayerValues newPlayer))
+        {
             activePlayerFactionID = newPlayer.factionID;
+
+            if (!OnlineGameManager.IsOnlineGame)
+                HexMapCamera.SetCameraValues(newPlayer.lastCameraValues);
+        }
 
         turn += 1;
 
@@ -139,7 +144,6 @@ public class GameManager : MonoBehaviour
             && instance.TryGetPlayerValues(upgraded.PlayerID, out PlayerValues playerValues))
         {
             playerValues.PayCosts(costs);
-            PlayerHUD.UpdateHUD(instance.activePlayerID);
             playerValues.upgradeCounter++;
         }
     }
@@ -152,8 +156,6 @@ public class GameManager : MonoBehaviour
             playerValues.PayCosts(costs);
 
             builder.UpgradedBuilding(building);
-
-            PlayerHUD.UpdateHUD(instance.activePlayerID);
         }
     }
 
@@ -195,7 +197,6 @@ public class GameManager : MonoBehaviour
             return false;
 
         playerResources.PaySpawnCosts(spawnedPawnData);
-        PlayerHUD.UpdateHUD(instance.activePlayerID);
 
         PlaceNewPawn(spawnedPawnData, spawnPoint, spawner.PlayerID, spawner.HexCell);
 
@@ -251,7 +252,7 @@ public class GameManager : MonoBehaviour
     public static int PlayerPopulation(int playerID)
     {
         if (instance.TryGetPlayerValues(playerID, out PlayerValues result))
-            return result.populationCount;
+            return result.PopulationCount;
 
         Debug.LogError("Population Count not found for Player " + playerID, instance);
 
@@ -261,7 +262,7 @@ public class GameManager : MonoBehaviour
     public static GameResources GetPlayerResources(int playerID)
     {
         if (instance.TryGetPlayerValues(playerID, out PlayerValues result))
-            return result.playerResources;
+            return result.PlayerResources;
 
         Debug.LogError("Food not found for Player " + playerID, instance);
 
@@ -302,9 +303,7 @@ public class GameManager : MonoBehaviour
             }
 
             result.ownedPawns.Add(pawn);
-            result.populationCount += pawn.PawnData.populationCount;
-
-            PlayerHUD.UpdateHUD(LocalPlayerID);
+            result.PopulationCount += pawn.PawnData.populationCount;
         }
     }
 
@@ -316,9 +315,7 @@ public class GameManager : MonoBehaviour
         if (instance.TryGetPlayerValues(pawn.PlayerID, out PlayerValues result))
         {
             result.ownedPawns.Remove(pawn);
-            result.populationCount -= pawn.PawnData.populationCount;
-
-            PlayerHUD.UpdateHUD(LocalPlayerID);
+            result.PopulationCount -= pawn.PawnData.populationCount;
         }
         pawn.SetHexCell(null);
         Destroy(pawn.gameObject);
@@ -330,24 +327,7 @@ public class GameManager : MonoBehaviour
     {
         if (instance.TryGetPlayerValues(ActivePlayerID, out PlayerValues result))
         {
-            switch (resource)
-            {
-                case eRessourceType.Food:
-                    result.playerResources.food += amount;
-                    break;
-                case eRessourceType.Wood:
-                    result.playerResources.wood += amount;
-                    break;
-                case eRessourceType.Ore:
-                    result.playerResources.ore += amount;
-                    break;
-                default:
-                    Debug.LogError("AddResource UNDEFINED for " + resource);
-                    return;
-            }
-
-            PlayerHUD.UpdateHUD(instance.activePlayerID);
-
+            result.AddResource(resource, amount);
         }
     }
 

@@ -12,7 +12,23 @@ using UnityEngine.UI;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject PauseMenuUI;
-    public static bool GameIsPaused = false;
+    public static bool IsPaused;
+    public static bool GameIsPaused
+    {
+        get => IsPaused;
+        set
+        {
+            if (value == IsPaused) return;
+
+            IsPaused = value;
+            InPauseChanged?.Invoke(IsPaused);
+        }
+    }
+
+    /// <summary>
+    /// True if the Game is now Paused.
+    /// </summary>
+    public static System.Action<bool> InPauseChanged;
 
    // public GameObject ui_canvas;
     GraphicRaycaster ui_raycaster;
@@ -33,10 +49,11 @@ public class PauseMenu : MonoBehaviour
         Keyboard kb = InputSystem.GetDevice<Keyboard>();
         if (kb.escapeKey.wasPressedThisFrame)
         {
+            if (GameIsPaused)
             {
                 Resume();
             }
-            
+            else
             {
                 Pause();
             }
@@ -76,7 +93,7 @@ public class PauseMenu : MonoBehaviour
         GameIsPaused = false;
     }
 
-    void Pause()
+    public void Pause()
     {
         PauseMenuUI.SetActive(true);
         

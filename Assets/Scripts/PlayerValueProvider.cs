@@ -23,13 +23,17 @@ public class PlayerValueProvider : MonoBehaviour
 
     /// <summary>
     /// Uses Names from server in online mode, sets default name for Player in hotseat if none is given.
+    /// All players get their townhall as first camera position.
     /// </summary>
-    public void SetupPlayerNames()
+    public void SetupPlayerStart()
     {
         if (OnlineGameManager.IsOnlineGame)
             OnlineGameManager.SetupPlayerNames(playerValues);
         else
             SetDefaultNamesForMissing();
+
+        foreach (var player in playerValues)
+            player.lastCameraValues.localPosition = player.GetTownHall().WorldPosition;
     }
 
     /// <summary>
