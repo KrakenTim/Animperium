@@ -5,9 +5,10 @@ using TMPro;
 
 public class TurnTimer : MonoBehaviour
 {
-    [SerializeField] TMP_Text turnTimer;
     [SerializeField] TMP_Text inGameTurn;
-
+    [Space]
+    [SerializeField] TMP_Text turnTimeMinute;
+    [SerializeField] TMP_Text turnTimeSecond;
 
     public int maxSecondsPerTurn = 90;
     public int remainingSeconds = 90;
@@ -60,7 +61,9 @@ public class TurnTimer : MonoBehaviour
     /// </summary>
     private void UpdateTimerVisual()
     {
-        turnTimer.text = Localisation.Instance.Get(AnimperiumLocalisation.IDENTIFIER_TurnTime)
-                             + ": " + remainingSeconds.ToString();
+        //turnTimeCounter.text = remainingSeconds.ToString();
+        turnTimeMinute.text = (remainingSeconds / 60).ToString();
+        int seconds = remainingSeconds % 60;
+        turnTimeSecond.text = (seconds < 10 ? "0" : "") + seconds.ToString();
     }
 }

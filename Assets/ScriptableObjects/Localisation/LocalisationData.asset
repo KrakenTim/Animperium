@@ -16,9 +16,15 @@ MonoBehaviour:
   - identifier: Back
     english: Back
     german: "Zur\xFCck"
+  - identifier: Backlog
+    english: Backlog
+    german: Aktionslog
   - identifier: Blaster
     english: Grenadier
     german: Grenadier
+  - identifier: Buildings
+    english: Buildings
+    german: "Geb\xE4ude"
   - identifier: Chat
     english: Chat
     german: Chat
@@ -54,7 +60,7 @@ MonoBehaviour:
     german: Lobby Liste
   - identifier: LocalMatch
     english: Start Local Match
-    german: Lokale Partie
+    german: Lokal
   - identifier: MasterVolume
     english: Master Volume
     german: "Gesamtlautst\xE4rke"
@@ -78,7 +84,7 @@ MonoBehaviour:
     german: Eine weitere Einheit muss weitergebildet werden!
   - identifier: OnlineMatch
     english: Start Online Match
-    german: Online Partie
+    german: Online
   - identifier: Ore
     english: Ore
     german: Erz
@@ -142,6 +148,12 @@ MonoBehaviour:
   - identifier: TurnTime
     english: Turn Time
     german: Rundenzeit
+  - identifier: Underground
+    english: Underground
+    german: Untergrund
+  - identifier: Units
+    english: Units
+    german: Einheiten
   - identifier: Veteran
     english: Veteran
     german: Veteran

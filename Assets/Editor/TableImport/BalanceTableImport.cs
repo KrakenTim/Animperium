@@ -16,7 +16,6 @@ public static class BalanceTableImport
     #region table column names
     //Characteristics
     const string COLUMN_PawnType = "PawnType";
-    const string COLUMN_FriendlyName = "FriendlyName";
     const string COLUMN_Tier = "Tier";
     const string COLUMN_UpgradesForUnlock = "UpgradesForUnlock";
 
@@ -79,16 +78,6 @@ public static class BalanceTableImport
         ePlayerPawnType nextPawnType;
         int nextValue;
         bool wasChanged = false;
-
-        // Friendly Name
-        string newName = pawnTableRow[COLUMN_FriendlyName];
-        if (string.IsNullOrWhiteSpace(newName))
-            newName = TSVImportHelper.SplitCamelCase(pawnData.type.ToString());
-        if (pawnData.friendlyName != newName)
-        {
-            pawnData.friendlyName = newName;
-            wasChanged = true;
-        }
 
         if (TSVImportHelper.TryParse(pawnTableRow, COLUMN_Tier, out nextValue) && pawnData.tier != nextValue)
         {

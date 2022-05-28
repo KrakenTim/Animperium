@@ -8,6 +8,8 @@ using UnityEngine.Events;
 [System.Serializable]
 public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    public System.Action OnValueChange;
+
     [SerializeField] PlayerPawnData pawnData;
     public PlayerPawnData PawnData => pawnData;
     public ePlayerPawnType PawnType => pawnData.type;
@@ -37,7 +39,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     /// used to more easily track pawns which are otherwise similar.
     /// </summary>
     [HideInInspector] public int pawnID = 0;
-    public string FriendlyName => PawnData.friendlyName;
+    public string FriendlyName => PawnData.FriendlyName;
 
     [Space]
     [SerializeField] int currentHealth;
@@ -60,12 +62,12 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
             _canAct = value;
 
             if (!_canAct)
-            {
                 movementPoints = 0;
-                PlayerHUD.UpdateShownPawn();
-            }
+
+            OnValueChange?.Invoke();
         }
     }
+
     [Space]
     [SerializeField] HexCell hexCell;
     public HexCell HexCell => hexCell;
@@ -115,6 +117,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         currentHealth = hp;
         movementPoints = mp;
         this.CanAct = canAct;
+
+        OnValueChange?.Invoke();
     }
 
     public void SetPlayer(int playerID)
@@ -197,13 +201,14 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     {
         movementPoints -= 1;
 
-        PlayerHUD.UpdateShownPawn();
-
-        // rotates pawn according to direction it came from
         HexCell oldPosition = hexCell;
 
         SetHexCell(targetPosition);
+
+        // rotates pawn according to direction it came from
         LookAway(oldPosition);
+
+        OnValueChange?.Invoke();
     }
 
     public void Damaged(PlayerPawn attacker, int damageAmount)
@@ -224,6 +229,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
             if (IsUnit)
                 LookAt(attacker.WorldPosition);
         }
+
+        OnValueChange?.Invoke();
     }
 
     public void HealTarget(PlayerPawn healTarget)
@@ -240,6 +247,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         currentHealth = Mathf.Min(currentHealth + healedAmount, MaxHealth);
 
         healthBar?.UpdateHealthBar();
+
+        OnValueChange?.Invoke();
     }
 
     public void RefreshTurn()

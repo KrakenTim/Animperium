@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1612262315519480052}
   - component: {fileID: 6138938930741121288}
   - component: {fileID: 2082647825750144213}
+  - component: {fileID: 4112064581993197907}
   m_Layer: 5
   m_Name: PlayerResourceArea
   m_TagString: Untagged
@@ -40,8 +41,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 800, y: 100}
+  m_AnchoredPosition: {x: 10, y: 10}
+  m_SizeDelta: {x: 800, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &2004861062501495078
 CanvasRenderer:
@@ -71,7 +72,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -125,6 +126,19 @@ MonoBehaviour:
   population: {fileID: 5481035534785651380}
   showType: 1
   isLocalPlayerValues: 1
+--- !u!114 &4112064581993197907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3033874928593453089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b86a01160572db54e870ede392074f70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTint: 0.25
 --- !u!1001 &3093178086473819228
 PrefabInstance:
   m_ObjectHideFlags: 0

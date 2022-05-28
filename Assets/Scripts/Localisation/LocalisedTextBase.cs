@@ -73,12 +73,18 @@ public abstract class LocalisedTextBase : MonoBehaviour
         if (values != null)
         {
             for (int i = 0; i < values.Length; i++)
-            {
-                shownString.Replace("{value" + (i + 1) + "}", values[i]);
-            }
+                shownString = shownString.Replace("{value" + (i + 1) + "}", values[i]);
         }
 
         myTextfield.text = shownString;
+    }
+
+    /// <summary>
+    /// Enables and Disables the connected text field.
+    /// </summary>
+    public void SetVisible(bool textVisible)
+    {
+        myTextfield.enabled = textVisible;
     }
 
     /// <summary>

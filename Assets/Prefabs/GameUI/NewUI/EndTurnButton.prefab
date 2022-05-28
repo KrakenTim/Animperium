@@ -99,7 +99,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 10
   m_fontSizeMax: 20
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -161,6 +161,7 @@ GameObject:
   - component: {fileID: 3362194480480957910}
   - component: {fileID: 3362194480480957911}
   - component: {fileID: 4673975742902421176}
+  - component: {fileID: 5266138907309193958}
   m_Layer: 5
   m_Name: EndTurnButton
   m_TagString: Untagged
@@ -294,3 +295,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d36b3932a30bd43a9ea8bb4aa83603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5266138907309193958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3362194480480957913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b86a01160572db54e870ede392074f70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTint: 0.25

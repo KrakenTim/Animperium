@@ -10,8 +10,6 @@ public class PlayerHUD : MonoBehaviour
 {
     private static PlayerHUD instance;
 
-    [SerializeField] Image background;
-
     [Header("Pawn Info")]
     [SerializeField] GameObject pawnInfoRoot;
     [SerializeField] GameObject pawnInfoAttackPower;
@@ -20,19 +18,20 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] ColorableImage pawnIcon;
     [SerializeField] Image canActIcon;
     [Space]
-    [SerializeField] TMPro.TMP_Text pawnType;
+    [SerializeField] LocalisedText pawnType;
     [SerializeField] TMPro.TMP_Text pawnHP;
     [SerializeField] TMPro.TMP_Text pawnMP;
     [SerializeField] TMPro.TMP_Text attackPower;
 
     PlayerPawn selectedPawn;
-    PlayerValues populationCount;
+    public PlayerPawn SelectedPawn => instance.selectedPawn;
+
+    bool attachedToPawn = false;
 
     private void Awake()
     {
         instance = this;
 
-        GameManager.TurnStarted += UpdateHUDColor;
         GameInputManager.SelectPawn += UpdateSelectedPawn;
 
         FillValuesIn(null);
@@ -43,18 +42,14 @@ public class PlayerHUD : MonoBehaviour
         if (instance == this)
             instance = null;
 
-        GameManager.TurnStarted -= UpdateHUDColor;
         GameInputManager.SelectPawn -= UpdateSelectedPawn;
-    }
 
-    public static void UpdateHUDColor(int playerID)
-    {
-        instance.background.color = GameManager.GetPlayerColor(playerID);
+        SetSelectedPawn(null);
     }
 
     private void UpdateSelectedPawn(PlayerPawn selectedPawn)
     {
-        this.selectedPawn = selectedPawn;
+        SetSelectedPawn(selectedPawn);
         FillValuesIn(selectedPawn);
     }
 
@@ -91,7 +86,7 @@ public class PlayerHUD : MonoBehaviour
         pawnIcon.SetPawn(selectedPawn);
 
         canActIcon.enabled = selectedPawn.CanAct;
-        pawnType.text = selectedPawn.FriendlyName;
+        pawnType.Set(AnimperiumLocalisation.GetIdentifier(selectedPawn.PawnType));
 
         pawnHP.text = "HP " + selectedPawn.HP + "/" + selectedPawn.MaxHealth;
 
@@ -99,12 +94,34 @@ public class PlayerHUD : MonoBehaviour
         {
             pawnMP.text = "MP " + selectedPawn.MP + "/" + selectedPawn.MaxMovement;
             pawnMP.enabled = true;
-            attackPower.text = "Attack Power: " + selectedPawn.AttackPower;
         }
         else
         {
             pawnMP.enabled = false;
-            attackPower.text = "Attack Power: 0";
         }
+
+        if (selectedPawn.AttackPower > 0)
+        {
+            attackPower.text = Localisation.Instance.Get(AnimperiumLocalisation.ID_AttackPower) + " " + selectedPawn.AttackPower;
+            pawnInfoAttackPower.SetActive(true);
+        }
+        else
+            pawnInfoAttackPower.SetActive(false);
+    }
+
+    /// <summary>
+    /// Detaches itself from old pawn, sets new pawn and attaches itself to it for updates on value changes.
+    /// </summary>
+    private void SetSelectedPawn(PlayerPawn newPawn)
+    {
+        if (selectedPawn != null)
+            selectedPawn.OnValueChange -= UpdateShownPawn;
+
+        selectedPawn = newPawn;
+
+        if (selectedPawn != null)
+            selectedPawn.OnValueChange += UpdateShownPawn;
+
+        FillValuesIn(selectedPawn);
     }
 }

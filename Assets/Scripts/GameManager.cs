@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static bool InGame => instance != null;
 
     public static event System.Action<int> TurnStarted;
+    public static event System.Action LocalPlayerChanged;
 
     [SerializeField] HexGrid myHexGrid;
     public static HexGrid HexGrid => instance.myHexGrid;
@@ -21,7 +22,15 @@ public class GameManager : MonoBehaviour
     public static int CurrentFactionID => instance.activePlayerFactionID;
 
     private int localPlayerID;
-    public static int LocalPlayerID => instance.localPlayerID;
+    public static int LocalPlayerID
+    {
+        get => instance.localPlayerID;
+        private set
+        {
+            instance.localPlayerID = value;
+            LocalPlayerChanged?.Invoke();
+        }
+    }
     public static bool InputAllowed => ActivePlayerID == LocalPlayerID;
 
     private int turn = 1;
@@ -43,11 +52,9 @@ public class GameManager : MonoBehaviour
         SettingsMenu.SetVolumeToPreference();
 
         if (OnlineGameManager.IsOnlineGame)
-        {
-            localPlayerID = OnlineGameManager.LocalPlayerID;
-        }
+            LocalPlayerID = OnlineGameManager.LocalPlayerID;
         else
-            localPlayerID = activePlayerID;
+            LocalPlayerID = activePlayerID;
     }
 
     private void Start()
@@ -98,7 +105,7 @@ public class GameManager : MonoBehaviour
     private void StartNewPlayerTurn()
     {
         if (!OnlineGameManager.IsOnlineGame)
-            localPlayerID = activePlayerID;
+            LocalPlayerID = activePlayerID;
 
         if (TryGetPlayerValues(activePlayerID, out PlayerValues newPlayer))
         {
@@ -108,7 +115,7 @@ public class GameManager : MonoBehaviour
                 HexMapCamera.SetCameraValues(newPlayer.lastCameraValues);
         }
 
-        
+
 
         TurnStarted?.Invoke(activePlayerID);
     }
@@ -326,6 +333,8 @@ public class GameManager : MonoBehaviour
         Destroy(pawn.gameObject);
 
         instance.CheckIfGameEnds(pawn.PlayerID);
+
+        GameInputManager.DeselectPawn(pawn);
     }
 
     public static void AddResource(eResourceType resource, int amount)
@@ -363,17 +372,13 @@ public class GameManager : MonoBehaviour
         instance.CheckIfGameEnds(playerID);
     }
 
-    private void CheckIfGameEnds(int potencialLoserPlayerID)
+    private bool CheckIfGameEnds(int potencialLoserPlayerID)
     {
-
         if (instance.playerValueProvider.CheckIfGameEnds(potencialLoserPlayerID, out List<PlayerValues> winners))
         {
-            CallVictory(winners);
+            VictoryLoseScreen.ShowVictory(winners);
+            return true;
         }
-    }
-
-    private static void CallVictory(List<PlayerValues> winners)
-    {
-        VictoryLoseScreen.ShowVictory(winners);
+        return false;
     }
 }

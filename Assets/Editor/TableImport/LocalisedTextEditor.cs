@@ -12,9 +12,12 @@ public class LocalisedTextEditor : LocalisationEditorBase
     {
         base.OnInspectorGUI();
 
-        if (!Application.isPlaying && GUILayout.Button("Fill Texts (English)"))
-            LocalisedText.FillAllTextsWithBaseLocalisation(eLanguage.English);
-        if (!Application.isPlaying && GUILayout.Button("Fill Texts (German)"))
-            LocalisedText.FillAllTextsWithBaseLocalisation(eLanguage.German);
+        if (!Application.isPlaying)
+        {
+            if (GUILayout.Button("Fill Texts (English)"))
+                LocalisedText.FillAllTextsWithBaseLocalisation(eLanguage.English);
+            if (GUILayout.Button("Fill Texts (German)"))
+                LocalisedText.FillAllTextsWithBaseLocalisation(eLanguage.German);
+        }
     }
 }
