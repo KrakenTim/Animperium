@@ -12,7 +12,7 @@ public class PlayerResourceUIDisplay : MonoBehaviour
 
     [SerializeField] bool showType;
     [SerializeField] bool isLocalPlayerValues;
-
+    
     private void OnEnable()
     {
         if (isLocalPlayerValues)
@@ -48,7 +48,8 @@ public class PlayerResourceUIDisplay : MonoBehaviour
         ShowResources(localPlayerValues.PlayerResources);
 
         if (population)
-            population.text = localPlayerValues.PopulationCount + "/" + GameManager.MaxPopulation + (showType ? " Population" : "");
+            population.text = localPlayerValues.PopulationCount + "/" + GameManager.MaxPopulation
+                              + (showType ? " " + Localisation.Instance.Get(AnimperiumLocalisation.IDENTIFIER_Population) : "");
     }
 
     /// <summary>
@@ -56,8 +57,8 @@ public class PlayerResourceUIDisplay : MonoBehaviour
     /// </summary>
     public void ShowResources(GameResources resources)
     {
-        food.text = resources.food + (showType ? " Food" : "");
-        wood.text = resources.wood + (showType ? " Wood" : "");
-        ore.text = resources.ore + (showType ? " Ore" : "");
+        food.text = resources.food + (showType ? " " + AnimperiumLocalisation.Get(eResourceType.Food) : "");
+        wood.text = resources.wood + (showType ? " " + AnimperiumLocalisation.Get(eResourceType.Wood) : "");
+        ore.text = resources.ore + (showType ? " " + AnimperiumLocalisation.Get(eResourceType.Ore) : "");
     }
 }

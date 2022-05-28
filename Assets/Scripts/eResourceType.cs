@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// The types of resources collected and used in the game.
 /// </summary>
-public enum eRessourceType
+public enum eResourceType
 {
     NONE = 0,
     Food = 1,

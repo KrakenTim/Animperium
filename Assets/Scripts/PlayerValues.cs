@@ -112,17 +112,17 @@ public class PlayerValues
 
     }
 
-    public void AddResource(eRessourceType resource, int amount)
+    public void AddResource(eResourceType resource, int amount)
     {
         switch (resource)
         {
-            case eRessourceType.Food:
+            case eResourceType.Food:
                 playerResources.food += amount;
                 break;
-            case eRessourceType.Wood:
+            case eResourceType.Wood:
                 playerResources.wood += amount;
                 break;
-            case eRessourceType.Ore:
+            case eResourceType.Ore:
                 playerResources.ore += amount;
                 break;
 
