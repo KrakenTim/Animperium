@@ -173,7 +173,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         CanAct = false;
     }
 
-    public void Collect(RessourceToken resource)
+    public void Collect(ResourceToken resource)
     {
         MoveTo(resource.HexCell);
         CanAct = false;

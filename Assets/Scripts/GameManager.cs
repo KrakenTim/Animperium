@@ -323,7 +323,7 @@ public class GameManager : MonoBehaviour
         instance.CheckIfGameEnds(pawn.PlayerID);
     }
 
-    public static void AddResource(eRessourceType resource, int amount)
+    public static void AddResource(eResourceType resource, int amount)
     {
         if (instance.TryGetPlayerValues(ActivePlayerID, out PlayerValues result))
         {
