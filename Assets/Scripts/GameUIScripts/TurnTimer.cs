@@ -6,6 +6,9 @@ using TMPro;
 public class TurnTimer : MonoBehaviour
 {
     [SerializeField] TMP_Text turnTimer;
+    [SerializeField] TMP_Text inGameTurn;
+
+
     public int maxSecondsPerTurn = 90;
     public int remainingSeconds = 90;
     public bool deductingTime;
@@ -46,6 +49,9 @@ public class TurnTimer : MonoBehaviour
     private void ResetTimer(int unusedPlayerID)
     {
         remainingSeconds = maxSecondsPerTurn;
+
+        inGameTurn.text = GameManager.Turn.ToString();
+
         UpdateTimerVisual();
     }
 

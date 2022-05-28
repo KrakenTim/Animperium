@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     public static int LocalPlayerID => instance.localPlayerID;
     public static bool InputAllowed => ActivePlayerID == LocalPlayerID;
 
-    private int turn;
+    private int turn = 1;
     public static int Turn => instance ? instance.turn : -1;
 
     int spawnedPawnID = 0;
@@ -71,7 +71,12 @@ public class GameManager : MonoBehaviour
     {
         instance.EndOldPlayerTurn();
 
-        instance.activePlayerID = instance.playerValueProvider.NextActivePlayer(ActivePlayerID);
+        int nextActivePlayerID = instance.playerValueProvider.NextActivePlayer(ActivePlayerID);
+
+        if (nextActivePlayerID < instance.activePlayerID)
+            instance.turn += 1;
+
+        instance.activePlayerID = nextActivePlayerID;
 
         instance.StartNewPlayerTurn();
     }
@@ -103,7 +108,7 @@ public class GameManager : MonoBehaviour
                 HexMapCamera.SetCameraValues(newPlayer.lastCameraValues);
         }
 
-        turn += 1;
+        
 
         TurnStarted?.Invoke(activePlayerID);
     }
