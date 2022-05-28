@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Extends Localisation with project specific methods
+/// Extends Localisation with project specific elements
 /// </summary>
 public class AnimperiumLocalisation : Localisation
 {
     public const string IDENTIFIER_Population = "Population";
+    public const string IDENTIFIER_TurnTime = "TurnTime";
 
     /// <summary>
     /// Returns localisation for given resource in current language.

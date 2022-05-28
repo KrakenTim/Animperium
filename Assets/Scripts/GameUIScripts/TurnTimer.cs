@@ -23,12 +23,12 @@ public class TurnTimer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if (deductingTime == false)
+        if (deductingTime == false)
         {
             deductingTime = true;
             StartCoroutine(DeductSeconds());
 
-            turnTimer.text = "Turn Time: " + remainingSeconds.ToString();
+            UpdateTimerVisual();
         }
     }
 
@@ -38,7 +38,7 @@ public class TurnTimer : MonoBehaviour
         remainingSeconds -= 1;
 
         if (remainingSeconds <= 0)
-        GameManager.EndTurn();
+            GameManager.EndTurn();
 
         deductingTime = false;
     }
@@ -46,6 +46,15 @@ public class TurnTimer : MonoBehaviour
     private void ResetTimer(int unusedPlayerID)
     {
         remainingSeconds = maxSecondsPerTurn;
-        turnTimer.text = "Turn Time: " + remainingSeconds.ToString();
+        UpdateTimerVisual();
+    }
+
+    /// <summary>
+    /// Updates the text field in the UI for the turn timer.
+    /// </summary>
+    private void UpdateTimerVisual()
+    {
+        turnTimer.text = Localisation.Instance.Get(AnimperiumLocalisation.IDENTIFIER_TurnTime)
+                             + ": " + remainingSeconds.ToString();
     }
 }
