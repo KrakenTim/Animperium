@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: LocalisationData
   m_EditorClassIdentifier: 
   localisation:
+  - identifier: AttackPower
+    english: Attack Power
+    german: Angriffskraft
   - identifier: Back
     english: Back
     german: "Zur\xFCck"
@@ -61,15 +64,18 @@ MonoBehaviour:
   - identifier: LocalMatch
     english: Start Local Match
     german: Lokal
+  - identifier: MainMenu
+    english: Main Menu
+    german: "Hauptmen\xFC"
   - identifier: MasterVolume
     english: Master Volume
     german: "Gesamtlautst\xE4rke"
   - identifier: Multiplayer
     english: Multiplayer
     german: Mehrspieler
-  - identifier: Name
-    english: Name
-    german: Name
+  - identifier: NameEntryField
+    english: Name...
+    german: Name...
   - identifier: No
     english: No
     german: Nein
