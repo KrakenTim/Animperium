@@ -110,7 +110,8 @@ public abstract class LocalisedTextBase : MonoBehaviour
             string nextLocalisation = localisation.Get(textElement.Identifier, usedLanguage);
 
             TMP_Text textField = textElement.GetComponent<TMP_Text>();
-
+            if (textField == null)
+            Debug.Log("Mistkerl", textElement);
             if (textField.text != nextLocalisation)
             {
                 textField.text = nextLocalisation;

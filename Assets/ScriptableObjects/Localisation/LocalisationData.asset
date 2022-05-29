@@ -28,6 +28,9 @@ MonoBehaviour:
   - identifier: Buildings
     english: Buildings
     german: "Geb\xE4ude"
+  - identifier: CanAct
+    english: Can Act
+    german: "Handlungsf\xE4hig"
   - identifier: Chat
     english: Chat
     german: Chat
@@ -70,6 +73,9 @@ MonoBehaviour:
   - identifier: MasterVolume
     english: Master Volume
     german: "Gesamtlautst\xE4rke"
+  - identifier: Movement
+    english: Movement
+    german: Bewegung
   - identifier: Multiplayer
     english: Multiplayer
     german: Mehrspieler
