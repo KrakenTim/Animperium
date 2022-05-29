@@ -279,7 +279,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
     public virtual void OnPointerExit(PointerEventData eventData)
     {
-        PlayerHUD.UpdateShownPawn();
+        PlayerHUD.UnHoverPawn();
     }
 
     public override string ToString()

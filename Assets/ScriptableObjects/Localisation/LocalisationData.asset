@@ -55,6 +55,9 @@ MonoBehaviour:
   - identifier: Healer
     english: Healer
     german: Heiler
+  - identifier: Health
+    english: Health
+    german: Leben
   - identifier: Leave
     english: Leave
     german: Verlassen
