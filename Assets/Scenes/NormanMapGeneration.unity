@@ -4755,7 +4755,7 @@ PrefabInstance:
     - target: {fileID: 3666991950448948645, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
       propertyPath: build.vfxStarter
       value: 
-      objectReference: {fileID: 2010840094317819849, guid: 5504c49c1973c1d43afa73749d7d752f, type: 3}
+      objectReference: {fileID: 4850530004794458108, guid: 7114e033424bb304083492c2a8e962d7, type: 3}
     - target: {fileID: 3666991950448948645, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
       propertyPath: fallbackPlayceholder.sfxTarget
       value: 
