@@ -9,7 +9,7 @@ using UnityEngine;
 public class PlayerPawnData : ScriptableObject
 {
     public ePlayerPawnType type;
-    public string friendlyName;
+    public string FriendlyName => AnimperiumLocalisation.Get(type);
     public int tier;
 
     [SerializeField] private ColorableIconData pawnIcon;
@@ -19,11 +19,10 @@ public class PlayerPawnData : ScriptableObject
     public int maxHealth = 1;
     public int maxMovement;
     public int attackPower;
-    public int population;
     public int attackRange = 1;
     public int viewRange = 2;
     [Space]
-    [Tooltip("Generic field for Unit specific ability.\nHealer: Healing Power\nBlaseter: Damage vs Buildings")]
+    [Tooltip("Generic field for Unit specific ability.\nHealer: Healing Power\nBlaster: Damage vs Buildings")]
     public int specialPower;
 
     [Header("Costs")]

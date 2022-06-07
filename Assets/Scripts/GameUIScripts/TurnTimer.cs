@@ -5,7 +5,11 @@ using TMPro;
 
 public class TurnTimer : MonoBehaviour
 {
-    [SerializeField] TMP_Text turnTimer;
+    [SerializeField] TMP_Text inGameTurn;
+    [Space]
+    [SerializeField] TMP_Text turnTimeMinute;
+    [SerializeField] TMP_Text turnTimeSecond;
+
     public int maxSecondsPerTurn = 90;
     public int remainingSeconds = 90;
     public bool deductingTime;
@@ -23,12 +27,12 @@ public class TurnTimer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if (deductingTime == false)
+        if (deductingTime == false)
         {
             deductingTime = true;
             StartCoroutine(DeductSeconds());
 
-            turnTimer.text = "Turn Time: " + remainingSeconds.ToString();
+            UpdateTimerVisual();
         }
     }
 
@@ -38,7 +42,7 @@ public class TurnTimer : MonoBehaviour
         remainingSeconds -= 1;
 
         if (remainingSeconds <= 0)
-        GameManager.EndTurn();
+            GameManager.EndTurn();
 
         deductingTime = false;
     }
@@ -46,6 +50,20 @@ public class TurnTimer : MonoBehaviour
     private void ResetTimer(int unusedPlayerID)
     {
         remainingSeconds = maxSecondsPerTurn;
-        turnTimer.text = "Turn Time: " + remainingSeconds.ToString();
+
+        inGameTurn.text = GameManager.Turn.ToString();
+
+        UpdateTimerVisual();
+    }
+
+    /// <summary>
+    /// Updates the text field in the UI for the turn timer.
+    /// </summary>
+    private void UpdateTimerVisual()
+    {
+        //turnTimeCounter.text = remainingSeconds.ToString();
+        turnTimeMinute.text = (remainingSeconds / 60).ToString();
+        int seconds = remainingSeconds % 60;
+        turnTimeSecond.text = (seconds < 10 ? "0" : "") + seconds.ToString();
     }
 }

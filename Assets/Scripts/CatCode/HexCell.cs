@@ -102,8 +102,8 @@ public class HexCell : MonoBehaviour
     public PlayerPawn Pawn => pawnOnCell;
     public bool HasPawn => pawnOnCell != null;
 
-    private RessourceToken resource;
-    public RessourceToken Resource => resource;
+    private ResourceToken resource;
+    public ResourceToken Resource => resource;
 
     public int tempSaveColorID = 0;
 
@@ -196,7 +196,7 @@ public class HexCell : MonoBehaviour
             Debug.LogError($"Tried to set two Pawns onto same HexCell{coordinates.ToString()}!\n", this);
     }
 
-    public void SetResource(RessourceToken newResource)
+    public void SetResource(ResourceToken newResource)
     {
         if (resource == null || newResource == null)
             resource = newResource;

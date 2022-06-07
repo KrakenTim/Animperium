@@ -22,8 +22,9 @@ MonoBehaviour:
   maxHealth: 70
   maxMovement: 4
   attackPower: 24
+  attackRange: 1
   viewRange: 3
-  specialPower: 25
+  specialPower: 27
   resourceCosts:
     food: 16
     wood: 3

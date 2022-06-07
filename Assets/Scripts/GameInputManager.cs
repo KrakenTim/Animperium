@@ -102,7 +102,8 @@ public class GameInputManager : MonoBehaviour
 
     private bool IsCollectPossible()
     {
-        return selectedPawn.IsUnit && selectedHexCell.Resource != null && selectedPawn.MP > 0;
+        return selectedHexCell.Resource != null 
+               && selectedHexCell.Resource.CanCollect(selectedPawn) && selectedPawn.MP > 0;
     }
 
     private bool IsMovePossible()
@@ -120,7 +121,7 @@ public class GameInputManager : MonoBehaviour
 
     private bool IsBuildingPossible()
     {
-        return selectedPawn.PawnType == ePlayerPawnType.Villager && !selectedHexCell.HasPawn;
+        return selectedPawn.PawnType == ePlayerPawnType.Villager && !selectedHexCell.HasPawn && selectedHexCell.Resource == null;
     }
 
     private bool IsAttackPossible(PlayerPawn otherPawn)
@@ -187,8 +188,14 @@ public class GameInputManager : MonoBehaviour
         SelectPawn?.Invoke(clickedPawn);
     }
 
-    public static void DeselectPawn()
+    /// <summary>
+    /// Deselects currently selected pawn.
+    /// If a specific pawn is given it only deselects the currently selected pawn if it's equal to the given pawn.
+    /// </summary>
+    public static void DeselectPawn(PlayerPawn pawnToDeselect = null)
     {
+        if (pawnToDeselect != null && pawnToDeselect != SelectedPawn) return;
+
         instance.selectedPawn = null;
         SelectPawn?.Invoke(null);
     }

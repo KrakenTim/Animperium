@@ -1,0 +1,189 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b265413c58a8b143abf6c710e4b9bd6, type: 3}
+  m_Name: LocalisationData
+  m_EditorClassIdentifier: 
+  localisation:
+  - identifier: AttackPower
+    english: Attack Power
+    german: Angriffskraft
+  - identifier: Back
+    english: Back
+    german: "Zur\xFCck"
+  - identifier: Backlog
+    english: Backlog
+    german: Aktionslog
+  - identifier: Blaster
+    english: Grenadier
+    german: Grenadier
+  - identifier: Buildings
+    english: Buildings
+    german: "Geb\xE4ude"
+  - identifier: CanAct
+    english: Can Act
+    german: "Handlungsf\xE4hig"
+  - identifier: Chat
+    english: Chat
+    german: Chat
+  - identifier: Credits
+    english: Credits
+    german: Mitwirkende
+  - identifier: Digger
+    english: Digger
+    german: Buddler
+  - identifier: EndTurn
+    english: End Turn
+    german: Zug beenden
+  - identifier: FarmHouse
+    english: Farm House
+    german: Bauernhaus
+  - identifier: Food
+    english: Food
+    german: Nahrung
+  - identifier: Fullscreen
+    english: Fullscreen
+    german: Vollbild
+  - identifier: Healer
+    english: Healer
+    german: Heiler
+  - identifier: Health
+    english: Health
+    german: Leben
+  - identifier: Leave
+    english: Leave
+    german: Verlassen
+  - identifier: Loading
+    english: Loading...
+    german: "L\xE4dt..."
+  - identifier: LobbyList
+    english: Lobby List
+    german: Lobby Liste
+  - identifier: LocalMatch
+    english: Start Local Match
+    german: Lokal
+  - identifier: MainMenu
+    english: Main Menu
+    german: "Hauptmen\xFC"
+  - identifier: MasterVolume
+    english: Master Volume
+    german: "Gesamtlautst\xE4rke"
+  - identifier: Movement
+    english: Movement
+    german: Bewegung
+  - identifier: Multiplayer
+    english: Multiplayer
+    german: Mehrspieler
+  - identifier: NameEntryField
+    english: Name...
+    german: Name...
+  - identifier: No
+    english: No
+    german: Nein
+  - identifier: NotEnoughResources
+    english: Not enough ressources!
+    german: Nicht genug Ressourcen!
+  - identifier: NotEnoughUpgradesMany
+    english: Need to upgrade {value1} more units!
+    german: "{value1} weitere Einheiten m\xFCssen weitergebildet werden!"
+  - identifier: NotEnoughUpgradesOne
+    english: Need to upgrade one more unit!
+    german: Eine weitere Einheit muss weitergebildet werden!
+  - identifier: OnlineMatch
+    english: Start Online Match
+    german: Online
+  - identifier: Ore
+    english: Ore
+    german: Erz
+  - identifier: PauseMenu
+    english: Pause Menu
+    german: "Pausenmen\xFC"
+  - identifier: Player
+    english: Player
+    german: Spieler
+  - identifier: PlayerNameJoined
+    english: '{value1} joined!'
+    german: '{value1} ist beigetreten!'
+  - identifier: PlayersInLobby
+    english: Players In Lobby
+    german: Spieler in der Lobby
+  - identifier: PlayersOnline
+    english: Players Online
+    german: Spieler online
+  - identifier: Population
+    english: Population
+    german: "Bev\xF6lkerung"
+  - identifier: QuitGame
+    english: Quit Game
+    german: Spiel verlassen
+  - identifier: ReallySurrender
+    english: Do you really want to surrender and go back to main menu?
+    german: "Willst du wirklich aufgeben und ins Startmen\xFC zur\xFCckkehren?"
+  - identifier: Resume
+    english: Resume
+    german: Weiter
+  - identifier: School
+    english: School
+    german: Schule
+  - identifier: School2
+    english: School II
+    german: Schule II
+  - identifier: Settings
+    english: Settings
+    german: Einstellungen
+  - identifier: Sneaker
+    english: Sneaker
+    german: Schleicher
+  - identifier: StartGame
+    english: Start Game
+    german: Spiel starten
+  - identifier: Stat_HP
+    english: HP
+    german: TP
+  - identifier: Stat_MP
+    english: MP
+    german: BP
+  - identifier: Surrender
+    english: Surrender
+    german: Aufgeben
+  - identifier: Swordfighter
+    english: Sword Fighter
+    german: "Schwertk\xE4mpfer"
+  - identifier: TownHall
+    english: Town Hall
+    german: Rathaus
+  - identifier: TurnTime
+    english: Turn Time
+    german: Rundenzeit
+  - identifier: Underground
+    english: Underground
+    german: Untergrund
+  - identifier: Units
+    english: Units
+    german: Einheiten
+  - identifier: Veteran
+    english: Veteran
+    german: Veteran
+  - identifier: Villager
+    english: Worker
+    german: Arbeiter
+  - identifier: Wall
+    english: Barricade
+    german: Barrikade
+  - identifier: Warmage
+    english: War Mage
+    german: Kampfmagier
+  - identifier: Wood
+    english: Wood
+    german: Holz
+  - identifier: Yes
+    english: Yes
+    german: Ja

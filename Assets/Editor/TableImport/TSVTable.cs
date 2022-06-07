@@ -11,6 +11,8 @@ public class TSVTable
     // colum name, column position
     Dictionary<string, int> header = new Dictionary<string, int>();
 
+    public HashSet<string> Columns => new HashSet<string>(header.Keys);
+
     // each line stores an array of values
     private string[][] dataLines;
 

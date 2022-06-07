@@ -12,9 +12,10 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        
+        QualitySettings.vSyncCount = 1;
+
         if (LoadingScreen.instance)
-        LoadingScreen.instance.LoadScene("NormanMapGeneration");
+            LoadingScreen.instance.LoadScene("NormanMapGeneration");
         else
             SceneManager.LoadScene("NormanMapGeneration");
         Debug.Log("Game Start");

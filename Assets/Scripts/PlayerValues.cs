@@ -11,12 +11,27 @@ public class PlayerValues
     public int playerID;
     public int factionID;
     public Color playerColor;
-    public int populationCount;
+
+    private int populationCount;
+    public int PopulationCount
+    {
+        get
+        {
+            return populationCount;
+        }
+        set
+        {
+            populationCount = value;
+            OnValuesChanged?.Invoke(playerID);
+        }
+    }
+
     public int upgradeCounter;
     [SerializeField] private ColorableIconData playerIcon;
     public ColorableIconData PlayerIcon => IconProvider.GetCheckedPlayer(playerIcon, name);
 
-    public GameResources playerResources;
+    [SerializeField] private GameResources playerResources;
+    public GameResources PlayerResources => playerResources;
 
     public List<PlayerPawn> ownedPawns = new List<PlayerPawn>();
 
@@ -25,6 +40,13 @@ public class PlayerValues
 
     public string name;
     public string DefaultName => "Player " + playerID;
+
+    public CameraValues lastCameraValues = new CameraValues();
+
+    /// <summary>
+    /// Is called if a relevant value of a player is changed, hands over the player's ID.
+    /// </summary>
+    public static System.Action<int> OnValuesChanged;
 
     public void GiveUp()
     {
@@ -90,11 +112,33 @@ public class PlayerValues
 
     }
 
+    public void AddResource(eResourceType resource, int amount)
+    {
+        switch (resource)
+        {
+            case eResourceType.Food:
+                playerResources.food += amount;
+                break;
+            case eResourceType.Wood:
+                playerResources.wood += amount;
+                break;
+            case eResourceType.Ore:
+                playerResources.ore += amount;
+                break;
+
+            default:
+                Debug.LogError("AddResource UNDEFINED for " + resource);
+                return;
+        }
+
+        OnValuesChanged?.Invoke(playerID);
+    }
+
     public bool CanAfford(GameResources resources)
     {
-        if (playerResources.food < resources.food) return false;
-        if (playerResources.wood < resources.wood) return false;
-        if (playerResources.ore < resources.ore) return false;
+        if (PlayerResources.food < resources.food) return false;
+        if (PlayerResources.wood < resources.wood) return false;
+        if (PlayerResources.ore < resources.ore) return false;
 
         return true;
     }
@@ -104,6 +148,8 @@ public class PlayerValues
         playerResources.food -= resources.food;
         playerResources.wood -= resources.wood;
         playerResources.ore -= resources.ore;
+
+        OnValuesChanged?.Invoke(playerID);
     }
 
     public void PaySpawnCosts(PlayerPawnData spawnData)
