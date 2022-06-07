@@ -37,8 +37,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 5, y: 5}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -5, y: -5}
+  m_SizeDelta: {x: 160, y: 40}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &4437271647729931312
 CanvasRenderer:
@@ -290,6 +290,7 @@ GameObject:
   - component: {fileID: 2347709640976026989}
   - component: {fileID: 7917286160836880806}
   - component: {fileID: 6068144787099977670}
+  - component: {fileID: 7570254498790847230}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -314,7 +315,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -10, y: -10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7917286160836880806
 CanvasRenderer:
@@ -374,9 +375,9 @@ MonoBehaviour:
   m_fontSize: 24
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 10
+  m_fontSizeMax: 20
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -413,6 +414,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7570254498790847230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2658078387431406159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40483705c219da429af280e0693384c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usedIdentifier: PauseMenu
 --- !u!1 &3853409834472013818
 GameObject:
   m_ObjectHideFlags: 0
@@ -643,7 +657,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   background: {fileID: 3853409834740895919}
-  endTurnButton: {fileID: 3853409834976573755}
   pawnInfoRoot: {fileID: 3853409834830887120}
   pawnInfoAttackPower: {fileID: 0}
   playerIcon: {fileID: 2237971766527903242}
@@ -1168,6 +1181,7 @@ GameObject:
   - component: {fileID: 3853409835580777304}
   - component: {fileID: 3853409835580777306}
   - component: {fileID: 5516444021696981650}
+  - component: {fileID: 5479551838154374085}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -1249,12 +1263,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
+  m_fontSize: 22.35
   m_fontSizeBase: 30
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 10
+  m_fontSizeMax: 20
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -1291,6 +1305,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5479551838154374085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3853409835580777305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40483705c219da429af280e0693384c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usedIdentifier: EndTurn
 --- !u!1 &3853409835981286160
 GameObject:
   m_ObjectHideFlags: 0
@@ -1356,7 +1383,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Turn Time: 99'
+  m_text: 'Rundenzeit: 999'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1386,10 +1413,10 @@ MonoBehaviour:
   m_fontSize: 20
   m_fontSizeBase: 20
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 10
+  m_fontSizeMax: 20
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -1945,6 +1972,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fc7dd0a0826f4142aad5f67e165dc36, type: 3}
+--- !u!224 &3321414956392081720 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2496356659150401250, guid: 4fc7dd0a0826f4142aad5f67e165dc36, type: 3}
+  m_PrefabInstance: {fileID: 917852969284421594}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &318869283973352716 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 635015816332413654, guid: 4fc7dd0a0826f4142aad5f67e165dc36, type: 3}
@@ -1956,11 +1988,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bffa4ccd507419f4782ad930779ebbf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &3321414956392081720 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2496356659150401250, guid: 4fc7dd0a0826f4142aad5f67e165dc36, type: 3}
-  m_PrefabInstance: {fileID: 917852969284421594}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1720050649615322332
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2058,11 +2085,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fc7dd0a0826f4142aad5f67e165dc36, type: 3}
---- !u!224 &3853409836043035198 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2496356659150401250, guid: 4fc7dd0a0826f4142aad5f67e165dc36, type: 3}
-  m_PrefabInstance: {fileID: 1720050649615322332}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2237971766527903242 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 635015816332413654, guid: 4fc7dd0a0826f4142aad5f67e165dc36, type: 3}
@@ -2074,6 +2096,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bffa4ccd507419f4782ad930779ebbf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &3853409836043035198 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2496356659150401250, guid: 4fc7dd0a0826f4142aad5f67e165dc36, type: 3}
+  m_PrefabInstance: {fileID: 1720050649615322332}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4349256177256597129
 PrefabInstance:
   m_ObjectHideFlags: 0

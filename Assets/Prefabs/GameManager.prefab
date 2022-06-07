@@ -169,7 +169,6 @@ MonoBehaviour:
   - playerID: 1
     factionID: 1
     playerColor: {r: 0, g: 0, b: 1, a: 1}
-    populationCount: 0
     upgradeCounter: 0
     playerIcon:
       text: 
@@ -184,7 +183,6 @@ MonoBehaviour:
   - playerID: 2
     factionID: 2
     playerColor: {r: 1, g: 0, b: 0, a: 1}
-    populationCount: 0
     upgradeCounter: 0
     playerIcon:
       text: 
