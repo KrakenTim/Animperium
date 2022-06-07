@@ -7,8 +7,13 @@ using UnityEngine;
 /// </summary>
 public class AnimperiumLocalisation : Localisation
 {
-    public const string IDENTIFIER_Population = "Population";
-    public const string IDENTIFIER_TurnTime = "TurnTime";
+    // code referenced ids, so we only need to change them here and see where they are used.
+    public const string ID_AttackPower = "AttackPower";
+    public const string ID_NotEnoughResources = "NotEnoughResources";
+    public const string ID_NotEnoughUpgradesMany = "NotEnoughUpgradesMany";
+    public const string ID_NotEnoughUpgradesOne = "NotEnoughUpgradesOne";
+    public const string ID_Population = "Population";
+    public const string ID_TurnTime = "TurnTime";
 
     /// <summary>
     /// Returns localisation for given resource in current language.
@@ -35,7 +40,7 @@ public class AnimperiumLocalisation : Localisation
     }
 
     /// <summary>
-    /// Returns localisation for given pawn.
+    /// Returns identifier for given pawn.
     /// </summary>
     public static string GetIdentifier(ePlayerPawnType pawn)
     {

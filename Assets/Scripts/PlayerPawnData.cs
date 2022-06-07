@@ -9,7 +9,7 @@ using UnityEngine;
 public class PlayerPawnData : ScriptableObject
 {
     public ePlayerPawnType type;
-    public string friendlyName;
+    public string FriendlyName => AnimperiumLocalisation.Get(type);
     public int tier;
 
     [SerializeField] private ColorableIconData pawnIcon;

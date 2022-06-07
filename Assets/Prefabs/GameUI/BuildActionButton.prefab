@@ -116,6 +116,7 @@ GameObject:
   - component: {fileID: 1560293349}
   - component: {fileID: 1560293351}
   - component: {fileID: 1560293350}
+  - component: {fileID: 2752834054995854116}
   m_Layer: 5
   m_Name: BuildingName
   m_TagString: Untagged
@@ -239,6 +240,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2752834054995854116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560293348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40483705c219da429af280e0693384c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usedIdentifier: FarmHouse
 --- !u!1 &6263085748478819980
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,8 +318,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -381,7 +395,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -402,6 +416,7 @@ GameObject:
   - component: {fileID: 3165855209988126671}
   - component: {fileID: 8649243996649588504}
   - component: {fileID: 811008424587054709}
+  - component: {fileID: 7626580235681713715}
   m_Layer: 5
   m_Name: NotPossibleText
   m_TagString: Untagged
@@ -525,6 +540,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7626580235681713715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7559923379966670991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40483705c219da429af280e0693384c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usedIdentifier: NotEnoughResources
 --- !u!1 &8467525306247423005
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,8 +624,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -619,12 +647,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pawnIcon: {fileID: 1512474581991170659}
-  pawnName: {fileID: 1560293350}
+  pawnNameLocalisation: {fileID: 2752834054995854116}
   foodCost: {fileID: 8467525306025594275}
   woodCost: {fileID: 6149603960337069165}
   oreCost: {fileID: 6149603960836126443}
   notPossibleBox: {fileID: 7151950832281397923}
-  notPossibleMessage: {fileID: 811008424587054709}
+  notPossibleMessage: {fileID: 7626580235681713715}
   notPossibleBackground: {fileID: 8942996947755339270}
 --- !u!114 &4366766593059526679
 MonoBehaviour:
@@ -1033,6 +1061,11 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 87bfcc362a533f94693546d523e6f285, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d77396cc019d937428aff695ae667e0a, type: 3}
+--- !u!224 &6149603959242947745 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2365930628315422198, guid: d77396cc019d937428aff695ae667e0a, type: 3}
+  m_PrefabInstance: {fileID: 8467525305550496087}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6149603960836126443 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2365930629810296764, guid: d77396cc019d937428aff695ae667e0a, type: 3}
@@ -1044,11 +1077,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &6149603959242947745 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2365930628315422198, guid: d77396cc019d937428aff695ae667e0a, type: 3}
-  m_PrefabInstance: {fileID: 8467525305550496087}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8467525306091496401
 PrefabInstance:
   m_ObjectHideFlags: 0

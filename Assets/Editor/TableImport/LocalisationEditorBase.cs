@@ -14,5 +14,13 @@ public class LocalisationEditorBase : Editor
 
         if (GUILayout.Button("Import Table"))
             LocalisationImport.UpdateTable();
+
+        if(Application.isPlaying)
+        {
+            if (GUILayout.Button("Switch To English"))
+                Localisation.Instance.SetLanguage(eLanguage.English);
+            if (GUILayout.Button("Switch To German"))
+                Localisation.Instance.SetLanguage(eLanguage.German);
+        }
     }
 }

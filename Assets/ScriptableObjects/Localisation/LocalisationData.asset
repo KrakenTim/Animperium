@@ -13,12 +13,24 @@ MonoBehaviour:
   m_Name: LocalisationData
   m_EditorClassIdentifier: 
   localisation:
+  - identifier: AttackPower
+    english: Attack Power
+    german: Angriffskraft
   - identifier: Back
     english: Back
     german: "Zur\xFCck"
+  - identifier: Backlog
+    english: Backlog
+    german: Aktionslog
   - identifier: Blaster
     english: Grenadier
     german: Grenadier
+  - identifier: Buildings
+    english: Buildings
+    german: "Geb\xE4ude"
+  - identifier: CanAct
+    english: Can Act
+    german: "Handlungsf\xE4hig"
   - identifier: Chat
     english: Chat
     german: Chat
@@ -43,6 +55,9 @@ MonoBehaviour:
   - identifier: Healer
     english: Healer
     german: Heiler
+  - identifier: Health
+    english: Health
+    german: Leben
   - identifier: Leave
     english: Leave
     german: Verlassen
@@ -54,16 +69,22 @@ MonoBehaviour:
     german: Lobby Liste
   - identifier: LocalMatch
     english: Start Local Match
-    german: Lokale Partie
+    german: Lokal
+  - identifier: MainMenu
+    english: Main Menu
+    german: "Hauptmen\xFC"
   - identifier: MasterVolume
     english: Master Volume
     german: "Gesamtlautst\xE4rke"
+  - identifier: Movement
+    english: Movement
+    german: Bewegung
   - identifier: Multiplayer
     english: Multiplayer
     german: Mehrspieler
-  - identifier: Name
-    english: Name
-    german: Name
+  - identifier: NameEntryField
+    english: Name...
+    german: Name...
   - identifier: No
     english: No
     german: Nein
@@ -78,7 +99,7 @@ MonoBehaviour:
     german: Eine weitere Einheit muss weitergebildet werden!
   - identifier: OnlineMatch
     english: Start Online Match
-    german: Online Partie
+    german: Online
   - identifier: Ore
     english: Ore
     german: Erz
@@ -142,6 +163,12 @@ MonoBehaviour:
   - identifier: TurnTime
     english: Turn Time
     german: Rundenzeit
+  - identifier: Underground
+    english: Underground
+    german: Untergrund
+  - identifier: Units
+    english: Units
+    german: Einheiten
   - identifier: Veteran
     english: Veteran
     german: Veteran

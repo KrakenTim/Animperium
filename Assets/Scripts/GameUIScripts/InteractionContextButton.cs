@@ -9,7 +9,7 @@ public class InteractionContextButton : MonoBehaviour, IPointerEnterHandler, IPo
     private PlayerPawnData newPawnData;
     [Space]
     [SerializeField] ColorableImage pawnIcon;
-    [SerializeField] TMPro.TMP_Text pawnName;
+    [SerializeField] LocalisedText pawnNameLocalisation;
     [Space]
     [SerializeField] TMPro.TMP_Text foodCost;
     [SerializeField] TMPro.TMP_Text woodCost;
@@ -17,7 +17,7 @@ public class InteractionContextButton : MonoBehaviour, IPointerEnterHandler, IPo
 
     [Space]
     [SerializeField] GameObject notPossibleBox;
-    [SerializeField] TMPro.TMP_Text notPossibleMessage;
+    [SerializeField] LocalisedText notPossibleMessage;
     [SerializeField] Image notPossibleBackground;
 
     private Button myButton;
@@ -37,7 +37,7 @@ public class InteractionContextButton : MonoBehaviour, IPointerEnterHandler, IPo
 
         pawnIcon.SetPawn(newPawnData, GameManager.LocalPlayerID);
 
-        pawnName.text = newPawnData.friendlyName;
+        pawnNameLocalisation.Set(AnimperiumLocalisation.GetIdentifier(newPawnData.type));
 
         if (myButton == null)
             myButton = GetComponent<Button>();
@@ -79,7 +79,7 @@ public class InteractionContextButton : MonoBehaviour, IPointerEnterHandler, IPo
         oreCost.text = costs.ore.ToString();
 
         if (!GameManager.CanAfford(GameManager.LocalPlayerID, costs))
-            PrepareNotPossible("Not enough Resources!");
+            PrepareNotPossible(AnimperiumLocalisation.ID_NotEnoughResources);
     }
 
     /// <summary>
@@ -91,15 +91,15 @@ public class InteractionContextButton : MonoBehaviour, IPointerEnterHandler, IPo
         if (neededUpgrades > 0)
         {
             if (neededUpgrades > 1)
-                PrepareNotPossible($"Need to upgrade {neededUpgrades} more units!");
+                PrepareNotPossible(AnimperiumLocalisation.ID_NotEnoughUpgradesMany, neededUpgrades);
             else
-                PrepareNotPossible($"Need to upgrade one more unit!");
+                PrepareNotPossible(AnimperiumLocalisation.ID_NotEnoughUpgradesOne);
         }
     }
 
     public void Button_ButtonPressed()
     {
-        Debug.Log($"InteractionButton\t {gameObject} wants to build a {newPawnData.friendlyName}. \n", gameObject);
+        Debug.Log($"InteractionButton\t {gameObject} wants to build a {newPawnData.FriendlyName}. \n", gameObject);
         InteractionMenuManager.Close();
 
         InputMessage newMessage = InputMessageGenerator.CreatePawnMessage(GameInputManager.SelectedPawn,
@@ -118,9 +118,9 @@ public class InteractionContextButton : MonoBehaviour, IPointerEnterHandler, IPo
         notPossibleBox.SetActive(false);
     }
 
-    private void PrepareNotPossible(string messageText)
+    private void PrepareNotPossible(string messageIdentifier, int neededUpgrades = 0)
     {
-        notPossibleMessage.text = messageText;
+        notPossibleMessage.Set(messageIdentifier, neededUpgrades.ToString());
         myButton.interactable = false;
     }
 }

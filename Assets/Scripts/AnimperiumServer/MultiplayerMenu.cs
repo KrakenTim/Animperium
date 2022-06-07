@@ -4,9 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class MultiplayerMenu : MonoBehaviour
 {
+    private const string SCENE_MainMenu = "MainMenu";
+
     [SerializeField] private GameObject MainMenu;
     [SerializeField] private GameObject ServerMenu;
     [SerializeField] private GameObject LobbyMenu;
@@ -54,6 +57,11 @@ public class MultiplayerMenu : MonoBehaviour
                 JoinServer();
             }
         }
+    }
+
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadScene(SCENE_MainMenu);
     }
 
     #region Server Commands
