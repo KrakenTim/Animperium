@@ -109,7 +109,7 @@ public class GameInputManager : MonoBehaviour
     private bool IsMovePossible()
     {
         return selectedPawn.IsUnit && selectedPawn.MP > 0
-            && !selectedHexCell.HasPawn;
+            && !selectedHexCell.HasPawn && !selectedHexCell.Resource;
     }
 
     private bool IsSpawnPossible()
