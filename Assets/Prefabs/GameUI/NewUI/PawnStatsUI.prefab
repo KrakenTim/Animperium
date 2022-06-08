@@ -798,6 +798,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8704146936775474105, guid: 04232655fef9ac545bd5308a66c2d3f9, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8704146936775474105, guid: 04232655fef9ac545bd5308a66c2d3f9, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8704146936775474105, guid: 04232655fef9ac545bd5308a66c2d3f9, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8704146936775474105, guid: 04232655fef9ac545bd5308a66c2d3f9, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -970,6 +982,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PawnStatMovement
       objectReference: {fileID: 0}
+    - target: {fileID: 8704146936775474104, guid: 04232655fef9ac545bd5308a66c2d3f9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ccea413b78f47044a9db9dbf21d9a779, type: 3}
     - target: {fileID: 8704146936775474105, guid: 04232655fef9ac545bd5308a66c2d3f9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -981,6 +997,18 @@ PrefabInstance:
     - target: {fileID: 8704146936775474105, guid: 04232655fef9ac545bd5308a66c2d3f9, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8704146936775474105, guid: 04232655fef9ac545bd5308a66c2d3f9, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8704146936775474105, guid: 04232655fef9ac545bd5308a66c2d3f9, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8704146936775474105, guid: 04232655fef9ac545bd5308a66c2d3f9, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8704146936775474105, guid: 04232655fef9ac545bd5308a66c2d3f9, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1163,6 +1191,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PawnStatCanAct
       objectReference: {fileID: 0}
+    - target: {fileID: 8704146936775474104, guid: 04232655fef9ac545bd5308a66c2d3f9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: af2531314736aca4abcdab18da6a9273, type: 3}
     - target: {fileID: 8704146936775474105, guid: 04232655fef9ac545bd5308a66c2d3f9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1459,6 +1491,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PawnStatHP
       objectReference: {fileID: 0}
+    - target: {fileID: 8704146936775474104, guid: 04232655fef9ac545bd5308a66c2d3f9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 18652c4061a62724a8886f44e01f9f1e, type: 3}
     - target: {fileID: 8704146936775474105, guid: 04232655fef9ac545bd5308a66c2d3f9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1470,6 +1506,18 @@ PrefabInstance:
     - target: {fileID: 8704146936775474105, guid: 04232655fef9ac545bd5308a66c2d3f9, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8704146936775474105, guid: 04232655fef9ac545bd5308a66c2d3f9, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8704146936775474105, guid: 04232655fef9ac545bd5308a66c2d3f9, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8704146936775474105, guid: 04232655fef9ac545bd5308a66c2d3f9, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8704146936775474105, guid: 04232655fef9ac545bd5308a66c2d3f9, type: 3}
       propertyPath: m_AnchoredPosition.x

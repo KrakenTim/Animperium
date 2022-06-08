@@ -10,10 +10,12 @@ public class SettingsMenu : MonoBehaviour
 {
     const string VOLOUME_Master = "MasterVolume";
 
+    [SerializeField] Dropdown SelectLanguage;
     [SerializeField] Slider VolumeSlider;
 
     List<int> widths = new List<int>() { 1280, 1280, 1280, 1920, 2560, 3840 };
     List<int> heights = new List<int>() { 720, 800, 1024, 1080, 1440, 2160 };
+    List<eLanguage> languageList = new List<eLanguage>() { eLanguage.English, eLanguage.German, eLanguage.Polish, eLanguage.Spanish, eLanguage.Italian };
 
     void Start()
     {
@@ -38,6 +40,12 @@ public class SettingsMenu : MonoBehaviour
     private void Load()
     {
         VolumeSlider.value = PlayerPrefs.GetFloat(VOLOUME_Master);
+        //SelectLanguage.value = 
+        for (int i = 0; i < languageList.Count; i++)
+        {
+            if (Localisation.Instance.CurrentLanguage == languageList[i])
+                SelectLanguage.value = i;
+        }
     }
 
     private void Save()
@@ -63,5 +71,18 @@ public class SettingsMenu : MonoBehaviour
     {
         Screen.fullScreen = isfullscreen;
         Debug.Log("Fullscreen is" + isfullscreen);
+    }
+
+    public void GetLocalisation()
+    {
+        int Entry = SelectLanguage.value;
+
+        Localisation.Instance.SetLanguage(languageList[Entry]);
+        //Debug.Log("Play Game in English");
+        //Localisation.Instance.SetLanguage(eLanguage.German);
+        //Debug.Log("Play Game in German");
+        //Localisation.Instance.SetLanguage(eLanguage.Polish);
+        //Localisation.Instance.SetLanguage(eLanguage.Spanish);
+        //Localisation.Instance.SetLanguage(eLanguage.Italian);
     }
 }
