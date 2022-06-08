@@ -74,6 +74,12 @@ public static class HexMetrics
         return (corners[(int)direction] + corners[(int)direction + 1]) * blendFactor;
     }
 
+    static float[][] featureThresholds = { new float[] { 0.0f, 0.0f, 0.4f }, new float[] { 0.0f, 0.4f, 0.6f }, new float[] { 0.4f, 0.6f, 0.8f } };
+
+    public static float[] GetFeatureThresholds(int level)
+    {
+        return featureThresholds[level];
+    }
 
     public static Vector3 TerraceLerp(Vector3 a, Vector3 b, int step)
     {

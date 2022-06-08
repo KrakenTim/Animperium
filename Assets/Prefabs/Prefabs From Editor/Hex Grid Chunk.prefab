@@ -43,10 +43,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df3461ddb5ed0f449a722cddf6c681b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  urbanPrefabs:
-  - {fileID: 4021377216017226566, guid: 3b7aaea82ce2d77439126c015eb6252e, type: 3}
-  - {fileID: 4021377216017226566, guid: 62f324b36f8be8349b64d976053f8e1c, type: 3}
-  - {fileID: 4021377216017226566, guid: e190427ee50ffe240a21663c0bce8078, type: 3}
+  structureCollections:
+  - prefabs:
+    - {fileID: 4021377216017226566, guid: e190427ee50ffe240a21663c0bce8078, type: 3}
+  - prefabs:
+    - {fileID: 4021377216017226566, guid: 62f324b36f8be8349b64d976053f8e1c, type: 3}
+  - prefabs:
+    - {fileID: 4021377216017226566, guid: 3b7aaea82ce2d77439126c015eb6252e, type: 3}
+  onlyone: 1
 --- !u!1 &3088399508924577482
 GameObject:
   m_ObjectHideFlags: 0
