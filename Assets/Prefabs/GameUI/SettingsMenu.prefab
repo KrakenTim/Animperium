@@ -1801,6 +1801,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectLanguage: {fileID: 1499620972473564159}
+  SelectResolution: {fileID: 7342097361673872679}
   VolumeSlider: {fileID: 7342097360908107150}
 --- !u!1 &7342097360352833518
 GameObject:

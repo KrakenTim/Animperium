@@ -11,6 +11,7 @@ public class SettingsMenu : MonoBehaviour
     const string VOLOUME_Master = "MasterVolume";
 
     [SerializeField] Dropdown SelectLanguage;
+    [SerializeField] Dropdown SelectResolution;
     [SerializeField] Slider VolumeSlider;
 
     List<int> widths = new List<int>() { 1280, 1280, 1280, 1920, 2560, 3840 };
@@ -40,7 +41,12 @@ public class SettingsMenu : MonoBehaviour
     private void Load()
     {
         VolumeSlider.value = PlayerPrefs.GetFloat(VOLOUME_Master);
-        //SelectLanguage.value = 
+
+        //for (int i = 0; i < widths.Count + heights.Count; i++)
+        //{
+        //    SelectResolution.value = i;
+        //}
+
         for (int i = 0; i < languageList.Count; i++)
         {
             if (Localisation.Instance.CurrentLanguage == languageList[i])
@@ -64,7 +70,9 @@ public class SettingsMenu : MonoBehaviour
         int height = heights[index];
         Screen.SetResolution(width, height, fullscreen);
 
-        Debug.Log("ScreenSize is" + width + height);
+        int Entry = SelectResolution.value;
+
+        Debug.Log("ScreenSize is" + width + 'x' + height);
     }
 
     public void SetFullscreen(bool isfullscreen)
