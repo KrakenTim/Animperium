@@ -3,7 +3,7 @@ using UnityEngine;
 public class HexFeatureManager : MonoBehaviour
 {
 	//public Transform[][] urbanPrefabs;
-	public HexFeatureCollection[] structureCollections;
+	public HexFeatureCollection[] structureCollections, plantCollections;
 
 	Transform container;
 
@@ -19,7 +19,7 @@ public class HexFeatureManager : MonoBehaviour
 
 	public void Apply() { }
 
-	Transform PickPrefab(int level, float hash, float choice)
+	Transform PickPrefab(HexFeatureCollection[] collection, int level, float hash, float choice)
 	{
 		if (level > 0)
 		{
@@ -28,32 +28,42 @@ public class HexFeatureManager : MonoBehaviour
 			{
 				if (hash < thresholds[i])
 				{
-					return structureCollections[i].Pick(choice);
+					return collection[i].Pick(choice);
 				}
 			}
 		}
 		return null;
 	}
-	public bool onlyone =true;
+
 	public void AddFeature(HexCell cell, Vector3 position)
 	{
 		HexHash hash = HexMetrics.SampleHashGrid(position);
 
-		//if (hash.a >= cell.UrbanLevel * 0.25f)
-		//{
-		//	return;
-		//}
-		//Transform instance = Instantiate(urbanPrefabs[cell.UrbanLevel - 1]);
-		//position.y += instance.localScale.y * 0.5f;
-		Transform prefab = PickPrefab(cell.UrbanLevel, hash.a, hash.b);
-		if (!prefab)
+		Transform prefab = PickPrefab(plantCollections, cell.PlantLevel, hash.a, hash.d);
+		Transform otherPrefab = PickPrefab(structureCollections, cell.UrbanLevel, hash.b, hash.d);
+		float usedHash = hash.a;
+		if (prefab)
+		{
+			if (otherPrefab && hash.b < hash.a)
+			{
+				prefab = otherPrefab;
+				usedHash = hash.b;
+			}
+		}
+		else if (otherPrefab)
+		{
+			prefab = otherPrefab;
+			usedHash = hash.b;
+		}
+		else
 		{
 			return;
 		}
 		Transform instance = Instantiate(prefab);
 		position.y += instance.localScale.y * 0.5f;
 		instance.localPosition = HexMetrics.Perturb(position);
-		instance.localRotation = Quaternion.Euler(0f, 360f * hash.c, 0f);
-		instance.SetParent(container, false);
+		instance.localRotation = Quaternion.Euler(0f, 360f * hash.e, 0f);
+		instance.SetParent(container, false); 
 	}
+
 }

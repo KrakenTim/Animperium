@@ -27,13 +27,13 @@ public class HexMapEditor : MonoBehaviour
 
     int activeWaterLevel;
     
-    int activeUrbanLevel;
+    int activeUrbanLevel, activePlantLevel;
 
     bool applyElevation;
 
     bool applyWaterLevel = true;
 
-    bool applyUrbanLevel;
+    bool applyUrbanLevel, applyPlantLevel;
 
     bool applyColor;
 
@@ -99,6 +99,16 @@ public class HexMapEditor : MonoBehaviour
     {
         activeUrbanLevel = (int)level;
     }
+    public void SetApplyPlantLevel(bool toggle)
+    {
+        applyPlantLevel = toggle;
+    }
+
+    public void SetPlantLevel(float level)
+    {
+        activePlantLevel = (int)level;
+    }
+
 
     void EditCell(HexCell cell)
     {

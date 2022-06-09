@@ -75,8 +75,23 @@ public class HexCell : MonoBehaviour
             }
         }
     }
+    public int PlantLevel
+    {
+        get
+        {
+            return plantLevel;
+        }
+        set
+        {
+            if (plantLevel != value)
+            {
+                plantLevel = value;
+                RefreshSelfOnly();
+            }
+        }
+    }
 
-    int urbanLevel;
+    int urbanLevel, plantLevel;
 
 
     public HexCoordinates coordinates;
