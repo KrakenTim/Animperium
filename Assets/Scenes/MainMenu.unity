@@ -4748,10 +4748,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4892125705380264892, guid: 5eba17865111e60499aa971939b35a3b, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1450004610}
     - target: {fileID: 7342097359583882710, guid: 5eba17865111e60499aa971939b35a3b, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1450004610}
+    - target: {fileID: 7342097360030902386, guid: 5eba17865111e60499aa971939b35a3b, type: 3}
+      propertyPath: m_Text
+      value: 1280 x 720
+      objectReference: {fileID: 0}
+    - target: {fileID: 7342097360030902386, guid: 5eba17865111e60499aa971939b35a3b, type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7342097360030902388, guid: 5eba17865111e60499aa971939b35a3b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7342097360335277266, guid: 5eba17865111e60499aa971939b35a3b, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -4852,6 +4868,14 @@ PrefabInstance:
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1450004610}
+    - target: {fileID: 7342097360875440526, guid: 5eba17865111e60499aa971939b35a3b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7342097360880703074, guid: 5eba17865111e60499aa971939b35a3b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -52.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7342097360915339086, guid: 5eba17865111e60499aa971939b35a3b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

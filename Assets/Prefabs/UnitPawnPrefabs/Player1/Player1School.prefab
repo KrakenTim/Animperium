@@ -64,15 +64,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 14c975ccc542cb14f827f91a414e36aa, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.5
+      value: 1.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 14c975ccc542cb14f827f91a414e36aa, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.5
+      value: 1.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 14c975ccc542cb14f827f91a414e36aa, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.5
+      value: 1.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 14c975ccc542cb14f827f91a414e36aa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -117,7 +117,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 14c975ccc542cb14f827f91a414e36aa, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 95c519ef2fd10574bbb53844435be30d, type: 2}
+      objectReference: {fileID: 2100000, guid: b791ad24a3b6f5046b3ad97d77b58ac5, type: 2}
     - target: {fileID: 919132149155446097, guid: 14c975ccc542cb14f827f91a414e36aa, type: 3}
       propertyPath: m_Name
       value: 3D_Model_School_LP_v1
