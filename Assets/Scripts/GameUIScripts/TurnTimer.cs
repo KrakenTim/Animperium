@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class TurnTimer : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class TurnTimer : MonoBehaviour
     [Space]
     [SerializeField] TMP_Text turnTimeMinute;
     [SerializeField] TMP_Text turnTimeSecond;
+    [Space]
+    [SerializeField] ColorableImage activePlayerIcon;
 
     public int maxSecondsPerTurn = 90;
     public int remainingSeconds = 90;
@@ -53,6 +56,8 @@ public class TurnTimer : MonoBehaviour
 
         inGameTurn.text = GameManager.Turn.ToString();
 
+        activePlayerIcon.SetPlayer(GameManager.ActivePlayerID);
+        
         UpdateTimerVisual();
     }
 

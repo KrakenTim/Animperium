@@ -10,6 +10,8 @@ public class PlayerColoredHUDElement : MonoBehaviour
     Color originalColor;
     Image myImage;
 
+   [SerializeField] bool useActiveInsteadOfLocal = false;
+
     private void Awake()
     {
         myImage = GetComponent<Image>();
@@ -18,17 +20,33 @@ public class PlayerColoredHUDElement : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.LocalPlayerChanged += UpdateColor;
-        UpdateColor();
+        if (useActiveInsteadOfLocal)
+        {
+            GameManager.TurnStarted += UpdateColor;
+            UpdateColor(GameManager.ActivePlayerID);
+        }
+        else
+        {
+            GameManager.LocalPlayerChanged += UpdateWithLocalColor;
+            UpdateWithLocalColor();
+        }
     }
 
     private void OnDisable()
     {
-        GameManager.LocalPlayerChanged -= UpdateColor;
+        if (useActiveInsteadOfLocal)
+            GameManager.TurnStarted -= UpdateColor;
+        else
+            GameManager.LocalPlayerChanged -= UpdateWithLocalColor;
     }
 
-    private void UpdateColor()
+    private void UpdateColor(int playerID)
     {
-        myImage.color = Color.Lerp(originalColor, GameManager.GetPlayerColor(GameManager.LocalPlayerID), playerTint);
+        myImage.color = Color.Lerp(originalColor, GameManager.GetPlayerColor(playerID), playerTint);
+    }
+
+    private void UpdateWithLocalColor()
+    {
+        UpdateColor(GameManager.LocalPlayerID);
     }
 }
