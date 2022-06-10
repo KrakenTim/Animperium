@@ -43,10 +43,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df3461ddb5ed0f449a722cddf6c681b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  urbanPrefabs:
-  - {fileID: 4021377216017226566, guid: 3b7aaea82ce2d77439126c015eb6252e, type: 3}
-  - {fileID: 4021377216017226566, guid: 62f324b36f8be8349b64d976053f8e1c, type: 3}
-  - {fileID: 4021377216017226566, guid: e190427ee50ffe240a21663c0bce8078, type: 3}
+  structureCollections:
+  - prefabs:
+    - {fileID: 8034300946051865246, guid: 9310d17a27ec7f24a990d61e1f30a807, type: 3}
+    - {fileID: 1632824366282515876, guid: 3b0ea4557a568784e93aeddea80566f9, type: 3}
+    - {fileID: 1094665887774456808, guid: 0f89143e45f009b4490e9be5157705f8, type: 3}
+    - {fileID: 5982666912179124896, guid: d6d721b8dbffd814d87dd94aa242d3a1, type: 3}
+    - {fileID: 9020588624703066094, guid: 8b1155968ebb7a147bfd09ea43a1a03d, type: 3}
+    - {fileID: 2362362280503288306, guid: c64cffd5684af1e4dbbb7fa1016667d6, type: 3}
+    - {fileID: 7673378380637663588, guid: a08ed1c4763a19a428e85f61c61a77ee, type: 3}
+    - {fileID: 8039622507706297011, guid: c929e1fc61bb92f4abcad0719b96dc5a, type: 3}
+  - prefabs:
+    - {fileID: 1632824366282515876, guid: 3b0ea4557a568784e93aeddea80566f9, type: 3}
+    - {fileID: 1094665887774456808, guid: 0f89143e45f009b4490e9be5157705f8, type: 3}
+    - {fileID: 5982666912179124896, guid: d6d721b8dbffd814d87dd94aa242d3a1, type: 3}
+    - {fileID: 9020588624703066094, guid: 8b1155968ebb7a147bfd09ea43a1a03d, type: 3}
+    - {fileID: 2362362280503288306, guid: c64cffd5684af1e4dbbb7fa1016667d6, type: 3}
+    - {fileID: 7673378380637663588, guid: a08ed1c4763a19a428e85f61c61a77ee, type: 3}
+    - {fileID: 8039622507706297011, guid: c929e1fc61bb92f4abcad0719b96dc5a, type: 3}
+  - prefabs:
+    - {fileID: 9020588624703066094, guid: 8b1155968ebb7a147bfd09ea43a1a03d, type: 3}
+    - {fileID: 2362362280503288306, guid: c64cffd5684af1e4dbbb7fa1016667d6, type: 3}
+    - {fileID: 7673378380637663588, guid: a08ed1c4763a19a428e85f61c61a77ee, type: 3}
+    - {fileID: 8039622507706297011, guid: c929e1fc61bb92f4abcad0719b96dc5a, type: 3}
 --- !u!1 &3088399508924577482
 GameObject:
   m_ObjectHideFlags: 0
