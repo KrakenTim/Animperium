@@ -119,6 +119,9 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         this.CanAct = canAct;
 
         OnValueChange?.Invoke();
+
+        if (currentHealth < MaxHealth)
+            healthBar.UpdateHealthBar();
     }
 
     public void SetPlayer(int playerID)
