@@ -335,6 +335,8 @@ public class GameManager : MonoBehaviour
         instance.CheckIfGameEnds(pawn.PlayerID);
 
         GameInputManager.DeselectPawn(pawn);
+
+        PlayerHUD.UpdateExistingPawns();
     }
 
     public static void AddResource(eResourceType resource, int amount)

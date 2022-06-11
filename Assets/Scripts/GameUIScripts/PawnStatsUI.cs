@@ -19,6 +19,7 @@ public class PawnStatsUI : MonoBehaviour
     [SerializeField, Range(0f, 1f)] float tintIntensity = 0.25f;
 
     private PlayerPawn myPawn;
+    public PlayerPawn Pawn => myPawn;
     private Color originalColor;
 
     private void Awake()
