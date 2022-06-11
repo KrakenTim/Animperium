@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTint: 0.25
-  useActiveInsteadOfLocal: 0
+  useActiveInsteadOfLocal: 1
 --- !u!1 &619749057162344679
 GameObject:
   m_ObjectHideFlags: 0

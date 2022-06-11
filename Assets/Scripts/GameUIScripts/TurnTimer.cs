@@ -42,10 +42,19 @@ public class TurnTimer : MonoBehaviour
     IEnumerator DeductSeconds()
     {
         yield return new WaitForSeconds(1);
-        remainingSeconds -= 1;
 
         if (remainingSeconds <= 0)
-            GameManager.EndTurn();
+        {
+
+            if (!OnlineGameManager.IsOnlineGame || GameManager.LocalPlayerID == GameManager.ActivePlayerID)
+            {
+                var message = InputMessageGenerator.CreateBasicMessage(ePlayeractionType.EndTurn);
+                InputMessageExecuter.Send(message);
+            }
+            yield break;
+        }
+
+        remainingSeconds -= 1;
 
         deductingTime = false;
     }
@@ -57,7 +66,9 @@ public class TurnTimer : MonoBehaviour
         inGameTurn.text = GameManager.Turn.ToString();
 
         activePlayerIcon.SetPlayer(GameManager.ActivePlayerID);
-        
+
+        deductingTime = false;
+
         UpdateTimerVisual();
     }
 

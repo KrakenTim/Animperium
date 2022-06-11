@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 5291.591, g: 3419.293, b: 2784.582, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -597,6 +597,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1886085006680748059, guid: 315f26839c3881540a5392bb93d7ea95, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4255646666901128145, guid: 315f26839c3881540a5392bb93d7ea95, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7141499117079397251, guid: 315f26839c3881540a5392bb93d7ea95, type: 3}
@@ -2346,15 +2350,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5843188502266327104, guid: e07688692c90db84fb6d028bd17524e3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 75
+      value: 28.7
       objectReference: {fileID: 0}
     - target: {fileID: 5843188502266327104, guid: e07688692c90db84fb6d028bd17524e3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 26.3
       objectReference: {fileID: 0}
     - target: {fileID: 5843188502266327104, guid: e07688692c90db84fb6d028bd17524e3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 35
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5843188502266327104, guid: e07688692c90db84fb6d028bd17524e3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3735,6 +3739,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTint: 0.25
+  useActiveInsteadOfLocal: 0
 --- !u!1 &1485943280
 GameObject:
   m_ObjectHideFlags: 0
@@ -4901,6 +4906,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTint: 0.25
+  useActiveInsteadOfLocal: 0
 --- !u!1 &1935609331
 GameObject:
   m_ObjectHideFlags: 0
@@ -5538,6 +5544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTint: 0.25
+  useActiveInsteadOfLocal: 0
 --- !u!1 &2138045703
 GameObject:
   m_ObjectHideFlags: 0
