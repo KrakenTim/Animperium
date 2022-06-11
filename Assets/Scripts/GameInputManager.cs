@@ -18,6 +18,9 @@ public class GameInputManager : MonoBehaviour
     [SerializeField] HexCell selectedHexCell;
     public static HexCell SelectedHexCell => instance.selectedHexCell;
 
+    [SerializeField] GameObject selectedPawnDecal;
+    [SerializeField] float decalOffset = 0.1f;
+
     private void Awake()
     {
         instance = this;
@@ -185,6 +188,15 @@ public class GameInputManager : MonoBehaviour
         // Select clicked Pawn
         instance.selectedPawn = clickedPawn;
 
+        if (instance.selectedPawn != null)
+        {
+            instance.selectedPawnDecal.SetActive(true);
+            instance.UpdateSelectedPawnDecal();
+            instance.selectedPawn.OnValueChange += instance.UpdateSelectedPawnDecal;
+        }
+        else
+            instance.selectedPawnDecal.SetActive(false);
+
         SelectPawn?.Invoke(clickedPawn);
     }
 
@@ -196,7 +208,21 @@ public class GameInputManager : MonoBehaviour
     {
         if (pawnToDeselect != null && pawnToDeselect != SelectedPawn) return;
 
+        if (instance.selectedPawn != null)
+        instance.selectedPawn.OnValueChange -= instance.UpdateSelectedPawnDecal;
+
         instance.selectedPawn = null;
+        instance.selectedPawnDecal.SetActive(false);
+
         SelectPawn?.Invoke(null);
+    }
+
+    private void UpdateSelectedPawnDecal()
+    {
+        if (!selectedPawn) return;
+
+        Vector3 position = selectedPawn.WorldPosition;
+        position.y += decalOffset;
+        selectedPawnDecal.transform.position = position;
     }
 }
