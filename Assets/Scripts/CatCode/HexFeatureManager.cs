@@ -4,6 +4,7 @@ public class HexFeatureManager : MonoBehaviour
 {
 	//public Transform[][] urbanPrefabs;
 	public HexFeatureCollection[] structureCollections, plantCollections;
+	public Transform[] special;
 
 	Transform container;
 
@@ -40,7 +41,7 @@ public class HexFeatureManager : MonoBehaviour
 		HexHash hash = HexMetrics.SampleHashGrid(position);
 
 		Transform prefab = PickPrefab(plantCollections, cell.PlantLevel, hash.a, hash.d);
-		Transform otherPrefab = PickPrefab(structureCollections, cell.UrbanLevel, hash.b, hash.d);
+		Transform otherPrefab = PickPrefab(structureCollections, cell.DecoLevel, hash.b, hash.d);
 		float usedHash = hash.a;
 		if (prefab)
 		{

@@ -27,13 +27,13 @@ public class HexMapEditor : MonoBehaviour
 
     int activeWaterLevel;
     
-    int activeUrbanLevel, activePlantLevel;
+    int activeDecoLevel, activePlantLevel;
 
     bool applyElevation;
 
     bool applyWaterLevel = true;
 
-    bool applyUrbanLevel, applyPlantLevel;
+    bool applyDecoLevel, applyPlantLevel;
 
     bool applyColor;
 
@@ -90,14 +90,14 @@ public class HexMapEditor : MonoBehaviour
             }
         }
     }
-    public void SetApplyUrbanLevel(bool toggle)
+    public void SetApplyDecoLevel(bool toggle)
     {
-        applyUrbanLevel = toggle;
+        applyDecoLevel = toggle;
     }
 
-    public void SetUrbanLevel(float level)
+    public void SetDecoLevel(float level)
     {
-        activeUrbanLevel = (int)level;
+        activeDecoLevel = (int)level;
     }
     public void SetApplyPlantLevel(bool toggle)
     {
@@ -130,9 +130,9 @@ public class HexMapEditor : MonoBehaviour
             {
                 cell.WaterLevel = activeWaterLevel;
             }
-            if (applyUrbanLevel)
+            if (applyDecoLevel)
             {
-                cell.UrbanLevel = activeUrbanLevel;
+                cell.DecoLevel = activeDecoLevel;
             }
             //		hexGrid.Refresh();
         }

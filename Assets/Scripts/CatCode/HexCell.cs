@@ -14,6 +14,30 @@ public enum HexEdgeType
 
 public class HexCell : MonoBehaviour
 {
+    int specialIndex;
+    public int SpecialIndex
+    {
+        get
+        {
+            return specialIndex;
+        }
+        set
+        {
+            if (specialIndex != value)
+            {
+                specialIndex = value;
+                RefreshSelfOnly();
+            }
+        }
+    }
+    public bool IsSpecial
+    {
+        get
+        {
+            return specialIndex > 0;
+        }
+    }
+
 
     public Color Color
     {
@@ -60,17 +84,17 @@ public class HexCell : MonoBehaviour
         }
     }
 
-    public int UrbanLevel
+    public int DecoLevel
     {
         get
         {
-            return urbanLevel;
+            return decoLevel;
         }
         set
         {
-            if (urbanLevel != value)
+            if (decoLevel != value)
             {
-                urbanLevel = value;
+                decoLevel = value;
                 RefreshSelfOnly();
             }
         }
@@ -91,7 +115,7 @@ public class HexCell : MonoBehaviour
         }
     }
 
-    int urbanLevel, plantLevel;
+    int decoLevel, plantLevel;
 
 
     public HexCoordinates coordinates;

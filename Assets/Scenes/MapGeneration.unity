@@ -445,7 +445,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8251552486997151849}
         m_TargetAssemblyTypeName: HexMapEditor, Assembly-CSharp
-        m_MethodName: SetUrbanLevel
+        m_MethodName: SetPlantLevel
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1357,7 +1357,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8251552486997151849}
         m_TargetAssemblyTypeName: HexMapEditor, Assembly-CSharp
-        m_MethodName: SetUrbanLevel
+        m_MethodName: SetDecoLevel
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1610,6 +1610,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: -1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8251552486997151849}
+        m_TargetAssemblyTypeName: HexMapEditor, Assembly-CSharp
+        m_MethodName: SetApplyUrbanLevel
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3654,10 +3666,10 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8251552486997151849}
-        m_TargetAssemblyTypeName: HexMapEditor, Assembly-CSharp
-        m_MethodName: SetApplyWaterLevel
-        m_Mode: 0
+      - m_Target: {fileID: 1972924179}
+        m_TargetAssemblyTypeName: TimsUIUpgrade, Assembly-CSharp
+        m_MethodName: ShowWater
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3666,10 +3678,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1972924179}
-        m_TargetAssemblyTypeName: TimsUIUpgrade, Assembly-CSharp
-        m_MethodName: ShowWater
-        m_Mode: 1
+      - m_Target: {fileID: 8251552486997151849}
+        m_TargetAssemblyTypeName: HexMapEditor, Assembly-CSharp
+        m_MethodName: SetApplyWaterLevel
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
