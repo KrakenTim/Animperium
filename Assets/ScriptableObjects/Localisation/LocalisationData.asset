@@ -58,6 +58,9 @@ MonoBehaviour:
   - identifier: Health
     english: Health
     german: Leben
+  - identifier: Help
+    english: Help
+    german: Hilfe
   - identifier: Leave
     english: Leave
     german: Verlassen
