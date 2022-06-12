@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,15 +13,18 @@ public class TempMapSaves : MonoBehaviour
     HexGrid grid;
     [SerializeField] HexMapEditor editor;
 
+    [SerializeField] GameObject hideInBuild;
+
     [Space]
     [SerializeField] public bool loadMapOnAwake = true;
     public bool LoadsInsteadOfHexGrid => loadMapOnAwake && !string.IsNullOrWhiteSpace(loadMap);
     [SerializeField] [TextArea] string loadMap;
 
     /// <summary>
-    /// log file extension (without the dot)
+    /// log file extension with the dot
     /// </summary>
-    const string logFileExtension = "tempMap";
+    const string logFileExtension = ".tempMap";
+    const string autoFileNamePrefix = "TempMap_";
 
     private void Awake()
     {
@@ -33,19 +36,28 @@ public class TempMapSaves : MonoBehaviour
 
         if (loadMapOnAwake)
             LoadString();
+
+#if !UNITY_EDITOR
+        if (hideInBuild != null)
+            hideInBuild.SetActive(false);
+#endif
     }
 
-    public void Button_SaveMap()
+    private void OnDisable()
     {
-        CreateSave();
+        if (GameManager.InGame) return;
+
+        CreateSave(onlyIfNew: true);
     }
 
-    public void Button_LoadMap()
-    {
-        LoadString();
-    }
+    public void Button_SaveMap() => CreateSave();
 
-    private void CreateSave()
+    public void Button_LoadMap() => LoadString();
+
+    public void Button_MirrorLowerHalf() => MirrorLowerHalf();
+    public void Button_MirrorUpperHalf() => MirrorUpperHalf();
+
+    private void CreateSave(bool onlyIfNew = false)
     {
         string mapSave = grid.chunkCountX + "\t" + grid.chunkCountZ + "\n";
         foreach (var cell in grid.GetAllCells())
@@ -54,21 +66,28 @@ public class TempMapSaves : MonoBehaviour
         }
 
         loadMap = mapSave.TrimEnd();
-        CreateFile(mapSave.TrimEnd());
+        CreateFile(loadMap, onlyIfNew);
     }
 
     /// <summary>
     /// Creates a new map file in the corresponding folder
     /// </summary>
-    private void CreateFile(string content)
+    private void CreateFile(string content, bool onlyIfNew = false)
     {
-        string logFileName = $"TempMap_{DateTime.Now.ToString("yyMMdd_HHmmss")}.{logFileExtension}";
+        if (onlyIfNew)
+        {
+            if (TryGetNewestTempMapPath(out string newestTempMapPath)
+                && content.CompareTo(File.ReadAllText(newestTempMapPath)) == 0)
+                return;
+        }
+
+        string logFileName = $"{autoFileNamePrefix}{DateTime.Now.ToString("yyMMdd_HHmmss")}{logFileExtension}";
         AI_File.WriteUTF8(content, AI_File.PathTempMaps + logFileName);
 
         Debug.Log($"Created new temporary Map named {logFileName}\nAt: {AI_File.PathTempMaps + logFileName}");
     }
 
-    public void LoadString()
+    private void LoadString()
     {
         if (string.IsNullOrWhiteSpace(loadMap)) return;
 
@@ -83,6 +102,8 @@ public class TempMapSaves : MonoBehaviour
 
             grid.chunkCountX = int.Parse(nextLine[0]);
             grid.chunkCountZ = int.Parse(nextLine[1]);
+
+            grid.Clear();
             grid.Awake();
         }
 
@@ -105,6 +126,41 @@ public class TempMapSaves : MonoBehaviour
         foreach (var item in grid.GetAllChunks())
             item.Refresh();
     }
+
+    private void MirrorLowerHalf()
+    {
+        HexCell[] cells = grid.GetAllCells();
+
+        for (int i = 0; i < cells.Length / 2f; i++)
+            cells[cells.Length - (1 + i)].Copy(cells[i]);
+    }
+
+    private void MirrorUpperHalf()
+    {
+        HexCell[] cells = grid.GetAllCells();
+
+        for (int i = 0; i < cells.Length / 2f; i++)
+            cells[i].Copy(cells[cells.Length - (1 + i)]);
+    }
+
+    private Dictionary<string, string> GetTempMaps()
+    {
+        return AI_File.GetFiles(AI_File.PathTempMaps, $"{autoFileNamePrefix}*{logFileExtension}", true);
+    }
+
+    private bool TryGetNewestTempMapPath(out string result)
+    {
+        List<string> paths = new List<string>(GetTempMaps().Values);
+
+        if (paths.Count == 0)
+        {
+            result = string.Empty;
+            return false;
+        }
+
+        result = paths[paths.Count - 1];
+        return true;
+    }
 }
 
 #if UNITY_EDITOR
@@ -118,8 +174,21 @@ public class SaveMapButtonEditor : Editor
 {
     public override void OnInspectorGUI()
     {
+        if (GUILayout.Button("Save Map"))
+            ((TempMapSaves)target).Button_SaveMap();
+
         if (GUILayout.Button("Load Map String"))
-            ((TempMapSaves)target).LoadString();
+            ((TempMapSaves)target).Button_LoadMap();
+
+        GUILayout.Space(10);
+
+        if (GUILayout.Button("Mirror Lower Half"))
+            ((TempMapSaves)target).Button_MirrorLowerHalf();
+
+        if (GUILayout.Button("Mirror Upper Half"))
+            ((TempMapSaves)target).Button_MirrorUpperHalf();
+
+        GUILayout.Space(10);
 
         base.OnInspectorGUI();
     }

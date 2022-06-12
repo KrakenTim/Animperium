@@ -45,7 +45,7 @@ public class ServerConnection : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public void ConnectToServer()
+    public bool ConnectToServer()
     {
         try
         {
@@ -58,14 +58,17 @@ public class ServerConnection : MonoBehaviour
             heartbeatThread = new Thread(Heartbeat);
             heartbeatThread.IsBackground = true;
             heartbeatThread.Start();
+            return true;
         }
         catch (ArgumentNullException e)
         {
             Debug.Log("ArgumentNullException: " + e);
+            return false;
         }
         catch (SocketException e)
         {
             Debug.Log("SocketException: " + e);
+            return false;
         }
     }
 
@@ -218,6 +221,11 @@ public class ServerConnection : MonoBehaviour
     public void SendCommand(string _command)
     {
         Send("COMMAND|" + _command);
+    }
+
+    public void SendPlayerInfo(string _name)
+    {
+        Send("PLAYER_INFO|" + _name);
     }
     #endregion
 

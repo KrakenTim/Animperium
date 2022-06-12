@@ -8,43 +8,63 @@ public class GameManager : MonoBehaviour
     public static bool InGame => instance != null;
 
     public static event System.Action<int> TurnStarted;
+    public static event System.Action LocalPlayerChanged;
 
     [SerializeField] HexGrid myHexGrid;
     public static HexGrid HexGrid => instance.myHexGrid;
 
     [SerializeField] PlayerPawnData[] pawnDatas;
 
-    [SerializeField] PlayerValues[] playerValueList;
-
     [SerializeField] int activePlayerID = 1;
-    public static int CurrentPlayerID => instance.activePlayerID;
+    public static int ActivePlayerID => instance.activePlayerID;
 
     [SerializeField] int activePlayerFactionID = 1;
     public static int CurrentFactionID => instance.activePlayerFactionID;
 
     private int localPlayerID;
-    public static int LocalPlayerID => instance.localPlayerID;
-    public static bool InputAllowed => CurrentPlayerID == LocalPlayerID;
+    public static int LocalPlayerID
+    {
+        get => instance.localPlayerID;
+        private set
+        {
+            instance.localPlayerID = value;
+            LocalPlayerChanged?.Invoke();
+        }
+    }
+    public static bool InputAllowed => ActivePlayerID == LocalPlayerID;
 
-    private int turn;
+    private int turn = 1;
     public static int Turn => instance ? instance.turn : -1;
 
     int spawnedPawnID = 0;
-    Dictionary<int, Transform> spawnFolderTransforms = new Dictionary<int, Transform>();
+    public int maxPopulation = 5;
+    public static int MaxPopulation => instance.maxPopulation;
+    public int schoolNeededUpgrades;
+    public static int SchoolNeededUpgrades => instance.schoolNeededUpgrades;
+
+    [SerializeField] private PlayerValueProvider playerValueProvider;
+    public static PlayerValueProvider PlayerValueProvider => instance.playerValueProvider;
 
     private void Awake()
     {
         instance = this;
 
-        localPlayerID = OnlineGameManager.IsOnlineGame ? OnlineGameManager.LocalPlayerID : activePlayerFactionID;
+        SettingsMenu.SetVolumeToPreference();
+
+        if (OnlineGameManager.IsOnlineGame)
+            LocalPlayerID = OnlineGameManager.LocalPlayerID;
+        else
+            LocalPlayerID = activePlayerID;
     }
 
     private void Start()
     {
-        if (TryGetPlayerValues(localPlayerID, out PlayerValues player))
-            HexMapCamera.SetPosition(player.GetTownHall().WorldPosition);
+        playerValueProvider.SetupPlayerStart();
 
-        SetupPawnFolders();
+        if (TryGetPlayerValues(localPlayerID, out PlayerValues player))
+            HexMapCamera.SetPosition(player.lastCameraValues.localPosition);
+
+        playerValueProvider.SetupPawnFolders();
         StartNewPlayerTurn();
     }
 
@@ -58,7 +78,12 @@ public class GameManager : MonoBehaviour
     {
         instance.EndOldPlayerTurn();
 
-        instance.SetNextPlayer();
+        int nextActivePlayerID = instance.playerValueProvider.NextActivePlayer(ActivePlayerID);
+
+        if (nextActivePlayerID < instance.activePlayerID)
+            instance.turn += 1;
+
+        instance.activePlayerID = nextActivePlayerID;
 
         instance.StartNewPlayerTurn();
     }
@@ -69,60 +94,30 @@ public class GameManager : MonoBehaviour
         {
             foreach (var pawn in oldPlayer.ownedPawns)
                 pawn.RefreshTurn();
+
+            if (!OnlineGameManager.IsOnlineGame)
+                oldPlayer.lastCameraValues = HexMapCamera.GetCurrentCameraValues();
         }
 
         GameInputManager.DeselectPawn();
     }
 
-    /// <summary>
-    /// Increases the activePlayerID to the next player that didn't lose yet.
-    /// </summary>
-    private void SetNextPlayer()
-    {
-        instance.activePlayerID++;
-
-        if (instance.activePlayerID > instance.playerValueList.Length)
-            instance.activePlayerID = 1;
-
-        // Skip players that lost or if there's no player values
-        if (TryGetPlayerValues(instance.activePlayerID, out PlayerValues nextPlayer))
-        {
-            if (nextPlayer.HasLost) SetNextPlayer();
-        }
-        else
-            SetNextPlayer();
-    }
-
     private void StartNewPlayerTurn()
     {
         if (!OnlineGameManager.IsOnlineGame)
-            localPlayerID = activePlayerID;
+            LocalPlayerID = activePlayerID;
 
         if (TryGetPlayerValues(activePlayerID, out PlayerValues newPlayer))
+        {
             activePlayerFactionID = newPlayer.factionID;
 
-        turn += 1;
+            if (!OnlineGameManager.IsOnlineGame)
+                HexMapCamera.SetCameraValues(newPlayer.lastCameraValues);
+        }
+
+
 
         TurnStarted?.Invoke(activePlayerID);
-    }
-
-    /// <summary>
-    /// Adds PlayerIDs and connected Transform to spawnFolderTransforms.
-    /// Renames spawn list transforms to player names.
-    /// Creates additional sorting transforms below the game manager if needed.
-    /// </summary>
-    private void SetupPawnFolders()
-    {
-        while (playerValueList.Length >= transform.childCount)
-        {
-            var s = new GameObject();
-            s.transform.parent = transform;
-        }
-        for (int i = 1; i <= playerValueList.Length; i++)
-        {
-            spawnFolderTransforms.Add(playerValueList[i - 1].playerID, transform.GetChild(i));
-            transform.GetChild(i).gameObject.name = playerValueList[i - 1].Name;
-        }
     }
 
     public static PlayerPawnData GetPawnData(ePlayerPawnType pawnType)
@@ -138,85 +133,113 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    public static void UpgradePawn(PlayerPawn upgraded, PlayerPawn school)
+    public static List<PlayerPawnData> GetBuildingDatas(bool withoutUpgrades, bool excludeTownHall = false)
     {
-        if (PawnUpgradeController.TryUpgradeUnit(upgraded, school, out GameResources costs)
+        List<PlayerPawnData> result = new List<PlayerPawnData>();
+
+        foreach (var data in instance.pawnDatas)
+        {
+            if (data.IsBuilding)
+            {
+                if (withoutUpgrades && data.type.IsBuildingUpgrade()) continue;
+
+                if (!excludeTownHall || data.type != ePlayerPawnType.TownHall)
+                    result.Add(data);
+            }
+        }
+        return result;
+    }
+
+    public static void UpgradeUnit(PlayerPawn upgraded, PlayerPawn school, ePlayerPawnType newPawn)
+    {
+        if (PawnUpgradeController.TryUpgradePawn(upgraded, newPawn, out GameResources costs)
             && instance.TryGetPlayerValues(upgraded.PlayerID, out PlayerValues playerValues))
         {
             playerValues.PayCosts(costs);
-            PlayerHUD.UpdateHUD(instance.activePlayerID);
+            playerValues.upgradeCounter++;
         }
+    }
+
+    public static void UpgradeBuilding(PlayerPawn builder, PlayerPawn building)
+    {
+        if (PawnUpgradeController.TryUpgradePawn(building, building.PawnData.linearUpgrade, out GameResources costs)
+            && instance.TryGetPlayerValues(builder.PlayerID, out PlayerValues playerValues))
+        {
+            playerValues.PayCosts(costs);
+
+            builder.UpgradedBuilding(building);
+        }
+    }
+
+    public static int GetUpgradeCount(int playerID)
+    {
+        if (instance.TryGetPlayerValues(playerID, out PlayerValues result))
+            return result.upgradeCounter;
+
+        Debug.LogError("Upgrade Count failed for Player " + playerID, instance);
+
+        return 0;
     }
 
     /// <summary>
     /// playes a new pawn according to the spawner, if the player has the needed resource, removes the costs and places the pawn 
     /// </summary>
-    public static void SpawnPawn(PlayerPawn spawner, HexCell spawnPoint)
+    public static bool SpawnPawn(PlayerPawn spawner, HexCell spawnPoint, ePlayerPawnType newPawnType)
     {
-        ePlayerPawnType spawnPawnType = spawner.Spawn;
+        if (!spawner.CanAct)
+        {
+            Debug.LogError($"GameManager\tTried to place {newPawnType} at {spawnPoint}, but Spawner can't act\n\t\n{spawner}", spawner);
+            return false;
+        }
 
-        PlayerPawnData spawnedPawnData = GetPawnData(spawnPawnType);
+        if (spawnPoint.HasPawn)
+        {
+            Debug.LogError($"GameManager\tTried to place {newPawnType} at {spawnPoint}, " +
+                           $"but there's a {spawnPoint.Pawn.PawnType} already.\n\t\n{spawner}\n\t\t {spawnPoint.Pawn}", spawner);
+            return false;
+        }
 
-        Debug.Log("1");
+        PlayerPawnData spawnedPawnData = GetPawnData(newPawnType);
 
-        if (spawnedPawnData == null) return;
-
-        Debug.Log("2");
+        if (spawnedPawnData == null) return false;
 
         // return if there's no playerdata or can't afford spawn
         if (!instance.TryGetPlayerValues(spawner.PlayerID, out PlayerValues playerResources)
             || !playerResources.HasResourcesToSpawn(spawnedPawnData))
-            return;
-
-        Debug.Log("3");
+            return false;
 
         playerResources.PaySpawnCosts(spawnedPawnData);
-        PlayerHUD.UpdateHUD(instance.activePlayerID);
 
-        PlaceNewPawn(spawnedPawnData, spawnPoint, spawner.PlayerID);
+        PlaceNewPawn(spawnedPawnData, spawnPoint, spawner.PlayerID, spawner.HexCell);
+
+        return true;
     }
 
     /// <summary>
     /// Places new Pawn onto grid, according to given data and position.
     /// </summary>
-    public static PlayerPawn PlaceNewPawn(PlayerPawnData placedPawnData, HexCell spot, int playerID)
+    public static PlayerPawn PlaceNewPawn(PlayerPawnData placedPawnData, HexCell spot, int playerID, HexCell origin = null)
     {
-        PlayerPawn newPawn = Instantiate(placedPawnData.GetPawnPrefab(playerID),
-                             spot.transform.position, Quaternion.identity, instance.spawnFolderTransforms[playerID]);
+        PlayerPawn newPawn = Instantiate(placedPawnData.GetPawnPrefab(playerID), spot.transform.position,
+                                         Quaternion.identity, instance.playerValueProvider.GetPlayerPawnParrent(playerID));
 
         // Pawn adds itself to the grid on the matching position.
         newPawn.SetPlayer(playerID);
+
+        if (origin != null)
+            newPawn.LookAway(origin);
 
         return newPawn;
     }
 
     public static bool IsEnemy(int otherPlayerID)
     {
-        if (instance.TryGetPlayerValues(CurrentPlayerID, out PlayerValues currentPlayer)
-            && instance.TryGetPlayerValues(otherPlayerID, out PlayerValues otherPlayer))
-        {
-            return currentPlayer.factionID != otherPlayer.factionID;
-        }
-        return false;
+        return instance.playerValueProvider.isEnemy(otherPlayerID);
     }
 
     private bool TryGetPlayerValues(int playerID, out PlayerValues result)
     {
-        foreach (var item in instance.playerValueList)
-        {
-            if (item.playerID == playerID)
-            {
-                result = item;
-                return true;
-            }
-
-        }
-
-        Debug.LogError("Values not found for Player " + playerID, instance);
-
-        result = new PlayerValues();
-
-        return false;
+        return playerValueProvider.TryGetPlayerValues(playerID, out result);
     }
 
     public static int GetPlayerFactionID(int playerID)
@@ -238,24 +261,34 @@ public class GameManager : MonoBehaviour
         return Color.cyan;
     }
 
+    public static int PlayerPopulation(int playerID)
+    {
+        if (instance.TryGetPlayerValues(playerID, out PlayerValues result))
+            return result.PopulationCount;
+
+        Debug.LogError("Population Count not found for Player " + playerID, instance);
+
+        return MaxPopulation;
+    }
+
     public static GameResources GetPlayerResources(int playerID)
     {
         if (instance.TryGetPlayerValues(playerID, out PlayerValues result))
-            return result.playerResources;
+            return result.PlayerResources;
 
         Debug.LogError("Food not found for Player " + playerID, instance);
 
         return new GameResources();
     }
 
-    public static Sprite GetPlayerIcon(int playerID)
+    public static ColorableIconData GetPlayerIcon(int playerID)
     {
         if (instance.TryGetPlayerValues(playerID, out PlayerValues result))
-            return result.playerIcon;
+            return result.PlayerIcon;
 
         Debug.LogError("Icon not found for Player " + playerID, instance);
 
-        return null;
+        return new ColorableIconData();
     }
 
     public static HexCell GetHexCell(Vector3 worldPosition)
@@ -278,54 +311,45 @@ public class GameManager : MonoBehaviour
             {
                 instance.spawnedPawnID += 1;
                 pawn.pawnID = instance.spawnedPawnID;
-                pawn.gameObject.name = pawn.PawnName;
+                pawn.gameObject.name = pawn.FriendlyName;
             }
 
             result.ownedPawns.Add(pawn);
+            result.PopulationCount += pawn.PawnData.populationCount;
         }
     }
 
     /// <summary>
     /// Removes Pawn from owned pawns List of the player and takes it of the grid.
     /// </summary>
-    public static void RemovePawn(PlayerPawn pawn)
+    public static void RemovePlayerPawn(PlayerPawn pawn)
     {
         if (instance.TryGetPlayerValues(pawn.PlayerID, out PlayerValues result))
         {
             result.ownedPawns.Remove(pawn);
+            result.PopulationCount -= pawn.PawnData.populationCount;
         }
         pawn.SetHexCell(null);
         Destroy(pawn.gameObject);
+
+        instance.CheckIfGameEnds(pawn.PlayerID);
+
+        GameInputManager.DeselectPawn(pawn);
+
+        PlayerHUD.UpdateExistingPawns();
     }
 
-    public static void AddResource(eRessourceType resource, int amount)
+    public static void AddResource(eResourceType resource, int amount)
     {
-        if (instance.TryGetPlayerValues(CurrentPlayerID, out PlayerValues result))
+        if (instance.TryGetPlayerValues(ActivePlayerID, out PlayerValues result))
         {
-            switch (resource)
-            {
-                case eRessourceType.Food:
-                    result.playerResources.food += amount;
-                    break;
-                case eRessourceType.Wood:
-                    result.playerResources.wood += amount;
-                    break;
-                case eRessourceType.Ore:
-                    result.playerResources.ore += amount;
-                    break;
-                default:
-                    Debug.LogError("AddResource UNDEFINED for " + resource);
-                    return;
-            }
-
-            PlayerHUD.UpdateHUD(instance.activePlayerID);
-
+            result.AddResource(resource, amount);
         }
     }
 
     public static bool CanAfford(int playerID, GameResources costs)
     {
-        if (instance.TryGetPlayerValues(CurrentPlayerID, out PlayerValues result))
+        if (instance.TryGetPlayerValues(ActivePlayerID, out PlayerValues result))
         {
             return result.CanAfford(costs);
         }
@@ -347,41 +371,16 @@ public class GameManager : MonoBehaviour
 
         loserValues.GiveUp();
 
-        CheckIfGameEnds(playerID);
+        instance.CheckIfGameEnds(playerID);
     }
 
-    public static void CheckIfGameEnds(int potencialLoserPlayerID)
+    private bool CheckIfGameEnds(int potencialLoserPlayerID)
     {
-        if (!instance.TryGetPlayerValues(potencialLoserPlayerID, out PlayerValues loserValues))
-            return;
-
-        if (!loserValues.CheckIfHasLost()) return;
-
-        // int: fractionId, List<PlayerValues>: surviving Players
-        Dictionary<int, List<PlayerValues>> remainingFactions = new Dictionary<int, List<PlayerValues>>();
-
-        foreach (PlayerValues player in instance.playerValueList)
+        if (instance.playerValueProvider.CheckIfGameEnds(potencialLoserPlayerID, out List<PlayerValues> winners))
         {
-            if (player.HasLost) continue;
-
-            if (!remainingFactions.ContainsKey(player.factionID))
-                remainingFactions.Add(player.factionID, new List<PlayerValues>());
-
-            remainingFactions[player.factionID].Add(player);
+            VictoryLoseScreen.ShowVictory(winners);
+            return true;
         }
-
-        Debug.Log("factions left:" + remainingFactions.Count);
-
-        if (remainingFactions.Count < 2)
-        {
-            foreach (var faction in remainingFactions)
-                CallVictory(faction.Value);
-        }
+        return false;
     }
-
-    private static void CallVictory(List<PlayerValues> winners)
-    {
-        VictoryLoseScreen.ShowVictory(winners);
-    }
-
 }

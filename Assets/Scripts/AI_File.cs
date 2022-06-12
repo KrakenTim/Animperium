@@ -49,8 +49,8 @@ public static class AI_File
     public static Dictionary<string, Asset> EDITOR_GetAssets<Asset>(string path, bool includeSubfolders = true)
                                         where Asset : Object
     {
-        List<string> assetPaths = new List<string>(Directory.GetFiles(path, "*.asset",
-                                               includeSubfolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly));
+        string[] assetPaths = Directory.GetFiles(path, "*.asset",
+                                               includeSubfolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
 
         Dictionary<string, Asset> result = new Dictionary<string, Asset>();
 
@@ -66,6 +66,34 @@ public static class AI_File
         return result;
     }
 #endif //UNITY_EDITOR
+
+    /// <summary>
+    /// Returns all Files and their paths found in the given path, excluding meta files.
+    /// Throws an error if path isn't available in builds.
+    /// </summary>
+    public static Dictionary<string, string> GetFiles(string path, string searchPattern = "*.*", bool includeSubfolders = true)
+    {
+        Dictionary<string, string> filePaths = new Dictionary<string, string>();
+
+        if (!path.Contains(Application.streamingAssetsPath) && !path.Contains(Application.persistentDataPath))
+        {
+            Debug.LogError($"{nameof(AI_File)}\tTried to load from a folder which isn't available in a build.\n\t\t{path}\n");
+            return filePaths;
+        }
+
+        if (!Directory.Exists(path)) return filePaths;
+
+        string[] rawPaths = Directory.GetFiles(path, searchPattern, includeSubfolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+
+        foreach (var nextPath in rawPaths)
+        {
+            if (Path.HasExtension("meta")) continue;
+
+            filePaths.Add(Path.GetFileNameWithoutExtension(nextPath), nextPath);
+        }
+
+        return filePaths;
+    }
 
     #endregion Editor Only
 }

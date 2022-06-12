@@ -22,12 +22,20 @@ public static class HexMetrics
     public const float verticalTerraceStepSize = 1f / (terracesPerSlope + 1);
 
     public const float cellPerturbStrength = 4f; //Verzerrung
-    
+
     public const float noiseScale = 0.003f;
 
     public const float elevationPerturbStrength = 1.5f;
 
     public const int chunkSizeX = 5, chunkSizeZ = 5;
+
+    public const float waterElevationOffset = -0.5f;
+
+    public const int hashGridSize = 256;
+
+    public const float hashGridScale = 0.25f;
+
+    static HexHash[] hashGrid;
 
     public static Texture2D noiseSource;
 
@@ -66,6 +74,12 @@ public static class HexMetrics
         return (corners[(int)direction] + corners[(int)direction + 1]) * blendFactor;
     }
 
+    static float[][] featureThresholds = { new float[] { 0.0f, 0.0f, 0.4f }, new float[] { 0.0f, 0.4f, 0.6f }, new float[] { 0.4f, 0.6f, 0.8f } };
+
+    public static float[] GetFeatureThresholds(int level)
+    {
+        return featureThresholds[level];
+    }
 
     public static Vector3 TerraceLerp(Vector3 a, Vector3 b, int step)
     {
@@ -102,5 +116,39 @@ public static class HexMetrics
         return noiseSource.GetPixelBilinear(position.x * noiseScale, position.z * noiseScale);
 
     }
+    public static Vector3 Perturb(Vector3 position)
+    {
+        Vector4 sample = SampleNoise(position);
+        position.x += (sample.x * 2f - 1f) * cellPerturbStrength;
+        // position.y += (sample.y * 2f - 1f) * HexMetrics.cellPerturbStrength;
+        position.z += (sample.z * 2f - 1f) * cellPerturbStrength;
+        return position;
+    }
 
+    public static void InitializeHashGrid(int seed)
+    {
+        hashGrid = new HexHash[hashGridSize * hashGridSize];
+        Random.State currentState = Random.state;
+        Random.InitState(seed);
+        for (int i = 0; i < hashGrid.Length; i++)
+        {
+            hashGrid[i] = HexHash.Create();
+        }
+        Random.state = currentState;
+    }
+
+    public static HexHash SampleHashGrid(Vector3 position)
+    {
+        int x = (int)(position.x * hashGridScale) % hashGridSize;
+        if (x < 0)
+        {
+            x += hashGridSize;
+        }
+        int z = (int)(position.z * hashGridScale) % hashGridSize;
+        if (z < 0)
+        {
+            z += hashGridSize;
+        }
+        return hashGrid[x + z * hashGridSize];
+    }
 }

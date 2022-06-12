@@ -64,6 +64,9 @@ public static class InputMessageExecuter
         PlayerPawn startPawn = startCell.Pawn;
         PlayerPawn targetPawn = targetCell.Pawn;
 
+        if (startPawn.IsUnit)
+            startPawn.LookAt(targetCell.Position);
+
         switch (hexOrder.action)
         {
             case ePlayeractionType.Move:
@@ -76,16 +79,27 @@ public static class InputMessageExecuter
                 startPawn.Collect(targetCell.Resource);
                 break;
             case ePlayeractionType.Spawn:
-                GameManager.SpawnPawn(startPawn, targetCell);
+                GameManager.SpawnPawn(startPawn, targetCell, startPawn.Spawn);
                 break;
-            case ePlayeractionType.Learn:
-                GameManager.UpgradePawn(startPawn, targetPawn);
+            case ePlayeractionType.UnitUpgrade:
+                GameManager.UpgradeUnit(startPawn, targetPawn, hexOrder.newPawn);
+                break;
+            case ePlayeractionType.Build:
+                startPawn.Build(targetCell, hexOrder.newPawn);
+                break;
+            case ePlayeractionType.BuildingUpgrade:
+                GameManager.UpgradeBuilding(startPawn, targetPawn);
+                break;
+            case ePlayeractionType.Heal:
+                startPawn.HealTarget(targetPawn);
                 break;
 
             default:
                 Debug.LogError($"MessageExecuter\t{nameof(ExecuteHexMessage)} UNDEFINED for {hexOrder.action}\n");
                 return;
         }
+
+        FeedbackManager.PlayHexActionFeedback(startPawn, targetCell, hexOrder.action);
     }
 
     /// <summary>

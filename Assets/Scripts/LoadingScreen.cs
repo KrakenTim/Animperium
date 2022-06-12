@@ -74,9 +74,7 @@ public class LoadingScreen : MonoBehaviour
 
             //slider.value = progress;
             //progressText.text = Mathf.RoundToInt(progress * 100f) + "%";
-
-            Debug.Log(Mathf.Round(op.progress * 100));
-
+            
             elapsedLoadTime += Time.unscaledDeltaTime;
             yield return null;
         }

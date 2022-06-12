@@ -13,14 +13,30 @@ MonoBehaviour:
   m_Name: HealerPawnData
   m_EditorClassIdentifier: 
   type: 3
-  pawnIcon: {fileID: 0}
-  maxHealth: 7
+  friendlyName: Healer
+  tier: 1
+  pawnIcon:
+    text: 
+    colored: {fileID: 0}
+    baseIcon: {fileID: 0}
+  maxHealth: 70
   maxMovement: 4
-  attackPower: 3
+  attackPower: 24
+  attackRange: 1
+  viewRange: 3
+  specialPower: 27
   resourceCosts:
-    food: 20
-  spawnedPawn: 0
+    food: 16
+    wood: 3
+    ore: 0
+  populationCount: 1
+  linearUpgrade: 0
   learnsFight: 5
   learnsMagic: 0
   learnsDigging: 7
-  playerPrefabs: []
+  upgradesForUnlock: 0
+  spawnedPawn: 0
+  playerPrefabs:
+  - {fileID: 0}
+  - {fileID: 7044294374554152587, guid: 6e4dcd8d58321ea409b3965b28c14af3, type: 3}
+  - {fileID: 7044294374554152587, guid: 274ae9c315a11fe498ffc538a0f20e8a, type: 3}

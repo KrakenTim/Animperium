@@ -13,15 +13,26 @@ MonoBehaviour:
   m_Name: TownHallPawnData
   m_EditorClassIdentifier: 
   type: 100
-  pawnIcon: {fileID: 21300000, guid: 87bfcc362a533f94693546d523e6f285, type: 3}
-  maxHealth: 30
+  friendlyName: Town Hall
+  pawnIcon:
+    type: 0
+    colored: {fileID: 0}
+    baseIcon: {fileID: 0}
+  maxHealth: 300
   maxMovement: 0
   attackPower: 0
-  food: 0
+  viewRange: 4
+  tier: 4
+  resourceCosts:
+    food: 0
+    wood: 0
+    ore: 0
+  populationCount: 0
   spawnedPawn: 1
   learnsFight: 0
   learnsMagic: 0
   learnsDigging: 0
+  linearUpgrade: 0
   playerPrefabs:
   - {fileID: 0}
   - {fileID: 4729249582805918578, guid: bcac4d008d96e844b947ca36510aa30c, type: 3}

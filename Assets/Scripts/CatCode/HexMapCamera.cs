@@ -1,10 +1,17 @@
 using UnityEngine.InputSystem;
 using UnityEngine;
+using System.Collections;
 
 public class HexMapCamera : MonoBehaviour
 {
     #region Not in tutorial
     static HexMapCamera instance;
+
+    public static Vector3 LocalPosition => instance.transform.localPosition;
+
+    public static float RotationAngle => instance.rotationAngle;
+    private const float DefaultMoveTime = 0.5f;
+
     #endregion Not in tutorial
 
     public float zoomSensitivity;
@@ -24,7 +31,9 @@ public class HexMapCamera : MonoBehaviour
 
     Transform swivel, stick;
 
+    [Tooltip("Manual Assignment Of Grid Required")]
     public HexGrid grid;
+
 
     void Awake()
     {
@@ -88,11 +97,48 @@ public class HexMapCamera : MonoBehaviour
     }
 
     #region Not in tutorial
+    public static CameraValues GetCurrentCameraValues()
+    {
+        CameraValues result = new CameraValues();
+
+        result.localPosition = LocalPosition;
+        result.rotationY = RotationAngle;
+        result.zoom01 = instance.zoom;
+
+        return result;
+    }
+
+    public static void SetCameraValues(CameraValues newValues)
+    {
+        SetPosition(newValues.localPosition);
+        instance.SetRotation(newValues.rotationY);
+        instance.SetZoom(newValues.zoom01);
+    }
+
     public static void SetPosition(Vector3 position)
     {
         if (instance)
             instance.transform.localPosition = instance.ClampPosition(position);
     }
+
+    void SetRotation(float yRotation)
+    {
+        if (instance)
+        {
+            instance.rotationAngle = yRotation;
+            instance.AdjustRotation(0f);
+        }
+    }
+
+    void SetZoom(float zoom01)
+    {
+        if (instance)
+        {
+            instance.zoom = zoom01;
+            instance.AdjustZoom(0f);
+        }
+    }
+
     #endregion Not in tutorial
 
     Vector3 ClampPosition(Vector3 position)

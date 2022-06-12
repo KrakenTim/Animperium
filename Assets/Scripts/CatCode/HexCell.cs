@@ -14,7 +14,6 @@ public enum HexEdgeType
 
 public class HexCell : MonoBehaviour
 {
-    public HexCoordinates coordinates;
 
     public Color Color
     {
@@ -34,13 +33,83 @@ public class HexCell : MonoBehaviour
     }
     //    public Color color;
     public Color color;
-    Color color2;
+
+    public int WaterLevel
+    {
+        get
+        {
+            return waterLevel;
+        }
+        set
+        {
+            if (waterLevel == value)
+            {
+                return;
+            }
+            waterLevel = value;
+            Refresh();
+        }
+    }
+
+    int waterLevel;
+    public bool IsUnderwater
+    {
+        get
+        {
+            return waterLevel > elevation;
+        }
+    }
+
+    public int UrbanLevel
+    {
+        get
+        {
+            return urbanLevel;
+        }
+        set
+        {
+            if (urbanLevel != value)
+            {
+                urbanLevel = value;
+                RefreshSelfOnly();
+            }
+        }
+    }
+    public int PlantLevel
+    {
+        get
+        {
+            return plantLevel;
+        }
+        set
+        {
+            if (plantLevel != value)
+            {
+                plantLevel = value;
+                RefreshSelfOnly();
+            }
+        }
+    }
+
+    int urbanLevel, plantLevel;
+
+
+    public HexCoordinates coordinates;
 
     int elevation;
 
     public RectTransform uiRect;
 
     public HexGridChunk chunk;
+    public float WaterSurfaceY
+    {
+        get
+        {
+            return
+                (waterLevel + HexMetrics.waterElevationOffset) *
+                HexMetrics.elevationStep;
+        }
+    }
 
     #region Not in Tutorial
 
@@ -48,8 +117,8 @@ public class HexCell : MonoBehaviour
     public PlayerPawn Pawn => pawnOnCell;
     public bool HasPawn => pawnOnCell != null;
 
-    private RessourceToken resource;
-    public RessourceToken Resource => resource;
+    private ResourceToken resource;
+    public ResourceToken Resource => resource;
 
     public int tempSaveColorID = 0;
 
@@ -80,11 +149,11 @@ public class HexCell : MonoBehaviour
         }
         set
         {
-/*	        int elevation = int.MinValue;
-            if (elevation == value)
-            {
-                return;
-            }*/
+            /*	        int elevation = int.MinValue;
+                        if (elevation == value)
+                        {
+                            return;
+                        }*/
             elevation = value;
             Vector3 position = transform.localPosition;
             position.y = value * HexMetrics.elevationStep;
@@ -128,7 +197,10 @@ public class HexCell : MonoBehaviour
             }
         }
     }
-
+    void RefreshSelfOnly()
+    {
+        chunk.Refresh();
+    }
     #region Not in Tutorial
 
     public void SetPawn(PlayerPawn pawn)
@@ -139,9 +211,9 @@ public class HexCell : MonoBehaviour
             Debug.LogError($"Tried to set two Pawns onto same HexCell{coordinates.ToString()}!\n", this);
     }
 
-    public void SetResource(RessourceToken newResource)
+    public void SetResource(ResourceToken newResource)
     {
-        if (resource == null || newResource ==null)
+        if (resource == null || newResource == null)
             resource = newResource;
         else
             Debug.LogError($"Resource to set two Pawns onto same HexCell{coordinates.ToString()}!\n", this);
@@ -154,14 +226,40 @@ public class HexCell : MonoBehaviour
             if (item == cell) return true;
         }
 
-        return false; 
+        return false;
+    }
+
+    /// <summary>
+    /// sets visual aspects identical to the given Cell
+    /// </summary>
+    public void Copy(HexCell blueprint)
+    {
+        Color = blueprint.Color;
+        tempSaveColorID = blueprint.tempSaveColorID;
+
+        Elevation = blueprint.Elevation;
+
+        WaterLevel = blueprint.WaterLevel;
+    }
+
+    /// <summary>
+    /// True if a pawn might step onto the HexCell
+    /// False if cell is under water or there's a cliff height difference between them.
+    /// </summary>
+    /// <param name="origin">the cell the pawn starts at</param>
+    public bool CanMoveOnto(HexCell origin)
+    {
+        return Mathf.Abs(origin.Elevation - Elevation) < 2 && !IsUnderwater && tempSaveColorID != HexMapEditor.COLOR_Water;
+    }
+
+    public int DistanceTo(HexCell other)
+    {
+        return coordinates.DistanceTo(other.coordinates);
     }
 
     #endregion Not in Tutorial
 
 }
-
-
 
 public static class HexDirectionExtensions
 {
@@ -178,6 +276,4 @@ public static class HexDirectionExtensions
     {
         return direction == HexDirection.NW ? HexDirection.NE : (direction + 1);
     }
-
-
 }

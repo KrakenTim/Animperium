@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class HexMapEditor : MonoBehaviour
 {
+    public static HexMapEditor Instance;
+
+    public static event System.Action<int> BrushSizeChanged;
 
     public Color[] colors;
 
@@ -11,21 +14,43 @@ public class HexMapEditor : MonoBehaviour
 
     private Color activeColor;
 
+    public int brushSize;
+    
     #region Not in Tutorial
+
+    public const int COLOR_Water = 3; // blue in Editor
     public int tempSaveColorID;
+
     #endregion Not in Tutorial
 
     private int activeElevation;
 
-    int brushSize;
+    int activeWaterLevel;
+    
+    int activeUrbanLevel, activePlantLevel;
 
-    bool applyElevation = true;
+    bool applyElevation;
+
+    bool applyWaterLevel = true;
+
+    bool applyUrbanLevel, applyPlantLevel;
 
     bool applyColor;
 
+
     void Awake()
     {
-        SelectColor(0);
+        SelectColor(-1);
+        applyElevation = false;
+        if (Instance == null) 
+        { 
+            Instance = this;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this) { Instance = null; }
     }
 
     void Update()
@@ -65,6 +90,25 @@ public class HexMapEditor : MonoBehaviour
             }
         }
     }
+    public void SetApplyUrbanLevel(bool toggle)
+    {
+        applyUrbanLevel = toggle;
+    }
+
+    public void SetUrbanLevel(float level)
+    {
+        activeUrbanLevel = (int)level;
+    }
+    public void SetApplyPlantLevel(bool toggle)
+    {
+        applyPlantLevel = toggle;
+    }
+
+    public void SetPlantLevel(float level)
+    {
+        activePlantLevel = (int)level;
+    }
+
 
     void EditCell(HexCell cell)
     {
@@ -81,6 +125,14 @@ public class HexMapEditor : MonoBehaviour
             if (applyElevation)
             {
                 cell.Elevation = activeElevation;
+            }
+            if (applyWaterLevel)
+            {
+                cell.WaterLevel = activeWaterLevel;
+            }
+            if (applyUrbanLevel)
+            {
+                cell.UrbanLevel = activeUrbanLevel;
             }
             //		hexGrid.Refresh();
         }
@@ -111,10 +163,23 @@ public class HexMapEditor : MonoBehaviour
     public void SetBrushSize(float size)
     {
         brushSize = (int)size;
+        if(BrushSizeChanged != null)
+        {
+            BrushSizeChanged.Invoke(brushSize);
+        }
     }
 
     public void ShowUI(bool visible)
     {
         hexGrid.ShowUI(visible);
+    }
+    public void SetApplyWaterLevel(bool toggle)
+    {
+        applyWaterLevel = toggle;
+    }
+
+    public void SetWaterLevel(float level)
+    {
+        activeWaterLevel = (int)level;
     }
 }

@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class MultiplayerMenu : MonoBehaviour
 {
+    private const string SCENE_MainMenu = "MainMenu";
+
     [SerializeField] private GameObject MainMenu;
     [SerializeField] private GameObject ServerMenu;
     [SerializeField] private GameObject LobbyMenu;
     [SerializeField] private TMP_InputField RoomNameInput;
     [SerializeField] private TMP_InputField MessageInput;
+    [SerializeField] private TMP_InputField NameInput;
     [SerializeField] private UIList ServerPlayerList;
     [SerializeField] private UIList ServerRoomList;
     [SerializeField] private UIList RoomPlayerList;
@@ -34,7 +39,41 @@ public class MultiplayerMenu : MonoBehaviour
         LobbyMenu.SetActive(_menu == LobbyMenu);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {            
+            if (EventSystem.current.currentSelectedGameObject == MessageInput.gameObject)
+            {
+                SendMessage();
+            }
+            else if (EventSystem.current.currentSelectedGameObject == RoomNameInput.gameObject)
+            {
+                CreateRoom();
+                OpenMenu(LobbyMenu);
+            }
+            else if (EventSystem.current.currentSelectedGameObject == NameInput.gameObject)
+            {
+                JoinServer();
+            }
+        }
+    }
+
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadScene(SCENE_MainMenu);
+    }
+
     #region Server Commands
+    public void JoinServer()
+    {
+        if (ServerConnection.Instance.ConnectToServer())
+        {
+            OpenMenu(ServerMenu);
+            ServerConnection.Instance.SendPlayerInfo(NameInput.text);
+        }
+    }
+
     public void CreateRoom()
     {
         if (RoomNameInput.text == string.Empty)
