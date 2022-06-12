@@ -294,6 +294,19 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public void UpdateVisuals()
     {
         Debug.Log($"Update Visuals of {gameObject.name}, stealthed: {isStealthed}\n");
+
+        if (IsStealthed && IsLocalPlayerEnemy)
+        {
+            SetVisible(false);
+            return;
+        }
+        else
+            SetVisible(true);
+    }
+
+    private void SetVisible(bool isShown)
+    {
+        gameObject.SetActive(isShown);
     }
 
     public virtual void OnPointerDown(PointerEventData eventData)
