@@ -1,6 +1,7 @@
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public class HexGrid : MonoBehaviour
 {
@@ -259,6 +260,38 @@ public class HexGrid : MonoBehaviour
                 Destroy(chunks[i].gameObject);
         }
         chunks = null;
+    }
+
+    public HashSet<HexCell> GetNeighbours(HexCell center, int size, bool withCenter = false)
+    {
+        HashSet < HexCell > neighbourCells = new HashSet<HexCell>();
+
+        if (size < 1) return neighbourCells;
+
+        int centerX = center.coordinates.X;
+        int centerZ = center.coordinates.Z;
+
+        for (int r = 0, z = centerZ - size; z <= centerZ; z++, r++)
+        {
+            for (int x = centerX - r; x <= centerX + size; x++)
+            {
+                neighbourCells.Add(GetCell(new HexCoordinates(x, z)));
+            }
+        }
+        for (int r = 0, z = centerZ + size; z > centerZ; z--, r++)
+        {
+            for (int x = centerX - size; x <= centerX + r; x++)
+            {
+                neighbourCells.Add(GetCell(new HexCoordinates(x, z)));
+            }
+        }
+
+        if (!withCenter)
+            neighbourCells.Remove(center);
+
+        neighbourCells.Remove(null);
+
+        return neighbourCells;
     }
 
     #endregion Not in Tutorial

@@ -96,7 +96,7 @@ public class GameInputManager : MonoBehaviour
     private bool IsPawnActionPossible(HexCell targetCell, int interactionRange = 1)
     {
         return GameManager.InputAllowed && selectedPawn != null && targetCell != null
-            && selectedPawn.CanAct && selectedPawn.IsPlayerPawn
+            && selectedPawn.CanAct && selectedPawn.IsActivePlayerPawn
             && selectedPawn.HexCell.DistanceTo(targetCell) <= interactionRange
 
             // only check if character can step onto cell, if it's not a interaction that's possible at range.
@@ -130,7 +130,7 @@ public class GameInputManager : MonoBehaviour
     private bool IsAttackPossible(PlayerPawn otherPawn)
     {
         return selectedPawn.AttackPower > 0 && otherPawn != null
-           && otherPawn.IsEnemy && selectedPawn.InAttackRange(otherPawn);
+           && otherPawn.IsLocalPlayerEnemy && selectedPawn.InAttackRange(otherPawn);
     }
 
     private bool IsLearningPossible(PlayerPawn potentialSchool)
@@ -144,7 +144,7 @@ public class GameInputManager : MonoBehaviour
 
     private bool IsHealingPossible(PlayerPawn healTarget)
     {
-        return selectedPawn.CanHeal && healTarget.IsWounded && healTarget.IsUnit && !healTarget.IsEnemy;
+        return selectedPawn.CanHeal && healTarget.IsWounded && healTarget.IsUnit && !healTarget.IsLocalPlayerEnemy;
     }
 
     /// <summary>

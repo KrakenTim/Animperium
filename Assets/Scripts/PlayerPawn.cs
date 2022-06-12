@@ -10,6 +10,11 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 {
     public System.Action OnValueChange;
 
+    /// <summary>
+    /// Called after Pawn was moved, Parameters: moved Pawn, old HexCell, new HexCell.
+    /// </summary>
+    public static event System.Action<PlayerPawn, HexCell, HexCell> OnPawnMoved;
+
     [SerializeField] PlayerPawnData pawnData;
     public PlayerPawnData PawnData => pawnData;
     public ePlayerPawnType PawnType => pawnData.type;
@@ -19,6 +24,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public int AttackRange => pawnData.attackRange;
     public ePlayerPawnType Spawn => pawnData.spawnedPawn;
     public bool CanHeal => (PawnType == ePlayerPawnType.Healer);
+    public bool CanStealth => (PawnType == ePlayerPawnType.Sneaker || PawnType == ePlayerPawnType.TunnelEntry);
     public bool IsMagicUser => (PawnType == ePlayerPawnType.Warmage || PawnType == ePlayerPawnType.Healer);
     public bool IsBuilding => PawnType.IsBuilding();
     public bool IsUnit => PawnType.IsUnit();
@@ -46,6 +52,9 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public int HP => currentHealth;
     public bool IsWounded => currentHealth < MaxHealth;
     public HealthBar healthBar { get; private set; }
+
+    [SerializeField] bool isStealthed;
+    public bool IsStealthed => isStealthed;
 
     [SerializeField] int movementPoints;
     public int MP => movementPoints;
@@ -84,9 +93,10 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         }
     }
 
-    public virtual bool IsPlayerPawn => playerID == GameManager.ActivePlayerID;
+    public virtual bool IsActivePlayerPawn => playerID == GameManager.ActivePlayerID;
 
-    public virtual bool IsEnemy => GameManager.IsEnemy(PlayerID);
+    public virtual bool IsLocalPlayerEnemy => PlayerValueProvider.IsEnemy(PlayerID);
+    public virtual bool IsEnemyOf(int otherPlayerID) => PlayerValueProvider.AreEnemies(PlayerID, otherPlayerID);
 
     // Start is called before the first frame update
     protected virtual void Awake()
@@ -129,18 +139,21 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         this.playerID = playerID;
     }
 
-    public void SetHexCell(HexCell cell)
+    public void SetHexCell(HexCell newCell)
     {
         if (hexCell != null)
             hexCell.SetPawn(null);
 
-        hexCell = cell;
+        HexCell oldCell = hexCell;
+        hexCell = newCell;
 
-        if (cell != null)
+        if (newCell != null)
         {
-            cell.SetPawn(this);
+            newCell.SetPawn(this);
             UpdatePosition();
         }
+
+        OnPawnMoved?.Invoke(this, oldCell, newCell);
     }
 
     /// <summary>
@@ -238,7 +251,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
     public void HealTarget(PlayerPawn healTarget)
     {
-        if (!healTarget.IsWounded || healTarget.IsEnemy) return;
+        if (!healTarget.IsWounded || healTarget.IsLocalPlayerEnemy) return;
 
         healTarget.GetHealed(pawnData.specialPower);
 
@@ -266,6 +279,21 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
             transform.position = hexCell.transform.position;
         else
             Debug.LogError("Tried to Update Position without HexCell", this);
+    }
+
+    public void SetStealthed(bool isHidden)
+    {
+       // Debug.Log($"Set Stealthed of {this} to {isHidden}\n");
+
+        if (isHidden == isStealthed) return;
+
+        isStealthed = isHidden;
+        UpdateVisuals();
+    }
+
+    public void UpdateVisuals()
+    {
+        Debug.Log($"Update Visuals of {gameObject.name}, stealthed: {isStealthed}\n");
     }
 
     public virtual void OnPointerDown(PointerEventData eventData)

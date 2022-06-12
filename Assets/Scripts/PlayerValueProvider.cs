@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerValueProvider : MonoBehaviour
 {
+    private static PlayerValueProvider instance => GameManager.PlayerValueProvider;
+
     [SerializeField] PlayerValues[] playerValues;
 
     Dictionary<int, Transform> spawnFolderTransforms = new Dictionary<int, Transform>();
@@ -11,12 +13,17 @@ public class PlayerValueProvider : MonoBehaviour
     /// <summary>
     /// Return true if the given player belongs to a diffrent faction than the local player.
     /// </summary>
-    public bool isEnemy(int otherPlayerID)
+    public static bool IsEnemy(int otherPlayerID)
     {
-        if (TryGetPlayerValues(GameManager.LocalPlayerID, out PlayerValues currentPlayer)
-            && TryGetPlayerValues(otherPlayerID, out PlayerValues otherPlayer))
+        return AreEnemies(GameManager.LocalPlayerID, otherPlayerID);
+    }
+
+    public static bool AreEnemies(int firstPlayerID, int secondPlayerID)
+    {
+        if (instance.TryGetPlayerValues(firstPlayerID, out PlayerValues firstPlayer)
+    && instance.TryGetPlayerValues(secondPlayerID, out PlayerValues secondPlayer))
         {
-            return currentPlayer.factionID != otherPlayer.factionID;
+            return firstPlayer.factionID != secondPlayer.factionID;
         }
         return false;
     }
@@ -53,6 +60,12 @@ public class PlayerValueProvider : MonoBehaviour
         {
             spawnFolderTransforms.Add(playerValues[i - 1].playerID, transform.GetChild(i));
             transform.GetChild(i).gameObject.name = playerValues[i - 1].name;
+
+            StealthVisibilityManager stealthManager = transform.GetChild(i).GetComponent<StealthVisibilityManager>();
+            if (stealthManager == null)
+                stealthManager = transform.GetChild(i).gameObject.AddComponent<StealthVisibilityManager>();
+
+            stealthManager.Initialized(playerValues[i - 1]);
         }
     }
 

@@ -10,9 +10,10 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class BlockedPawn : PlayerPawn
 {
-    public override bool IsPlayerPawn => false;
+    public override bool IsActivePlayerPawn => false;
 
-    public override bool IsEnemy => false;
+    public override bool IsLocalPlayerEnemy => false;
+    public override bool IsEnemyOf(int otherPlayerID) => false;
 
     protected override void Awake()
     {
