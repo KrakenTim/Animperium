@@ -36,35 +36,49 @@ public class HexFeatureManager : MonoBehaviour
 		return null;
 	}
 
-	public void AddFeature(HexCell cell, Vector3 position)
-	{
-		HexHash hash = HexMetrics.SampleHashGrid(position);
-
-		Transform prefab = PickPrefab(plantCollections, cell.PlantLevel, hash.a, hash.d);
-		Transform otherPrefab = PickPrefab(structureCollections, cell.DecoLevel, hash.b, hash.d);
-		float usedHash = hash.a;
-		if (prefab)
-		{
-			if (otherPrefab && hash.b < hash.a)
-			{
-				prefab = otherPrefab;
-				usedHash = hash.b;
-			}
-		}
-		else if (otherPrefab)
-		{
-			prefab = otherPrefab;
-			usedHash = hash.b;
-		}
-		else
+    public void AddFeature(HexCell cell, Vector3 position)
+    {
+		if (cell.IsSpecial)
 		{
 			return;
 		}
-		Transform instance = Instantiate(prefab);
-		position.y += instance.localScale.y * 0.5f;
-		instance.localPosition = HexMetrics.Perturb(position);
-		instance.localRotation = Quaternion.Euler(0f, 360f * hash.e, 0f);
-		instance.SetParent(container, false); 
+
+		HexHash hash = HexMetrics.SampleHashGrid(position);
+
+        Transform prefab = PickPrefab(plantCollections, cell.PlantLevel, hash.a, hash.d);
+        Transform otherPrefab = PickPrefab(structureCollections, cell.DecoLevel, hash.b, hash.d);
+        float usedHash = hash.a;
+        if (prefab)
+        {
+            if (otherPrefab && hash.b < hash.a)
+            {
+                prefab = otherPrefab;
+                usedHash = hash.b;
+            }
+        }
+        else if (otherPrefab)
+        {
+            prefab = otherPrefab;
+            usedHash = hash.b;
+        }
+        else
+        {
+            return;
+        }
+        Transform instance = Instantiate(prefab);
+        position.y += instance.localScale.y * 0.5f;
+        instance.localPosition = HexMetrics.Perturb(position);
+        instance.localRotation = Quaternion.Euler(0f, 360f * hash.e, 0f);
+        instance.SetParent(container, false);
+
+	}
+	public void AddSpecialFeature(HexCell cell, Vector3 position)
+	{
+		Transform instance = Instantiate(special[cell.SpecialIndex - 1]);
+        instance.localPosition = HexMetrics.Perturb(position);
+		HexHash hash = HexMetrics.SampleHashGrid(position);
+		//instance.localRotation = Quaternion.Euler(0f, 360f * hash.e, 0f); //rotates buildings randomly
+		instance.SetParent(container, false);
 	}
 
 }

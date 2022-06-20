@@ -27,13 +27,13 @@ public class HexMapEditor : MonoBehaviour
 
     int activeWaterLevel;
     
-    int activeDecoLevel, activePlantLevel;
+    int activeDecoLevel, activePlantLevel, activeSpecialIndex;
 
     bool applyElevation;
 
-    bool applyWaterLevel = true;
+    bool applyWaterLevel;
 
-    bool applyDecoLevel, applyPlantLevel;
+    bool applyDecoLevel, applyPlantLevel, applySpecialIndex;
 
     bool applyColor;
 
@@ -108,7 +108,15 @@ public class HexMapEditor : MonoBehaviour
     {
         activePlantLevel = (int)level;
     }
+    public void SetApplySpecialIndex(bool toggle)
+    {
+        applySpecialIndex = toggle;
+    }
 
+    public void SetSpecialIndex(float index)
+    {
+        activeSpecialIndex = (int)index;
+    }
 
     void EditCell(HexCell cell)
     {
@@ -130,11 +138,20 @@ public class HexMapEditor : MonoBehaviour
             {
                 cell.WaterLevel = activeWaterLevel;
             }
+            if (applySpecialIndex)
+            {
+                cell.SpecialIndex = activeSpecialIndex;
+            }
             if (applyDecoLevel)
             {
                 cell.DecoLevel = activeDecoLevel;
             }
             //		hexGrid.Refresh();
+            if (applyPlantLevel)
+            {
+                cell.PlantLevel = activePlantLevel;
+            }
+
         }
     }
 
