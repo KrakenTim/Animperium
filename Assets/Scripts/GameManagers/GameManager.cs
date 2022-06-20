@@ -9,9 +9,8 @@ public class GameManager : MonoBehaviour
 
     public static event System.Action<int> TurnStarted;
     public static event System.Action LocalPlayerChanged;
-
-    [SerializeField] HexGrid myHexGrid;
-    public static HexGrid HexGrid => Instance.myHexGrid;
+    
+    [SerializeField] public HexGridManager hexGridManager;
 
     [SerializeField] PlayerPawnData[] pawnDatas;
 
@@ -285,12 +284,7 @@ public class GameManager : MonoBehaviour
 
         return new ColorableIconData();
     }
-
-    public static HexCell GetHexCell(Vector3 worldPosition)
-    {
-        return Instance.myHexGrid.GetHexCell(worldPosition);
-    }
-
+    
     public static void AddPlayerPawn(PlayerPawn pawn)
     {
         if (pawn.PawnType.IsNonPlayer())

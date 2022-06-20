@@ -115,7 +115,7 @@ public class FeedbackManager : MonoBehaviour
             SpawnVFX(playedFeedback.vfxStarter, actingPawn.WorldPosition, rotation);
 
         if (targetCell != null && playedFeedback.vfxTarget != null)
-            SpawnVFX(playedFeedback.vfxTarget, targetCell.Position, rotation);
+            SpawnVFX(playedFeedback.vfxTarget, targetCell.transform.position, rotation);
     }
 
     /// <summary>

@@ -9,7 +9,6 @@ using UnityEngine.InputSystem;
 public class GameInputManager : MonoBehaviour
 {
     static GameInputManager instance;
-    public static HexGrid HexGrid => GameManager.HexGrid;
 
     public static event System.Action<PlayerPawn> SelectPawn;
 
@@ -54,7 +53,7 @@ public class GameInputManager : MonoBehaviour
 
         if (!Physics.Raycast(inputRay, out RaycastHit hit)) return;
 
-        selectedHexCell = HexGrid.GetHexCell(hit.point);
+        selectedHexCell = HexGridManager.Current.GetHexCell(hit.point);
 
         if (IsPawnActionPossible(selectedHexCell))
         {

@@ -11,9 +11,7 @@ public static class InputMessageExecuter
     /// Called if a recieved InputMessage could be parsed and will be executed.
     /// </summary>
     public static event System.Action<string> RecievedInputMessage;
-
-    private static HexGrid HexGrid => GameManager.HexGrid;
-
+    
     /// <summary>
     /// Sends the given message out, currently to itself since we've only got hotseat mode.
     /// </summary>
@@ -58,14 +56,14 @@ public static class InputMessageExecuter
     /// </summary>
     private static void ExecuteHexMessage(InputMessage hexOrder)
     {
-        HexCell startCell = HexGrid.GetHexCell(hexOrder.startCell);
-        HexCell targetCell = HexGrid.GetHexCell(hexOrder.targetCell);
+        HexCell startCell = HexGridManager.Current.GetHexCell(hexOrder.startCoordinates, hexOrder.startLayer);
+        HexCell targetCell = HexGridManager.Current.GetHexCell(hexOrder.targetCoordinates, hexOrder.targetLayer);
 
         PlayerPawn startPawn = startCell.Pawn;
         PlayerPawn targetPawn = targetCell.Pawn;
 
         if (startPawn.IsUnit)
-            startPawn.LookAt(targetCell.Position);
+            startPawn.LookAt(targetCell.transform.position);
 
         switch (hexOrder.action)
         {

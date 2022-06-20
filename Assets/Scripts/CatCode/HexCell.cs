@@ -60,6 +60,16 @@ public class HexCell : MonoBehaviour
         }
     }
 
+    #region NotInTutorial
+    public bool IsTunnelPossible
+    {
+        get
+        {
+            return !IsUnderwater && tempSaveColorID != HexMapEditor.COLOR_Water;
+        }
+    }
+    #endregion
+
     public int UrbanLevel
     {
         get

@@ -108,7 +108,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
             GameManager.AddPlayerPawn(this);
 
         if (hexCell == null)
-            SetHexCell(GameManager.GetHexCell(transform.position));
+            SetHexCell(HexGridManager.Current.GetHexCell(transform.position));
 
         healthBar = HealthbarManager.AddHealthbar(this);
     }
@@ -161,7 +161,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     /// </summary>
     public void LookAway(HexCell cellInBack)
     {
-        Vector3 target = transform.position + (transform.position - cellInBack.Position);
+        Vector3 target = transform.position + (transform.position - cellInBack.transform.position);
         target.y = transform.position.y;
 
         LookAt(target);
@@ -333,7 +333,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
     public void UpdateHexCellViaEditor()
     {
-        HexCell below = GameManager.GetHexCell(transform.position);
+        HexCell below = HexGridManager.Current.GetHexCell(transform.position);
 
         if (below.HasPawn)
         {
