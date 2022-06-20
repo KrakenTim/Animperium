@@ -52,8 +52,15 @@ public class InteractionMenuManager : MonoBehaviour
 
             instance.AddPossibleTargetUpgrades(targetCell, actingUnit);
         }
-        else
-            instance.CreateButtonEntries(GameManager.GetBuildingDatas(withoutUpgrades: true, excludeTownHall: true), ePlayeractionType.Build, targetCell, actingUnit);
+        else if (ePlayerPawnType.Villager == GameInputManager.SelectedPawn.PawnType)
+            instance.CreateButtonEntries(GameManager.GetBuildingDatas(withoutUpgrades: true, excludeTownHall: true, excludeTunnelEntry: true), ePlayeractionType.Build, targetCell, actingUnit);
+
+        else if (ePlayerPawnType.Digger == GameInputManager.SelectedPawn.PawnType)
+        {
+            GameManager.GetPawnData(ePlayerPawnType.TunnelEntry);
+            instance.CreateButtonEntries(new List<PlayerPawnData>() { GameManager.GetPawnData(ePlayerPawnType.TunnelEntry) }, ePlayeractionType.Build, targetCell, actingUnit);
+            Debug.Log("Is a Digger");
+        }
 
         instance.SetVisible(instance.buttonList.Count > 0);
     }

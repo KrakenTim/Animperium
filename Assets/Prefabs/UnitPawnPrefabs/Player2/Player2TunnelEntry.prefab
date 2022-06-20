@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cedc5eb9b088854d9efb6b5543a7b9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pawnData: {fileID: 0}
+  pawnData: {fileID: 11400000, guid: ac4b14c70ebef224aa5742e74e81a178, type: 2}
   playerID: 2
   pawnID: 0
   currentHealth: 0

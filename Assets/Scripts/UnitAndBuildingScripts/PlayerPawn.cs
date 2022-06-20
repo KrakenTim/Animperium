@@ -25,6 +25,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public ePlayerPawnType Spawn => pawnData.spawnedPawn;
     public bool CanHeal => (PawnType == ePlayerPawnType.Healer);
     public bool CanStealth => (PawnType == ePlayerPawnType.Sneaker || PawnType == ePlayerPawnType.TunnelEntry);
+    public bool CanDigging => (PawnType == ePlayerPawnType.Digger || PawnType == ePlayerPawnType.TunnelEntry);
     public bool IsMagicUser => (PawnType == ePlayerPawnType.Warmage || PawnType == ePlayerPawnType.Healer);
     public bool IsBuilding => PawnType.IsBuilding();
     public bool IsUnit => PawnType.IsUnit();
