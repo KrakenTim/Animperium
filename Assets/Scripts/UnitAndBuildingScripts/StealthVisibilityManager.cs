@@ -121,7 +121,7 @@ public class StealthVisibilityManager : MonoBehaviour
     /// </summary>
     private void UpdatePawnVisibility(PlayerPawn stealthPawn)
     {
-        HashSet<HexCell> neighbourCells = GameManager.HexGrid.GetNeighbours(stealthPawn.HexCell, detectionDistance);
+        HashSet<HexCell> neighbourCells = HexGridManager.Current.GetGrid(stealthPawn.HexCell).GetNeighbours(stealthPawn.HexCell, detectionDistance);
 
         bool isSeen = false;
         foreach (var cell in neighbourCells)

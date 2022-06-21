@@ -25,14 +25,13 @@ public class HexGrid : MonoBehaviour
     //	Canvas gridCanvas;
     //	HexMesh hexMesh;
 
-
-
     public void Awake()
     {
-        #region Not in Editor
-        if (GetComponent<TempMapSaves>().LoadsInsteadOfHexGrid)
-            return;
-        #endregion Not in Editor
+        #region Not in Tutorial
+        TempMapSaves ts = GetComponent<TempMapSaves>();
+        if (ts && ts.LoadsInsteadOfHexGrid) return;
+        #endregion Not in Tutorial
+
         HexMetrics.noiseSource = noiseSource;
         HexMetrics.InitializeHashGrid(seed);
         //		gridCanvas = GetComponentInChildren<Canvas>();
@@ -198,6 +197,7 @@ public class HexGrid : MonoBehaviour
             {
                 HexGridChunk chunk = chunks[i++] = Instantiate(chunkPrefab);
                 chunk.transform.SetParent(transform);
+                chunk.transform.localPosition = Vector3.zero;
             }
         }
     }
@@ -264,7 +264,7 @@ public class HexGrid : MonoBehaviour
 
     public HashSet<HexCell> GetNeighbours(HexCell center, int size, bool withCenter = false)
     {
-        HashSet < HexCell > neighbourCells = new HashSet<HexCell>();
+        HashSet<HexCell> neighbourCells = new HashSet<HexCell>();
 
         if (size < 1) return neighbourCells;
 
@@ -292,6 +292,21 @@ public class HexGrid : MonoBehaviour
         neighbourCells.Remove(null);
 
         return neighbourCells;
+    }
+
+    /// <summary>
+    /// x,y is horizontal, z,w is vertical extension.
+    /// </summary>
+    public Vector4 WorldArea()
+    {
+        Vector4 area = new Vector4();
+        area.x = cells[0].transform.position.x;
+        area.z = cells[0].transform.position.z;
+
+        area.y = cells[cells.Length - 1].transform.position.x;
+        area.w = cells[cells.Length - 1].transform.position.z;
+
+        return area;
     }
 
     #endregion Not in Tutorial

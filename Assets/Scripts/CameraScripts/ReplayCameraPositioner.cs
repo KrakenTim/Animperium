@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ReplayCameraPositioner : MonoBehaviour
 {
-    private static HexGrid HexGrid => GameManager.HexGrid;
-
     public static event System.Action FinishedShift;
 
     [SerializeField] Transform shiftedTransform;
@@ -21,8 +19,8 @@ public class ReplayCameraPositioner : MonoBehaviour
 
         position = shiftedTransform.position;
 
-        HexCell start = HexGrid.GetHexCell(order.startCell);
-        HexCell end = HexGrid.GetHexCell(order.targetCell);
+        HexCell start = HexGridManager.Current.GetHexCell(order.startCoordinates,order.startLayer);
+        HexCell end = HexGridManager.Current.GetHexCell(order.targetCoordinates,order.targetLayer);
 
         position = (start.transform.position + end.transform.position) / 2f;
 

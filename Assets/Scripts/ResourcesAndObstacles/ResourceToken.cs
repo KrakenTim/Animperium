@@ -20,7 +20,7 @@ public class ResourceToken : MonoBehaviour
             Debug.LogError($"Ressource of type {type} with an amount of {amount} found!", this);
 
         if (hexCell == null)
-            SetHexCell(GameManager.GetHexCell(transform.position));
+            SetHexCell(HexGridManager.Current.GetHexCell(transform.position));
     }
 
     private void SetHexCell(HexCell newCell)

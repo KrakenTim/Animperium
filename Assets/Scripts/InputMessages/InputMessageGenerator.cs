@@ -15,6 +15,7 @@ public static class InputMessageGenerator
 
         return message;
     }
+
     /// <summary>
     /// Creates an Input message from the given parameters.
     /// </summary>
@@ -22,8 +23,11 @@ public static class InputMessageGenerator
     {
         InputMessage message = CreateBasicMessage(action);
 
-        message.startCell = actingPawn.HexCoordinates;
-        message.targetCell = targetCell.coordinates;
+        message.startCoordinates = actingPawn.HexCoordinates;
+        message.startLayer = HexGridManager.Current.GetHexCellLayer(actingPawn.HexCell);
+
+        message.targetCoordinates = targetCell.coordinates;
+        message.targetLayer = HexGridManager.Current.GetHexCellLayer(targetCell);
 
         return message;
     }
