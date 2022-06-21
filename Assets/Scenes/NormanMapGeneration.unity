@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 5385.7334, g: 3469.9023, b: 2779.4219, a: 1}
+  m_IndirectSpecularColor: {r: 5299.41, g: 3424.1387, b: 2783.8164, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8271,6 +8271,10 @@ PrefabInstance:
       propertyPath: build.vfxStarter
       value: 
       objectReference: {fileID: 4850530004794458108, guid: 7114e033424bb304083492c2a8e962d7, type: 3}
+    - target: {fileID: 3666991950448948645, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: digging.vfxTarget
+      value: 
+      objectReference: {fileID: 866565712263736593, guid: a25747f2e9363724dbff4363a9672685, type: 3}
     - target: {fileID: 3666991950448948645, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
       propertyPath: unitUpgrade.vfxStarter
       value: 

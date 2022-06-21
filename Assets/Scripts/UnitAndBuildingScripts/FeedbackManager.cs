@@ -36,6 +36,7 @@ public class FeedbackManager : MonoBehaviour
     [SerializeField] PlayeractionFeedback attackMagical;
     [SerializeField] PlayeractionFeedback build;
     [SerializeField] PlayeractionFeedback buildingUpgrade;
+    [SerializeField] PlayeractionFeedback digging;
     [SerializeField] PlayeractionFeedback collect;
     [SerializeField] PlayeractionFeedback heal;
     [SerializeField] PlayeractionFeedback move;
