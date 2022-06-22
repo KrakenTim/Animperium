@@ -35,7 +35,7 @@ public class TimsUIUpgrade : MonoBehaviour
 
     public void ShowWater()
     {
-        HexEditor.SelectColor(-1);
+        HexEditor.SetTerrainTypeIndex(-1);
         HexEditor.SetApplyElevation(false);
         HexEditor.SetApplyWaterLevel(true);
         HexEditor.SetApplyDecoLevel(false);
@@ -49,7 +49,7 @@ public class TimsUIUpgrade : MonoBehaviour
 
     public void ShowDeco()
     {
-        HexEditor.SelectColor(-1);
+        HexEditor.SetTerrainTypeIndex(-1);
         HexEditor.SetApplyElevation(false);
         HexEditor.SetApplyWaterLevel(false);
         HexEditor.SetApplyDecoLevel(true);

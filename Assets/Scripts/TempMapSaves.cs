@@ -118,7 +118,7 @@ public class TempMapSaves : MonoBehaviour
 
             if (editor)
             {
-                cells[cellID].Color = editor.colors[int.Parse(nextLine[1])];
+                //cells[cellID].Color = editor.colors[int.Parse(nextLine[1])];
                 cells[cellID].tempSaveColorID = int.Parse(nextLine[1]);
             }
         }

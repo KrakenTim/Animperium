@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.IO;
 
 public enum HexDirection
 {
@@ -37,26 +37,32 @@ public class HexCell : MonoBehaviour
             return specialIndex > 0;
         }
     }
-
+    public int TerrainTypeIndex
+    {
+        get
+        {
+            return terrainTypeIndex;
+        }
+        set
+        {
+            if (terrainTypeIndex != value)
+            {
+                terrainTypeIndex = value;
+                Refresh();
+            }
+        }
+    }
 
     public Color Color
     {
         get
         {
-            return color;
-        }
-        set
-        {
-            if (color == value)
-            {
-                return;
-            }
-            color = value;
-            Refresh();
+            return HexMetrics.colors[terrainTypeIndex];
         }
     }
     //    public Color color;
-    public Color color;
+    //	Color color;
+    int terrainTypeIndex;
 
     public int WaterLevel
     {
@@ -173,23 +179,24 @@ public class HexCell : MonoBehaviour
         }
         set
         {
-            /*	        int elevation = int.MinValue;
-                        if (elevation == value)
-                        {
-                            return;
-                        }*/
+            if (elevation == value)
+            {
+                return;
+            }
             elevation = value;
-            Vector3 position = transform.localPosition;
-            position.y = value * HexMetrics.elevationStep;
-            position.y += (HexMetrics.SampleNoise(position).y * 2f - 1f) * HexMetrics.elevationPerturbStrength;
-            transform.localPosition = position;
+            RefreshPosition();
+            //Vector3 position = transform.localPosition;
+            //position.y = value * HexMetrics.elevationStep;
+            //position.y += (HexMetrics.SampleNoise(position).y * 2f - 1f) * HexMetrics.elevationPerturbStrength;
+            //transform.localPosition = position;
 
-            Vector3 uiPosition = uiRect.localPosition;
-            uiPosition.z = -position.y;
-            uiRect.localPosition = uiPosition;
-            Refresh();
+            //Vector3 uiPosition = uiRect.localPosition;
+            //uiPosition.z = -position.y;
+            //uiRect.localPosition = uiPosition;
+            //Refresh();
         }
     }
+
     public Vector3 Position
     {
         get
@@ -258,7 +265,7 @@ public class HexCell : MonoBehaviour
     /// </summary>
     public void Copy(HexCell blueprint)
     {
-        Color = blueprint.Color;
+        HexMetrics.colors[terrainTypeIndex] = blueprint.Color; //changed Color to HexMetrics.colors[terrainTypeIndex]
         tempSaveColorID = blueprint.tempSaveColorID;
 
         Elevation = blueprint.Elevation;
@@ -283,6 +290,39 @@ public class HexCell : MonoBehaviour
 
     #endregion Not in Tutorial
 
+    public void Save(BinaryWriter writer)
+    {
+        writer.Write((byte)terrainTypeIndex);
+        writer.Write((byte)elevation);
+        writer.Write((byte)waterLevel);
+        writer.Write((byte)decoLevel);
+        writer.Write((byte)plantLevel);
+        writer.Write((byte)specialIndex);
+    }
+
+    public void Load(BinaryReader reader)
+    {
+        terrainTypeIndex = reader.ReadByte();
+        elevation = reader.ReadByte();
+        RefreshPosition();
+        waterLevel = reader.ReadByte();
+        decoLevel = reader.ReadByte();
+        plantLevel = reader.ReadByte();
+        specialIndex = reader.ReadByte();
+    }
+
+    void RefreshPosition()
+    {
+        Vector3 position = transform.localPosition;
+        position.y = elevation * HexMetrics.elevationStep;
+        position.y += (HexMetrics.SampleNoise(position).y * 2f - 1f) * HexMetrics.elevationPerturbStrength;
+        transform.localPosition = position;
+
+        Vector3 uiPosition = uiRect.localPosition;
+        uiPosition.z = -position.y;
+        uiRect.localPosition = uiPosition;
+        Refresh();
+    }
 }
 
 public static class HexDirectionExtensions
@@ -300,4 +340,5 @@ public static class HexDirectionExtensions
     {
         return direction == HexDirection.NW ? HexDirection.NE : (direction + 1);
     }
+
 }
