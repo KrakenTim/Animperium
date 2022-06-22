@@ -50,6 +50,7 @@ MonoBehaviour:
   playerID: 2
   pawnID: 0
   currentHealth: 0
+  isStealthed: 0
   movementPoints: 0
   hexCell: {fileID: 0}
 --- !u!135 &7702237326643061088
@@ -182,6 +183,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlaceHolderPawnMesh2
       objectReference: {fileID: 0}
+    - target: {fileID: 3925562601172035472, guid: e09d99feabfea3047904555e75a27d70, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3925562601172035472, guid: e09d99feabfea3047904555e75a27d70, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 846da23c229639f4994d9c9ea7c923ee, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e09d99feabfea3047904555e75a27d70, type: 3}
 --- !u!4 &7551191172055842827 stripped

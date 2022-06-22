@@ -87,8 +87,21 @@ public class PlayerResourceUIDisplay : MonoBehaviour
         ore.text = usedResources.ore + (showType ? " " + AnimperiumLocalisation.Get(eResourceType.Ore) : "");
     }
 
+    //private void FarmHouseGetFood(eResourceType eResource, int amount)
+    //{
+    //    if (ePlayerPawnType.FarmHouse.IsBuilding())
+    //    {
+    //        GameManager.AddResource(eResourceType.Food, 10);
+    //    }
+    //}
+
     private void UpdatePopulationText(PlayerValues localPlayerValues = null)
     {
+        //if (ePlayerPawnType.FarmHouse.IsBuilding())
+        //{
+        //    GameManager.MaxPopulation++;
+        //}
+
         if (population == null) return;
 
         if (localPlayerValues == null
