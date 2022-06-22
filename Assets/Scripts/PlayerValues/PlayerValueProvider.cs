@@ -40,7 +40,11 @@ public class PlayerValueProvider : MonoBehaviour
             SetDefaultNamesForMissing();
 
         foreach (var player in playerValues)
+        {
             player.lastCameraValues.localPosition = player.GetTownHall().WorldPosition;
+
+            player.PopulationMax += GameManager.Instance.populationBase;
+        }
     }
 
     /// <summary>
@@ -73,7 +77,7 @@ public class PlayerValueProvider : MonoBehaviour
     /// Returns the transform parent for a player's pawns.
     /// Uses own transform as fallback, if no transform is given for the player.
     /// </summary>
-    public Transform GetPlayerPawnParrent(int playerID)
+    public Transform GetPlayerPawnParent(int playerID)
     {
         if (spawnFolderTransforms.ContainsKey(playerID))
             return spawnFolderTransforms[playerID];

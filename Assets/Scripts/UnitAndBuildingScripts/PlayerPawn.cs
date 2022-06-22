@@ -8,6 +8,8 @@ using UnityEngine.Events;
 [System.Serializable]
 public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    const int FoodPerTurn = 5;
+
     public System.Action OnValueChange;
 
     /// <summary>
@@ -272,6 +274,10 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     {
         movementPoints = MaxMovement;
         CanAct = true;
+
+        if (PawnType == ePlayerPawnType.FarmHouse && GameManager.ActivePlayerID == PlayerID)
+            GameManager.AddResource(eResourceType.Food, FoodPerTurn);
+
     }
 
     private void UpdatePosition()

@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     public static event System.Action<int> TurnStarted;
     public static event System.Action LocalPlayerChanged;
-    
+
     [SerializeField] public HexGridManager hexGridManager;
 
     [SerializeField] PlayerPawnData[] pawnDatas;
@@ -36,10 +36,7 @@ public class GameManager : MonoBehaviour
     public static int Turn => Instance ? Instance.turn : -1;
 
     int spawnedPawnID = 0;
-    public int maxPopulation = 5;
-    public static int MaxPopulation => Instance.maxPopulation;
-    public int schoolNeededUpgrades;
-    public static int SchoolNeededUpgrades => Instance.schoolNeededUpgrades;
+    public int populationBase = 8;
 
     [SerializeField] private PlayerValueProvider playerValueProvider;
     public static PlayerValueProvider PlayerValueProvider => Instance.playerValueProvider;
@@ -148,7 +145,7 @@ public class GameManager : MonoBehaviour
                 if (excludeTunnelEntry && data.type == ePlayerPawnType.TunnelEntry)
                     continue;
 
-                    result.Add(data);
+                result.Add(data);
             }
         }
         return result;
@@ -225,7 +222,7 @@ public class GameManager : MonoBehaviour
     public static PlayerPawn PlaceNewPawn(PlayerPawnData placedPawnData, HexCell spot, int playerID, HexCell origin = null)
     {
         PlayerPawn newPawn = Instantiate(placedPawnData.GetPawnPrefab(playerID), spot.transform.position,
-                                         Quaternion.identity, Instance.playerValueProvider.GetPlayerPawnParrent(playerID));
+                                         Quaternion.identity, Instance.playerValueProvider.GetPlayerPawnParent(playerID));
 
         // Pawn adds itself to the grid on the matching position.
         newPawn.SetPlayer(playerID);
@@ -267,7 +264,17 @@ public class GameManager : MonoBehaviour
 
         Debug.LogError("Population Count not found for Player " + playerID, Instance);
 
-        return MaxPopulation;
+        return Instance.populationBase;
+    }
+
+    public static int PlayerPopulationMax(int playerID)
+    {
+        if (Instance.TryGetPlayerValues(playerID, out PlayerValues result))
+            return result.PopulationMax;
+
+        Debug.LogError("Population Max not found for Player " + playerID, Instance);
+
+        return Instance.populationBase;
     }
 
     public static GameResources GetPlayerResources(int playerID)
@@ -289,7 +296,7 @@ public class GameManager : MonoBehaviour
 
         return new ColorableIconData();
     }
-    
+
     public static void AddPlayerPawn(PlayerPawn pawn)
     {
         if (pawn.PawnType.IsNonPlayer())
@@ -309,7 +316,12 @@ public class GameManager : MonoBehaviour
             }
 
             result.ownedPawns.Add(pawn);
-            result.PopulationCount += pawn.PawnData.populationCount;
+            if (pawn.PawnData.populationCount > 0)
+                result.PopulationCount += pawn.PawnData.populationCount;
+
+            // negative population costs increase max population
+            else if (pawn.PawnData.populationCount < 0)
+                result.PopulationMax += -pawn.PawnData.populationCount;
         }
     }
 
@@ -321,7 +333,13 @@ public class GameManager : MonoBehaviour
         if (Instance.TryGetPlayerValues(pawn.PlayerID, out PlayerValues result))
         {
             result.ownedPawns.Remove(pawn);
-            result.PopulationCount -= pawn.PawnData.populationCount;
+
+            if (pawn.PawnData.populationCount > 0)
+                result.PopulationCount -= pawn.PawnData.populationCount;
+
+            // negative population costs increase max population
+            else if (pawn.PawnData.populationCount < 0)
+                result.PopulationMax -= -pawn.PawnData.populationCount;
         }
         pawn.SetHexCell(null);
         Destroy(pawn.gameObject);

@@ -26,6 +26,20 @@ public class PlayerValues
         }
     }
 
+    private int populationMax;
+    public int PopulationMax
+    {
+        get
+        {
+            return populationMax;
+        }
+        set
+        {
+            populationMax = value;
+            OnValuesChanged?.Invoke(playerID);
+        }
+    }
+
     public int upgradeCounter;
     [SerializeField] private ColorableIconData playerIcon;
     public ColorableIconData PlayerIcon => IconProvider.GetCheckedPlayer(playerIcon, name);

@@ -121,7 +121,7 @@ public class GameInputManager : MonoBehaviour
     {
         // TODO(24.04.22) might check if needed resources are available and you have enough space in population to spawn.
         return !selectedHexCell.HasPawn
-               && selectedPawn.Spawn != ePlayerPawnType.NONE && GameManager.PlayerPopulation(selectedPawn.PlayerID) < GameManager.MaxPopulation;
+               && selectedPawn.Spawn != ePlayerPawnType.NONE && GameManager.PlayerPopulation(selectedPawn.PlayerID) < GameManager.PlayerPopulationMax(selectedPawn.PlayerID);
     }
 
     private bool IsBuildingPossible()
@@ -191,6 +191,8 @@ public class GameInputManager : MonoBehaviour
                 return;
             }
         }
+
+        if (clickedPawn.HP <= 0) return;
 
         // Select clicked Pawn
         instance.selectedPawn = clickedPawn;

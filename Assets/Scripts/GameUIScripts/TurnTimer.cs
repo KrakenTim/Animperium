@@ -64,11 +64,6 @@ public class TurnTimer : MonoBehaviour
 
         activePlayerIcon.SetPlayer(GameManager.ActivePlayerID);
 
-        if (ePlayerPawnType.FarmHouse.IsBuilding())
-        {
-            GameManager.AddResource(eResourceType.Food, 10);
-        }
-
         enabled = true;
         secondTick = 0;
 
