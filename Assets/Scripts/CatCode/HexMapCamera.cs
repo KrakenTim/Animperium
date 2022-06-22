@@ -32,7 +32,7 @@ public class HexMapCamera : MonoBehaviour
     Transform swivel, stick;
 
     [Tooltip("Manual Assignment Of Grid Required")]
-    public HexGrid grid;
+    public HexGrid usedGrid;
 
 
     void Awake()
@@ -139,15 +139,47 @@ public class HexMapCamera : MonoBehaviour
         }
     }
 
+    public static void SwapUsedGrid()
+    {
+        if (instance.usedGrid == HexGridManager.Current.Surface)
+            SwapToUnderGround();
+        else if (instance.usedGrid == HexGridManager.Current.Underground)
+            SwapToSurface();
+    }
+
+    public static void SwapToSurface()
+    {
+        if (instance.usedGrid == HexGridManager.Current.Surface) return;
+
+        instance.SwapToGrid(HexGridManager.Current.Surface);
+    }
+
+    public static void SwapToUnderGround()
+    {
+        if (instance.usedGrid == HexGridManager.Current.Underground) return;
+
+        instance.SwapToGrid(HexGridManager.Current.Underground);
+    }
+
+    private void SwapToGrid(HexGrid newGrid)
+    {
+        HexGrid oldGrid = instance.usedGrid;
+        usedGrid = newGrid;
+
+        SetPosition(LocalPosition + newGrid.transform.position - oldGrid.transform.position);
+    }
+
     #endregion Not in tutorial
 
     Vector3 ClampPosition(Vector3 position)
     {
-        float xMax = (grid.chunkCountX * HexMetrics.chunkSizeX - 0.5f) * (2f * HexMetrics.innerRadius);
-        position.x = Mathf.Clamp(position.x, 0f, xMax);
+        Vector4 area = usedGrid.WorldArea();
 
-        float zMax = (grid.chunkCountZ * HexMetrics.chunkSizeZ - 1f) * (1.5f * HexMetrics.outerRadius);
-        position.z = Mathf.Clamp(position.z, 0f, zMax);
+        //float xMax = (grid.chunkCountX * HexMetrics.chunkSizeX - 0.5f) * (2f * HexMetrics.innerRadius);
+        position.x = Mathf.Clamp(position.x, area.x, area.y);
+
+        //float zMax = (grid.chunkCountZ * HexMetrics.chunkSizeZ - 1f) * (1.5f * HexMetrics.outerRadius);
+        position.z = Mathf.Clamp(position.z, area.z, area.w);
 
         return position;
     }

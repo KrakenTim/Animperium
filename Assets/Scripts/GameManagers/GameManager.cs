@@ -211,7 +211,13 @@ public class GameManager : MonoBehaviour
 
         playerResources.PaySpawnCosts(spawnedPawnData);
 
-        PlaceNewPawn(spawnedPawnData, spawnPoint, spawner.PlayerID, spawner.HexCell);
+        if (spawnedPawnData.type != ePlayerPawnType.TunnelEntry)
+            PlaceNewPawn(spawnedPawnData, spawnPoint, spawner.PlayerID, spawner.HexCell);
+        else
+        {
+            foreach (var hexCell in HexGridManager.Current.GetHexCells(spawnPoint.coordinates))
+                PlaceNewPawn(spawnedPawnData, hexCell, spawner.PlayerID, spawner.HexCell);
+        }
 
         return true;
     }

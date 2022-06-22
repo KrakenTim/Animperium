@@ -107,7 +107,7 @@ public class GameInputManager : MonoBehaviour
 
     private bool IsCollectPossible()
     {
-        return selectedHexCell.Resource != null 
+        return selectedHexCell.Resource != null
                && selectedHexCell.Resource.CanCollect(selectedPawn) && selectedPawn.MP > 0;
     }
 
@@ -120,13 +120,14 @@ public class GameInputManager : MonoBehaviour
     private bool IsSpawnPossible()
     {
         // TODO(24.04.22) might check if needed resources are available and you have enough space in population to spawn.
-        return !selectedHexCell.HasPawn
-               && selectedPawn.Spawn != ePlayerPawnType.NONE && GameManager.PlayerPopulation(selectedPawn.PlayerID) < GameManager.PlayerPopulationMax(selectedPawn.PlayerID);
+        return !selectedHexCell.HasPawn && selectedPawn.Spawn != ePlayerPawnType.NONE
+               && GameManager.PlayerPopulation(selectedPawn.PlayerID) < GameManager.PlayerPopulationMax(selectedPawn.PlayerID);
     }
 
     private bool IsBuildingPossible()
     {
-        return selectedPawn.PawnType == ePlayerPawnType.Villager && !selectedHexCell.HasPawn && selectedHexCell.Resource == null;
+        return selectedPawn.PawnType == ePlayerPawnType.Villager && !selectedHexCell.HasPawn && selectedHexCell.Resource == null
+               && HexGridManager.Current.IsSurface(selectedHexCell);
     }
 
     private bool IsTunnelBuildingPossible()
@@ -218,7 +219,7 @@ public class GameInputManager : MonoBehaviour
         if (pawnToDeselect != null && pawnToDeselect != SelectedPawn) return;
 
         if (instance.selectedPawn != null)
-        instance.selectedPawn.OnValueChange -= instance.UpdateSelectedPawnDecal;
+            instance.selectedPawn.OnValueChange -= instance.UpdateSelectedPawnDecal;
 
         instance.selectedPawn = null;
         instance.selectedPawnDecal.SetActive(false);

@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class HexGridManager : MonoBehaviour
 {
+    const int UNDIGGED_EVELATION = 2;
+
     public static HexGridManager Current => GameManager.Instance.hexGridManager;
 
     [SerializeField] HexGrid surface;
+    public HexGrid Surface => surface;
     [SerializeField] HexGrid underground;
+    public HexGrid Underground => underground;
+
+    const int HIGHEST_LAYER = 1;
+
     [Space]
     [SerializeField] HexMapEditor editor;
 
@@ -38,10 +45,23 @@ public class HexGridManager : MonoBehaviour
             return surface.GetCell(coordinates);
     }
 
+    /// <summary>
+    /// HexCells of all layers for given coordinate
+    /// </summary>
+    public HexCell[] GetHexCells(HexCoordinates coordinates)
+    {
+        HexCell[] result = new HexCell[HIGHEST_LAYER + 1];
+
+        for (int i = 0; i < result.Length; i++)
+            result[i] = GetHexCell(coordinates, i);
+
+        return result;
+    }
+
     public int GetHexCellLayer(HexCell cell)
     {
-        Debug.Log($"Underground: {underground.WorldArea()} {underground.WorldArea().InArea(cell.transform.position)} " +
-                  $"Surface: {surface.WorldArea()} {underground.WorldArea().InArea(cell.transform.position)} Position: {cell.transform.position}\n");
+        //Debug.Log($"Underground: {underground.WorldArea()} {underground.WorldArea().InArea(cell.transform.position)} " +
+        //          $"Surface: {surface.WorldArea()} {underground.WorldArea().InArea(cell.transform.position)} Position: {cell.transform.position}\n");
 
         if (underground.WorldArea().InArea(cell.transform.position))
             return 1;
@@ -55,6 +75,16 @@ public class HexGridManager : MonoBehaviour
             return surface;
         else
             return underground;
+    }
+
+    public bool IsSurface(HexCell cell)
+    {
+        return GetHexCellLayer(cell) == 0;
+    }
+
+    public bool IsUnderground(HexCell cell)
+    {
+        return GetHexCellLayer(cell) > 0;
     }
 
     private void CreateUnderground()
@@ -71,7 +101,7 @@ public class HexGridManager : MonoBehaviour
         int cellColorID;
         for (int cellID = 0; cellID < undergroundCells.Length; cellID++)
         {
-            //undergroundCells[cellID].Elevation = int.Parse(nextLine[0]);
+            undergroundCells[cellID].Elevation = UNDIGGED_EVELATION;
 
             if (editor)
             {

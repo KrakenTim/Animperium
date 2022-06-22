@@ -59,7 +59,6 @@ public class InteractionMenuManager : MonoBehaviour
         {
             GameManager.GetPawnData(ePlayerPawnType.TunnelEntry);
             instance.CreateButtonEntries(new List<PlayerPawnData>() { GameManager.GetPawnData(ePlayerPawnType.TunnelEntry) }, ePlayeractionType.Build, targetCell, actingUnit);
-            Debug.Log("Is a Digger");
         }
 
         instance.SetVisible(instance.buttonList.Count > 0);

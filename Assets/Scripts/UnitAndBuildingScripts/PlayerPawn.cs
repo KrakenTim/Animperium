@@ -25,9 +25,11 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public int AttackPower => pawnData.attackPower;
     public int AttackRange => pawnData.attackRange;
     public ePlayerPawnType Spawn => pawnData.spawnedPawn;
+
     public bool CanHeal => (PawnType == ePlayerPawnType.Healer);
     public bool CanStealth => (PawnType == ePlayerPawnType.Sneaker || PawnType == ePlayerPawnType.TunnelEntry);
-    public bool CanDigging => (PawnType == ePlayerPawnType.Digger || PawnType == ePlayerPawnType.TunnelEntry);
+    public bool CanDig => (PawnType == ePlayerPawnType.Digger || PawnType == ePlayerPawnType.Blaster);
+
     public bool IsMagicUser => (PawnType == ePlayerPawnType.Warmage || PawnType == ePlayerPawnType.Healer);
     public bool IsBuilding => PawnType.IsBuilding();
     public bool IsUnit => PawnType.IsUnit();
@@ -230,7 +232,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         OnValueChange?.Invoke();
     }
 
-    public void Damaged(PlayerPawn attacker, int damageAmount)
+    public virtual void Damaged(PlayerPawn attacker, int damageAmount)
     {
         currentHealth = Mathf.Max(currentHealth - damageAmount, 0);
 

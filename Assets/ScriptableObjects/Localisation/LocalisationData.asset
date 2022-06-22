@@ -25,12 +25,18 @@ MonoBehaviour:
   - identifier: Blaster
     english: Grenadier
     german: Grenadier
+  - identifier: BlasterTooltip
+    english: Fights with explosives. Especially effecting against buildings.
+    german: <BlasterTooltip_de>
   - identifier: Buildings
     english: Buildings
     german: "Geb\xE4ude"
   - identifier: CanAct
     english: Can Act
     german: "Handlungsf\xE4hig"
+  - identifier: CantDigThrough
+    english: Can't dig through!
+    german: <CantDigThrough_de>
   - identifier: Chat
     english: Chat
     german: Chat
@@ -40,12 +46,18 @@ MonoBehaviour:
   - identifier: Digger
     english: Digger
     german: Buddler
+  - identifier: DiggerTooltip
+    english: Collects ore. (Might dig tunnels.)
+    german: Sammelt Erze. (Kann Tunnel bauen.)
   - identifier: EndTurn
     english: End Turn
     german: Zug beenden
   - identifier: FarmHouse
     english: Farm House
     german: Bauernhaus
+  - identifier: FarmHouseTooltip
+    english: Might also create Workers.
+    german: <FarmHouseTooltip_de>
   - identifier: Food
     english: Food
     german: Nahrung
@@ -55,6 +67,9 @@ MonoBehaviour:
   - identifier: Healer
     english: Healer
     german: Heiler
+  - identifier: HealerTooltip
+    english: Might heal allies and attack enemies.
+    german: "Kann Verb\xFCndete heilen und Gegner angreifen."
   - identifier: Health
     english: Health
     german: Leben
@@ -139,12 +154,22 @@ MonoBehaviour:
   - identifier: School2
     english: School II
     german: Schule II
+  - identifier: School2Tooltip
+    english: Improved school. Teaches basic and advanced roles.
+    german: <School2Tooltip_de>
+  - identifier: SchoolTooltip
+    english: Teaches basic roles to Workers.
+    german: <SchoolTooltip_de>
   - identifier: Settings
     english: Settings
     german: Einstellungen
   - identifier: Sneaker
     english: Sneaker
     german: Schleicher
+  - identifier: SneakerTooltip
+    english: Specialist in moving around undetected. Can't be seen except on close
+      distance.
+    german: <SneakerTooltip_de>
   - identifier: StartGame
     english: Start Game
     german: Spiel starten
@@ -160,9 +185,18 @@ MonoBehaviour:
   - identifier: Swordfighter
     english: Sword Fighter
     german: "Schwertk\xE4mpfer"
+  - identifier: SwordfighterTooltip
+    english: Meele Fighter.
+    german: "Nahk\xE4mpfer."
   - identifier: TownHall
     english: Town Hall
     german: Rathaus
+  - identifier: TownHallTooltip
+    english: First Home of Workers. Lose it and you'll lose the game.
+    german: <TownHallTooltip_de>
+  - identifier: TunnelEntry
+    english: Tunnel
+    german: Tunnel
   - identifier: TurnTime
     english: Turn Time
     german: Rundenzeit
@@ -178,12 +212,23 @@ MonoBehaviour:
   - identifier: Villager
     english: Worker
     german: Arbeiter
+  - identifier: VillagerTooltip
+    english: Collects Wood and Food. Can put up buildings. Send them to School to
+      take over a new role.
+    german: "Sammelt Holz und Nahrung. Kann Geb\xE4ude errichten. Kann in der Schule
+      eine neue Rolle lernen."
   - identifier: Wall
     english: Barricade
     german: Barrikade
+  - identifier: WallTooltip
+    english: Sturdy, blocks paths for enemies and friends alike.
+    german: <WallTooltip_de>
   - identifier: Warmage
     english: War Mage
     german: Kampfmagier
+  - identifier: WarmageTooltip
+    english: Fight experienced mage, throwing spells from afar.
+    german: <WarmageTooltip_de>
   - identifier: Wood
     english: Wood
     german: Holz

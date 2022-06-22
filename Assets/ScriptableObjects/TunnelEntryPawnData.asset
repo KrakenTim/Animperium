@@ -37,5 +37,5 @@ MonoBehaviour:
   spawnedPawn: 0
   playerPrefabs:
   - {fileID: 0}
-  - {fileID: 7044294374554152587, guid: 1c036ef11222ed94688dbcd06b5c51af, type: 3}
-  - {fileID: 7044294374554152587, guid: cfea3de34f410c740be0d02034ec45c7, type: 3}
+  - {fileID: 4560347922175049932, guid: 1c036ef11222ed94688dbcd06b5c51af, type: 3}
+  - {fileID: -6455146539532519931, guid: cfea3de34f410c740be0d02034ec45c7, type: 3}
