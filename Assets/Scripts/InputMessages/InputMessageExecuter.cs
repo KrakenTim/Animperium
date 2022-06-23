@@ -62,6 +62,18 @@ public static class InputMessageExecuter
         PlayerPawn startPawn = startCell.Pawn;
         PlayerPawn targetPawn = targetCell.Pawn;
 
+        if (startPawn == null)
+        {
+            Debug.LogError($"Player {hexOrder.senderLocalID} tried to move nonexistend Pawn on Hex{hexOrder.startCoordinates}\n", startCell);
+            return;
+        }
+
+        if (startPawn.PlayerID != hexOrder.senderLocalID)
+        {
+            Debug.LogError($"Player {hexOrder.senderLocalID} tried to act with pawn that doesn't belong to them!\n{startPawn}", startPawn);
+            return;
+        }
+
         if (startPawn.IsUnit)
             startPawn.LookAt(targetCell.transform.position);
 
