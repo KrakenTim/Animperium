@@ -13,7 +13,9 @@ public class ResourceToken : MonoBehaviour
 
     [SerializeField] HexCell hexCell;
     public HexCell HexCell => hexCell;
-    
+
+    private int ownLayer;
+
     private void Start()
     {
         if (Type == eResourceType.NONE || amount < 1)
@@ -21,11 +23,30 @@ public class ResourceToken : MonoBehaviour
 
         if (hexCell == null)
             SetHexCell(HexGridManager.Current.GetHexCell(transform.position));
+
+        ownLayer = HexGridManager.Current.GetHexCellLayer(hexCell);
+
+        if (type == eResourceType.Ore)
+        {
+            PlayerPawn.OnPawnMoved += UpdateVisibility;
+            GameManager.LocalPlayerChanged += UpdateVisibility;
+
+            UpdateVisibility();
+        }
     }
 
-    private void SetHexCell(HexCell newCell)
+    private void OnDestroy()
     {
-        if(hexCell != null)
+        if (type == eResourceType.Ore)
+        {
+            PlayerPawn.OnPawnMoved -= UpdateVisibility;
+            GameManager.LocalPlayerChanged -= UpdateVisibility;
+        }
+    }
+
+    public void SetHexCell(HexCell newCell)
+    {
+        if (hexCell != null)
             hexCell.SetResource(null);
 
         hexCell = newCell;
@@ -38,7 +59,7 @@ public class ResourceToken : MonoBehaviour
                 transform.position = hexCell.transform.position;
         }
     }
-    
+
     public void Harvest()
     {
         GameManager.AddResource(Type, amount);
@@ -68,5 +89,48 @@ public class ResourceToken : MonoBehaviour
                 return false;
         }
         return true; //pawn.CanAct;
+    }
+
+    private void UpdateVisibility()
+    {
+        SetVisible(HasAlliedNeighbours());
+    }
+
+    /// <summary>
+    /// TODO (24.06.2022) OPTIMIZE!
+    /// </summary>
+    private void UpdateVisibility(PlayerPawn pawn, HexCell oldCell, HexCell newCell)
+    {
+        if (pawn.IsEnemyOf(GameManager.LocalPlayerID)) return;
+
+        if (newCell && newCell.DistanceTo(HexCell) <= 1 && HexGridManager.Current.GetHexCellLayer(newCell) == ownLayer)
+        {
+            SetVisible(true);
+            return;
+        }
+
+        if (oldCell && oldCell.DistanceTo(HexCell) <= 1 && HexGridManager.Current.GetHexCellLayer(oldCell) == ownLayer)
+        {
+            SetVisible(HasAlliedNeighbours());
+        }
+    }
+
+    private bool HasAlliedNeighbours()
+    {
+        HashSet<HexCell> neighbours = HexGridManager.Current.GetGrid(hexCell).GetNeighbours(hexCell, 1);
+
+        foreach (var cell in neighbours)
+        {
+            if (cell.Pawn && !cell.Pawn.IsEnemyOf(GameManager.LocalPlayerID))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void SetVisible(bool IsVisible)
+    {
+        gameObject.SetActive(IsVisible);
     }
 }

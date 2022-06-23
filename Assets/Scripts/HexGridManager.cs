@@ -22,9 +22,14 @@ public class HexGridManager : MonoBehaviour
     [SerializeField] int diggableID = 4;
     [SerializeField] int rockID = 5;
 
+    [Header("Resource Generation")]
+    [SerializeField] int oreAmount = 10;
+    [SerializeField] ResourceToken orePrefab;
+
     private void Awake()
     {
         CreateUnderground();
+        DistributeOres();
     }
 
     /// <summary>
@@ -128,6 +133,30 @@ public class HexGridManager : MonoBehaviour
 
         foreach (var chunk in underground.GetAllChunks())
             chunk.Refresh();
+    }
+
+    private void DistributeOres()
+    {
+        Random.InitState(GameManager.RandomGenerationKey);
+
+        HexCell[] undergroundCells = underground.GetAllCells();
+
+        int halfLenght = undergroundCells.Length / 2;
+
+        HashSet<int> oreSpots = new HashSet<int>();
+
+        while (oreSpots.Count < oreAmount)
+        {
+            int pos = Random.Range(0, halfLenght + 1);
+            if (!oreSpots.Contains(pos) && undergroundCells[pos].IsDiggable && undergroundCells[undergroundCells.Length- (1 + pos)].IsDiggable)
+                oreSpots.Add(pos);
+        }
+
+        foreach (var spot in oreSpots)
+        {
+            Instantiate(orePrefab, undergroundCells[spot].transform.position, Quaternion.identity, GameManager.Instance.transform.GetChild(0));
+            Instantiate(orePrefab, undergroundCells[undergroundCells.Length- (1 + spot)].transform.position, Quaternion.identity, GameManager.Instance.transform.GetChild(0));
+        }
     }
 
     public HexCell OtherLayerCell(HexCell cell)

@@ -138,6 +138,10 @@ public static class InputMessageExecuter
                 GameManager.PlayerResigned(generalOrder.senderLocalID);
                 break;
 
+            case ePlayeractionType.SendRandomGenerationKey:
+                GameManager.RandomGenerationKey = InputMessageGenerator.GetRandomKey(generalOrder);
+                break;
+
             default:
                 Debug.LogError($"MessageExecuter\t{nameof(ExecuteGeneralMessage)} UNDEFINED for {generalOrder.action}\n");
                 break;

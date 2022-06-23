@@ -294,7 +294,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
     }
 
-    private void UpdatePosition()
+    public void UpdatePosition()
     {
         if (hexCell)
             transform.position = hexCell.transform.position;

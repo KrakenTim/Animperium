@@ -37,6 +37,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerValueProvider playerValueProvider;
     public static PlayerValueProvider PlayerValueProvider => Instance.playerValueProvider;
 
+    public static int RandomGenerationKey;
+
     private void Awake()
     {
         Instance = this;
@@ -46,7 +48,10 @@ public class GameManager : MonoBehaviour
         if (OnlineGameManager.IsOnlineGame)
             LocalPlayerID = OnlineGameManager.LocalPlayerID;
         else
+        {
+            RandomGenerationKey = InputMessageGenerator.GetRandomKey(InputMessageGenerator.CreateRandomKeyMessage());
             LocalPlayerID = activePlayerID;
+        }
     }
 
     private void Start()

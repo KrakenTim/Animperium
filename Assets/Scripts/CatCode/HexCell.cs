@@ -183,6 +183,13 @@ public class HexCell : MonoBehaviour
             uiPosition.z = -position.y;
             uiRect.localPosition = uiPosition;
             Refresh();
+
+            if (HasPawn)
+                Pawn.UpdatePosition();
+
+            if (Resource != null)
+                Resource.SetHexCell(this);
+
         }
     }
     public Vector3 Position

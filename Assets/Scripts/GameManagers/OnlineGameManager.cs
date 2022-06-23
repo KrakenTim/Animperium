@@ -67,6 +67,9 @@ public class OnlineGameManager : MonoBehaviour
                 LocalPlayerID = i;
         }
 
+        InputMessage randomKeyMessage = InputMessageGenerator.CreateRandomKeyMessage();
+        SendCommand(randomKeyMessage.ToString());
+
         InputMessage message = InputMessageGenerator.CreateBasicMessage(ePlayeractionType.StartGame);
 
         if (startButton)

@@ -26,7 +26,8 @@ public enum ePlayeractionType
     // General, non-Hex Actions 100+
     EndTurn = 100,
     StartGame = 101,
-    Resign = 102
+    Resign = 102,
+    SendRandomGenerationKey = 103
 }
 
 /// <summary>

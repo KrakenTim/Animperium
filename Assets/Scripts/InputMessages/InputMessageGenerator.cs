@@ -44,4 +44,24 @@ public static class InputMessageGenerator
 
         return message;
     }
+
+    public static InputMessage CreateRandomKeyMessage()
+    {
+        InputMessage message = CreateBasicMessage(ePlayeractionType.SendRandomGenerationKey);
+
+        message.turn = System.DateTime.UtcNow.Millisecond & System.DateTime.UtcNow.DayOfYear;
+
+        return message;
+    }
+
+    public static int GetRandomKey(InputMessage message)
+    {
+        if (message.action != ePlayeractionType.SendRandomGenerationKey)
+        {
+            Debug.LogError($"Recieve Message to create randomkey which had the wrong type: {message.action}\n{message}");
+            return 0;
+        }
+
+        return message.turn;
+    }
 }
