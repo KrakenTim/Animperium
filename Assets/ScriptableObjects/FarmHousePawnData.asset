@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: FarmHousePawnData
   m_EditorClassIdentifier: 
   type: 104
-  friendlyName: Farm House
   tier: 1
   pawnIcon:
     text: 
@@ -29,7 +28,7 @@ MonoBehaviour:
     food: 30
     wood: 20
     ore: 0
-  populationCount: 0
+  populationCount: -2
   linearUpgrade: 0
   learnsFight: 0
   learnsMagic: 0
