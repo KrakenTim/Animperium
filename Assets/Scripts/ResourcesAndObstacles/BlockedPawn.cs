@@ -11,9 +11,9 @@ using UnityEngine.EventSystems;
 public class BlockedPawn : PlayerPawn
 {
     public override bool IsActivePlayerPawn => false;
-
-    public override bool IsLocalPlayerEnemy => false;
+    
     public override bool IsEnemyOf(int otherPlayerID) => false;
+    public override bool IsEnemyOf(PlayerPawn otherPawn) => false;
 
     protected override void Awake()
     {
