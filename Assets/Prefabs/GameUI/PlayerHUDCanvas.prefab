@@ -5744,6 +5744,14 @@ PrefabInstance:
       propertyPath: m_fontSize
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 1612262315519480052, guid: 9ec2467b71edc6e448950e9f4bd4cced, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1612262315519480052, guid: 9ec2467b71edc6e448950e9f4bd4cced, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 2361670846930007616, guid: 9ec2467b71edc6e448950e9f4bd4cced, type: 3}
       propertyPath: m_Name
       value: Ore
