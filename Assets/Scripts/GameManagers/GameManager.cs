@@ -16,10 +16,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] int activePlayerID = 1;
     public static int ActivePlayerID => Instance.activePlayerID;
-
-    [SerializeField] int activePlayerFactionID = 1;
-    public static int CurrentFactionID => Instance.activePlayerFactionID;
-
+    
     private int localPlayerID;
     public static int LocalPlayerID
     {
@@ -36,8 +33,7 @@ public class GameManager : MonoBehaviour
     public static int Turn => Instance ? Instance.turn : -1;
 
     int spawnedPawnID = 0;
-    public int populationBase = 8;
-
+    
     [SerializeField] private PlayerValueProvider playerValueProvider;
     public static PlayerValueProvider PlayerValueProvider => Instance.playerValueProvider;
 
@@ -105,13 +101,9 @@ public class GameManager : MonoBehaviour
 
         if (TryGetPlayerValues(activePlayerID, out PlayerValues newPlayer))
         {
-            activePlayerFactionID = newPlayer.factionID;
-
             if (!OnlineGameManager.IsOnlineGame)
                 HexMapCamera.SetCameraValues(newPlayer.lastCameraValues);
         }
-
-
 
         TurnStarted?.Invoke(activePlayerID);
     }
@@ -129,7 +121,7 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    public static List<PlayerPawnData> GetBuildingDatas(bool withoutUpgrades, bool excludeTownHall = false, bool excludeTunnelEntry = false)
+    public static List<PlayerPawnData> GetBuildingDatas(bool withoutUpgrades, bool excludeTownHall = false)
     {
         List<PlayerPawnData> result = new List<PlayerPawnData>();
 
@@ -140,9 +132,6 @@ public class GameManager : MonoBehaviour
                 if (withoutUpgrades && data.type.IsBuildingUpgrade()) continue;
 
                 if (excludeTownHall && data.type == ePlayerPawnType.TownHall)
-                    continue;
-
-                if (excludeTunnelEntry && data.type == ePlayerPawnType.TunnelEntry)
                     continue;
 
                 result.Add(data);
@@ -243,16 +232,7 @@ public class GameManager : MonoBehaviour
     {
         return playerValueProvider.TryGetPlayerValues(playerID, out result);
     }
-
-    public static int GetPlayerFactionID(int playerID)
-    {
-        if (Instance.TryGetPlayerValues(playerID, out PlayerValues result))
-            return result.factionID;
-
-        Debug.LogError("Faction not found for Player " + playerID, Instance);
-
-        return 0;
-    }
+    
     public static Color GetPlayerColor(int playerID)
     {
         if (Instance.TryGetPlayerValues(playerID, out PlayerValues result))
@@ -270,7 +250,7 @@ public class GameManager : MonoBehaviour
 
         Debug.LogError("Population Count not found for Player " + playerID, Instance);
 
-        return Instance.populationBase;
+        return 10;
     }
 
     public static int PlayerPopulationMax(int playerID)
@@ -280,19 +260,9 @@ public class GameManager : MonoBehaviour
 
         Debug.LogError("Population Max not found for Player " + playerID, Instance);
 
-        return Instance.populationBase;
+        return 10;
     }
-
-    public static GameResources GetPlayerResources(int playerID)
-    {
-        if (Instance.TryGetPlayerValues(playerID, out PlayerValues result))
-            return result.PlayerResources;
-
-        Debug.LogError("Food not found for Player " + playerID, Instance);
-
-        return new GameResources();
-    }
-
+    
     public static ColorableIconData GetPlayerIcon(int playerID)
     {
         if (Instance.TryGetPlayerValues(playerID, out PlayerValues result))

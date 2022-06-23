@@ -138,7 +138,7 @@ public class GameInputManager : MonoBehaviour
     private bool IsAttackPossible(PlayerPawn otherPawn)
     {
         return selectedPawn.AttackPower > 0 && otherPawn != null
-           && otherPawn.IsLocalPlayerEnemy && selectedPawn.InAttackRange(otherPawn);
+           && selectedPawn.IsEnemyOf(otherPawn) && selectedPawn.InAttackRange(otherPawn);
     }
 
     private bool IsLearningPossible(PlayerPawn potentialSchool)
@@ -152,7 +152,7 @@ public class GameInputManager : MonoBehaviour
 
     private bool IsHealingPossible(PlayerPawn healTarget)
     {
-        return selectedPawn.CanHeal && healTarget.IsWounded && healTarget.IsUnit && !PlayerValueProvider.AreEnemies(selectedPawn.PlayerID, healTarget.PlayerID);
+        return selectedPawn.CanHeal && healTarget.IsWounded && healTarget.IsUnit && !selectedPawn.IsEnemyOf(healTarget);
     }
 
     /// <summary>

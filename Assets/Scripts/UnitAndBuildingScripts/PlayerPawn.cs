@@ -99,9 +99,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     }
 
     public virtual bool IsActivePlayerPawn => playerID == GameManager.ActivePlayerID;
-
-    public virtual bool IsLocalPlayerEnemy => PlayerValueProvider.IsEnemy(PlayerID);
     public virtual bool IsEnemyOf(int otherPlayerID) => PlayerValueProvider.AreEnemies(PlayerID, otherPlayerID);
+    public virtual bool IsEnemyOf(PlayerPawn otherPawn) => PlayerValueProvider.AreEnemies(PlayerID, otherPawn.PlayerID);
 
     // Start is called before the first frame update
     protected virtual void Awake()
@@ -256,7 +255,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
     public void HealTarget(PlayerPawn healTarget)
     {
-        if (!healTarget.IsWounded || PlayerValueProvider.AreEnemies(PlayerID, healTarget.PlayerID)) return;
+        if (!healTarget.IsWounded || IsEnemyOf(healTarget)) return;
 
         healTarget.GetHealed(pawnData.specialPower);
 
@@ -304,7 +303,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     {
         Debug.Log($"Update Visuals of {gameObject.name}, stealthed: {isStealthed}\n");
 
-        if (IsStealthed && IsLocalPlayerEnemy)
+        if (IsStealthed && IsEnemyOf(GameManager.LocalPlayerID))
         {
             SetVisible(false);
             return;

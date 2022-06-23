@@ -11,17 +11,12 @@ public class PlayerValueProvider : MonoBehaviour
     Dictionary<int, Transform> spawnFolderTransforms = new Dictionary<int, Transform>();
 
     /// <summary>
-    /// Return true if the given player belongs to a diffrent faction than the local player.
+    /// Return true if the players belongs to different factions.
     /// </summary>
-    public static bool IsEnemy(int otherPlayerID)
-    {
-        return AreEnemies(GameManager.LocalPlayerID, otherPlayerID);
-    }
-
     public static bool AreEnemies(int firstPlayerID, int secondPlayerID)
     {
         if (instance.TryGetPlayerValues(firstPlayerID, out PlayerValues firstPlayer)
-    && instance.TryGetPlayerValues(secondPlayerID, out PlayerValues secondPlayer))
+            && instance.TryGetPlayerValues(secondPlayerID, out PlayerValues secondPlayer))
         {
             return firstPlayer.factionID != secondPlayer.factionID;
         }
@@ -41,9 +36,7 @@ public class PlayerValueProvider : MonoBehaviour
 
         foreach (var player in playerValues)
         {
-            player.lastCameraValues.localPosition = player.GetTownHall().WorldPosition;
-
-            player.PopulationMax += GameManager.Instance.populationBase;
+            player.lastCameraValues.localPosition = player.GetTownHall().WorldPosition;            
         }
     }
 
