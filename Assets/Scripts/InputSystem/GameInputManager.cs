@@ -152,7 +152,7 @@ public class GameInputManager : MonoBehaviour
 
     private bool IsHealingPossible(PlayerPawn healTarget)
     {
-        return selectedPawn.CanHeal && healTarget.IsWounded && healTarget.IsUnit && !healTarget.IsLocalPlayerEnemy;
+        return selectedPawn.CanHeal && healTarget.IsWounded && healTarget.IsUnit && !PlayerValueProvider.AreEnemies(selectedPawn.PlayerID, healTarget.PlayerID);
     }
 
     /// <summary>

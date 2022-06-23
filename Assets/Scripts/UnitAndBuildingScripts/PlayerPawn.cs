@@ -256,7 +256,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
     public void HealTarget(PlayerPawn healTarget)
     {
-        if (!healTarget.IsWounded || healTarget.IsLocalPlayerEnemy) return;
+        if (!healTarget.IsWounded || PlayerValueProvider.AreEnemies(PlayerID, healTarget.PlayerID)) return;
 
         healTarget.GetHealed(pawnData.specialPower);
 
@@ -292,7 +292,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
     public void SetStealthed(bool isHidden)
     {
-       // Debug.Log($"Set Stealthed of {this} to {isHidden}\n");
+        // Debug.Log($"Set Stealthed of {this} to {isHidden}\n");
 
         if (isHidden == isStealthed) return;
 
