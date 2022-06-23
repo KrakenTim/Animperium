@@ -39,6 +39,7 @@ public class FeedbackManager : MonoBehaviour
     [SerializeField] PlayeractionFeedback digging;
     [SerializeField] PlayeractionFeedback collect;
     [SerializeField] PlayeractionFeedback heal;
+    [SerializeField] PlayeractionFeedback layerSwitch;
     [SerializeField] PlayeractionFeedback move;
     [SerializeField] PlayeractionFeedback spawn;
     [SerializeField] PlayeractionFeedback unitUpgrade;
@@ -156,6 +157,8 @@ public class FeedbackManager : MonoBehaviour
                 return buildingUpgrade;
             case ePlayeractionType.Heal:
                 return heal;
+            case ePlayeractionType.LayerSwitch:
+                return layerSwitch;
 
             default:
                 Debug.LogError($"Feedback UNDEFINED for {action}\n", this);

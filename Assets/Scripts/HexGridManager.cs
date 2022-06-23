@@ -37,6 +37,16 @@ public class HexGridManager : MonoBehaviour
             return underground.GetHexCell(worldposition);
     }
 
+    public bool IsWalkable(HexCell cell)
+    {
+        if (cell.HasPawn || cell.Resource != null) return false;
+
+        if (IsSurface(cell)) return true;
+
+
+        return cell.Elevation == 0;
+    }
+
     public HexCell GetHexCell(HexCoordinates coordinates, int layer)
     {
         if (layer > 0)
@@ -101,7 +111,7 @@ public class HexGridManager : MonoBehaviour
         int cellColorID;
         for (int cellID = 0; cellID < undergroundCells.Length; cellID++)
         {
-            undergroundCells[cellID].Elevation = UNDIGGED_EVELATION;
+            undergroundCells[cellID].Elevation = (cellID % 3 == 0 ? 2:0); //UNDIGGED_EVELATION;
 
             if (editor)
             {
@@ -114,5 +124,13 @@ public class HexGridManager : MonoBehaviour
 
         foreach (var chunk in underground.GetAllChunks())
             chunk.Refresh();
+    }
+
+    public HexCell OtherLayerCell(HexCell cell)
+    {
+        if (IsSurface(cell))
+            return GetHexCell(cell.coordinates, 1);
+        else
+            return GetHexCell(cell.coordinates, 0);
     }
 }

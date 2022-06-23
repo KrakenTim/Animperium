@@ -20,6 +20,7 @@ public enum ePlayeractionType
     Build = 6,
     BuildingUpgrade = 7,
     Heal = 8,
+    LayerSwitch = 9, //From Surface to Underground and vice versa.
 
     // General, non-Hex Actions 100+
     EndTurn = 100,

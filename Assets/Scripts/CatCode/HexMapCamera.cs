@@ -54,6 +54,10 @@ public class HexMapCamera : MonoBehaviour
 
     void Update()
     {
+
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+            SwapUsedGrid();
+
         float zoomDelta = Mouse.current.scroll.ReadValue().y * zoomSensitivity;
         if (zoomDelta != 0f)
         {

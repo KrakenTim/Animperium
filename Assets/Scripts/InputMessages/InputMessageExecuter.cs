@@ -104,6 +104,10 @@ public static class InputMessageExecuter
                 startPawn.HealTarget(targetPawn);
                 break;
 
+            case ePlayeractionType.LayerSwitch:
+                startPawn.SwitchLayer(targetPawn);
+                break;
+
             default:
                 Debug.LogError($"MessageExecuter\t{nameof(ExecuteHexMessage)} UNDEFINED for {hexOrder.action}\n");
                 return;

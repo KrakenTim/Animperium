@@ -231,6 +231,11 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         OnValueChange?.Invoke();
     }
 
+    public void SwitchLayer(PlayerPawn usedTunnel)
+    {
+        MoveTo(HexGridManager.Current.OtherLayerCell(HexCell));
+    }
+
     public virtual void Damaged(PlayerPawn attacker, int damageAmount)
     {
         currentHealth = Mathf.Max(currentHealth - damageAmount, 0);

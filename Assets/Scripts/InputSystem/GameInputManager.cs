@@ -114,7 +114,7 @@ public class GameInputManager : MonoBehaviour
     private bool IsMovePossible()
     {
         return selectedPawn.IsUnit && selectedPawn.MP > 0
-            && !selectedHexCell.HasPawn && !selectedHexCell.Resource;
+            && HexGridManager.Current.IsWalkable(selectedHexCell);
     }
 
     private bool IsSpawnPossible()
@@ -155,6 +155,19 @@ public class GameInputManager : MonoBehaviour
         return selectedPawn.CanHeal && healTarget.IsWounded && healTarget.IsUnit && !selectedPawn.IsEnemyOf(healTarget);
     }
 
+    private bool IsLayerSwitchPossible(PlayerPawn potentialTunnelEntry, out HexCell targetCell)
+    {
+        if (selectedPawn.MP == 0 || potentialTunnelEntry.PawnType != ePlayerPawnType.TunnelEntry
+            || potentialTunnelEntry.IsEnemyOf(selectedPawn.PlayerID))
+        {
+            targetCell = null;
+            return false;
+        }
+
+        targetCell = HexGridManager.Current.OtherLayerCell(selectedPawn.HexCell);      
+        return HexGridManager.Current.IsWalkable(targetCell);
+    }
+
     /// <summary>
     /// Called if a pawn was clicked.
     /// </summary>
@@ -174,8 +187,13 @@ public class GameInputManager : MonoBehaviour
 
         if (instance.IsPawnActionPossible(clickedPawn.HexCell))
         {
-
-
+            if (instance.IsLayerSwitchPossible(clickedPawn, out HexCell targetCell))
+            {
+                InputMessage message = InputMessageGenerator.CreateHexMessage(instance.selectedPawn, clickedPawn.HexCell,
+                                                                             ePlayeractionType.LayerSwitch);
+                InputMessageExecuter.Send(message);
+                return;
+            }
 
             if (instance.IsHealingPossible(clickedPawn))
             {
