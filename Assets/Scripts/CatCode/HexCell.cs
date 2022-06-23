@@ -61,11 +61,20 @@ public class HexCell : MonoBehaviour
     }
 
     #region NotInTutorial
-    public bool IsTunnelPossible
+    public bool IsDiggable
     {
         get
         {
-            return !IsUnderwater && tempSaveColorID != HexMapEditor.COLOR_Water;
+            return tempSaveColorID != HexMapEditor.COLOR_Rock && Elevation == HexGridManager.UNDIGGED_ELEVATION;
+        }
+    }
+
+
+    public bool ShouldBeRockInUnderground
+    {
+        get
+        {
+            return IsUnderwater || tempSaveColorID == HexMapEditor.COLOR_Water || tempSaveColorID == HexMapEditor.COLOR_Rock;
         }
     }
     #endregion

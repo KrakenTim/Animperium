@@ -107,6 +107,9 @@ public static class InputMessageExecuter
             case ePlayeractionType.LayerSwitch:
                 startPawn.SwitchLayer(targetPawn);
                 break;
+            case ePlayeractionType.Digging:
+                startPawn.Dig(targetCell);
+                break;
 
             default:
                 Debug.LogError($"MessageExecuter\t{nameof(ExecuteHexMessage)} UNDEFINED for {hexOrder.action}\n");

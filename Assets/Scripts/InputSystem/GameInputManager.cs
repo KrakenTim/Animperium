@@ -90,19 +90,25 @@ public class GameInputManager : MonoBehaviour
                 }
             }
         }
+        else if (!wasLeftClick && IsDiggingPossible() && IsPawnActionPossible(SelectedHexCell, ignoreEnvironment: true))
+        {
+            InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Digging);
+            InputMessageExecuter.Send(message);
+            return;
+        }
     }
 
     /// <summary>
     /// Checks if selected Pawn is Player Pawn, next to selected Cell and can act
     /// </summary>
-    private bool IsPawnActionPossible(HexCell targetCell, int interactionRange = 1)
+    private bool IsPawnActionPossible(HexCell targetCell, int interactionRange = 1, bool ignoreEnvironment = false)
     {
         return GameManager.InputAllowed && selectedPawn != null && targetCell != null
             && selectedPawn.CanAct && selectedPawn.IsActivePlayerPawn
             && selectedPawn.HexCell.DistanceTo(targetCell) <= interactionRange
 
             // only check if character can step onto cell, if it's not a interaction that's possible at range.
-            && (interactionRange > 1 || targetCell.CanMoveOnto(selectedPawn.HexCell));
+            && (ignoreEnvironment || interactionRange > 1 || targetCell.CanMoveOnto(selectedPawn.HexCell));
     }
 
     private bool IsCollectPossible()
@@ -115,6 +121,11 @@ public class GameInputManager : MonoBehaviour
     {
         return selectedPawn.IsUnit && selectedPawn.MP > 0
             && HexGridManager.Current.IsWalkable(selectedHexCell);
+    }
+
+    private bool IsDiggingPossible()
+    {
+        return selectedPawn.CanDig && selectedPawn.MP > 0 && HexGridManager.Current.IsUnderground(selectedHexCell) && selectedHexCell.IsDiggable;
     }
 
     private bool IsSpawnPossible()

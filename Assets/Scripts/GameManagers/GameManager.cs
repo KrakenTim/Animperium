@@ -204,6 +204,8 @@ public class GameManager : MonoBehaviour
             PlaceNewPawn(spawnedPawnData, spawnPoint, spawner.PlayerID, spawner.HexCell);
         else
         {
+            HexGridManager.Current.DigAwayCircle(spawnPoint);
+
             foreach (var hexCell in HexGridManager.Current.GetHexCells(spawnPoint.coordinates))
                 PlaceNewPawn(spawnedPawnData, hexCell, spawner.PlayerID, spawner.HexCell);
         }

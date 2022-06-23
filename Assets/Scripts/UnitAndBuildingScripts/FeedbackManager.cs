@@ -159,6 +159,8 @@ public class FeedbackManager : MonoBehaviour
                 return heal;
             case ePlayeractionType.LayerSwitch:
                 return layerSwitch;
+            case ePlayeractionType.Digging:
+                return digging;
 
             default:
                 Debug.LogError($"Feedback UNDEFINED for {action}\n", this);

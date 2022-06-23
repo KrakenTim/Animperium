@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class HexGridManager : MonoBehaviour
 {
-    const int UNDIGGED_EVELATION = 2;
+    public const int UNDIGGED_ELEVATION = 2;
+    public const int DIGGED_ELEVATION = 0;
 
     public static HexGridManager Current => GameManager.Instance.hexGridManager;
 
@@ -44,7 +45,7 @@ public class HexGridManager : MonoBehaviour
         if (IsSurface(cell)) return true;
 
 
-        return cell.Elevation == 0;
+        return cell.Elevation == DIGGED_ELEVATION;
     }
 
     public HexCell GetHexCell(HexCoordinates coordinates, int layer)
@@ -111,15 +112,18 @@ public class HexGridManager : MonoBehaviour
         int cellColorID;
         for (int cellID = 0; cellID < undergroundCells.Length; cellID++)
         {
-            undergroundCells[cellID].Elevation = (cellID % 3 == 0 ? 2:0); //UNDIGGED_EVELATION;
+            undergroundCells[cellID].Elevation = UNDIGGED_ELEVATION;
 
             if (editor)
             {
-                cellColorID = surfaceCells[cellID].IsTunnelPossible ? diggableID : rockID;
+                cellColorID = surfaceCells[cellID].ShouldBeRockInUnderground ? HexMapEditor.COLOR_Rock: diggableID;
 
                 undergroundCells[cellID].tempSaveColorID = cellColorID;
                 undergroundCells[cellID].Color = editor.colors[cellColorID];
             }
+
+            if (!undergroundCells[cellID].IsDiggable)
+                undergroundCells[cellID].Elevation = UNDIGGED_ELEVATION;
         }
 
         foreach (var chunk in underground.GetAllChunks())
@@ -132,5 +136,26 @@ public class HexGridManager : MonoBehaviour
             return GetHexCell(cell.coordinates, 1);
         else
             return GetHexCell(cell.coordinates, 0);
+    }
+
+    public void DigAwayCircle(HexCell cell)
+    {
+        if (!IsUnderground(cell))
+            cell = GetHexCell(cell.coordinates, 1);
+
+        HashSet<HexCell> diggedAwayCells = underground.GetNeighbours(cell, 1, withCenter: true);
+
+        foreach (var hexCell in diggedAwayCells)
+        {
+            DigAwayCell(hexCell);
+        }
+    }
+
+    public bool DigAwayCell(HexCell hexCell)
+    {
+        if (!hexCell.IsDiggable) return false;
+
+        hexCell.Elevation = DIGGED_ELEVATION;
+        return true;
     }
 }

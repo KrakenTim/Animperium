@@ -231,6 +231,14 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         OnValueChange?.Invoke();
     }
 
+    public void Dig(HexCell targetCell)
+    {
+        if (!HexGridManager.Current.DigAwayCell(targetCell)) return;
+
+        if (HexGridManager.Current.IsWalkable(targetCell))
+            MoveTo(targetCell);
+    }
+
     public void SwitchLayer(PlayerPawn usedTunnel)
     {
         MoveTo(HexGridManager.Current.OtherLayerCell(HexCell));
