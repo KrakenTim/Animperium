@@ -126,7 +126,7 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    public static List<PlayerPawnData> GetBuildingDatas(bool withoutUpgrades, bool excludeTownHall = false)
+    public static List<PlayerPawnData> GetBuildingDatas(bool withoutUpgrades, bool excludeTownHall = false, bool excludeTunnelEntry = false)
     {
         List<PlayerPawnData> result = new List<PlayerPawnData>();
 
@@ -137,6 +137,9 @@ public class GameManager : MonoBehaviour
                 if (withoutUpgrades && data.type.IsBuildingUpgrade()) continue;
 
                 if (excludeTownHall && data.type == ePlayerPawnType.TownHall)
+                    continue;
+
+                if (excludeTunnelEntry && data.type == ePlayerPawnType.TunnelEntry)
                     continue;
 
                 result.Add(data);
