@@ -4,6 +4,7 @@ using System.Collections;
 
 public class HexMapCamera : MonoBehaviour
 {
+    /*
     #region Not in tutorial
     static HexMapCamera instance;
 
@@ -13,6 +14,7 @@ public class HexMapCamera : MonoBehaviour
     private const float DefaultMoveTime = 0.5f;
 
     #endregion Not in tutorial
+    */
 
     public float zoomSensitivity;
 
@@ -34,6 +36,13 @@ public class HexMapCamera : MonoBehaviour
     [Tooltip("Manual Assignment Of Grid Required")]
     public HexGrid grid;
 
+    static HexMapCamera instance; public static bool Locked
+    {
+        set
+        {
+            instance.enabled = !value;
+        }
+    }
 
     void Awake()
     {
@@ -44,7 +53,10 @@ public class HexMapCamera : MonoBehaviour
         swivel = transform.GetChild(0);
         stick = swivel.GetChild(0);
     }
-
+    void OnEnable()
+    {
+        instance = this;
+    }
     #region Not in tutorial
     private void OnDestroy()
     {
@@ -96,7 +108,7 @@ public class HexMapCamera : MonoBehaviour
         swivel.localRotation = Quaternion.Euler(angle, 0f, 0f);
     }
 
-    #region Not in tutorial
+    /*#region Not in tutorial
     public static CameraValues GetCurrentCameraValues()
     {
         CameraValues result = new CameraValues();
@@ -140,13 +152,13 @@ public class HexMapCamera : MonoBehaviour
     }
 
     #endregion Not in tutorial
-
+    */
     Vector3 ClampPosition(Vector3 position)
     {
-        float xMax = (grid.chunkCountX * HexMetrics.chunkSizeX - 0.5f) * (2f * HexMetrics.innerRadius);
+        float xMax = (grid.cellCountX - 0.5f) * (2f * HexMetrics.innerRadius);
         position.x = Mathf.Clamp(position.x, 0f, xMax);
 
-        float zMax = (grid.chunkCountZ * HexMetrics.chunkSizeZ - 1f) * (1.5f * HexMetrics.outerRadius);
+        float zMax = (grid.cellCountZ - 1) * (1.5f * HexMetrics.outerRadius);
         position.z = Mathf.Clamp(position.z, 0f, zMax);
 
         return position;
@@ -164,5 +176,10 @@ public class HexMapCamera : MonoBehaviour
             rotationAngle -= 360f;
         }
         transform.localRotation = Quaternion.Euler(0f, rotationAngle, 0f);
+    }
+
+    public static void ValidatePosition()
+    {
+        instance.AdjustPosition(0f, 0f);
     }
 }
