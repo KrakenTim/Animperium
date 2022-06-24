@@ -3,18 +3,15 @@ using UnityEngine;
 using System.Collections;
 
 public class HexMapCamera : MonoBehaviour
-{
-    /*
+{    
     #region Not in tutorial
-    static HexMapCamera instance;
 
     public static Vector3 LocalPosition => instance.transform.localPosition;
 
     public static float RotationAngle => instance.rotationAngle;
     private const float DefaultMoveTime = 0.5f;
 
-    #endregion Not in tutorial
-    */
+    #endregion Not in tutorial   
 
     public float zoomSensitivity;
 
@@ -36,7 +33,9 @@ public class HexMapCamera : MonoBehaviour
     [Tooltip("Manual Assignment Of Grid Required")]
     public HexGrid grid;
 
-    static HexMapCamera instance; public static bool Locked
+    static HexMapCamera instance;
+
+    public static bool Locked
     {
         set
         {
@@ -46,10 +45,6 @@ public class HexMapCamera : MonoBehaviour
 
     void Awake()
     {
-        #region Not in tutorial
-        instance = this;
-        #endregion Not in tutorial
-
         swivel = transform.GetChild(0);
         stick = swivel.GetChild(0);
     }
@@ -108,7 +103,7 @@ public class HexMapCamera : MonoBehaviour
         swivel.localRotation = Quaternion.Euler(angle, 0f, 0f);
     }
 
-    /*#region Not in tutorial
+    #region Not in tutorial
     public static CameraValues GetCurrentCameraValues()
     {
         CameraValues result = new CameraValues();
@@ -150,9 +145,8 @@ public class HexMapCamera : MonoBehaviour
             instance.AdjustZoom(0f);
         }
     }
-
     #endregion Not in tutorial
-    */
+    
     Vector3 ClampPosition(Vector3 position)
     {
         float xMax = (grid.cellCountX - 0.5f) * (2f * HexMetrics.innerRadius);

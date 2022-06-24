@@ -264,9 +264,8 @@ public class HexCell : MonoBehaviour
     /// sets visual aspects identical to the given Cell
     /// </summary>
     public void Copy(HexCell blueprint)
-    {
-        HexMetrics.colors[terrainTypeIndex] = blueprint.Color; //changed Color to HexMetrics.colors[terrainTypeIndex]
-        tempSaveColorID = blueprint.tempSaveColorID;
+    {       
+        TerrainTypeIndex = blueprint.TerrainTypeIndex;
 
         Elevation = blueprint.Elevation;
 
@@ -280,7 +279,7 @@ public class HexCell : MonoBehaviour
     /// <param name="origin">the cell the pawn starts at</param>
     public bool CanMoveOnto(HexCell origin)
     {
-        return Mathf.Abs(origin.Elevation - Elevation) < 2 && !IsUnderwater && tempSaveColorID != HexMapEditor.COLOR_Water;
+        return Mathf.Abs(origin.Elevation - Elevation) < 2 && !IsUnderwater && terrainTypeIndex != HexMapEditor.Terrain_Water;
     }
 
     public int DistanceTo(HexCell other)

@@ -1,4 +1,4 @@
-/*using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -59,7 +59,7 @@ public class TempMapSaves : MonoBehaviour
 
     private void CreateSave(bool onlyIfNew = false)
     {
-        string mapSave = grid.chunkCountX + "\t" + grid.chunkCountZ + "\n";
+        string mapSave = grid.ChunkCountX + "\t" + grid.ChunkCountZ + "\n";
         foreach (var cell in grid.GetAllCells())
         {
             mapSave += cell.Elevation + "\t" + cell.tempSaveColorID + "\n";
@@ -96,12 +96,12 @@ public class TempMapSaves : MonoBehaviour
 
         Debug.Log($"Loading new {nextLine[0]}x{nextLine[1]} Map.\n");
 
-        if (loadMapOnAwake || grid.chunkCountX != int.Parse(nextLine[0]) || grid.chunkCountZ != int.Parse(nextLine[1]))
+        if (loadMapOnAwake || grid.ChunkCountX != int.Parse(nextLine[0]) || grid.ChunkCountZ != int.Parse(nextLine[1]))
         {
             loadMapOnAwake = false;
 
-            grid.chunkCountX = int.Parse(nextLine[0]);
-            grid.chunkCountZ = int.Parse(nextLine[1]);
+            grid.cellCountX = int.Parse(nextLine[0]) * HexMetrics.chunkSizeX;
+            grid.cellCountZ = int.Parse(nextLine[1]) * HexMetrics.chunkSizeZ;
 
             grid.Clear();
             grid.Awake();
@@ -116,11 +116,7 @@ public class TempMapSaves : MonoBehaviour
 
             cells[cellID].Elevation = int.Parse(nextLine[0]);
 
-            if (editor)
-            {
-                //cells[cellID].Color = editor.colors[int.Parse(nextLine[1])];
-                cells[cellID].tempSaveColorID = int.Parse(nextLine[1]);
-            }
+            cells[cellID].TerrainTypeIndex = int.Parse(nextLine[1]);
         }
 
         foreach (var item in grid.GetAllChunks())
@@ -194,4 +190,3 @@ public class SaveMapButtonEditor : Editor
     }
 }
 #endif // UNITY_EDITOR
-*/

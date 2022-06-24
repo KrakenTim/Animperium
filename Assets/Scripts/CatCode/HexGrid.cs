@@ -11,6 +11,12 @@ public class HexGrid : MonoBehaviour
 
 
     int chunkCountX, chunkCountZ;
+
+    #region Not in Tutorial
+    public int ChunkCountX => chunkCountX;
+    public int ChunkCountZ => chunkCountZ;
+    #endregion Not in Tutorial
+
     public int cellCountX = 20, cellCountZ = 15;
     public int seed;
 
@@ -30,10 +36,11 @@ public class HexGrid : MonoBehaviour
 
     public void Awake()
     {
-        /*#region Not in Editor
+        #region Not in Editor
         if (GetComponent<TempMapSaves>().LoadsInsteadOfHexGrid)
             return;
-        #endregion Not in Editor*/
+        #endregion Not in Editor
+
         HexMetrics.noiseSource = noiseSource;
         HexMetrics.InitializeHashGrid(seed);
         HexMetrics.colors = colors;
