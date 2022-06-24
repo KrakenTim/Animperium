@@ -65,6 +65,10 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public int MP => movementPoints;
 
     bool _canAct = true;
+
+    float jumpHeight = 5f;
+    float jumpTime = 0.25f;
+
     /// <summary>
     /// True if Pawn can act, setting it to false sets movement points to zero.
     /// </summary>
@@ -154,6 +158,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         if (newCell != null)
         {
             newCell.SetPawn(this);
+
             UpdatePosition();
         }
 
@@ -229,6 +234,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         LookAway(oldPosition);
 
         OnValueChange?.Invoke();
+
+        StartCoroutine(JumpTo(oldPosition.transform.position, targetPosition.transform.position, jumpTime));
     }
 
     public void Dig(HexCell targetCell)
@@ -364,6 +371,28 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
         SetHexCell(below);
         Debug.Log($"PlayerPawn\tPlaced {PawnType}({WorldPosition}).\n\t\t{ToString()}\n");
+    }
+
+    IEnumerator JumpTo(Vector3 startPosition, Vector3 targetPosition, float time)
+    {
+        float elapsed = 0;
+        float progress;
+        Vector3 currentPosition;
+
+        while (elapsed < time)
+        {
+            progress = Mathf.SmoothStep(0f, 1f, elapsed / time);
+
+            currentPosition = Vector3.Lerp(startPosition, targetPosition, progress);
+            currentPosition.y += Mathf.Sin(Mathf.PI * elapsed/time) * jumpHeight;
+
+            transform.position = currentPosition;
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        UpdatePosition();
     }
 }
 
