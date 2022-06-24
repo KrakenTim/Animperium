@@ -48,6 +48,7 @@ public class InteractionContextButton : MonoBehaviour, IPointerEnterHandler, IPo
         {
             case ePlayeractionType.Spawn:
             case ePlayeractionType.Build:
+                BuildingPossible(newPawnData, targetCell);
                 SetCosts(newPawnData.resourceCosts);
                 break;
             case ePlayeractionType.UnitUpgrade:
@@ -80,6 +81,22 @@ public class InteractionContextButton : MonoBehaviour, IPointerEnterHandler, IPo
 
         if (!GameManager.CanAfford(GameManager.LocalPlayerID, costs))
             PrepareNotPossible(AnimperiumLocalisation.ID_NotEnoughResources);
+    }
+
+    private void BuildingPossible(PlayerPawnData newPawnData, HexCell targetCell)
+    {
+        if (newPawnData.type != ePlayerPawnType.TunnelEntry) return;
+
+        HexCell[] cellsOfAllLayers = HexGridManager.Current.GetHexCells(targetCell.coordinates);
+
+        foreach (var hexCell in cellsOfAllLayers)
+        {
+            if (hexCell.HasPawn ||hexCell.Resource != null)
+            {
+                PrepareNotPossible(AnimperiumLocalisation.ID_CantDigThrough);
+                break;
+            }
+        }
     }
 
     /// <summary>

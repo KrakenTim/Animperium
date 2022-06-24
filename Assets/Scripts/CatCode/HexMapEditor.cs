@@ -19,6 +19,7 @@ public class HexMapEditor : MonoBehaviour
     #region Not in Tutorial
 
     public const int COLOR_Water = 3; // blue in Editor
+    public const int COLOR_Rock = 5; // gray in Editor
     public int tempSaveColorID;
 
     #endregion Not in Tutorial

@@ -60,6 +60,25 @@ public class HexCell : MonoBehaviour
         }
     }
 
+    #region NotInTutorial
+    public bool IsDiggable
+    {
+        get
+        {
+            return tempSaveColorID != HexMapEditor.COLOR_Rock && Elevation == HexGridManager.UNDIGGED_ELEVATION;
+        }
+    }
+
+
+    public bool ShouldBeRockInUnderground
+    {
+        get
+        {
+            return IsUnderwater || tempSaveColorID == HexMapEditor.COLOR_Water || tempSaveColorID == HexMapEditor.COLOR_Rock;
+        }
+    }
+    #endregion
+
     public int UrbanLevel
     {
         get
@@ -164,6 +183,13 @@ public class HexCell : MonoBehaviour
             uiPosition.z = -position.y;
             uiRect.localPosition = uiPosition;
             Refresh();
+
+            if (HasPawn)
+                Pawn.UpdatePosition();
+
+            if (Resource != null)
+                Resource.SetHexCell(this);
+
         }
     }
     public Vector3 Position
