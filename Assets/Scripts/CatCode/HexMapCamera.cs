@@ -48,6 +48,12 @@ public class HexMapCamera : MonoBehaviour
         swivel = transform.GetChild(0);
         stick = swivel.GetChild(0);
     }
+    private void Start()
+    {
+        if (usedGrid == null)
+            usedGrid = FindObjectOfType<HexGrid>();
+    }
+
     void OnEnable()
     {
         instance = this;
