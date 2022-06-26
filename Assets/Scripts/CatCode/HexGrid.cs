@@ -8,6 +8,8 @@ public class HexGrid : MonoBehaviour
     int chunkCountX, chunkCountZ;
 
     #region Not in Tutorial
+    [SerializeField] bool underground;
+
     public int ChunkCountX => chunkCountX;
     public int ChunkCountZ => chunkCountZ;
     #endregion Not in Tutorial
@@ -30,6 +32,7 @@ public class HexGrid : MonoBehaviour
     public void Awake()
     {
         #region Not in Tutorial
+        if (underground) return;
         TempMapSaves ts = GetComponent<TempMapSaves>();
         if (ts && ts.LoadsInsteadOfHexGrid) return;
         #endregion Not in Tutorial

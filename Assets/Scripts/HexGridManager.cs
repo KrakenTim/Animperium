@@ -100,6 +100,8 @@ public class HexGridManager : MonoBehaviour
     private void CreateUnderground()
     {
         HexCell[] surfaceCells = surface.GetAllCells();
+
+        underground.CreateMap(surface.cellCountX, surface.cellCountZ);
         HexCell[] undergroundCells = underground.GetAllCells();
 
         if (surfaceCells.Length != undergroundCells.Length)
