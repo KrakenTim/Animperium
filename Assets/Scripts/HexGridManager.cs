@@ -15,15 +15,9 @@ public class HexGridManager : MonoBehaviour
     public HexGrid Underground => underground;
 
     const int HIGHEST_LAYER = 1;
-
-    [Space]
-    [SerializeField] HexMapEditor editor;
-
-    [SerializeField] int diggableID = 4;
-    [SerializeField] int rockID = 5;
-
+    
     [Header("Resource Generation")]
-    [SerializeField] int oreAmount = 10;
+    [SerializeField] int oreAmount = 5;
     [SerializeField] ResourceToken orePrefab;
 
     private void Awake()
@@ -114,21 +108,11 @@ public class HexGridManager : MonoBehaviour
             return;
         }
 
-        int cellColorID;
         for (int cellID = 0; cellID < undergroundCells.Length; cellID++)
         {
             undergroundCells[cellID].Elevation = UNDIGGED_ELEVATION;
 
-            if (editor)
-            {
-                cellColorID = surfaceCells[cellID].ShouldBeRockInUnderground ? HexMapEditor.COLOR_Rock: diggableID;
-
-                undergroundCells[cellID].tempSaveColorID = cellColorID;
-                undergroundCells[cellID].Color = editor.colors[cellColorID];
-            }
-
-            if (!undergroundCells[cellID].IsDiggable)
-                undergroundCells[cellID].Elevation = UNDIGGED_ELEVATION;
+            undergroundCells[cellID].TerrainTypeIndex = surfaceCells[cellID].ShouldBeRockInUnderground ? HexMapEditor.TERRAIN_Rock : HexMapEditor.TERRAIN_Earth;
         }
 
         foreach (var chunk in underground.GetAllChunks())
@@ -148,14 +132,14 @@ public class HexGridManager : MonoBehaviour
         while (oreSpots.Count < oreAmount)
         {
             int pos = Random.Range(0, halfLenght + 1);
-            if (!oreSpots.Contains(pos) && undergroundCells[pos].IsDiggable && undergroundCells[undergroundCells.Length- (1 + pos)].IsDiggable)
+            if (!oreSpots.Contains(pos) && undergroundCells[pos].IsDiggable && undergroundCells[undergroundCells.Length - (1 + pos)].IsDiggable)
                 oreSpots.Add(pos);
         }
 
         foreach (var spot in oreSpots)
         {
             Instantiate(orePrefab, undergroundCells[spot].transform.position, Quaternion.identity, GameManager.Instance.transform.GetChild(0));
-            Instantiate(orePrefab, undergroundCells[undergroundCells.Length- (1 + spot)].transform.position, Quaternion.identity, GameManager.Instance.transform.GetChild(0));
+            Instantiate(orePrefab, undergroundCells[undergroundCells.Length - (1 + spot)].transform.position, Quaternion.identity, GameManager.Instance.transform.GetChild(0));
         }
     }
 

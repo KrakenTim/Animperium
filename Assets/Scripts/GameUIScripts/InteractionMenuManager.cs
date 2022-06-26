@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -67,7 +66,7 @@ public class InteractionMenuManager : MonoBehaviour
     private void CreateButtonEntries(List<PlayerPawnData> pawnOptions, ePlayeractionType actionType, HexCell targetCell, PlayerPawnData actingUnit)
     {
         // sort by name
-        pawnOptions.Sort((x,y)=> x.FriendlyName.CompareTo(y.FriendlyName));
+        pawnOptions.Sort((x, y) => x.FriendlyName.CompareTo(y.FriendlyName));
         // sort by tier
         pawnOptions.Sort((x, y) => x.tier.CompareTo(y.tier));
 

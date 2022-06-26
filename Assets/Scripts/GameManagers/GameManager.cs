@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] int activePlayerID = 1;
     public static int ActivePlayerID => Instance.activePlayerID;
-    
+
     private int localPlayerID;
     public static int LocalPlayerID
     {
@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     public static int Turn => Instance ? Instance.turn : -1;
 
     int spawnedPawnID = 0;
-    
+
     [SerializeField] private PlayerValueProvider playerValueProvider;
     public static PlayerValueProvider PlayerValueProvider => Instance.playerValueProvider;
 
@@ -242,7 +242,7 @@ public class GameManager : MonoBehaviour
     {
         return playerValueProvider.TryGetPlayerValues(playerID, out result);
     }
-    
+
     public static Color GetPlayerColor(int playerID)
     {
         if (Instance.TryGetPlayerValues(playerID, out PlayerValues result))
@@ -272,7 +272,7 @@ public class GameManager : MonoBehaviour
 
         return 10;
     }
-    
+
     public static ColorableIconData GetPlayerIcon(int playerID)
     {
         if (Instance.TryGetPlayerValues(playerID, out PlayerValues result))

@@ -5,14 +5,13 @@ using System.Collections;
 public class HexMapCamera : MonoBehaviour
 {
     #region Not in tutorial
-    static HexMapCamera instance;
 
     public static Vector3 LocalPosition => instance.transform.localPosition;
 
     public static float RotationAngle => instance.rotationAngle;
     private const float DefaultMoveTime = 0.5f;
 
-    #endregion Not in tutorial
+    #endregion Not in tutorial   
 
     public float zoomSensitivity;
 
@@ -34,17 +33,25 @@ public class HexMapCamera : MonoBehaviour
     [Tooltip("Manual Assignment Of Grid Required")]
     public HexGrid usedGrid;
 
+    static HexMapCamera instance;
+
+    public static bool Locked
+    {
+        set
+        {
+            instance.enabled = !value;
+        }
+    }
 
     void Awake()
     {
-        #region Not in tutorial
-        instance = this;
-        #endregion Not in tutorial
-
         swivel = transform.GetChild(0);
         stick = swivel.GetChild(0);
     }
-
+    void OnEnable()
+    {
+        instance = this;
+    }
     #region Not in tutorial
     private void OnDestroy()
     {
@@ -179,10 +186,12 @@ public class HexMapCamera : MonoBehaviour
     {
         Vector4 area = usedGrid.WorldArea();
 
-        //float xMax = (grid.chunkCountX * HexMetrics.chunkSizeX - 0.5f) * (2f * HexMetrics.innerRadius);
+        //float xMax = (grid.cellCountX - 0.5f) * (2f * HexMetrics.innerRadius);
+        //position.x = Mathf.Clamp(position.x, 0f, xMax);
         position.x = Mathf.Clamp(position.x, area.x, area.y);
 
-        //float zMax = (grid.chunkCountZ * HexMetrics.chunkSizeZ - 1f) * (1.5f * HexMetrics.outerRadius);
+        //float zMax = (grid.cellCountZ - 1) * (1.5f * HexMetrics.outerRadius);
+        //position.z = Mathf.Clamp(position.z, 0f, zMax);
         position.z = Mathf.Clamp(position.z, area.z, area.w);
 
         return position;
@@ -200,5 +209,10 @@ public class HexMapCamera : MonoBehaviour
             rotationAngle -= 360f;
         }
         transform.localRotation = Quaternion.Euler(0f, rotationAngle, 0f);
+    }
+
+    public static void ValidatePosition()
+    {
+        instance.AdjustPosition(0f, 0f);
     }
 }

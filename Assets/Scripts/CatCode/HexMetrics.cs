@@ -37,6 +37,8 @@ public static class HexMetrics
 
     static HexHash[] hashGrid;
 
+    public static Color[] colors;
+
     public static Texture2D noiseSource;
 
     static Vector3[] corners = {

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TimsUIUpgrade : MonoBehaviour
 {
-
     public GameObject LandPlacement;
 
     public GameObject WaterPlacement;
@@ -16,7 +15,7 @@ public class TimsUIUpgrade : MonoBehaviour
     private void Awake()
     {
         HexEditor.SetApplyWaterLevel(false);
-        HexEditor.SetApplyUrbanLevel(false);
+        HexEditor.SetApplyDecoLevel(false);
         LandPlacement.SetActive(true);
         WaterPlacement.SetActive(false);
         DecoPlacement.SetActive(false);
@@ -25,7 +24,9 @@ public class TimsUIUpgrade : MonoBehaviour
     public void ShowLand()
     {
         HexEditor.SetApplyWaterLevel(false);
-        HexEditor.SetApplyUrbanLevel(false);
+        HexEditor.SetApplyDecoLevel(false);
+        HexEditor.SetApplyPlantLevel(false);
+        HexEditor.SetApplySpecialIndex(false);
         LandPlacement.SetActive(true);
         WaterPlacement.SetActive(false);
         DecoPlacement.SetActive(false);
@@ -33,22 +34,26 @@ public class TimsUIUpgrade : MonoBehaviour
 
     public void ShowWater()
     {
-        HexEditor.SelectColor(-1);
+        HexEditor.SetTerrainTypeIndex(-1);
         HexEditor.SetApplyElevation(false);
         HexEditor.SetApplyWaterLevel(true);
-        HexEditor.SetApplyUrbanLevel(true);
+        HexEditor.SetApplyDecoLevel(false);
+        HexEditor.SetApplyPlantLevel(false);
+        HexEditor.SetApplySpecialIndex(false);
         LandPlacement.SetActive(false);
         WaterPlacement.SetActive(true);
         DecoPlacement.SetActive(false);
-         
+
     }
 
     public void ShowDeco()
     {
-        HexEditor.SelectColor(-1);
+        HexEditor.SetTerrainTypeIndex(-1);
         HexEditor.SetApplyElevation(false);
         HexEditor.SetApplyWaterLevel(false);
-        HexEditor.SetApplyUrbanLevel(true);
+        HexEditor.SetApplyDecoLevel(true);
+        HexEditor.SetApplyPlantLevel(false);
+        HexEditor.SetApplySpecialIndex(false);
         LandPlacement.SetActive(false);
         WaterPlacement.SetActive(false);
         DecoPlacement.SetActive(true);
