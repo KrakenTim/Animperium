@@ -90,9 +90,9 @@ Material:
     - _WindDensity: 2
     - _WindSpeed: 0.4
     - _WindStrength: 0.2
-    - _ZTestDepthEqualForOpaque: 0
+    - _ZTestDepthEqualForOpaque: 4
     - _ZTestGBuffer: 3
-    - _ZTestTransparent: 0
+    - _ZTestTransparent: 4
     - _ZWrite: 0
     m_Colors:
     - _DoubleSidedConstants: {r: 1, g: 1, b: 1, a: 0}
