@@ -2547,7 +2547,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 100000
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -2631,7 +2631,7 @@ MonoBehaviour:
   m_PointlightHDType: 0
   m_SpotLightShape: 0
   m_AreaLightShape: 0
-  m_Intensity: 100000
+  m_Intensity: 1
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
@@ -5458,12 +5458,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e804dd5c186435d4b8b8c8951cb6bf09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SmallLength: 0
-  SmallHeight: 0
+  SmallLength: 20
+  SmallHeight: 15
   MediumLength: 45
   MediumHeight: 30
-  LargeLength: 0
-  LargeHeight: 0
+  LargeLength: 80
+  LargeHeight: 60
   hexGrid: {fileID: 1823811209}
 --- !u!1001 &1440890885
 PrefabInstance:
@@ -11799,7 +11799,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hexGrid: {fileID: 1823811209}
   brushSize: 0
-  tempSaveColorID: 0
 --- !u!1 &8251552486997151852
 GameObject:
   m_ObjectHideFlags: 0

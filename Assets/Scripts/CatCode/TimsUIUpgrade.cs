@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TimsUIUpgrade : MonoBehaviour
 {
-
     public GameObject LandPlacement;
 
     public GameObject WaterPlacement;
@@ -44,7 +43,7 @@ public class TimsUIUpgrade : MonoBehaviour
         LandPlacement.SetActive(false);
         WaterPlacement.SetActive(true);
         DecoPlacement.SetActive(false);
-         
+
     }
 
     public void ShowDeco()

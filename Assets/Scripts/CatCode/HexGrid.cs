@@ -1,18 +1,15 @@
 using UnityEngine.UI;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using System.Collections.Generic;
 using System.IO;
 
 public class HexGrid : MonoBehaviour
 {
-    //	public int width = 6;
-    //	public int height = 6;
-
-
-
     int chunkCountX, chunkCountZ;
 
     #region Not in Tutorial
+    [SerializeField] bool underground;
+
     public int ChunkCountX => chunkCountX;
     public int ChunkCountZ => chunkCountZ;
     #endregion Not in Tutorial
@@ -32,14 +29,13 @@ public class HexGrid : MonoBehaviour
     //	Canvas gridCanvas;
     //	HexMesh hexMesh;
 
-
-
     public void Awake()
     {
-        #region Not in Editor
-        if (GetComponent<TempMapSaves>().LoadsInsteadOfHexGrid)
-            return;
-        #endregion Not in Editor
+        #region Not in Tutorial
+        if (underground) return;
+        TempMapSaves ts = GetComponent<TempMapSaves>();
+        if (ts && ts.LoadsInsteadOfHexGrid) return;
+        #endregion Not in Tutorial
 
         HexMetrics.noiseSource = noiseSource;
         HexMetrics.InitializeHashGrid(seed);
@@ -51,7 +47,7 @@ public class HexGrid : MonoBehaviour
 
     public bool CreateMap(int x, int z)
     {
-        if ( x <= 0 || x % HexMetrics.chunkSizeX != 0 ||  z <= 0 || z % HexMetrics.chunkSizeZ != 0)
+        if (x <= 0 || x % HexMetrics.chunkSizeX != 0 || z <= 0 || z % HexMetrics.chunkSizeZ != 0)
         {
             Debug.LogError("Unsupported map size.");
             return false;
@@ -228,6 +224,7 @@ public class HexGrid : MonoBehaviour
             {
                 HexGridChunk chunk = chunks[i++] = Instantiate(chunkPrefab);
                 chunk.transform.SetParent(transform);
+                chunk.transform.localPosition = Vector3.zero;
             }
         }
     }
@@ -290,6 +287,53 @@ public class HexGrid : MonoBehaviour
                 Destroy(chunks[i].gameObject);
         }
         chunks = null;
+    }
+
+    public HashSet<HexCell> GetNeighbours(HexCell center, int size, bool withCenter = false)
+    {
+        HashSet<HexCell> neighbourCells = new HashSet<HexCell>();
+
+        if (size < 1) return neighbourCells;
+
+        int centerX = center.coordinates.X;
+        int centerZ = center.coordinates.Z;
+
+        for (int r = 0, z = centerZ - size; z <= centerZ; z++, r++)
+        {
+            for (int x = centerX - r; x <= centerX + size; x++)
+            {
+                neighbourCells.Add(GetCell(new HexCoordinates(x, z)));
+            }
+        }
+        for (int r = 0, z = centerZ + size; z > centerZ; z--, r++)
+        {
+            for (int x = centerX - size; x <= centerX + r; x++)
+            {
+                neighbourCells.Add(GetCell(new HexCoordinates(x, z)));
+            }
+        }
+
+        if (!withCenter)
+            neighbourCells.Remove(center);
+
+        neighbourCells.Remove(null);
+
+        return neighbourCells;
+    }
+
+    /// <summary>
+    /// x,y is horizontal, z,w is vertical extension.
+    /// </summary>
+    public Vector4 WorldArea()
+    {
+        Vector4 area = new Vector4();
+        area.x = cells[0].transform.position.x;
+        area.z = cells[0].transform.position.z;
+
+        area.y = cells[cells.Length - 1].transform.position.x;
+        area.w = cells[cells.Length - 1].transform.position.z;
+
+        return area;
     }
 
     #endregion Not in Tutorial

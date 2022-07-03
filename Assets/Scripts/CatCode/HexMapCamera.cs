@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 
 public class HexMapCamera : MonoBehaviour
-{    
+{
     #region Not in tutorial
 
     public static Vector3 LocalPosition => instance.transform.localPosition;
@@ -31,7 +31,7 @@ public class HexMapCamera : MonoBehaviour
     Transform swivel, stick;
 
     [Tooltip("Manual Assignment Of Grid Required")]
-    public HexGrid grid;
+    public HexGrid usedGrid;
 
     static HexMapCamera instance;
 
@@ -48,6 +48,12 @@ public class HexMapCamera : MonoBehaviour
         swivel = transform.GetChild(0);
         stick = swivel.GetChild(0);
     }
+    private void Start()
+    {
+        if (usedGrid == null)
+            usedGrid = FindObjectOfType<HexGrid>();
+    }
+
     void OnEnable()
     {
         instance = this;
@@ -61,6 +67,10 @@ public class HexMapCamera : MonoBehaviour
 
     void Update()
     {
+
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+            SwapUsedGrid();
+
         float zoomDelta = Mouse.current.scroll.ReadValue().y * zoomSensitivity;
         if (zoomDelta != 0f)
         {
@@ -145,15 +155,50 @@ public class HexMapCamera : MonoBehaviour
             instance.AdjustZoom(0f);
         }
     }
+
+    public static void SwapUsedGrid()
+    {
+        if (instance.usedGrid == HexGridManager.Current.Surface)
+            SwapToUnderGround();
+        else if (instance.usedGrid == HexGridManager.Current.Underground)
+            SwapToSurface();
+    }
+
+    public static void SwapToSurface()
+    {
+        if (instance.usedGrid == HexGridManager.Current.Surface) return;
+
+        instance.SwapToGrid(HexGridManager.Current.Surface);
+    }
+
+    public static void SwapToUnderGround()
+    {
+        if (instance.usedGrid == HexGridManager.Current.Underground) return;
+
+        instance.SwapToGrid(HexGridManager.Current.Underground);
+    }
+
+    private void SwapToGrid(HexGrid newGrid)
+    {
+        HexGrid oldGrid = instance.usedGrid;
+        usedGrid = newGrid;
+
+        SetPosition(LocalPosition + newGrid.transform.position - oldGrid.transform.position);
+    }
+
     #endregion Not in tutorial
-    
+
     Vector3 ClampPosition(Vector3 position)
     {
-        float xMax = (grid.cellCountX - 0.5f) * (2f * HexMetrics.innerRadius);
-        position.x = Mathf.Clamp(position.x, 0f, xMax);
+        Vector4 area = usedGrid.WorldArea();
 
-        float zMax = (grid.cellCountZ - 1) * (1.5f * HexMetrics.outerRadius);
-        position.z = Mathf.Clamp(position.z, 0f, zMax);
+        //float xMax = (grid.cellCountX - 0.5f) * (2f * HexMetrics.innerRadius);
+        //position.x = Mathf.Clamp(position.x, 0f, xMax);
+        position.x = Mathf.Clamp(position.x, area.x, area.y);
+
+        //float zMax = (grid.cellCountZ - 1) * (1.5f * HexMetrics.outerRadius);
+        //position.z = Mathf.Clamp(position.z, 0f, zMax);
+        position.z = Mathf.Clamp(position.z, area.z, area.w);
 
         return position;
     }

@@ -1,7 +1,6 @@
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEngine;
-using System.IO;
 
 public class HexMapEditor : MonoBehaviour
 {
@@ -19,8 +18,9 @@ public class HexMapEditor : MonoBehaviour
 
     #region Not in Tutorial
 
-    public const int Terrain_Water = 3; // blue in Editor
-    public int tempSaveColorID;
+    public const int TERRAIN_Water = 3; // blue in Editor
+    public const int TERRAIN_Earth = 4; // brown in Editor
+    public const int TERRAIN_Rock = 5; // gray in Editor
 
     #endregion Not in Tutorial
 
@@ -39,7 +39,6 @@ public class HexMapEditor : MonoBehaviour
     int activeTerrainTypeIndex;
 
     //bool applyColor;
-
 
     void Awake()
     {
@@ -211,6 +210,6 @@ public class HexMapEditor : MonoBehaviour
         activeWaterLevel = (int)level;
     }
 
-    
+
 
 }

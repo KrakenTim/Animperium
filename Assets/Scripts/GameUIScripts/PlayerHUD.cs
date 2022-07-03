@@ -12,6 +12,9 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] PawnStatsUI pawnTooltip;
     [SerializeField] PawnStatsUI selectedPawnStats;
 
+    PlayerPawn HoveredPawn => pawnTooltip.Pawn;
+    PlayerPawn SelectedPawn => selectedPawnStats.Pawn;
+
     private void Awake()
     {
         instance = this;
@@ -45,5 +48,14 @@ public class PlayerHUD : MonoBehaviour
     private void SetSelectedPawn(PlayerPawn newPawn)
     {
         selectedPawnStats.SetPawn(newPawn);
+    }
+
+    /// <summary>
+    /// Checks if shown pawns still exists. Selected is handled by GameInputManager.
+    /// </summary>
+    public static void UpdateExistingPawns()
+    {
+       if (instance.HoveredPawn?.HexCell == null)
+            UnHoverPawn();
     }
 }

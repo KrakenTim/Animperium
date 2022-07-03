@@ -11,7 +11,6 @@ using UnityEngine;
 public class TempMapSaves : MonoBehaviour
 {
     HexGrid grid;
-    [SerializeField] HexMapEditor editor;
 
     [SerializeField] GameObject hideInBuild;
 
@@ -30,10 +29,7 @@ public class TempMapSaves : MonoBehaviour
     {
         if (grid == null)
             grid = GetComponent<HexGrid>();
-
-        if (editor == null)
-            editor = FindObjectOfType<HexMapEditor>();
-
+        
         if (loadMapOnAwake)
             LoadString();
 

@@ -9,6 +9,7 @@ public class AnimperiumLocalisation : Localisation
 {
     // code referenced ids, so we only need to change them here and see where they are used.
     public const string ID_AttackPower = "AttackPower";
+    public const string ID_CantDigThrough = "CantDigThrough";
     public const string ID_NotEnoughResources = "NotEnoughResources";
     public const string ID_NotEnoughUpgradesMany = "NotEnoughUpgradesMany";
     public const string ID_NotEnoughUpgradesOne = "NotEnoughUpgradesOne";
