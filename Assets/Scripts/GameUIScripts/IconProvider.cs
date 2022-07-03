@@ -35,7 +35,7 @@ public class IconProvider : MonoBehaviour
         {
             pawnIcon = type.IsBuilding() ? instance.fallbackBuilding : instance.fallbackUnit;
 
-            pawnIcon.text =GameManager.GetPawnData(type).FriendlyName;
+            pawnIcon.text = GameManager.GetPawnData(type).FriendlyName;
         }
 
         return pawnIcon;

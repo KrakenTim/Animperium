@@ -61,7 +61,6 @@ public class HexCell : MonoBehaviour
         }
     }
     //    public Color color;
-    //	Color color;
     int terrainTypeIndex;
 
     public int WaterLevel
@@ -89,6 +88,25 @@ public class HexCell : MonoBehaviour
             return waterLevel > elevation;
         }
     }
+
+    #region NotInTutorial
+    public bool IsDiggable
+    {
+        get
+        {
+            return tempSaveColorID != HexMapEditor.TERRAIN_Rock && Elevation == HexGridManager.UNDIGGED_ELEVATION;
+        }
+    }
+
+
+    public bool ShouldBeRockInUnderground
+    {
+        get
+        {
+            return IsUnderwater || tempSaveColorID == HexMapEditor.TERRAIN_Water || tempSaveColorID == HexMapEditor.TERRAIN_Rock;
+        }
+    }
+    #endregion
 
     public int DecoLevel
     {
@@ -194,6 +212,13 @@ public class HexCell : MonoBehaviour
             //uiPosition.z = -position.y;
             //uiRect.localPosition = uiPosition;
             //Refresh();
+
+            if (HasPawn)
+                Pawn.UpdatePosition();
+
+            if (Resource != null)
+                Resource.SetHexCell(this);
+
         }
     }
 
@@ -264,7 +289,7 @@ public class HexCell : MonoBehaviour
     /// sets visual aspects identical to the given Cell
     /// </summary>
     public void Copy(HexCell blueprint)
-    {       
+    {
         TerrainTypeIndex = blueprint.TerrainTypeIndex;
 
         Elevation = blueprint.Elevation;
@@ -279,7 +304,7 @@ public class HexCell : MonoBehaviour
     /// <param name="origin">the cell the pawn starts at</param>
     public bool CanMoveOnto(HexCell origin)
     {
-        return Mathf.Abs(origin.Elevation - Elevation) < 2 && !IsUnderwater && terrainTypeIndex != HexMapEditor.Terrain_Water;
+        return Mathf.Abs(origin.Elevation - Elevation) < 2 && !IsUnderwater && terrainTypeIndex != HexMapEditor.TERRAIN_Water;
     }
 
     public int DistanceTo(HexCell other)

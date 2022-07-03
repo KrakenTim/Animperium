@@ -13,26 +13,28 @@ MonoBehaviour:
   m_Name: DiggerPawnData
   m_EditorClassIdentifier: 
   type: 4
-  friendlyName: Digger
+  tier: 1
   pawnIcon:
-    type: 0
+    text: 
     colored: {fileID: 0}
     baseIcon: {fileID: 0}
-  maxHealth: 75
+  maxHealth: 50
   maxMovement: 3
-  attackPower: 26
+  attackPower: 20
+  attackRange: 1
   viewRange: 2
-  tier: 1
+  specialPower: 0
   resourceCosts:
     food: 18
     wood: 2
     ore: 0
   populationCount: 1
-  spawnedPawn: 0
+  linearUpgrade: 0
   learnsFight: 6
   learnsMagic: 7
   learnsDigging: 0
-  linearUpgrade: 0
+  upgradesForUnlock: 0
+  spawnedPawn: 0
   playerPrefabs:
   - {fileID: 0}
   - {fileID: 7044294374554152587, guid: dc2c89ee060b59443ace39747ef55f24, type: 3}

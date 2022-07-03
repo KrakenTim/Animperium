@@ -37,16 +37,30 @@ public static class InputMessageInterpreter
         }
 
         // get startCell
-        if (!TryParseHexCoordinate(splitMessage[InputMessage.POSITIONStart], out inputMessage.startCell))
+        if (!TryParseHexCoordinate(splitMessage[InputMessage.POSITIONStart], out inputMessage.startCoordinates))
         {
             Debug.Log($"Interpreter\tCouldn't parse StartCell '{splitMessage[InputMessage.POSITIONStart]}'.\n\t\t{message}");
             return false;
         }
 
         // get targetCell        
-        if (!TryParseHexCoordinate(splitMessage[InputMessage.POSITIONTarget], out inputMessage.targetCell))
+        if (!TryParseHexCoordinate(splitMessage[InputMessage.POSITIONTarget], out inputMessage.targetCoordinates))
         {
             Debug.Log($"Interpreter\tCouldn't parse TargetCell '{splitMessage[InputMessage.POSITIONTarget]}'.\n\t\t{message}");
+            return false;
+        }
+
+        // get start layer
+        if (!int.TryParse(splitMessage[InputMessage.POSITIONStartLayer], out inputMessage.startLayer))
+        {
+            Debug.Log($"Interpreter\tCouldn't parse Start Cell Layer '{splitMessage[InputMessage.POSITIONStartLayer]}'.\n\t\t{message}");
+            return false;
+        }
+
+        // get target layer
+        if (!int.TryParse(splitMessage[InputMessage.POSITIONTargetLayer], out inputMessage.targetLayer))
+        {
+            Debug.Log($"Interpreter\tCouldn't parse Target Cell Layer '{splitMessage[InputMessage.POSITIONTargetLayer]}'.\n\t\t{message}");
             return false;
         }
 

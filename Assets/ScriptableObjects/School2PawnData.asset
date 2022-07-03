@@ -13,27 +13,28 @@ MonoBehaviour:
   m_Name: School2PawnData
   m_EditorClassIdentifier: 
   type: 150
-  friendlyName: School II
   tier: 2
-  upgradesForUnlock: 5
   pawnIcon:
     text: 
     colored: {fileID: 0}
     baseIcon: {fileID: 0}
-  maxHealth: 250
+  maxHealth: 200
   maxMovement: 0
   attackPower: 0
+  attackRange: 1
   viewRange: 3
+  specialPower: 0
   resourceCosts:
     food: 44
     wood: 60
     ore: 0
   populationCount: 0
   linearUpgrade: 0
-  spawnedPawn: 0
   learnsFight: 0
   learnsMagic: 0
   learnsDigging: 0
+  upgradesForUnlock: 6
+  spawnedPawn: 0
   playerPrefabs:
   - {fileID: 0}
   - {fileID: 7845875270959048770, guid: 9cabc8bf47e76e94caafe7936630e858, type: 3}
