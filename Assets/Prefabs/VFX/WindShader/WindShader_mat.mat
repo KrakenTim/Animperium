@@ -20,10 +20,10 @@ Material:
     RenderType: Transparent
   disabledShaderPasses:
   - MOTIONVECTORS
-  - TransparentDepthPrepass
+  - RayTracingPrepass
   - TransparentDepthPostpass
   - TransparentBackface
-  - RayTracingPrepass
+  - TransparentDepthPrepass
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -97,7 +97,7 @@ Material:
     m_Colors:
     - _DoubleSidedConstants: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _LeafColor: {r: 0, g: 0, b: 0, a: 0}
+    - _LeafColor: {r: 0.49056602, g: 0.10340412, b: 0, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &7846842934053952313
 MonoBehaviour:
