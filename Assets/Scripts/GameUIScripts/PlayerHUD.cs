@@ -19,7 +19,7 @@ public class PlayerHUD : MonoBehaviour
     {
         instance = this;
 
-        GameInputManager.SelectPawn += SetSelectedPawn;
+        GameInputManager.OnPawnSelected += SetSelectedPawn;
 
         SetSelectedPawn(null);
     }
@@ -29,7 +29,7 @@ public class PlayerHUD : MonoBehaviour
         if (instance == this)
             instance = null;
 
-        GameInputManager.SelectPawn -= SetSelectedPawn;
+        GameInputManager.OnPawnSelected -= SetSelectedPawn;
     }
 
     public static void HoverPawn(PlayerPawn hoveredPawn)
