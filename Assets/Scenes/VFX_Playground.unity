@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 5401.1377, g: 3477.7852, b: 2776.836, a: 1}
+  m_IndirectSpecularColor: {r: 5354.1777, g: 3453.539, b: 2780.5234, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5245,6 +5245,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Small_Tree
       objectReference: {fileID: 0}
+    - target: {fileID: 828195537290232181, guid: a5d9811e23f65394d910d1d60d088fed, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5d9811e23f65394d910d1d60d088fed, type: 3}
 --- !u!1 &893528048
@@ -6590,7 +6594,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 42655587543076884, guid: 5ab289a2c549fed4da1460373b694b0e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3439567864993762644, guid: 5ab289a2c549fed4da1460373b694b0e, type: 3}
       propertyPath: m_Materials.Array.size
@@ -14641,6 +14645,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bush
       objectReference: {fileID: 0}
+    - target: {fileID: 5638642452545927400, guid: bb16652b214e06f4cae62bc7d00e9188, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb16652b214e06f4cae62bc7d00e9188, type: 3}
 --- !u!1001 &4227421119612087834
@@ -15376,6 +15384,10 @@ PrefabInstance:
     - target: {fileID: 7529459590183840496, guid: e74c875c83a252a419b3dc273a83f9b8, type: 3}
       propertyPath: m_Name
       value: WindTree2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7529459590183840496, guid: e74c875c83a252a419b3dc273a83f9b8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e74c875c83a252a419b3dc273a83f9b8, type: 3}
