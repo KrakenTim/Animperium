@@ -11,9 +11,7 @@ public static class InputMessageExecuter
     /// Called if a recieved InputMessage could be parsed and will be executed.
     /// </summary>
     public static event System.Action<string> RecievedInputMessage;
-
-    private static HexGrid HexGrid => GameManager.HexGrid;
-
+    
     /// <summary>
     /// Sends the given message out, currently to itself since we've only got hotseat mode.
     /// </summary>
@@ -58,14 +56,26 @@ public static class InputMessageExecuter
     /// </summary>
     private static void ExecuteHexMessage(InputMessage hexOrder)
     {
-        HexCell startCell = HexGrid.GetHexCell(hexOrder.startCell);
-        HexCell targetCell = HexGrid.GetHexCell(hexOrder.targetCell);
+        HexCell startCell = HexGridManager.Current.GetHexCell(hexOrder.startCoordinates, hexOrder.startLayer);
+        HexCell targetCell = HexGridManager.Current.GetHexCell(hexOrder.targetCoordinates, hexOrder.targetLayer);
 
         PlayerPawn startPawn = startCell.Pawn;
         PlayerPawn targetPawn = targetCell.Pawn;
 
+        if (startPawn == null)
+        {
+            Debug.LogError($"Player {hexOrder.senderLocalID} tried to move nonexistend Pawn on Hex{hexOrder.startCoordinates}\n", startCell);
+            return;
+        }
+
+        if (startPawn.PlayerID != hexOrder.senderLocalID)
+        {
+            Debug.LogError($"Player {hexOrder.senderLocalID} tried to act with pawn that doesn't belong to them!\n{startPawn}", startPawn);
+            return;
+        }
+
         if (startPawn.IsUnit)
-            startPawn.LookAt(targetCell.Position);
+            startPawn.LookAt(targetCell.transform.position);
 
         switch (hexOrder.action)
         {
@@ -94,6 +104,13 @@ public static class InputMessageExecuter
                 startPawn.HealTarget(targetPawn);
                 break;
 
+            case ePlayeractionType.LayerSwitch:
+                startPawn.SwitchLayer(targetPawn);
+                break;
+            case ePlayeractionType.Digging:
+                startPawn.Dig(targetCell);
+                break;
+
             default:
                 Debug.LogError($"MessageExecuter\t{nameof(ExecuteHexMessage)} UNDEFINED for {hexOrder.action}\n");
                 return;
@@ -119,6 +136,10 @@ public static class InputMessageExecuter
 
             case ePlayeractionType.Resign:
                 GameManager.PlayerResigned(generalOrder.senderLocalID);
+                break;
+
+            case ePlayeractionType.SendRandomGenerationKey:
+                GameManager.RandomGenerationKey = InputMessageGenerator.GetRandomKey(generalOrder);
                 break;
 
             default:
