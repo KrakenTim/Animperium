@@ -76,9 +76,8 @@ public class HexFeatureManager : MonoBehaviour
     {
         Transform instance = Instantiate(special[cell.SpecialIndex - 1]);
         instance.localPosition = HexMetrics.Perturb(position);
-        HexHash hash = HexMetrics.SampleHashGrid(position);
+        //HexHash hash = HexMetrics.SampleHashGrid(position);
         //instance.localRotation = Quaternion.Euler(0f, 360f * hash.e, 0f); //rotates buildings randomly
         instance.SetParent(container, false);
     }
-
 }

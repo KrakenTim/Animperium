@@ -108,6 +108,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     // Start is called before the first frame update
     protected virtual void Awake()
     {
+        if (!GameManager.InGame) return;
+
         currentHealth = MaxHealth;
         movementPoints = MaxMovement;
 
