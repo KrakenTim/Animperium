@@ -86,12 +86,24 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NormalFromTexture_19e36c96ad3240a1907701b97c1497bd_Texture_0:
+        m_Texture: {fileID: 2800000, guid: 958c5996f95210545be4b07ded0de272, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _NormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMapOS:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2DArray_b4a796b7402a4da191ce424093dca4d2_TextureArray_1:
+        m_Texture: {fileID: 18700000, guid: 265c0123ce5a4664da3d7a8b14f1dca5, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_3c9dc1bc71264e3880195264e7329b03_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 958c5996f95210545be4b07ded0de272, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecularColorMap:
@@ -108,6 +120,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _TangentMapOS:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DArrayAsset_708d007a764f4746808221a8f4c04001_Out_0:
+        m_Texture: {fileID: 18700000, guid: 265c0123ce5a4664da3d7a8b14f1dca5, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ThicknessMap:
@@ -131,6 +147,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_cf564a77c8134cfa9d407d9e3ef0a4f7: 0.02
     - _AORemapMax: 1
     - _AORemapMin: 0
     - _ATDistance: 1
@@ -245,6 +262,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_9e25a2129461405d9473c89cb75cae50: {r: 0, g: 0, b: 0, a: 0}
+    - Vector3_1d08568aa7f043bfa5d241ce3976b6e3: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
