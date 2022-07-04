@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            if(instance == null)
+            if (instance == null)
                 instance = FindObjectOfType<GameManager>();
             return instance;
         }
@@ -71,6 +72,11 @@ public class GameManager : MonoBehaviour
 
         playerValueProvider.SetupPawnFolders();
         StartNewPlayerTurn();
+    }
+
+    private void Update()
+    {
+        if (Keyboard.current.enterKey.wasPressedThisFrame) EndTurn();
     }
 
     private void OnDestroy()
