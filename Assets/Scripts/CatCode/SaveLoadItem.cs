@@ -5,6 +5,10 @@ public class SaveLoadItem : MonoBehaviour
 {
     public SaveLoadMenu menu;
 
+    #region not in tutorial
+    public MapSelectionMenu selectionMenu;
+    #endregion not in tutorial
+
     public string MapName
     {
         get
@@ -22,6 +26,14 @@ public class SaveLoadItem : MonoBehaviour
 
     public void Select()
     {
+        #region not in tutorial
+        if (selectionMenu)
+        {
+            selectionMenu.SelectItem(MapName);
+            return;
+        }
+        #endregion not in tutorial
+
         menu.SelectItem(mapName);
     }
 }

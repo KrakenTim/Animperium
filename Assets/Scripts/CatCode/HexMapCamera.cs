@@ -138,6 +138,20 @@ public class HexMapCamera : MonoBehaviour
         instance.SetZoom(newValues.zoom01);
     }
 
+    public static void SetToCenter()
+    {
+        HexCell[] grid = instance.usedGrid.GetAllCells();
+
+        Vector3 centerPosition;
+
+        if (grid.Length % 2 == 1) //uneven number of cells, use middle
+            centerPosition = grid[grid.Length / 2].transform.position;
+        else // even number of cells, use average of both cells in the middle
+            centerPosition = (grid[grid.Length / 2].transform.position + grid[grid.Length / 2 + 1].transform.position) / 2f;
+
+        SetPosition(centerPosition);
+    }
+
     public static void SetPosition(Vector3 position)
     {
         if (instance)
