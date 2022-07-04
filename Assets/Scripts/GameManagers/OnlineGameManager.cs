@@ -91,7 +91,7 @@ public class OnlineGameManager : MonoBehaviour
 
         Debug.Log($"OnlineGameManager\tMy Name: {NameOnServer}, My localID: {LocalPlayerID}\n");
 
-        SceneManager.LoadScene("NormanMapGeneration");
+        SceneManager.LoadScene(AI_Scene.SCENENAME_Game);
     }
 
     public static void SetupPlayerNames(PlayerValues[] playerValueList)

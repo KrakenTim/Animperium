@@ -1012,7 +1012,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1477020504}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 3
+  m_MaxValue: 2
   m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
@@ -8326,6 +8326,7 @@ MonoBehaviour:
   decalPrefab: {fileID: 3258602312213353362, guid: b0e1c805cb94bca4096a884d86441d3f, type: 3}
   hexGrid: {fileID: 1823811209}
   hexMapEditor: {fileID: 8251552486997151849}
+  decalOffset: 0.1
 --- !u!4 &1933170623
 Transform:
   m_ObjectHideFlags: 0
@@ -10036,11 +10037,15 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8532971557129459080, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: hideInBuild
-      value: 
+      propertyPath: loadMapOnAwake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8532971557129459080, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: loadMapOnAwake
+      propertyPath: loadPathOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8532971557129459080, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
+      propertyPath: loadTempMapOnAwake
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

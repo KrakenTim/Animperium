@@ -36,7 +36,7 @@ public class PlayerValueProvider : MonoBehaviour
 
         foreach (var player in playerValues)
         {
-            player.lastCameraValues.localPosition = player.GetTownHall().WorldPosition;            
+            player.lastCameraValues.localPosition = player.GetTownHall().WorldPosition;
         }
     }
 
