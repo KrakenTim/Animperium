@@ -69,9 +69,6 @@ public class GameManager : MonoBehaviour
     {
         playerValueProvider.SetupPlayerStart();
 
-        if (TryGetPlayerValues(localPlayerID, out PlayerValues player))
-            HexMapCamera.SetPosition(player.lastCameraValues.localPosition);
-
         playerValueProvider.SetupPawnFolders();
         StartNewPlayerTurn();
     }
@@ -319,6 +316,14 @@ public class GameManager : MonoBehaviour
             // negative population costs increase max population
             else if (pawn.PawnData.populationCount < 0)
                 result.PopulationMax += -pawn.PawnData.populationCount;
+
+            if (pawn.PawnType == ePlayerPawnType.TownHall)
+            {
+                result.lastCameraValues.localPosition = pawn.WorldPosition;
+
+                if (pawn.PlayerID == LocalPlayerID && instance.TryGetPlayerValues(LocalPlayerID, out PlayerValues player))
+                    HexMapCamera.SetPosition(player.lastCameraValues.localPosition);
+            }
         }
     }
 
