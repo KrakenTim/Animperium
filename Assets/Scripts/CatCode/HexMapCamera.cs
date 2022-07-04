@@ -11,8 +11,8 @@ public class HexMapCamera : MonoBehaviour
     public static float RotationAngle => instance.rotationAngle;
     private const float DefaultMoveTime = 0.5f;
 
-    public GameObject SurfaceLightning;
-    public GameObject UndergroundLightning;
+    private HexGridLayer usedGridLayer;
+    public static HexGridLayer GridLayer => instance.usedGridLayer;
 
     #endregion Not in tutorial   
 
@@ -40,6 +40,11 @@ public class HexMapCamera : MonoBehaviour
 
     public static bool Locked
     {
+        get
+        {
+            return !instance.enabled;
+        }
+
         set
         {
             instance.enabled = !value;
@@ -124,15 +129,32 @@ public class HexMapCamera : MonoBehaviour
         result.localPosition = LocalPosition;
         result.rotationY = RotationAngle;
         result.zoom01 = instance.zoom;
+        result.layer = GridLayer;
 
         return result;
     }
 
     public static void SetCameraValues(CameraValues newValues)
     {
+        SwapToGrid(newValues.layer);
+
         SetPosition(newValues.localPosition);
         instance.SetRotation(newValues.rotationY);
         instance.SetZoom(newValues.zoom01);
+    }
+
+    public static void SetToCenter()
+    {
+        HexCell[] grid = instance.usedGrid.GetAllCells();
+
+        Vector3 centerPosition;
+
+        if (grid.Length % 2 == 1) //uneven number of cells, use middle
+            centerPosition = grid[grid.Length / 2].transform.position;
+        else // even number of cells, use average of both cells in the middle
+            centerPosition = (grid[grid.Length / 2].transform.position + grid[grid.Length / 2 + 1].transform.position) / 2f;
+
+        SetPosition(centerPosition);
     }
 
     public static void SetPosition(Vector3 position)
@@ -167,12 +189,19 @@ public class HexMapCamera : MonoBehaviour
             SwapToSurface();
     }
 
+    public static void SwapToGrid(HexGridLayer layer)
+    {
+        if (layer == HexGridLayer.Surface)
+            SwapToSurface();
+        else
+            SwapToUnderGround();
+    }
+
     public static void SwapToSurface()
     {
         if (instance.usedGrid == HexGridManager.Current.Surface) return;
 
-        instance.SurfaceLightning.SetActive(true);
-        instance.UndergroundLightning.SetActive(false);
+        instance.usedGridLayer = HexGridLayer.Surface;
         instance.SwapToGrid(HexGridManager.Current.Surface);
     }
 
@@ -180,8 +209,7 @@ public class HexMapCamera : MonoBehaviour
     {
         if (instance.usedGrid == HexGridManager.Current.Underground) return;
 
-        instance.SurfaceLightning.SetActive(false);
-        instance.UndergroundLightning.SetActive(true);
+        instance.usedGridLayer = HexGridLayer.Underground;
         instance.SwapToGrid(HexGridManager.Current.Underground);
     }
 

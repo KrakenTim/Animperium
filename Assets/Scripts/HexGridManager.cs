@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum HexGridLayer
+{
+    Surface = 0,
+    Underground = 1
+}
+
 public class HexGridManager : MonoBehaviour
 {
     public const int UNDIGGED_ELEVATION = 2;
@@ -15,7 +21,7 @@ public class HexGridManager : MonoBehaviour
     public HexGrid Underground => underground;
 
     const int HIGHEST_LAYER = 1;
-    
+
     [Header("Resource Generation")]
     [SerializeField] int oreAmount = 5;
     [SerializeField] ResourceToken orePrefab;
@@ -23,6 +29,9 @@ public class HexGridManager : MonoBehaviour
     private void Awake()
     {
         CreateUnderground();
+
+        SetHexCellGridLayers();
+
         DistributeOres();
     }
 
@@ -37,7 +46,7 @@ public class HexGridManager : MonoBehaviour
             return underground.GetHexCell(worldposition);
     }
 
-    public bool IsWalkable(HexCell cell)
+    public static bool IsWalkable(HexCell cell)
     {
         if (cell.HasPawn || cell.Resource != null) return false;
 
@@ -67,34 +76,32 @@ public class HexGridManager : MonoBehaviour
 
         return result;
     }
-
-    public int GetHexCellLayer(HexCell cell)
-    {
-        //Debug.Log($"Underground: {underground.WorldArea()} {underground.WorldArea().InArea(cell.transform.position)} " +
-        //          $"Surface: {surface.WorldArea()} {underground.WorldArea().InArea(cell.transform.position)} Position: {cell.transform.position}\n");
-
-        if (underground.WorldArea().InArea(cell.transform.position))
-            return 1;
-        else
-            return 0;
-    }
-
+    
     public HexGrid GetGrid(HexCell cell)
     {
-        if (GetHexCellLayer(cell) == 0)
-            return surface;
+        if (cell.gridLayer == HexGridLayer.Surface)
+            return Surface;
         else
-            return underground;
+            return Underground;
     }
 
-    public bool IsSurface(HexCell cell)
+    public static bool IsSurface(HexCell cell)
     {
-        return GetHexCellLayer(cell) == 0;
+        return cell.gridLayer == HexGridLayer.Surface;
     }
 
-    public bool IsUnderground(HexCell cell)
+    public static bool IsUnderground(HexCell cell)
     {
-        return GetHexCellLayer(cell) > 0;
+        return cell.gridLayer == HexGridLayer.Underground;
+    }
+
+    private void SetHexCellGridLayers()
+    {
+        foreach (var cell in Surface.GetAllCells())
+            cell.gridLayer = HexGridLayer.Surface;
+
+        foreach (var cell in Underground.GetAllCells())
+            cell.gridLayer = HexGridLayer.Underground;
     }
 
     private void CreateUnderground()

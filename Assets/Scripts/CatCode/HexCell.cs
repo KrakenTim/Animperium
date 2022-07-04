@@ -98,6 +98,7 @@ public class HexCell : MonoBehaviour
         }
     }
 
+    public HexGridLayer gridLayer;
 
     public bool ShouldBeRockInUnderground
     {
