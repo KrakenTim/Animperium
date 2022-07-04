@@ -24,10 +24,10 @@ public static class InputMessageGenerator
         InputMessage message = CreateBasicMessage(action);
 
         message.startCoordinates = actingPawn.HexCoordinates;
-        message.startLayer = HexGridManager.Current.GetHexCellLayer(actingPawn.HexCell);
+        message.startLayer = (int)actingPawn.HexCell.gridLayer;
 
         message.targetCoordinates = targetCell.coordinates;
-        message.targetLayer = HexGridManager.Current.GetHexCellLayer(targetCell);
+        message.targetLayer = (int)targetCell.gridLayer;
 
         return message;
     }

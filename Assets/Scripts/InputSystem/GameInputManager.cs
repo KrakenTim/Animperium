@@ -120,12 +120,12 @@ public class GameInputManager : MonoBehaviour
     private bool IsMovePossible()
     {
         return selectedPawn.IsUnit && selectedPawn.MP > 0
-            && HexGridManager.Current.IsWalkable(selectedHexCell);
+            && HexGridManager.IsWalkable(selectedHexCell);
     }
 
     private bool IsDiggingPossible()
     {
-        return selectedPawn.CanDig && selectedPawn.MP > 0 && HexGridManager.Current.IsUnderground(selectedHexCell) && selectedHexCell.IsDiggable;
+        return selectedPawn.CanDig && selectedPawn.MP > 0 && HexGridManager.IsUnderground(selectedHexCell) && selectedHexCell.IsDiggable;
     }
 
     private bool IsSpawnPossible()
@@ -138,7 +138,7 @@ public class GameInputManager : MonoBehaviour
     private bool IsBuildingPossible()
     {
         return selectedPawn.PawnType == ePlayerPawnType.Villager && !selectedHexCell.HasPawn && selectedHexCell.Resource == null
-               && HexGridManager.Current.IsSurface(selectedHexCell);
+               && HexGridManager.IsSurface(selectedHexCell);
     }
 
     private bool IsTunnelBuildingPossible()
@@ -176,7 +176,7 @@ public class GameInputManager : MonoBehaviour
         }
 
         targetCell = HexGridManager.Current.OtherLayerCell(selectedPawn.HexCell);      
-        return HexGridManager.Current.IsWalkable(targetCell);
+        return HexGridManager.IsWalkable(targetCell);
     }
 
     /// <summary>
@@ -260,7 +260,7 @@ public class GameInputManager : MonoBehaviour
     {
         if (!selectedPawn) return;
 
-        Vector3 position = selectedPawn.WorldPosition;
+        Vector3 position = selectedPawn.HexCell.transform.position;
         position.y += decalOffset;
         selectedPawnDecal.transform.position = position;
     }

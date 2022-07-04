@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ReplayCameraPositioner : MonoBehaviour
 {
-    public static event System.Action FinishedShift;
-
     [SerializeField] Transform shiftedTransform;
 
     public bool IsShiftNeeded(InputMessage order, out Vector3 position)
