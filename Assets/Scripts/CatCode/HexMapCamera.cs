@@ -256,6 +256,7 @@ public class HexMapCamera : MonoBehaviour
 
     public static void ValidatePosition()
     {
-        instance.AdjustPosition(0f, 0f);
+        if (instance)
+            instance.AdjustPosition(0f, 0f);
     }
 }

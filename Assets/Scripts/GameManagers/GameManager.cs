@@ -4,7 +4,18 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
+    private static GameManager instance;
+    public static GameManager Instance
+    {
+        get
+        {
+            if(instance == null)
+                instance = FindObjectOfType<GameManager>();
+            return instance;
+        }
+        set => instance = value;
+    }
+
     public static bool InGame => Instance != null;
 
     public static event System.Action<int> TurnStarted;
