@@ -107,10 +107,10 @@ public class HexGridChunk : MonoBehaviour
         {
             features.AddFeature(cell, (center + e.v1 + e.v3) * (1f / 3f));
         }
-        if (cell.IsSpecial)
-        {
-            features.AddSpecialFeature(cell, cell.Position);
-        }
+        //if (cell.IsSpecial) // this results in the feature being added once for every neighbour cell
+        //{
+        //    features.AddSpecialFeature(cell, cell.Position);
+        //}
     }
 
     void TriangulateWater(HexDirection direction, HexCell cell, Vector3 center)
