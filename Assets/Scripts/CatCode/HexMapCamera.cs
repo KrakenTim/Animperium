@@ -11,6 +11,9 @@ public class HexMapCamera : MonoBehaviour
     public static float RotationAngle => instance.rotationAngle;
     private const float DefaultMoveTime = 0.5f;
 
+    public GameObject SurfaceLightning;
+    public GameObject UndergroundLightning;
+
     #endregion Not in tutorial   
 
     public float zoomSensitivity;
@@ -168,6 +171,8 @@ public class HexMapCamera : MonoBehaviour
     {
         if (instance.usedGrid == HexGridManager.Current.Surface) return;
 
+        instance.SurfaceLightning.SetActive(true);
+        instance.UndergroundLightning.SetActive(false);
         instance.SwapToGrid(HexGridManager.Current.Surface);
     }
 
@@ -175,6 +180,8 @@ public class HexMapCamera : MonoBehaviour
     {
         if (instance.usedGrid == HexGridManager.Current.Underground) return;
 
+        instance.SurfaceLightning.SetActive(false);
+        instance.UndergroundLightning.SetActive(true);
         instance.SwapToGrid(HexGridManager.Current.Underground);
     }
 
