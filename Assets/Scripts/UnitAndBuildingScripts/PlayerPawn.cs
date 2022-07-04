@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Events;
 
 [System.Serializable]
 public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler

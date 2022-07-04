@@ -260,7 +260,7 @@ public class GameInputManager : MonoBehaviour
     {
         if (!selectedPawn) return;
 
-        Vector3 position = selectedPawn.WorldPosition;
+        Vector3 position = selectedPawn.HexCell.transform.position;
         position.y += decalOffset;
         selectedPawnDecal.transform.position = position;
     }
