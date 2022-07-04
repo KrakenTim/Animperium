@@ -23,7 +23,7 @@ public class HexGridManager : MonoBehaviour
     const int HIGHEST_LAYER = 1;
 
     [Header("Resource Generation")]
-    [SerializeField] int oreAmount = 5;
+    [SerializeField] int oresPer100Cells = 10;
     [SerializeField] ResourceToken orePrefab;
 
     private void Awake()
@@ -138,7 +138,9 @@ public class HexGridManager : MonoBehaviour
 
         HashSet<int> oreSpots = new HashSet<int>();
 
-        while (oreSpots.Count < oreAmount)
+        int oresInMap = (undergroundCells.Length * oresPer100Cells)/200;
+
+        while (oreSpots.Count < oresInMap)
         {
             int pos = Random.Range(0, halfLenght + 1);
             if (!oreSpots.Contains(pos) && undergroundCells[pos].IsDiggable && undergroundCells[undergroundCells.Length - (1 + pos)].IsDiggable)

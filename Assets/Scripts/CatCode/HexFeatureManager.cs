@@ -70,14 +70,21 @@ public class HexFeatureManager : MonoBehaviour
         instance.localPosition = HexMetrics.Perturb(position);
         instance.localRotation = Quaternion.Euler(0f, 360f * hash.e, 0f);
         instance.SetParent(container, false);
-
     }
+
     public void AddSpecialFeature(HexCell cell, Vector3 position)
     {
-        Transform instance = Instantiate(special[cell.SpecialIndex - 1]);
-        instance.localPosition = HexMetrics.Perturb(position);
+        if (cell.SpecialIndex < 1 || cell.SpecialIndex > special.Length)
+        {
+            Debug.LogError($"Unknown Special index({cell.SpecialIndex}) for cell at {cell.transform.position}.\n", cell);
+            return;
+        }
+
+        //Transform instance = Instantiate(special[cell.SpecialIndex - 1]);
+        Transform instance = Instantiate(special[cell.SpecialIndex - 1], cell.transform.position, Quaternion.identity, container);
+        //instance.localPosition = HexMetrics.Perturb(position);
         //HexHash hash = HexMetrics.SampleHashGrid(position);
         //instance.localRotation = Quaternion.Euler(0f, 360f * hash.e, 0f); //rotates buildings randomly
-        instance.SetParent(container, false);
+        //instance.SetParent(container, false);
     }
 }
