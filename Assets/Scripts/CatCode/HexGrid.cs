@@ -293,7 +293,13 @@ public class HexGrid : MonoBehaviour
     {
         HashSet<HexCell> neighbourCells = new HashSet<HexCell>();
 
-        if (size < 1) return neighbourCells;
+        if (size < 1)
+        {
+            if (withCenter)
+                neighbourCells.Add(center);
+
+            return neighbourCells;
+        }
 
         int centerX = center.coordinates.X;
         int centerZ = center.coordinates.Z;

@@ -40,6 +40,11 @@ public class HexMapCamera : MonoBehaviour
 
     public static bool Locked
     {
+        get
+        {
+            return !instance.enabled;
+        }
+
         set
         {
             instance.enabled = !value;

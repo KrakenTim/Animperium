@@ -91,6 +91,9 @@ MonoBehaviour:
   - identifier: MainMenu
     english: Main Menu
     german: "Hauptmen\xFC"
+  - identifier: MapEditor
+    english: Open Map Editor
+    german: Karte erstellen
   - identifier: MasterVolume
     english: Master Volume
     german: "Gesamtlautst\xE4rke"
