@@ -11,6 +11,9 @@ public class HexMapCamera : MonoBehaviour
     public static float RotationAngle => instance.rotationAngle;
     private const float DefaultMoveTime = 0.5f;
 
+    private HexGridLayer usedGridLayer;
+    public static HexGridLayer GridLayer => instance.usedGridLayer;
+
     #endregion Not in tutorial   
 
     public float zoomSensitivity;
@@ -121,12 +124,15 @@ public class HexMapCamera : MonoBehaviour
         result.localPosition = LocalPosition;
         result.rotationY = RotationAngle;
         result.zoom01 = instance.zoom;
+        result.layer = GridLayer;
 
         return result;
     }
 
     public static void SetCameraValues(CameraValues newValues)
     {
+        SwapToGrid(newValues.layer);
+
         SetPosition(newValues.localPosition);
         instance.SetRotation(newValues.rotationY);
         instance.SetZoom(newValues.zoom01);
@@ -164,10 +170,19 @@ public class HexMapCamera : MonoBehaviour
             SwapToSurface();
     }
 
+    public static void SwapToGrid(HexGridLayer layer)
+    {
+        if (layer == HexGridLayer.Surface)
+            SwapToSurface();
+        else
+            SwapToUnderGround();
+    }
+
     public static void SwapToSurface()
     {
         if (instance.usedGrid == HexGridManager.Current.Surface) return;
 
+        instance.usedGridLayer = HexGridLayer.Surface;
         instance.SwapToGrid(HexGridManager.Current.Surface);
     }
 
@@ -175,6 +190,7 @@ public class HexMapCamera : MonoBehaviour
     {
         if (instance.usedGrid == HexGridManager.Current.Underground) return;
 
+        instance.usedGridLayer = HexGridLayer.Underground;
         instance.SwapToGrid(HexGridManager.Current.Underground);
     }
 
