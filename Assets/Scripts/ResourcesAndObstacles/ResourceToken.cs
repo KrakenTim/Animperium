@@ -13,9 +13,7 @@ public class ResourceToken : MonoBehaviour
 
     [SerializeField] HexCell hexCell;
     public HexCell HexCell => hexCell;
-
-    private int ownLayer;
-
+    
     private void Start()
     {
         if (Type == eResourceType.NONE || amount < 1)
@@ -23,9 +21,7 @@ public class ResourceToken : MonoBehaviour
 
         if (hexCell == null)
             SetHexCell(HexGridManager.Current.GetHexCell(transform.position));
-
-        ownLayer = HexGridManager.Current.GetHexCellLayer(hexCell);
-
+        
         if (type == eResourceType.Ore)
         {
             PlayerPawn.OnPawnMoved += UpdateVisibility;
@@ -103,13 +99,13 @@ public class ResourceToken : MonoBehaviour
     {
         if (pawn.IsEnemyOf(GameManager.LocalPlayerID)) return;
 
-        if (newCell && newCell.DistanceTo(HexCell) <= 1 && HexGridManager.Current.GetHexCellLayer(newCell) == ownLayer)
+        if (newCell && newCell.DistanceTo(HexCell) <= 1 && newCell.gridLayer == hexCell.gridLayer)
         {
             SetVisible(true);
             return;
         }
 
-        if (oldCell && oldCell.DistanceTo(HexCell) <= 1 && HexGridManager.Current.GetHexCellLayer(oldCell) == ownLayer)
+        if (oldCell && oldCell.DistanceTo(HexCell) <= 1 && oldCell.gridLayer == hexCell.gridLayer)
         {
             SetVisible(HasAlliedNeighbours());
         }

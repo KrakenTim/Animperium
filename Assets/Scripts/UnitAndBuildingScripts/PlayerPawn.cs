@@ -234,14 +234,15 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
         OnValueChange?.Invoke();
 
-        StartCoroutine(JumpTo(oldPosition.transform.position, targetPosition.transform.position, jumpTime));
+        if (oldPosition.gridLayer == targetPosition.gridLayer)
+            StartCoroutine(JumpTo(oldPosition.transform.position, targetPosition.transform.position, jumpTime));
     }
 
     public void Dig(HexCell targetCell)
     {
         if (!HexGridManager.Current.DigAwayCell(targetCell)) return;
 
-        if (HexGridManager.Current.IsWalkable(targetCell))
+        if (HexGridManager.IsWalkable(targetCell))
             MoveTo(targetCell);
     }
 
@@ -383,7 +384,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
             progress = Mathf.SmoothStep(0f, 1f, elapsed / time);
 
             currentPosition = Vector3.Lerp(startPosition, targetPosition, progress);
-            currentPosition.y += Mathf.Sin(Mathf.PI * elapsed/time) * jumpHeight;
+            currentPosition.y += Mathf.Sin(Mathf.PI * elapsed / time) * jumpHeight;
 
             transform.position = currentPosition;
 
