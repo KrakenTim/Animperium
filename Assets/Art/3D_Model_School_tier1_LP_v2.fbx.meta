@@ -1,8 +1,26 @@
 fileFormatVersion: 2
-guid: ed6f5ed14273cc84dae6e064ccf1d25e
+guid: 453e0a58cf557cf4ca2856add5c16ba0
 ModelImporter:
   serializedVersion: 20200
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: 8203603337702042872
+    second: RIG_School_01|ArmatureAction
+  - first:
+      74: 8255183122137230572
+    second: RIG_School_01|ArmatureAction.001
+  - first:
+      74: -7752806531651164772
+    second: RIG_School_01|ArmatureAction.004
+  - first:
+      74: -9145726690915361812
+    second: RIG_School_01|ArmatureAction.005
+  - first:
+      74: 7792694481537493261
+    second: RIG_School_01|Flag_anim_01
+  - first:
+      74: 6323823815180516739
+    second: RIG_School_01|Flag_anim_final
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -30,7 +48,36 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: RIG_School_01|Flag_anim_final
+      takeName: RIG_School_01|Flag_anim_final
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 40
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 0
   meshes:
     lODScreenPercentages: []
