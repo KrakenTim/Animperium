@@ -8,12 +8,15 @@ using UnityEngine.UI;
 
 public class MapSelectionMenu : MonoBehaviour
 {
-    private const string SCENE_MainMenu = "MainMenu";
+    [SerializeField] PersistingMatchData currentMatchData;
 
+    [Space]
     public InputField nameInput;
     public RectTransform listContent;
     [Space]
     public SaveLoadItem itemPrefab;
+
+    private SaveLoadItem currentSelectedMap;
 
     private void OnEnable()
     {
@@ -33,41 +36,51 @@ public class MapSelectionMenu : MonoBehaviour
             return null;
     }
 
-    void Load(string path)
+    /// <summary>
+    /// Checks if the file at the given path exists and is a valid version
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    bool CheckVersion(string path)
     {
         if (!File.Exists(path))
         {
             Debug.LogError("File does not exist " + path);
-            return;
+            return false;
         }
         using (BinaryReader reader = new BinaryReader(File.OpenRead(path)))
         {
             int header = reader.ReadInt32();
+
             if (header <= 1)
-            {
-                //hexGrid.Load(reader, header);
-                Debug.Log($"LOADING {Path.GetFileNameWithoutExtension(path)} from {path}\n", this);
-            }
+                return true;
             else
             {
                 Debug.LogWarning("Unknown map format " + header);
+                return false;
             }
         }
     }
+
     public void Action()
     {
         string path = GetSelectedPath();
         if (path == null) return;
 
-        Load(path);
+        if (currentMatchData.IsMapPathValid && CheckVersion(currentMatchData.MapPath))
+            SceneManager.LoadScene(AI_Scene.SCENENAME_Game);
     }
 
     /// <summary>
     /// Updates the menu with the item selected in scrolldown
     /// </summary>
-    public void SelectItem(string name)
+    public void SelectItem(SaveLoadItem item)
     {
-        nameInput.text = name;
+        currentSelectedMap = item;
+
+        nameInput.text = item.MapName;
+
+        currentMatchData.MapPath = item.mapPath;
     }
 
     /// <summary>
@@ -75,21 +88,27 @@ public class MapSelectionMenu : MonoBehaviour
     /// </summary>
     void FillList()
     {
+        // TODO(2022-07-04) find more elegant solution
         for (int i = 0; i < listContent.childCount; i++)
-        {
             Destroy(listContent.GetChild(i).gameObject);
-        }
 
         string[] paths = Directory.GetFiles(Application.persistentDataPath, "*.map");
         Array.Sort(paths);
 
+        SaveLoadItem first = null;
         for (int i = 0; i < paths.Length; i++)
         {
             SaveLoadItem item = Instantiate(itemPrefab);
             item.selectionMenu = this;
             item.MapName = Path.GetFileNameWithoutExtension(paths[i]);
+            item.mapPath = paths[i];
             item.transform.SetParent(listContent, false);
+
+            if (i == 0) first = item;
         }
+
+        if (first != null)
+            SelectItem(first);
     }
 
     // Might be usefull in the future
@@ -108,6 +127,6 @@ public class MapSelectionMenu : MonoBehaviour
 
     public void BackToMainMenu()
     {
-        SceneManager.LoadScene(SCENE_MainMenu);
+        SceneManager.LoadScene(AI_Scene.SCENENAME_MainMenu);
     }
 }

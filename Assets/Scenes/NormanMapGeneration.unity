@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 3968.9473, g: 2460.995, b: 1921.3848, a: 1}
+  m_IndirectSpecularColor: {r: 5388.17, g: 3471.3555, b: 2779.1445, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8349,6 +8349,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1816981808369589412, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2264528629969971883, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2264528629969971885, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0
@@ -8368,6 +8376,14 @@ PrefabInstance:
     - target: {fileID: 2264528629969971885, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231641952312099044, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3498922915451923912, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3666991950448948645, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
       propertyPath: build.vfxTarget
@@ -8405,6 +8421,46 @@ PrefabInstance:
       propertyPath: underground
       value: 
       objectReference: {fileID: 2042184703}
+    - target: {fileID: 4856992633141105930, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5717475114715158766, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5717475114734829247, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5717475115185868727, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5717475115291306948, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5717475115552576818, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5717475115715327206, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5717475116028139195, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6645201814734447517, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7888250784862045443, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7888250784874348199, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -8469,9 +8525,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7888250784923665592, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7888250786583303707, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7888250786583303708, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
       propertyPath: pawnCount
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7888250786678610483, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9184171445523752505, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
       propertyPath: m_IsActive

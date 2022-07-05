@@ -72,6 +72,6 @@ public class VictoryLoseScreen : MonoBehaviour
     public void LoadMenu()
     {
         Debug.Log("Loading Menu");
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(AI_Scene.SCENENAME_MainMenu);
     }
 }

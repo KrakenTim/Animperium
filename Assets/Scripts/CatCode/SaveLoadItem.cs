@@ -6,6 +6,7 @@ public class SaveLoadItem : MonoBehaviour
     public SaveLoadMenu menu;
 
     #region not in tutorial
+    public string mapPath;
     public MapSelectionMenu selectionMenu;
     #endregion not in tutorial
 
@@ -29,7 +30,7 @@ public class SaveLoadItem : MonoBehaviour
         #region not in tutorial
         if (selectionMenu)
         {
-            selectionMenu.SelectItem(MapName);
+            selectionMenu.SelectItem(this);
             return;
         }
         #endregion not in tutorial

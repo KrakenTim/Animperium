@@ -105,7 +105,6 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public virtual bool IsEnemyOf(int otherPlayerID) => PlayerValueProvider.AreEnemies(PlayerID, otherPlayerID);
     public virtual bool IsEnemyOf(PlayerPawn otherPawn) => PlayerValueProvider.AreEnemies(PlayerID, otherPawn.PlayerID);
 
-    // Start is called before the first frame update
     protected virtual void Awake()
     {
         if (!GameManager.InGame) return;
