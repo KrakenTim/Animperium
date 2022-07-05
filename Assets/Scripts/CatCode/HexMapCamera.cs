@@ -7,7 +7,7 @@ public class HexMapCamera : MonoBehaviour
 {
     #region Not in tutorial
 
-    public static Vector3 LocalPosition => instance.transform.localPosition;
+    public static Vector3 Position => instance.transform.position;
 
     public static float RotationAngle => instance.rotationAngle;
     private const float DefaultMoveTime = 0.5f;
@@ -142,7 +142,7 @@ public class HexMapCamera : MonoBehaviour
     {
         CameraValues result = new CameraValues();
 
-        result.localPosition = LocalPosition;
+        result.localPosition = instance.transform.localPosition;
         result.rotationY = RotationAngle;
         result.zoom01 = instance.zoom;
         result.layer = GridLayer;
@@ -235,7 +235,7 @@ public class HexMapCamera : MonoBehaviour
         HexGrid oldGrid = instance.usedGrid;
         usedGrid = newGrid;
 
-        SetPosition(LocalPosition + newGrid.transform.position - oldGrid.transform.position);
+        SetPosition(instance.transform.localPosition + newGrid.transform.position - oldGrid.transform.position);
     }
 
     #endregion Not in tutorial

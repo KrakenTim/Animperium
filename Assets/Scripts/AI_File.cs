@@ -23,6 +23,16 @@ public static class AI_File
     public static string PathTempMaps => Application.streamingAssetsPath + "/TempMaps/";
 
     /// <summary>
+    /// Application.dataPath + "/DefaultMaps/"
+    /// </summary>
+    public static string PathDefaultMaps => Path.Combine(Application.streamingAssetsPath, "DefaultMaps");
+
+    /// <summary>
+    /// Application.persistentDataPath + "/Maps/"
+    /// </summary>
+    public static string PathSelfmadeMaps => Path.Combine(Application.persistentDataPath, "Maps");
+
+    /// <summary>
     /// removes Application.dataPath (which leads to the Assets-folder) of given path
     /// </summary>
     public static string ShortPath(string path) => path.Replace(Application.dataPath + "/", "");
