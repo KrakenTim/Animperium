@@ -35,7 +35,12 @@ public class GameInputManager : MonoBehaviour
     private void Update()
     {
         if (Keyboard.current.tabKey.wasPressedThisFrame)
-            SelectNextActivePawn();
+        {
+            if (Keyboard.current.shiftKey.isPressed)
+                SelectNextActivePawn(previous: true);
+            else
+                SelectNextActivePawn(previous: false);
+        }
 
         if (MouseOverHexCheck.IsOnHex)
         {
@@ -273,14 +278,14 @@ public class GameInputManager : MonoBehaviour
         selectedPawnDecal.transform.position = position;
     }
 
-    private void SelectNextActivePawn()
+    private void SelectNextActivePawn(bool previous = false)
     {
         HexGridLayer cameraLayer = HexMapCamera.GridLayer;
 
         if (selectedPawn == null || selectedPawn.PlayerID != GameManager.LocalPlayerID
             || selectedPawn.HexCell.gridLayer != cameraLayer)
         {
-            if (SelectNearest(HexMapCamera.LocalPosition, cameraLayer))
+            if (SelectNearest(HexMapCamera.Position, cameraLayer))
             {
                 HexMapCamera.SetPosition(selectedPawn.WorldPosition);
                 return;
@@ -291,24 +296,57 @@ public class GameInputManager : MonoBehaviour
             return;
 
         int pos = player.ownedPawns.IndexOf(selectedPawn);
-        int count = player.ownedPawns.Count;
+        PlayerPawn newSelectedPawn;
 
-        for (int i = 1; i < count; i++)
+        if (previous)
+            newSelectedPawn = SelectPreviousInPawnList(pos, player.ownedPawns, cameraLayer);
+        else
+            newSelectedPawn = SelectNextInPawnList(pos, player.ownedPawns, cameraLayer);
+
+        if (newSelectedPawn != null)
         {
-            PlayerPawn nextPawn = player.ownedPawns[(pos + i) % count];
-            if (IsUnitCanActAndIsOnLayer(nextPawn, cameraLayer))
-            {
-                SelectPawn(nextPawn);
-                HexMapCamera.SetPosition(selectedPawn.WorldPosition);
-                return;
-            }
+            SelectPawn(newSelectedPawn);
+            HexMapCamera.SetPosition(selectedPawn.WorldPosition);
+            return;
         }
 
         HexMapCamera.SwapUsedGrid();
-        if (SelectNearest(HexMapCamera.LocalPosition, HexMapCamera.GridLayer))
+        if (SelectNearest(HexMapCamera.Position, HexMapCamera.GridLayer))
             HexMapCamera.SetPosition(selectedPawn.WorldPosition);
         else
             HexMapCamera.SwapUsedGrid();
+    }
+
+    /// <summary>
+    /// Helper function, return the next unit on the layer that might still act
+    /// </summary>
+    private PlayerPawn SelectNextInPawnList(int pos, List<PlayerPawn> pawns, HexGridLayer layer)
+    {
+        int count = pawns.Count;
+        for (int i = 1; i < count; i++)
+        {
+            PlayerPawn nextPawn = pawns[(pos + i) % count];
+
+            if (IsUnitCanActAndIsOnLayer(nextPawn, layer))
+                return nextPawn;
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// Helper function, return the previous unit on the layer that might still act
+    /// </summary>
+    private PlayerPawn SelectPreviousInPawnList(int pos, List<PlayerPawn> pawns, HexGridLayer layer)
+    {
+        int count = pawns.Count;
+        for (int i = count - 1; i > 0; i--)
+        {
+            PlayerPawn nextPawn = pawns[(pos + i) % count];
+
+            if (IsUnitCanActAndIsOnLayer(nextPawn, layer))
+                return nextPawn;
+        }
+        return null;
     }
 
     private bool SelectNearest(Vector3 position, HexGridLayer layer)
