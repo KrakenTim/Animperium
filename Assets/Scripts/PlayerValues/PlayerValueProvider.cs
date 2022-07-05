@@ -32,12 +32,7 @@ public class PlayerValueProvider : MonoBehaviour
         if (OnlineGameManager.IsOnlineGame)
             OnlineGameManager.SetupPlayerNames(playerValues);
         else
-            SetDefaultNamesForMissing();
-
-        foreach (var player in playerValues)
-        {
-            player.lastCameraValues.localPosition = player.GetTownHall().WorldPosition;            
-        }
+            SetDefaultNamesForMissing();        
     }
 
     /// <summary>

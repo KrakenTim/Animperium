@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Events;
 
 [System.Serializable]
 public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
@@ -106,9 +105,10 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public virtual bool IsEnemyOf(int otherPlayerID) => PlayerValueProvider.AreEnemies(PlayerID, otherPlayerID);
     public virtual bool IsEnemyOf(PlayerPawn otherPawn) => PlayerValueProvider.AreEnemies(PlayerID, otherPawn.PlayerID);
 
-    // Start is called before the first frame update
     protected virtual void Awake()
     {
+        if (!GameManager.InGame) return;
+
         currentHealth = MaxHealth;
         movementPoints = MaxMovement;
 
@@ -235,14 +235,15 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
         OnValueChange?.Invoke();
 
-        StartCoroutine(JumpTo(oldPosition.transform.position, targetPosition.transform.position, jumpTime));
+        if (oldPosition.gridLayer == targetPosition.gridLayer)
+            StartCoroutine(JumpTo(oldPosition.transform.position, targetPosition.transform.position, jumpTime));
     }
 
     public void Dig(HexCell targetCell)
     {
         if (!HexGridManager.Current.DigAwayCell(targetCell)) return;
 
-        if (HexGridManager.Current.IsWalkable(targetCell))
+        if (HexGridManager.IsWalkable(targetCell))
             MoveTo(targetCell);
     }
 
@@ -384,7 +385,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
             progress = Mathf.SmoothStep(0f, 1f, elapsed / time);
 
             currentPosition = Vector3.Lerp(startPosition, targetPosition, progress);
-            currentPosition.y += Mathf.Sin(Mathf.PI * elapsed/time) * jumpHeight;
+            currentPosition.y += Mathf.Sin(Mathf.PI * elapsed / time) * jumpHeight;
 
             transform.position = currentPosition;
 

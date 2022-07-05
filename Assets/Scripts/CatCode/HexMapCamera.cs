@@ -1,6 +1,7 @@
 using UnityEngine.InputSystem;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 
 public class HexMapCamera : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class HexMapCamera : MonoBehaviour
 
     public static float RotationAngle => instance.rotationAngle;
     private const float DefaultMoveTime = 0.5f;
+
+    private HexGridLayer usedGridLayer;
+    public static HexGridLayer GridLayer => instance.usedGridLayer;
 
     #endregion Not in tutorial   
 
@@ -35,16 +39,34 @@ public class HexMapCamera : MonoBehaviour
 
     static HexMapCamera instance;
 
+    public static HexMapCamera Instance { get { return instance; } }
+
     public static bool Locked
     {
+        get
+        {
+            return !instance.enabled;
+        }
+
         set
         {
             instance.enabled = !value;
         }
     }
 
+    public UnityEvent<HexGridLayer> OnSwapToGrid = new UnityEvent<HexGridLayer>();
+
     void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else 
+        {
+            instance = this;
+        }
+
         swivel = transform.GetChild(0);
         stick = swivel.GetChild(0);
     }
@@ -70,6 +92,8 @@ public class HexMapCamera : MonoBehaviour
 
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
             SwapUsedGrid();
+        else if (Keyboard.current.nKey.wasPressedThisFrame)
+            SetRotation(0);
 
         float zoomDelta = Mouse.current.scroll.ReadValue().y * zoomSensitivity;
         if (zoomDelta != 0f)
@@ -121,15 +145,32 @@ public class HexMapCamera : MonoBehaviour
         result.localPosition = LocalPosition;
         result.rotationY = RotationAngle;
         result.zoom01 = instance.zoom;
+        result.layer = GridLayer;
 
         return result;
     }
 
     public static void SetCameraValues(CameraValues newValues)
     {
+        SwapToGrid(newValues.layer);
+
         SetPosition(newValues.localPosition);
         instance.SetRotation(newValues.rotationY);
         instance.SetZoom(newValues.zoom01);
+    }
+
+    public static void SetToCenter()
+    {
+        HexCell[] grid = instance.usedGrid.GetAllCells();
+
+        Vector3 centerPosition;
+
+        if (grid.Length % 2 == 1) //uneven number of cells, use middle
+            centerPosition = grid[grid.Length / 2].transform.position;
+        else // even number of cells, use average of both cells in the middle
+            centerPosition = (grid[grid.Length / 2].transform.position + grid[grid.Length / 2 + 1].transform.position) / 2f;
+
+        SetPosition(centerPosition);
     }
 
     public static void SetPosition(Vector3 position)
@@ -164,17 +205,28 @@ public class HexMapCamera : MonoBehaviour
             SwapToSurface();
     }
 
+    public static void SwapToGrid(HexGridLayer layer)
+    {
+        if (layer == HexGridLayer.Surface)
+            SwapToSurface();
+        else
+            SwapToUnderGround();
+    }
+
     public static void SwapToSurface()
     {
         if (instance.usedGrid == HexGridManager.Current.Surface) return;
 
+        instance.OnSwapToGrid?.Invoke(HexGridLayer.Surface);
+        instance.usedGridLayer = HexGridLayer.Surface;
         instance.SwapToGrid(HexGridManager.Current.Surface);
     }
 
     public static void SwapToUnderGround()
     {
         if (instance.usedGrid == HexGridManager.Current.Underground) return;
-
+        instance.OnSwapToGrid?.Invoke(HexGridLayer.Underground);
+        instance.usedGridLayer = HexGridLayer.Underground;
         instance.SwapToGrid(HexGridManager.Current.Underground);
     }
 
@@ -219,6 +271,7 @@ public class HexMapCamera : MonoBehaviour
 
     public static void ValidatePosition()
     {
-        instance.AdjustPosition(0f, 0f);
+        if (instance)
+            instance.AdjustPosition(0f, 0f);
     }
 }

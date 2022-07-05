@@ -4,7 +4,18 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
+    private static GameManager instance;
+    public static GameManager Instance
+    {
+        get
+        {
+            if(instance == null)
+                instance = FindObjectOfType<GameManager>();
+            return instance;
+        }
+        set => instance = value;
+    }
+
     public static bool InGame => Instance != null;
 
     public static event System.Action<int> TurnStarted;
@@ -57,9 +68,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         playerValueProvider.SetupPlayerStart();
-
-        if (TryGetPlayerValues(localPlayerID, out PlayerValues player))
-            HexMapCamera.SetPosition(player.lastCameraValues.localPosition);
 
         playerValueProvider.SetupPawnFolders();
         StartNewPlayerTurn();
@@ -308,6 +316,14 @@ public class GameManager : MonoBehaviour
             // negative population costs increase max population
             else if (pawn.PawnData.populationCount < 0)
                 result.PopulationMax += -pawn.PawnData.populationCount;
+
+            if (pawn.PawnType == ePlayerPawnType.TownHall)
+            {
+                result.lastCameraValues.localPosition = pawn.WorldPosition;
+
+                if (pawn.PlayerID == LocalPlayerID && instance.TryGetPlayerValues(LocalPlayerID, out PlayerValues player))
+                    HexMapCamera.SetPosition(player.lastCameraValues.localPosition);
+            }
         }
     }
 

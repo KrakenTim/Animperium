@@ -7,4 +7,5 @@ public class CameraValues
     public Vector3 localPosition;
     public float rotationY;
     public float zoom01;
+    public  HexGridLayer layer;
 }
