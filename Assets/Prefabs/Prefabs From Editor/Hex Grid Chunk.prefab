@@ -179,6 +179,7 @@ MonoBehaviour:
   useCollider: 0
   useColors: 0
   useUVCoordinates: 0
+  useTerrainTypes: 0
 --- !u!1 &8386681081349579319
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,6 +409,7 @@ MonoBehaviour:
   useCollider: 1
   useColors: 1
   useUVCoordinates: 0
+  useTerrainTypes: 1
 --- !u!114 &1846158333922276139
 MonoBehaviour:
   m_ObjectHideFlags: 0

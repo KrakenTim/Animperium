@@ -7,14 +7,15 @@ public class HexMesh : MonoBehaviour
 {
     Mesh hexMesh;
     MeshCollider meshCollider;
-    [NonSerialized] public List<Vector3> vertices;
+    [NonSerialized] public List<Vector3> vertices, terrainTypes;
     [NonSerialized] public List<Color> colors;
     [NonSerialized] public List<int> triangles;
+    [NonSerialized] List<Vector2> uvs;
     //    static List<Vector3> vertices = new List<Vector3>();
     //    static List<Color> colors = new List<Color>();
     //    static List<int> triangles = new List<int>();
-    public bool useCollider, useColors, useUVCoordinates; //true true false
-    [NonSerialized] List<Vector2> uvs;
+    public bool useCollider, useColors, useUVCoordinates, useUV2Coordinates; //true true false
+    public bool useTerrainTypes;
 
     void Awake()
     {
@@ -98,6 +99,10 @@ public class HexMesh : MonoBehaviour
         {
             uvs = ListPool<Vector2>.Get();
         }
+        if (useTerrainTypes)
+        {
+            terrainTypes = ListPool<Vector3>.Get();
+        }
         triangles = ListPool<int>.Get();
     }
 
@@ -114,6 +119,11 @@ public class HexMesh : MonoBehaviour
         {
             hexMesh.SetUVs(0, uvs);
             ListPool<Vector2>.Add(uvs);
+        }
+        if (useTerrainTypes)
+        {
+            hexMesh.SetUVs(2, terrainTypes);
+            ListPool<Vector3>.Add(terrainTypes);
         }
         hexMesh.SetTriangles(triangles, 0);
         ListPool<int>.Add(triangles);
@@ -143,6 +153,19 @@ public class HexMesh : MonoBehaviour
         uvs.Add(new Vector2(uMax, vMin));
         uvs.Add(new Vector2(uMin, vMax));
         uvs.Add(new Vector2(uMax, vMax));
+    }
+    public void AddTriangleTerrainTypes(Vector3 types)
+    {
+        terrainTypes.Add(types);
+        terrainTypes.Add(types);
+        terrainTypes.Add(types);
+    }
+    public void AddQuadTerrainTypes(Vector3 types)
+    {
+        terrainTypes.Add(types);
+        terrainTypes.Add(types);
+        terrainTypes.Add(types);
+        terrainTypes.Add(types);
     }
 }
 
