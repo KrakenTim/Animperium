@@ -86,9 +86,9 @@ public class TempMapSaves : MonoBehaviour
         }
 
         string logFileName = $"{autoFileNamePrefix}{DateTime.Now.ToString("yyMMdd_HHmmss")}{logFileExtension}";
-        AI_File.WriteUTF8(content, AI_File.PathTempMaps + logFileName);
+        AI_File.WriteUTF8(content, Path.Combine( AI_File.PathTempMaps , logFileName));
 
-        Debug.Log($"Created new temporary Map named {logFileName}\nAt: {AI_File.PathTempMaps + logFileName}");
+        Debug.Log($"Created new temporary Map named {logFileName}\nAt: { Path.Combine(AI_File.PathTempMaps, logFileName)}");
     }
 
     private void LoadPath(string path)

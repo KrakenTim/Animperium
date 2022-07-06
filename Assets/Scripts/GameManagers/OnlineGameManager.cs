@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,6 +11,8 @@ public class OnlineGameManager : MonoBehaviour
     private static OnlineGameManager instance;
 
     [SerializeField] Button startButton;
+
+    [SerializeField] PersistingMatchData matchData;
 
     public static bool IsOnlineGame => instance != null;
 
@@ -28,6 +31,8 @@ public class OnlineGameManager : MonoBehaviour
         ServerConnection.Instance.ReceivedCommandEvent.AddListener(ReceiveCommand);
         ServerConnection.Instance.ReceivedRoomPlayerListEvent.AddListener(OnReceivedRoomPlayerList);
         ServerConnection.Instance.ReceivedPlayerInfoEvent.AddListener(UpdateNameOnServer);
+
+        ServerConnection.Instance.ReceivedMapDataEvent.AddListener(CreateTemporaryMap);
     }
 
     private void OnDestroy()
@@ -61,6 +66,11 @@ public class OnlineGameManager : MonoBehaviour
 
     public void Button_StartGame()
     {
+        if (!matchData.IsMapPathValid) return;
+
+        if (startButton)
+            startButton.interactable = false;
+
         for (int i = 0; i < instance.players.Length; i++)
         {
             if (instance.players[i] == NameOnServer)
@@ -70,12 +80,7 @@ public class OnlineGameManager : MonoBehaviour
         InputMessage randomKeyMessage = InputMessageGenerator.CreateRandomKeyMessage();
         SendCommand(randomKeyMessage.ToString());
 
-        InputMessage message = InputMessageGenerator.CreateBasicMessage(ePlayeractionType.StartGame);
-
-        if (startButton)
-            startButton.interactable = false;
-
-        SendCommand(message.ToString());
+        ServerConnection.Instance.SendMapData(File.ReadAllText((matchData.MapPath)));
     }
 
     public static void PrepareGame()
@@ -113,5 +118,16 @@ public class OnlineGameManager : MonoBehaviour
             else if (nextName.Length == 1)
                 playerValueList[i].name = nextName.ToUpper();
         }
+    }
+
+    private void CreateTemporaryMap(string mapData)
+    {
+        string mapPath = Path.Combine(AI_File.PathTempMaps, "OnlineMap.map");
+        AI_File.WriteUTF8(mapData, mapPath);
+
+        matchData.MapPath = mapPath;
+
+        InputMessage startGameMessage = InputMessageGenerator.CreateBasicMessage(ePlayeractionType.StartGame);
+        SendCommand(startGameMessage.ToString());
     }
 }
