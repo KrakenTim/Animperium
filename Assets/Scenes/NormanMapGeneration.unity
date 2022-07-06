@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 3979.3164, g: 2464.3438, b: 1915.3184, a: 1}
+  m_IndirectSpecularColor: {r: 4009.5254, g: 2473.4883, b: 1897.9258, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7944,6 +7944,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5329885024868832419, guid: 36a923df79f4eff4783593126ea2afad, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5504623464789138546, guid: 36a923df79f4eff4783593126ea2afad, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -8525,9 +8529,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8074365992940176072, guid: c887534ad129ddf4cbadcd42de9bfe82, type: 3}
     - target: {fileID: 3666991950448948645, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
-      propertyPath: buildingUpgrade.vfxStarter
+      propertyPath: buildingUpgrade.vfxTarget
       value: 
       objectReference: {fileID: 8074365992940176072, guid: c887534ad129ddf4cbadcd42de9bfe82, type: 3}
+    - target: {fileID: 3666991950448948645, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
+      propertyPath: buildingUpgrade.vfxStarter
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3666991950448948645, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
       propertyPath: fallbackPlayceholder.sfxTarget
       value: 

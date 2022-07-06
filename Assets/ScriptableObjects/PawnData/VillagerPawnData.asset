@@ -20,12 +20,12 @@ MonoBehaviour:
     baseIcon: {fileID: 0}
   maxHealth: 40
   maxMovement: 4
-  attackPower: 16
+  attackPower: 14
   attackRange: 1
   viewRange: 3
   specialPower: 0
   resourceCosts:
-    food: 10
+    food: 12
     wood: 0
     ore: 0
   populationCount: 1
