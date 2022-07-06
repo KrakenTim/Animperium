@@ -157,7 +157,11 @@ public class HexGrid : MonoBehaviour
         position = transform.InverseTransformPoint(position);
         HexCoordinates coordinates = HexCoordinates.FromPosition(position);
         int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
-        return cells[index];
+
+        if (index >= 0 && index < cells.Length)
+            return cells[index];
+        return
+            null;
     }
     /*
     public void ColorCell(Vector3 position, Color color)
