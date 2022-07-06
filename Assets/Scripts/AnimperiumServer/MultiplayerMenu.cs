@@ -61,7 +61,7 @@ public class MultiplayerMenu : MonoBehaviour
 
     public void BackToMainMenu()
     {
-        SceneManager.LoadScene(SCENE_MainMenu);
+        SceneManager.LoadScene(AI_Scene.SCENENAME_MainMenu);
     }
 
     #region Server Commands

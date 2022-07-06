@@ -15,8 +15,11 @@ public class TempMapSaves : MonoBehaviour
     [SerializeField] GameObject hideInBuild;
 
     [Space]
-    [SerializeField] public bool loadMapOnAwake = true;
-    public bool LoadsInsteadOfHexGrid => loadMapOnAwake && !string.IsNullOrWhiteSpace(loadMap);
+    [SerializeField] PersistingMatchData currentMatchData;
+    [SerializeField] public bool loadPathOnAwake = true;
+
+    [SerializeField] public bool loadTempMapOnAwake = true;
+    public bool LoadsInsteadOfHexGrid => loadTempMapOnAwake && !string.IsNullOrWhiteSpace(loadMap);
     [SerializeField] [TextArea] string loadMap;
 
     /// <summary>
@@ -29,8 +32,13 @@ public class TempMapSaves : MonoBehaviour
     {
         if (grid == null)
             grid = GetComponent<HexGrid>();
-        
-        if (loadMapOnAwake)
+
+        if (loadPathOnAwake && currentMatchData != null && currentMatchData.IsMapPathValid)
+        {
+            LoadPath(currentMatchData.MapPath);
+            return;
+        }
+        else if (loadTempMapOnAwake)
             LoadString();
 
 #if !UNITY_EDITOR
@@ -83,6 +91,27 @@ public class TempMapSaves : MonoBehaviour
         Debug.Log($"Created new temporary Map named {logFileName}\nAt: {AI_File.PathTempMaps + logFileName}");
     }
 
+    private void LoadPath(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
+        {
+            Debug.LogError("File does not exist " + path, this);
+            return;
+        }
+
+        using (BinaryReader reader = new BinaryReader(File.OpenRead(path)))
+        {
+            int header = reader.ReadInt32();
+            if (header <= 1)
+            {
+                grid.Load(reader, header);
+                HexMapCamera.ValidatePosition();
+            }
+            else
+                Debug.LogWarning($"Unknown map format {header} in file!\n{path}", this);
+        }
+    }
+
     private void LoadString()
     {
         if (string.IsNullOrWhiteSpace(loadMap)) return;
@@ -92,9 +121,9 @@ public class TempMapSaves : MonoBehaviour
 
         Debug.Log($"Loading new {nextLine[0]}x{nextLine[1]} Map.\n");
 
-        if (loadMapOnAwake || grid.ChunkCountX != int.Parse(nextLine[0]) || grid.ChunkCountZ != int.Parse(nextLine[1]))
+        if (loadTempMapOnAwake || grid.ChunkCountX != int.Parse(nextLine[0]) || grid.ChunkCountZ != int.Parse(nextLine[1]))
         {
-            loadMapOnAwake = false;
+            loadTempMapOnAwake = false;
 
             grid.cellCountX = int.Parse(nextLine[0]) * HexMetrics.chunkSizeX;
             grid.cellCountZ = int.Parse(nextLine[1]) * HexMetrics.chunkSizeZ;

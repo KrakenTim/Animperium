@@ -10,7 +10,7 @@ public class GameInputManager : MonoBehaviour
 {
     static GameInputManager instance;
 
-    public static event System.Action<PlayerPawn> SelectPawn;
+    public static event System.Action<PlayerPawn> OnPawnSelected;
 
     [SerializeField] PlayerPawn selectedPawn;
     public static PlayerPawn SelectedPawn => instance.selectedPawn;
@@ -34,6 +34,14 @@ public class GameInputManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (Keyboard.current.tabKey.wasPressedThisFrame)
+        {
+            if (Keyboard.current.shiftKey.isPressed)
+                SelectNextActivePawn(previous: true);
+            else
+                SelectNextActivePawn(previous: false);
+        }
+
         if (MouseOverHexCheck.IsOnHex)
         {
             if (Mouse.current.leftButton.wasReleasedThisFrame)
@@ -175,7 +183,7 @@ public class GameInputManager : MonoBehaviour
             return false;
         }
 
-        targetCell = HexGridManager.Current.OtherLayerCell(selectedPawn.HexCell);      
+        targetCell = HexGridManager.Current.OtherLayerCell(selectedPawn.HexCell);
         return HexGridManager.IsWalkable(targetCell);
     }
 
@@ -222,21 +230,26 @@ public class GameInputManager : MonoBehaviour
             }
         }
 
-        if (clickedPawn.HP <= 0) return;
+        instance.SelectPawn(clickedPawn);
+    }
+
+    private void SelectPawn(PlayerPawn newSelect)
+    {
+        if (newSelect.HP <= 0) return;
 
         // Select clicked Pawn
-        instance.selectedPawn = clickedPawn;
+        selectedPawn = newSelect;
 
-        if (instance.selectedPawn != null)
+        if (selectedPawn != null)
         {
-            instance.selectedPawnDecal.SetActive(true);
-            instance.UpdateSelectedPawnDecal();
-            instance.selectedPawn.OnValueChange += instance.UpdateSelectedPawnDecal;
+            selectedPawnDecal.SetActive(true);
+            UpdateSelectedPawnDecal();
+            selectedPawn.OnValueChange += UpdateSelectedPawnDecal;
         }
         else
-            instance.selectedPawnDecal.SetActive(false);
+            selectedPawnDecal.SetActive(false);
 
-        SelectPawn?.Invoke(clickedPawn);
+        OnPawnSelected?.Invoke(newSelect);
     }
 
     /// <summary>
@@ -253,7 +266,7 @@ public class GameInputManager : MonoBehaviour
         instance.selectedPawn = null;
         instance.selectedPawnDecal.SetActive(false);
 
-        SelectPawn?.Invoke(null);
+        OnPawnSelected?.Invoke(null);
     }
 
     private void UpdateSelectedPawnDecal()
@@ -263,5 +276,111 @@ public class GameInputManager : MonoBehaviour
         Vector3 position = selectedPawn.HexCell.transform.position;
         position.y += decalOffset;
         selectedPawnDecal.transform.position = position;
+    }
+
+    private void SelectNextActivePawn(bool previous = false)
+    {
+        HexGridLayer cameraLayer = HexMapCamera.GridLayer;
+
+        if (selectedPawn == null || selectedPawn.PlayerID != GameManager.LocalPlayerID
+            || selectedPawn.HexCell.gridLayer != cameraLayer)
+        {
+            if (SelectNearest(HexMapCamera.Position, cameraLayer))
+            {
+                HexMapCamera.SetPosition(selectedPawn.WorldPosition);
+                return;
+            }
+        }
+
+        if (!GameManager.PlayerValueProvider.TryGetPlayerValues(GameManager.LocalPlayerID, out PlayerValues player))
+            return;
+
+        int pos = player.ownedPawns.IndexOf(selectedPawn);
+        PlayerPawn newSelectedPawn;
+
+        if (previous)
+            newSelectedPawn = SelectPreviousInPawnList(pos, player.ownedPawns, cameraLayer);
+        else
+            newSelectedPawn = SelectNextInPawnList(pos, player.ownedPawns, cameraLayer);
+
+        if (newSelectedPawn != null)
+        {
+            SelectPawn(newSelectedPawn);
+            HexMapCamera.SetPosition(selectedPawn.WorldPosition);
+            return;
+        }
+
+        HexMapCamera.SwapUsedGrid();
+        if (SelectNearest(HexMapCamera.Position, HexMapCamera.GridLayer))
+            HexMapCamera.SetPosition(selectedPawn.WorldPosition);
+        else
+            HexMapCamera.SwapUsedGrid();
+    }
+
+    /// <summary>
+    /// Helper function, return the next unit on the layer that might still act
+    /// </summary>
+    private PlayerPawn SelectNextInPawnList(int pos, List<PlayerPawn> pawns, HexGridLayer layer)
+    {
+        int count = pawns.Count;
+        for (int i = 1; i < count; i++)
+        {
+            PlayerPawn nextPawn = pawns[(pos + i) % count];
+
+            if (IsUnitCanActAndIsOnLayer(nextPawn, layer))
+                return nextPawn;
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// Helper function, return the previous unit on the layer that might still act
+    /// </summary>
+    private PlayerPawn SelectPreviousInPawnList(int pos, List<PlayerPawn> pawns, HexGridLayer layer)
+    {
+        int count = pawns.Count;
+        for (int i = count - 1; i > 0; i--)
+        {
+            PlayerPawn nextPawn = pawns[(pos + i) % count];
+
+            if (IsUnitCanActAndIsOnLayer(nextPawn, layer))
+                return nextPawn;
+        }
+        return null;
+    }
+
+    private bool SelectNearest(Vector3 position, HexGridLayer layer)
+    {
+        if (GameManager.PlayerValueProvider.TryGetPlayerValues(GameManager.LocalPlayerID, out PlayerValues player))
+        {
+            PlayerPawn nearestPawn = null;
+            float nextDistance;
+            float shortestDistance = float.MaxValue;
+
+            foreach (PlayerPawn pawn in player.ownedPawns)
+            {
+                if (!IsUnitCanActAndIsOnLayer(pawn, layer)) continue;
+
+                nextDistance = Vector3.Distance(pawn.WorldPosition, position);
+
+                if (nextDistance < shortestDistance)
+                {
+                    shortestDistance = nextDistance;
+                    nearestPawn = pawn;
+                }
+            }
+
+            if (nearestPawn != null)
+            {
+                SelectPawn(nearestPawn);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static bool IsUnitCanActAndIsOnLayer(PlayerPawn pawn, HexGridLayer layer)
+    {
+        return pawn.CanAct && pawn.HexCell.gridLayer == layer && !pawn.PawnType.IsBuilding();
     }
 }

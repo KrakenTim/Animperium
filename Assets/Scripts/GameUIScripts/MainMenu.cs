@@ -17,10 +17,10 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        if (LoadingScreen.instance)
-            LoadingScreen.instance.LoadScene("NormanMapGeneration");
-        else
-            SceneManager.LoadScene("NormanMapGeneration");
+        //if (LoadingScreen.instance)
+        //    LoadingScreen.instance.LoadScene(AI_Scene.SCENENAME_GamePreparation);
+        //else
+            SceneManager.LoadScene(AI_Scene.SCENENAME_GamePreparation);
         Debug.Log("Game Start");
     }
 
@@ -29,7 +29,7 @@ public class MainMenu : MonoBehaviour
         //if (LoadingScreen.instance)
         //    LoadingScreen.instance.LoadScene("ServerClientChat");
         //else
-        SceneManager.LoadScene("ServerClientChat");
+        SceneManager.LoadScene(AI_Scene.SCENENAME_OnlineRoom);
 
         Debug.Log("Start Online Play");
     }
@@ -37,9 +37,9 @@ public class MainMenu : MonoBehaviour
     public void OpenMapEditor()
     {
         if (LoadingScreen.instance)
-            LoadingScreen.instance.LoadScene("MapGeneration");
+            LoadingScreen.instance.LoadScene(AI_Scene.SCENENAME_MapEditor);
         else
-            SceneManager.LoadScene("MapGeneration");
+            SceneManager.LoadScene(AI_Scene.SCENENAME_MapEditor);
 
         Debug.Log("Open Map Editor");
     }

@@ -16,6 +16,8 @@ public class ResourceToken : MonoBehaviour
     
     private void Start()
     {
+        if (!GameManager.InGame) return;
+
         if (Type == eResourceType.NONE || amount < 1)
             Debug.LogError($"Ressource of type {type} with an amount of {amount} found!", this);
 

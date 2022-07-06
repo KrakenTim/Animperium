@@ -107,9 +107,9 @@ public class PauseMenu : MonoBehaviour
         GameManager.ResignTroughQuitting();
 
         if (LoadingScreen.instance)
-            LoadingScreen.instance.LoadScene("MainMenu");
+            LoadingScreen.instance.LoadScene(AI_Scene.SCENENAME_MainMenu);
         else
-            SceneManager.LoadScene("MainMenu");
+            SceneManager.LoadScene(AI_Scene.SCENENAME_MainMenu);
 
         Time.timeScale = 1f;
         GameIsPaused = false;

@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5f2e78eb04deaf42ac8dc601f295544, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  underground: 0
   cellCountX: 20
   cellCountZ: 15
   seed: 0
@@ -73,7 +74,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07894056748662142b4665d42b2ef8a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  editor: {fileID: 0}
   hideInBuild: {fileID: 0}
-  loadMapOnAwake: 1
+  currentMatchData: {fileID: 11400000, guid: dbd21c4c8d084fd49bfabc086c8a7ef2, type: 2}
+  loadPathOnAwake: 1
+  loadTempMapOnAwake: 1
+  path: 
   loadMap: "2\t2\n1\t2\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n2\t0\n1\t2\n2\t0\n2\t0\n1\t2\n1\t2\n2\t0\n2\t0\n1\t2\n1\t2\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n3\t0\n3\t0\n3\t0\n2\t0\n3\t0\n3\t0\n3\t0\n3\t0\n3\t0\n3\t0\n3\t0\n3\t0\n3\t0\n2\t0\n3\t0\n3\t0\n3\t0\n3\t0\n4\t4\n4\t4\n3\t0\n3\t0\n3\t0\n3\t0\n4\t4\n4\t4\n3\t0\n4\t4\n4\t4\n4\t4\n4\t4\n3\t0\n3\t0\n3\t0\n4\t4\n4\t4\n4\t4\n4\t4\n4\t4\n5\t4\n4\t4\n4\t4\n4\t4\n4\t4\n4\t4\n4\t4\n4\t4\n4\t4\n5\t4\n5\t4\n4\t4\n4\t4\n4\t4\n4\t4"
