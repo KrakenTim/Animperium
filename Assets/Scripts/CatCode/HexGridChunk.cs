@@ -14,6 +14,7 @@ public class HexGridChunk : MonoBehaviour
     public HexFeatureManager features;
 
     Canvas gridCanvas;
+    public Material HexGridMaterial;
 
     void Awake()
     {
@@ -22,6 +23,7 @@ public class HexGridChunk : MonoBehaviour
 
         cells = new HexCell[HexMetrics.chunkSizeX * HexMetrics.chunkSizeZ];
         ShowUI(false);
+
     }
 
     //	void Start () {
