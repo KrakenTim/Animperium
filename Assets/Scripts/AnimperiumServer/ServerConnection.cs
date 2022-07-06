@@ -22,7 +22,7 @@ public class ServerConnection : MonoBehaviour
 
     private TcpClient tcpClient;
     private NetworkStream networktStream;    
-    private byte[] streamDataBuffer = new byte[256];
+    private byte[] streamDataBuffer = new byte[2048];
     private Thread heartbeatThread;
     private int heartbeatTick = 0;
     private int heartbeatIntervall = 3000; //in milliseconds
@@ -78,7 +78,7 @@ public class ServerConnection : MonoBehaviour
     {
         while (true)
         {
-            streamDataBuffer = new Byte[256];
+            streamDataBuffer = new Byte[2048];
             string receivedData = "";
             try
             {
@@ -104,6 +104,7 @@ public class ServerConnection : MonoBehaviour
                         }
                         if (splittedData[0] == "MAPDATA")
                         {
+                            Debug.Log("Received MAPDATA");
                             InterpretMapData(streamDataBuffer);
                         }
                         else
