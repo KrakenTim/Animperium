@@ -125,6 +125,8 @@ public class OnlineGameManager : MonoBehaviour
     {
         string mapPath = Path.Combine(AI_File.PathTempMaps, "OnlineMap.map");
 
+        mapData = mapData.Replace("MAPDATA|", "");
+
         File.WriteAllBytes(mapPath, Convert.FromBase64String(mapData));
 
         matchData.MapPath = mapPath;
