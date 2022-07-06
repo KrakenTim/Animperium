@@ -363,7 +363,7 @@ public class HexGrid : MonoBehaviour
             x = reader.ReadInt32();
             z = reader.ReadInt32();
         }
-        if (x != cellCountX || z != cellCountZ)
+        if (x != cellCountX || z != cellCountZ || cells == null)
         {
             if (!CreateMap(x, z))
             {
