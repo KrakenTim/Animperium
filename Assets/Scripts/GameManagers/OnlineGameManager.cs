@@ -81,7 +81,7 @@ public class OnlineGameManager : MonoBehaviour
         InputMessage randomKeyMessage = InputMessageGenerator.CreateRandomKeyMessage();
         SendCommand(randomKeyMessage.ToString());
 
-        ServerConnection.Instance.SendMapData(Convert.ToBase64String(File.ReadAllBytes(matchData.MapPath)));
+        ServerConnection.Instance.SendMapData(File.ReadAllBytes(matchData.MapPath));
     }
 
     public static void PrepareGame()
@@ -121,13 +121,11 @@ public class OnlineGameManager : MonoBehaviour
         }
     }
 
-    private void CreateTemporaryMap(string mapData)
+    private void CreateTemporaryMap(byte[] mapData)
     {
         string mapPath = Path.Combine(AI_File.PathTempMaps, "OnlineMap.map");
-
-        mapData = mapData.Replace("MAPDATA|", "");
-
-        File.WriteAllBytes(mapPath, Convert.FromBase64String(mapData));
+        
+        File.WriteAllBytes(mapPath,mapData);
 
         matchData.MapPath = mapPath;
 
