@@ -120,7 +120,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 138716f0cf4e8614aac6b41fba7717be, type: 3}
       propertyPath: m_Materials.Array.data[3]
       value: 
-      objectReference: {fileID: 2100000, guid: b15ac7b21bdc4c44ba0e0a8d505e8da3, type: 2}
+      objectReference: {fileID: 2100000, guid: 80ef3e99c4683d242bc17aac0b896428, type: 2}
     - target: {fileID: 919132149155446097, guid: 138716f0cf4e8614aac6b41fba7717be, type: 3}
       propertyPath: m_Name
       value: 3D_Modell_Veteran_Test

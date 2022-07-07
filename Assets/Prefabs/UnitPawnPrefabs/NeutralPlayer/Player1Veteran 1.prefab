@@ -199,6 +199,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlaceHolderPawnMesh1
       objectReference: {fileID: 0}
+    - target: {fileID: 3925562601172035472, guid: ea9382f6ccaeb1c4395401dca46b2dd8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 80ef3e99c4683d242bc17aac0b896428, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea9382f6ccaeb1c4395401dca46b2dd8, type: 3}
 --- !u!4 &7992010928546880119 stripped
