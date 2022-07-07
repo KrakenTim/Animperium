@@ -31,6 +31,8 @@ public class HexGrid : MonoBehaviour
 
     public void Awake()
     {
+        Debug.Log($"[{GetType().Name}] AWAKE {gameObject.name}", this);
+
         #region Not in Tutorial
         if (underground) return;
         TempMapSaves ts = GetComponent<TempMapSaves>();
