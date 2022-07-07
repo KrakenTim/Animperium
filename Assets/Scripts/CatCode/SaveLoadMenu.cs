@@ -104,6 +104,11 @@ public class SaveLoadMenu : MonoBehaviour
             Destroy(listContent.GetChild(i).gameObject);
         }
         //string[] paths = Directory.GetFiles(Application.persistentDataPath, "*.map");
+
+        if (!Directory.Exists(AI_File.PathSelfmadeMaps))
+        {
+            Directory.CreateDirectory(AI_File.PathSelfmadeMaps);
+        }
         string[] paths = Directory.GetFiles(AI_File.PathSelfmadeMaps, "*.map");
         Array.Sort(paths);
         for (int i = 0; i < paths.Length; i++)
