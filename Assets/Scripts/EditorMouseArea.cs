@@ -60,7 +60,7 @@ public class EditorMouseArea : MonoBehaviour
 
         HexCell newCenter = hexGrid.GetCell(hit.point);
 
-        if (!enforce && newCenter == lastCell) return;
+        if (!enforce && newCenter && newCenter == lastCell) return;
 
         HashSet<HexCell> coveredCells = hexGrid.GetNeighbours(newCenter, usedBrushSize, withCenter: true);
         
