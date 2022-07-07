@@ -38,6 +38,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_f5564b4c7431433ba25c5e86fde948b6: 0
+    - Vector1_fab310d70e0e46c298cd40a3506f0166: 0.5
+    - Vector1_fbcb5e837f304f42bfe564fdef5b0612: 0
     - _AddPrecomputedVelocity: 0
     - _AlphaCutoffEnable: 0
     - _AlphaDstBlend: 0
@@ -88,7 +91,7 @@ Material:
     m_Colors:
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _PlayerColor: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 1}
+    - _PlayerColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &6274119483947507811
 MonoBehaviour:
