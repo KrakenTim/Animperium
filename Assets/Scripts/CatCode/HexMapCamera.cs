@@ -1,6 +1,7 @@
 using UnityEngine.InputSystem;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 
 public class HexMapCamera : MonoBehaviour
 {
@@ -37,6 +38,9 @@ public class HexMapCamera : MonoBehaviour
     public HexGrid usedGrid;
 
     static HexMapCamera instance;
+    public static HexMapCamera Instance { get { return instance; } }
+
+    public UnityEvent<HexGridLayer> OnSwapToGrid = new UnityEvent<HexGridLayer>();
 
     public static bool Locked
     {
@@ -53,6 +57,15 @@ public class HexMapCamera : MonoBehaviour
 
     void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+
         swivel = transform.GetChild(0);
         stick = swivel.GetChild(0);
     }
@@ -203,6 +216,7 @@ public class HexMapCamera : MonoBehaviour
     {
         if (instance.usedGrid == HexGridManager.Current.Surface) return;
 
+        Instance.OnSwapToGrid.Invoke(HexGridLayer.Surface);
         instance.usedGridLayer = HexGridLayer.Surface;
         instance.SwapToGrid(HexGridManager.Current.Surface);
     }
@@ -211,6 +225,7 @@ public class HexMapCamera : MonoBehaviour
     {
         if (instance.usedGrid == HexGridManager.Current.Underground) return;
 
+        Instance.OnSwapToGrid.Invoke(HexGridLayer.Underground);
         instance.usedGridLayer = HexGridLayer.Underground;
         instance.SwapToGrid(HexGridManager.Current.Underground);
     }
