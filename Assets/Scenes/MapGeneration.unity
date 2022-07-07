@@ -1012,7 +1012,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1477020504}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 3
+  m_MaxValue: 4
   m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
@@ -2187,12 +2187,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -2547,7 +2547,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 100000
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -2631,7 +2631,7 @@ MonoBehaviour:
   m_PointlightHDType: 0
   m_SpotLightShape: 0
   m_AreaLightShape: 0
-  m_Intensity: 100000
+  m_Intensity: 1
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
@@ -5414,12 +5414,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -5458,12 +5458,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e804dd5c186435d4b8b8c8951cb6bf09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SmallLength: 0
-  SmallHeight: 0
+  SmallLength: 20
+  SmallHeight: 15
   MediumLength: 45
   MediumHeight: 30
-  LargeLength: 0
-  LargeHeight: 0
+  LargeLength: 80
+  LargeHeight: 60
   hexGrid: {fileID: 1823811209}
 --- !u!1001 &1440890885
 PrefabInstance:
@@ -8133,7 +8133,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1604879413}
   m_HandleRect: {fileID: 1604879412}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -8293,6 +8293,54 @@ RectTransform:
   m_AnchoredPosition: {x: 115, y: -95}
   m_SizeDelta: {x: 100, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1933170621
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1933170623}
+  - component: {fileID: 1933170622}
+  m_Layer: 0
+  m_Name: SelectionDecals
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1933170622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933170621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be9002d669ad9bd44bfba7cebad2545f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ticksPerSecond: 20
+  decalPrefab: {fileID: 3258602312213353362, guid: b0e1c805cb94bca4096a884d86441d3f, type: 3}
+  hexGrid: {fileID: 1823811209}
+  hexMapEditor: {fileID: 8251552486997151849}
+  decalOffset: 0.1
+--- !u!4 &1933170623
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933170621}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1951924771
 GameObject:
   m_ObjectHideFlags: 0
@@ -9924,138 +9972,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hex Grid
       objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.size
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[0].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[0].b
-      value: 0.26515168
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[0].g
-      value: 0.8207547
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[0].r
-      value: 0.18195976
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[1].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[1].b
-      value: 0.054901943
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[1].g
-      value: 0.14097765
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[1].r
-      value: 0.8980392
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[2].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[2].b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[2].g
-      value: 0.73973227
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[2].r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[3].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[3].b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[3].g
-      value: 0.6791749
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[3].r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[4].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[4].b
-      value: 0.1321645
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[4].g
-      value: 0.2834986
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[4].r
-      value: 0.6226415
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[5].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[5].b
-      value: 0.5633678
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[5].g
-      value: 0.5641795
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[5].r
-      value: 0.5660378
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[6].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[6].b
-      value: 0.9528302
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[6].g
-      value: 0.9528302
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[6].r
-      value: 0.9528302
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[7].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[7].b
-      value: 0.07484871
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[7].g
-      value: 0.5471698
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541496302950810129, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: colors.Array.data[7].r
-      value: 0.17292362
-      objectReference: {fileID: 0}
     - target: {fileID: 2541496302950810130, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -10121,11 +10037,15 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8532971557129459080, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: hideInBuild
-      value: 
+      propertyPath: loadMapOnAwake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8532971557129459080, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
-      propertyPath: loadMapOnAwake
+      propertyPath: loadPathOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8532971557129459080, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
+      propertyPath: loadTempMapOnAwake
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -11067,7 +10987,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3280613058475243795}
   m_Direction: 2
   m_MinValue: 0
-  m_MaxValue: 20
+  m_MaxValue: 10
   m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
@@ -11931,7 +11851,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hexGrid: {fileID: 1823811209}
   brushSize: 0
-  tempSaveColorID: 0
 --- !u!1 &8251552486997151852
 GameObject:
   m_ObjectHideFlags: 0
@@ -11981,12 +11900,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96

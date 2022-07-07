@@ -78,9 +78,10 @@ MonoBehaviour:
   - prefabs:
     - {fileID: 4021377216017226566, guid: a9e7ef28f036e57469beacd6a42df6b2, type: 3}
   special:
-  - {fileID: 3598409292886476679, guid: fc1eb5edeb7dd3541b1f4ed29d482c1e, type: 3}
-  - {fileID: 7044294374554152586, guid: ede3564ad04ddb44f81ac39ef4afa07e, type: 3}
   - {fileID: 4729249582805918579, guid: bcac4d008d96e844b947ca36510aa30c, type: 3}
+  - {fileID: 8381063769703048568, guid: f0540dadbdcd0f34e97eb9dc318761ab, type: 3}
+  - {fileID: 2459034771480838948, guid: 38dc093a68703584c927f43e69714752, type: 3}
+  - {fileID: 7275827637160676064, guid: ed4eb6f2ed243c04a96c6c90ba36602e, type: 3}
 --- !u!1 &3088399508924577482
 GameObject:
   m_ObjectHideFlags: 0

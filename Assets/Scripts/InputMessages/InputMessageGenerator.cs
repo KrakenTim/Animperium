@@ -15,6 +15,7 @@ public static class InputMessageGenerator
 
         return message;
     }
+
     /// <summary>
     /// Creates an Input message from the given parameters.
     /// </summary>
@@ -22,8 +23,11 @@ public static class InputMessageGenerator
     {
         InputMessage message = CreateBasicMessage(action);
 
-        message.startCell = actingPawn.HexCoordinates;
-        message.targetCell = targetCell.coordinates;
+        message.startCoordinates = actingPawn.HexCoordinates;
+        message.startLayer = (int)actingPawn.HexCell.gridLayer;
+
+        message.targetCoordinates = targetCell.coordinates;
+        message.targetLayer = (int)targetCell.gridLayer;
 
         return message;
     }
@@ -39,5 +43,25 @@ public static class InputMessageGenerator
         message.turn = GameManager.Turn;
 
         return message;
+    }
+
+    public static InputMessage CreateRandomKeyMessage()
+    {
+        InputMessage message = CreateBasicMessage(ePlayeractionType.SendRandomGenerationKey);
+
+        message.turn = System.DateTime.UtcNow.Millisecond & System.DateTime.UtcNow.DayOfYear;
+
+        return message;
+    }
+
+    public static int GetRandomKey(InputMessage message)
+    {
+        if (message.action != ePlayeractionType.SendRandomGenerationKey)
+        {
+            Debug.LogError($"Recieve Message to create randomkey which had the wrong type: {message.action}\n{message}");
+            return 0;
+        }
+
+        return message.turn;
     }
 }

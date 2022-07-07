@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -52,8 +51,14 @@ public class InteractionMenuManager : MonoBehaviour
 
             instance.AddPossibleTargetUpgrades(targetCell, actingUnit);
         }
-        else
-            instance.CreateButtonEntries(GameManager.GetBuildingDatas(withoutUpgrades: true, excludeTownHall: true), ePlayeractionType.Build, targetCell, actingUnit);
+        else if (ePlayerPawnType.Villager == GameInputManager.SelectedPawn.PawnType)
+            instance.CreateButtonEntries(GameManager.GetBuildingDatas(withoutUpgrades: true, excludeTownHall: true, excludeTunnelEntry: true), ePlayeractionType.Build, targetCell, actingUnit);
+
+        else if (ePlayerPawnType.Digger == GameInputManager.SelectedPawn.PawnType)
+        {
+            GameManager.GetPawnData(ePlayerPawnType.TunnelEntry);
+            instance.CreateButtonEntries(new List<PlayerPawnData>() { GameManager.GetPawnData(ePlayerPawnType.TunnelEntry) }, ePlayeractionType.Build, targetCell, actingUnit);
+        }
 
         instance.SetVisible(instance.buttonList.Count > 0);
     }
@@ -61,7 +66,7 @@ public class InteractionMenuManager : MonoBehaviour
     private void CreateButtonEntries(List<PlayerPawnData> pawnOptions, ePlayeractionType actionType, HexCell targetCell, PlayerPawnData actingUnit)
     {
         // sort by name
-        pawnOptions.Sort((x,y)=> x.FriendlyName.CompareTo(y.FriendlyName));
+        pawnOptions.Sort((x, y) => x.FriendlyName.CompareTo(y.FriendlyName));
         // sort by tier
         pawnOptions.Sort((x, y) => x.tier.CompareTo(y.tier));
 

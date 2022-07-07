@@ -10,28 +10,46 @@ public class MainMenu : MonoBehaviour
 {
     public AudioSource ButtonSound;
 
-    public void StartGame()
+    private void Awake()
     {
         QualitySettings.vSyncCount = 1;
+    }
 
-        if (LoadingScreen.instance)
-            LoadingScreen.instance.LoadScene("NormanMapGeneration");
-        else
-            SceneManager.LoadScene("NormanMapGeneration");
+    public void StartGame()
+    {
+        //if (LoadingScreen.instance)
+        //    LoadingScreen.instance.LoadScene(AI_Scene.SCENENAME_GamePreparation);
+        //else
+            SceneManager.LoadScene(AI_Scene.SCENENAME_GamePreparation);
         Debug.Log("Game Start");
     }
 
     public void PlayOnline()
     {
-        if (LoadingScreen.instance)
-            LoadingScreen.instance.LoadScene("ServerClientChat");
-        else
-            SceneManager.LoadScene("ServerClientChat");
+        //if (LoadingScreen.instance)
+        //    LoadingScreen.instance.LoadScene("ServerClientChat");
+        //else
+        SceneManager.LoadScene(AI_Scene.SCENENAME_OnlineRoom);
+
         Debug.Log("Start Online Play");
+    }
+
+    public void OpenMapEditor()
+    {
+        if (LoadingScreen.instance)
+            LoadingScreen.instance.LoadScene(AI_Scene.SCENENAME_MapEditor);
+        else
+            SceneManager.LoadScene(AI_Scene.SCENENAME_MapEditor);
+
+        Debug.Log("Open Map Editor");
     }
 
     public void ExitGame()
     {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false; // stops Playmode
+#endif
+
         Application.Quit();
         Debug.Log("Game Close");
     }

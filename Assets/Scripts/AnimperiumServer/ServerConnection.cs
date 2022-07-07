@@ -17,6 +17,7 @@ public class ServerConnection : MonoBehaviour
     public UnityEvent<string, string> ReceivedCommandEvent = new UnityEvent<string, string>();
     public UnityEvent<string> RoomCreatedEvent = new UnityEvent<string>();
     public UnityEvent<string> RoomJoinedEvent = new UnityEvent<string>();
+    public UnityEvent<string> ReceivedMapDataEvent = new UnityEvent<string>();
 
     private TcpClient tcpClient;
     private NetworkStream networktStream;    
@@ -145,6 +146,9 @@ public class ServerConnection : MonoBehaviour
                 break;
             case "HEARTBEAT":
                 break;
+            case "MAPDATA":
+                ReceivedMapDataEvent.Invoke(_message[1]);
+                break;
             default:
                 Console.WriteLine("Can't interpret received message!\nMessage: " + _message);
                 break;
@@ -226,6 +230,10 @@ public class ServerConnection : MonoBehaviour
     public void SendPlayerInfo(string _name)
     {
         Send("PLAYER_INFO|" + _name);
+    }
+    public void SendMapData(string _mapdata)
+    {
+        Send("MAPDATA|" + _mapdata);
     }
     #endregion
 

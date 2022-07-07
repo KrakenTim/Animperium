@@ -1,9 +1,7 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class HexGridChunk : MonoBehaviour
 {
-
     HexCell[] cells;
 
     public HexMesh terrain, water;
@@ -46,7 +44,7 @@ public class HexGridChunk : MonoBehaviour
     void LateUpdate()
     {
         Triangulate();
-//		hexMesh.Triangulate(cells);
+        //		hexMesh.Triangulate(cells);
         enabled = false;
     }
 
@@ -56,10 +54,10 @@ public class HexGridChunk : MonoBehaviour
         water.Clear();
         features.Clear();
 
-//		hexMesh.Clear();
-//		vertices.Clear();
-//		colors.Clear();
-//		triangles.Clear();
+        //		hexMesh.Clear();
+        //		vertices.Clear();
+        //		colors.Clear();
+        //		triangles.Clear();
         for (int i = 0; i < cells.Length; i++)
         {
             Triangulate(cells[i]);
@@ -67,11 +65,11 @@ public class HexGridChunk : MonoBehaviour
         terrain.Apply();
         water.Apply();
         features.Apply();
-//		hexMesh.vertices = vertices.ToArray();
-//		hexMesh.Colors = colors.ToArray();
-//		hexMesh.triangles = triangles.ToArray();
-//		hexMesh.RecalculateNormals();
-//		meshCollider.sharedMesh = hexMesh;
+        //		hexMesh.vertices = vertices.ToArray();
+        //		hexMesh.Colors = colors.ToArray();
+        //		hexMesh.triangles = triangles.ToArray();
+        //		hexMesh.RecalculateNormals();
+        //		meshCollider.sharedMesh = hexMesh;
     }
 
     void Triangulate(HexCell cell)
@@ -109,10 +107,10 @@ public class HexGridChunk : MonoBehaviour
         {
             features.AddFeature(cell, (center + e.v1 + e.v3) * (1f / 3f));
         }
-        if (cell.IsSpecial)
-        {
-            features.AddSpecialFeature(cell, cell.Position);
-        }
+        //if (cell.IsSpecial) // this results in the feature being added once for every neighbour cell
+        //{
+        //    features.AddSpecialFeature(cell, cell.Position);
+        //}
     }
 
     void TriangulateWater(HexDirection direction, HexCell cell, Vector3 center)
@@ -127,39 +125,39 @@ public class HexGridChunk : MonoBehaviour
         {
             TriangulateOpenWater(direction, cell, neighbor, center);
         }
+    }
 
-        void TriangulateOpenWater(HexDirection direction, HexCell cell, HexCell neighbor, Vector3 center)
+    void TriangulateOpenWater(HexDirection direction, HexCell cell, HexCell neighbor, Vector3 center)
+    {
+        Vector3 c1 = center + HexMetrics.GetFirstSolidCorner(direction);
+        Vector3 c2 = center + HexMetrics.GetSecondSolidCorner(direction);
+
+        water.AddTriangle(center, c1, c2);
+
+        if (direction <= HexDirection.SE && neighbor != null)
         {
-            Vector3 c1 = center + HexMetrics.GetFirstSolidCorner(direction);
-            Vector3 c2 = center + HexMetrics.GetSecondSolidCorner(direction);
+            //			HexCell neighbor = cell.GetNeighbor(direction);
+            //			if (neighbor == null || !neighbor.IsUnderwater) 
+            //          {
+            //			    return;
+            //		    }
 
-            water.AddTriangle(center, c1, c2);
+            Vector3 bridge = HexMetrics.GetBridge(direction);
+            Vector3 e1 = c1 + bridge;
+            Vector3 e2 = c2 + bridge;
 
-            if (direction <= HexDirection.SE && neighbor != null)
+            water.AddQuad(c1, c2, e1, e2);
+
+            if (direction <= HexDirection.E)
             {
-                //			HexCell neighbor = cell.GetNeighbor(direction);
-                //			if (neighbor == null || !neighbor.IsUnderwater) 
-                //          {
-                //			    return;
-                //		    }
-
-                Vector3 bridge = HexMetrics.GetBridge(direction);
-                Vector3 e1 = c1 + bridge;
-                Vector3 e2 = c2 + bridge;
-
-                water.AddQuad(c1, c2, e1, e2);
-
-                if (direction <= HexDirection.E)
+                HexCell nextNeighbor = cell.GetNeighbor(direction.Next());
+                if (nextNeighbor == null || !nextNeighbor.IsUnderwater)
                 {
-                    HexCell nextNeighbor = cell.GetNeighbor(direction.Next());
-                    if (nextNeighbor == null || !nextNeighbor.IsUnderwater)
-                    {
-                        return;
-                    }
-                    water.AddTriangle(
-                        c2, e2, c2 + HexMetrics.GetBridge(direction.Next())
-                    );
+                    return;
                 }
+                water.AddTriangle(
+                    c2, e2, c2 + HexMetrics.GetBridge(direction.Next())
+                );
             }
         }
     }
