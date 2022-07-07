@@ -3475,6 +3475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ButtonSound: {fileID: 1450004610}
+  currentMatchData: {fileID: 11400000, guid: dbd21c4c8d084fd49bfabc086c8a7ef2, type: 2}
 --- !u!82 &1450004610
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3690,6 +3691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ButtonSound: {fileID: 1450004610}
+  currentMatchData: {fileID: 0}
 --- !u!114 &1581542587
 MonoBehaviour:
   m_ObjectHideFlags: 0

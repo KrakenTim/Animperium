@@ -386,7 +386,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 5, y: 5}
-  m_SizeDelta: {x: 170, y: 185.94}
+  m_SizeDelta: {x: 170, y: 190}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &140031303
 MonoBehaviour:
@@ -4232,11 +4232,11 @@ PrefabInstance:
       objectReference: {fileID: 1227411051}
     - target: {fileID: 3742140056524107426, guid: 247db13c59166bf42bc70fe38d954528, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: ReturnToMainMenu
       objectReference: {fileID: 0}
     - target: {fileID: 3742140056524107426, guid: 247db13c59166bf42bc70fe38d954528, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: NewMapMenu, Assembly-CSharp
+      value: LeaveEditor, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3742140056524107426, guid: 247db13c59166bf42bc70fe38d954528, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
@@ -10031,7 +10031,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8532971557129459080, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
       propertyPath: loadPathOnAwake
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8532971557129459080, guid: eb24d1b621b215647ad85a29836109ab, type: 3}
       propertyPath: loadTempMapOnAwake

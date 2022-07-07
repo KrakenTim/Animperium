@@ -47,6 +47,22 @@ public class HexGrid : MonoBehaviour
         CreateMap(cellCountX, cellCountZ);
     }
 
+    void OnEnable()
+    {
+        if (!HexMetrics.noiseSource)
+        {
+            HexMetrics.noiseSource = noiseSource;
+            HexMetrics.InitializeHashGrid(seed);
+            HexMetrics.colors = colors;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (!GameManager.InGame)
+            SaveLoadMenu.Save(Path.Combine(AI_File.PathTempMaps, AI_File.NameEditorMap), this);
+    }
+
     public bool CreateMap(int x, int z)
     {
         if (x <= 0 || x % HexMetrics.chunkSizeX != 0 || z <= 0 || z % HexMetrics.chunkSizeZ != 0)
@@ -75,16 +91,6 @@ public class HexGrid : MonoBehaviour
     //	void Start () {
     //		hexMesh.Triangulate(cells);
     //	}
-
-    void OnEnable()
-    {
-        if (!HexMetrics.noiseSource)
-        {
-            HexMetrics.noiseSource = noiseSource;
-            HexMetrics.InitializeHashGrid(seed);
-            HexMetrics.colors = colors;
-        }
-    }
 
     //	public void Refresh () {
     //		hexMesh.Triangulate(cells);

@@ -1,23 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
+/// <summary>
+/// Leaves the Map-Editor 
+/// </summary>
 public class LeaveEditor : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void ReturnToMainMenu()
     {
-
+        AI_Scene.LoadScene(AI_Scene.SCENENAME_MainMenu);
     }
 }
