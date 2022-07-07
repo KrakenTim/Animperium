@@ -22,7 +22,7 @@ public class ServerConnection : MonoBehaviour
 
     private TcpClient tcpClient;
     private NetworkStream networktStream;    
-    private byte[] streamDataBuffer = new byte[2048];
+    private byte[] streamDataBuffer = new byte[8192];
     private Thread heartbeatThread;
     private int heartbeatTick = 0;
     private int heartbeatIntervall = 3000; //in milliseconds
@@ -78,7 +78,7 @@ public class ServerConnection : MonoBehaviour
     {
         while (true)
         {
-            streamDataBuffer = new Byte[2048];
+            streamDataBuffer = new Byte[8192];
             string receivedData = "";
             try
             {

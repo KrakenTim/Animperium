@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 4045.249, g: 2482.1426, b: 1873.543, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5244,10 +5244,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SmallLength: 20
   SmallHeight: 15
-  MediumLength: 45
-  MediumHeight: 30
-  LargeLength: 80
-  LargeHeight: 60
+  MediumLength: 30
+  MediumHeight: 20
+  LargeLength: 45
+  LargeHeight: 30
   hexGrid: {fileID: 1823811209}
 --- !u!1001 &1440890885
 PrefabInstance:
