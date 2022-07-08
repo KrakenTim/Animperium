@@ -9,7 +9,7 @@ public class LightningManager : MonoBehaviour
 
     private void Start()
     {
-        HexMapCamera.Instance.OnSwapToGrid.AddListener(SwitchLighting); 
+       HexMapCamera.Instance.OnSwapToGrid.AddListener(SwitchLighting); 
        
     }
 

@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Threading;
 using System.Text;
+using System.Linq;
 
 public class ServerConnection : MonoBehaviour
 {
@@ -17,11 +18,12 @@ public class ServerConnection : MonoBehaviour
     public UnityEvent<string, string> ReceivedCommandEvent = new UnityEvent<string, string>();
     public UnityEvent<string> RoomCreatedEvent = new UnityEvent<string>();
     public UnityEvent<string> RoomJoinedEvent = new UnityEvent<string>();
+    //public UnityEvent<byte[]> ReceivedMapDataEvent = new UnityEvent<byte[]>();
     public UnityEvent<string> ReceivedMapDataEvent = new UnityEvent<string>();
 
     private TcpClient tcpClient;
     private NetworkStream networktStream;    
-    private byte[] streamDataBuffer = new byte[256];
+    private byte[] streamDataBuffer = new byte[8192];
     private Thread heartbeatThread;
     private int heartbeatTick = 0;
     private int heartbeatIntervall = 3000; //in milliseconds
@@ -77,7 +79,7 @@ public class ServerConnection : MonoBehaviour
     {
         while (true)
         {
-            streamDataBuffer = new Byte[256];
+            streamDataBuffer = new Byte[8192];
             string receivedData = "";
             try
             {
@@ -101,7 +103,15 @@ public class ServerConnection : MonoBehaviour
                         {
                             Debug.Log("Received command: " + receivedCommands[i]);
                         }
-                        InterpretMessage(splittedData);
+                        //if (splittedData[0] == "MAPDATA")
+                        //{
+                        //    Debug.Log("Received MAPDATA");
+                        //    InterpretMapData(streamDataBuffer);
+                        //}
+                        //else
+                        //{
+                            InterpretMessage(splittedData);
+                        //}
                     }
 
                     //if (splittedMessage.Length == 1)
@@ -155,6 +165,18 @@ public class ServerConnection : MonoBehaviour
         }
     }
 
+    private void InterpretMapData(byte [] _bytes)
+    {
+        byte[] messageType = Encoding.ASCII.GetBytes("MAPDATA|");
+        byte[] messageEndIndicator = Encoding.UTF8.GetBytes(";");
+        List<byte> mapData = new List<byte>();
+        for (int i = messageType.Length; i < _bytes.Length - messageEndIndicator.Length; i++)
+        {
+            mapData.Add(_bytes[i]);
+        }
+        //ReceivedMapDataEvent.Invoke(mapData.ToArray());
+    }
+
     void Heartbeat()
     {
         while (true)
@@ -184,6 +206,25 @@ public class ServerConnection : MonoBehaviour
     private void Send(string _message)
     {
         byte[] msg = Encoding.UTF8.GetBytes(_message + ';');
+
+        networktStream.Write(msg, 0, msg.Length);
+
+        //if (_message.Split('|')[0] != "HEARTBEAT")
+        //{
+        //    Debug.Log("Sent to server:\n" + _message);
+        //}        
+    }
+
+    private void SendByteArray(string _message, byte [] _bytes)
+    {
+        byte[] messageType = Encoding.UTF8.GetBytes(_message);
+        byte[] messageEndIndicator = Encoding.UTF8.GetBytes(";");
+
+        byte[] msg = new byte[messageType.Length + _bytes.Length + messageEndIndicator.Length];
+
+        messageType.CopyTo(msg, 0);
+        _bytes.CopyTo(msg, messageType.Length);
+        messageEndIndicator.CopyTo(msg, messageType.Length + _bytes.Length);
 
         networktStream.Write(msg, 0, msg.Length);
 
@@ -231,6 +272,12 @@ public class ServerConnection : MonoBehaviour
     {
         Send("PLAYER_INFO|" + _name);
     }
+
+    public void SendMapData(byte [] _mapdata)
+    {
+        SendByteArray("MAPDATA|", _mapdata);
+    }
+
     public void SendMapData(string _mapdata)
     {
         Send("MAPDATA|" + _mapdata);

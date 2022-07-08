@@ -38,8 +38,9 @@ public class HexMapCamera : MonoBehaviour
     public HexGrid usedGrid;
 
     static HexMapCamera instance;
-
     public static HexMapCamera Instance { get { return instance; } }
+
+    public UnityEvent<HexGridLayer> OnSwapToGrid = new UnityEvent<HexGridLayer>();
 
     public static bool Locked
     {
@@ -54,15 +55,13 @@ public class HexMapCamera : MonoBehaviour
         }
     }
 
-    public UnityEvent<HexGridLayer> OnSwapToGrid = new UnityEvent<HexGridLayer>();
-
     void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (instance != null && instance != this)
         {
             Destroy(this.gameObject);
         }
-        else 
+        else
         {
             instance = this;
         }
@@ -217,7 +216,7 @@ public class HexMapCamera : MonoBehaviour
     {
         if (instance.usedGrid == HexGridManager.Current.Surface) return;
 
-        instance.OnSwapToGrid?.Invoke(HexGridLayer.Surface);
+        Instance.OnSwapToGrid.Invoke(HexGridLayer.Surface);
         instance.usedGridLayer = HexGridLayer.Surface;
         instance.SwapToGrid(HexGridManager.Current.Surface);
     }
@@ -225,7 +224,8 @@ public class HexMapCamera : MonoBehaviour
     public static void SwapToUnderGround()
     {
         if (instance.usedGrid == HexGridManager.Current.Underground) return;
-        instance.OnSwapToGrid?.Invoke(HexGridLayer.Underground);
+
+        Instance.OnSwapToGrid.Invoke(HexGridLayer.Underground);
         instance.usedGridLayer = HexGridLayer.Underground;
         instance.SwapToGrid(HexGridManager.Current.Underground);
     }

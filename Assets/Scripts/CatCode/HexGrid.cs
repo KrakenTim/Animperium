@@ -31,6 +31,8 @@ public class HexGrid : MonoBehaviour
 
     public void Awake()
     {
+        Debug.Log($"[{GetType().Name}] AWAKE {gameObject.name}", this);
+
         #region Not in Tutorial
         if (underground) return;
         TempMapSaves ts = GetComponent<TempMapSaves>();
@@ -43,6 +45,22 @@ public class HexGrid : MonoBehaviour
         //		gridCanvas = GetComponentInChildren<Canvas>();
         //		hexMesh = GetComponentInChildren<HexMesh>();
         CreateMap(cellCountX, cellCountZ);
+    }
+
+    void OnEnable()
+    {
+        if (!HexMetrics.noiseSource)
+        {
+            HexMetrics.noiseSource = noiseSource;
+            HexMetrics.InitializeHashGrid(seed);
+            HexMetrics.colors = colors;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (!GameManager.InGame)
+            SaveLoadMenu.Save(Path.Combine(AI_File.PathTempMaps, AI_File.NameEditorMap), this);
     }
 
     public bool CreateMap(int x, int z)
@@ -73,16 +91,6 @@ public class HexGrid : MonoBehaviour
     //	void Start () {
     //		hexMesh.Triangulate(cells);
     //	}
-
-    void OnEnable()
-    {
-        if (!HexMetrics.noiseSource)
-        {
-            HexMetrics.noiseSource = noiseSource;
-            HexMetrics.InitializeHashGrid(seed);
-            HexMetrics.colors = colors;
-        }
-    }
 
     //	public void Refresh () {
     //		hexMesh.Triangulate(cells);
@@ -157,7 +165,11 @@ public class HexGrid : MonoBehaviour
         position = transform.InverseTransformPoint(position);
         HexCoordinates coordinates = HexCoordinates.FromPosition(position);
         int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
-        return cells[index];
+
+        if (index >= 0 && index < cells.Length)
+            return cells[index];
+        return
+            null;
     }
     /*
     public void ColorCell(Vector3 position, Color color)
