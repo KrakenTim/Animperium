@@ -198,6 +198,8 @@ public class HexMapCamera : MonoBehaviour
 
     public static void SwapUsedGrid()
     {
+        if (!GameManager.InGame) return;
+
         if (instance.usedGrid == HexGridManager.Current.Surface)
             SwapToUnderGround();
         else if (instance.usedGrid == HexGridManager.Current.Underground)
