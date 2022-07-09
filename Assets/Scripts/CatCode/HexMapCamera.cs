@@ -2,6 +2,7 @@ using UnityEngine.InputSystem;
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class HexMapCamera : MonoBehaviour
 {
@@ -130,7 +131,8 @@ public class HexMapCamera : MonoBehaviour
         }
 
         Vector2 mousePosition = actualCamera.ScreenToViewportPoint(Mouse.current.position.ReadValue());
-        if (InScreen(mousePosition))
+        
+        if (InScreen(mousePosition) && !EventSystem.current.IsPointerOverGameObject())
         {
             if (mousePosition.x < mouseMoveBorder.x)
                 xDelta = -(1f - mousePosition.x / mouseMoveBorder.x);

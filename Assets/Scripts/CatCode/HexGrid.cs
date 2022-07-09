@@ -60,7 +60,7 @@ public class HexGrid : MonoBehaviour
 
     private void OnDisable()
     {
-        if (!GameManager.InGame)
+        if (!GameManager.InGame && !underground)
             SaveLoadMenu.Save(Path.Combine(AI_File.PathTempMaps, AI_File.NameEditorMap), this);
     }
 
