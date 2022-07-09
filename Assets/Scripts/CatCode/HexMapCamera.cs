@@ -42,6 +42,10 @@ public class HexMapCamera : MonoBehaviour
 
     public UnityEvent<HexGridLayer> OnSwapToGrid = new UnityEvent<HexGridLayer>();
 
+    [SerializeField] Vector2 mouseMoveBorder = new Vector2(0.025f, 0.05f);
+
+    private Camera actualCamera;
+
     public static bool Locked
     {
         get
@@ -73,6 +77,8 @@ public class HexMapCamera : MonoBehaviour
     {
         if (usedGrid == null)
             usedGrid = FindObjectOfType<HexGrid>();
+
+        actualCamera = stick.GetComponentInChildren<Camera>();
     }
 
     void OnEnable()
@@ -88,6 +94,7 @@ public class HexMapCamera : MonoBehaviour
 
     void Update()
     {
+        if (!Application.isFocused) return;
 
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
             SwapUsedGrid();
@@ -106,11 +113,37 @@ public class HexMapCamera : MonoBehaviour
             AdjustRotation(rotationDelta);
         }
 
+        UpdateMovement();
+    }
+
+    /// <summary>
+    /// reads keyboard and mouse input and position to decide if the camera should be moved.
+    /// </summary>
+    private void UpdateMovement()
+    {
         float xDelta = Input.GetAxis("Horizontal"); // Altes system
         float zDelta = Input.GetAxis("Vertical"); // Altes system
         if (xDelta != 0f || zDelta != 0f)
         {
             AdjustPosition(xDelta, zDelta);
+            return;
+        }
+
+        Vector2 mousePosition = actualCamera.ScreenToViewportPoint(Mouse.current.position.ReadValue());
+        if (InScreen(mousePosition))
+        {
+            if (mousePosition.x < mouseMoveBorder.x)
+                xDelta = -(1f - mousePosition.x / mouseMoveBorder.x);
+            else if (mousePosition.x > 1f - mouseMoveBorder.x)
+                xDelta = 1f - (1f - mousePosition.x) / mouseMoveBorder.x;
+
+            if (mousePosition.y < mouseMoveBorder.y)
+                zDelta = -(1f - mousePosition.y / mouseMoveBorder.y);
+            else if (mousePosition.y > 1f - mouseMoveBorder.y)
+                zDelta = 1f - (1f - mousePosition.y) / mouseMoveBorder.y;
+
+            if (xDelta != 0f || zDelta != 0f)
+                AdjustPosition(xDelta, zDelta);
         }
     }
 
@@ -275,5 +308,13 @@ public class HexMapCamera : MonoBehaviour
     {
         if (instance)
             instance.AdjustPosition(0f, 0f);
+    }
+
+    /// <summary>
+    /// returns true if the given viewport position is in the screen
+    /// </summary>
+    public static bool InScreen(Vector2 viewportPosition)
+    {
+        return viewportPosition.x >= 0f && viewportPosition.x <= 1f && viewportPosition.y >= 0f && viewportPosition.y <= 1f;
     }
 }
