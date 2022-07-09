@@ -3,6 +3,8 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
+using UnityEngine.InputSystem.UI;
 
 public class HexMapCamera : MonoBehaviour
 {
@@ -47,6 +49,8 @@ public class HexMapCamera : MonoBehaviour
 
     private Camera actualCamera;
 
+    int UILayer;
+
     public static bool Locked
     {
         get
@@ -62,6 +66,8 @@ public class HexMapCamera : MonoBehaviour
 
     void Awake()
     {
+        UILayer = LayerMask.NameToLayer("UI");
+
         if (instance != null && instance != this)
         {
             Destroy(this.gameObject);
@@ -131,8 +137,8 @@ public class HexMapCamera : MonoBehaviour
         }
 
         Vector2 mousePosition = actualCamera.ScreenToViewportPoint(Mouse.current.position.ReadValue());
-        
-        if (InScreen(mousePosition) && !EventSystem.current.IsPointerOverGameObject())
+
+        if (InScreen(mousePosition) && !IsMouseOverUI())
         {
             if (mousePosition.x < mouseMoveBorder.x)
                 xDelta = -(1f - mousePosition.x / mouseMoveBorder.x);
@@ -318,5 +324,17 @@ public class HexMapCamera : MonoBehaviour
     public static bool InScreen(Vector2 viewportPosition)
     {
         return viewportPosition.x >= 0f && viewportPosition.x <= 1f && viewportPosition.y >= 0f && viewportPosition.y <= 1f;
+    }
+
+    /// <summary>
+    /// Since Eventsystem returns false positives on IsPointerOverGameObject()
+    /// </summary>
+    private bool IsMouseOverUI()
+    {
+        if (EventSystem.current == null)
+            return false;
+
+        RaycastResult lastRaycastResult = ((InputSystemUIInputModule)EventSystem.current.currentInputModule).GetLastRaycastResult(Mouse.current.deviceId);
+        return lastRaycastResult.gameObject != null && lastRaycastResult.gameObject.layer == UILayer;
     }
 }
