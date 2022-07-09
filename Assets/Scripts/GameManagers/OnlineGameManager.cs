@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,7 +13,11 @@ public class OnlineGameManager : MonoBehaviour
 
     [SerializeField] Button startButton;
 
+    [SerializeField] PersistingMatchData matchData;
+
     public static bool IsOnlineGame => instance != null;
+
+    public bool IsHost => LocalPlayerID == 1;
 
     public static int LocalPlayerID { get; private set; }
 
@@ -28,6 +34,8 @@ public class OnlineGameManager : MonoBehaviour
         ServerConnection.Instance.ReceivedCommandEvent.AddListener(ReceiveCommand);
         ServerConnection.Instance.ReceivedRoomPlayerListEvent.AddListener(OnReceivedRoomPlayerList);
         ServerConnection.Instance.ReceivedPlayerInfoEvent.AddListener(UpdateNameOnServer);
+
+        ServerConnection.Instance.ReceivedMapDataEvent.AddListener(CreateTemporaryMap);
     }
 
     private void OnDestroy()
@@ -61,21 +69,17 @@ public class OnlineGameManager : MonoBehaviour
 
     public void Button_StartGame()
     {
-        for (int i = 0; i < instance.players.Length; i++)
-        {
-            if (instance.players[i] == NameOnServer)
-                LocalPlayerID = i;
-        }
-
-        InputMessage randomKeyMessage = InputMessageGenerator.CreateRandomKeyMessage();
-        SendCommand(randomKeyMessage.ToString());
-
-        InputMessage message = InputMessageGenerator.CreateBasicMessage(ePlayeractionType.StartGame);
+        if (!matchData.IsMapPathValid) return;
 
         if (startButton)
             startButton.interactable = false;
 
-        SendCommand(message.ToString());
+        InputMessage randomKeyMessage = InputMessageGenerator.CreateRandomKeyMessage();
+        SendCommand(randomKeyMessage.ToString());
+
+        Debug.Log($"[{GetType().Name}] Sending map as byte[] with length {File.ReadAllBytes(matchData.MapPath).Length}.\n", this);
+
+        ServerConnection.Instance.SendMapData(Convert.ToBase64String(File.ReadAllBytes(matchData.MapPath)));
     }
 
     public static void PrepareGame()
@@ -113,5 +117,37 @@ public class OnlineGameManager : MonoBehaviour
             else if (nextName.Length == 1)
                 playerValueList[i].name = nextName.ToUpper();
         }
+    }
+
+    //private void CreateTemporaryMap(byte[] mapData)
+    //{
+    //    Debug.Log($"[{ GetType().Name}] Receiving map as byte[] with length {mapData.Length}.\n", this);
+
+    //    string mapPath = Path.Combine(AI_File.PathTempMaps, "OnlineMap.map");
+        
+    //    File.WriteAllBytes(mapPath,mapData);
+
+    //    matchData.MapPath = mapPath;
+
+    //    if (!IsHost) return;
+
+    //    InputMessage startGameMessage = InputMessageGenerator.CreateBasicMessage(ePlayeractionType.StartGame);
+    //    SendCommand(startGameMessage.ToString());
+    //}
+
+    private void CreateTemporaryMap(string mapData)
+    {
+        //Debug.Log($"[{ GetType().Name}] Receiving map as byte[] with length {mapData.Length}.\n", this);
+
+        string mapPath = Path.Combine(AI_File.PathTempMaps, "OnlineMap.map");
+
+        File.WriteAllBytes(mapPath, Convert.FromBase64String(mapData));
+
+        matchData.MapPath = mapPath;
+
+        // if (!IsHost) return;
+
+        InputMessage startGameMessage = InputMessageGenerator.CreateBasicMessage(ePlayeractionType.StartGame);
+        SendCommand(startGameMessage.ToString());
     }
 }
