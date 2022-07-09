@@ -28,8 +28,6 @@ public class HexGridManager : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log($"[{GetType().Name}] AWAKE {gameObject.name}", this);
-
         CreateUnderground();
 
         SetHexCellGridLayers();
@@ -78,7 +76,7 @@ public class HexGridManager : MonoBehaviour
 
         return result;
     }
-
+    
     public HexGrid GetGrid(HexCell cell)
     {
         if (cell.gridLayer == HexGridLayer.Surface)
@@ -140,7 +138,7 @@ public class HexGridManager : MonoBehaviour
 
         HashSet<int> oreSpots = new HashSet<int>();
 
-        int oresInMap = (undergroundCells.Length * oresPer100Cells) / 200;
+        int oresInMap = (undergroundCells.Length * oresPer100Cells)/200;
 
         while (oreSpots.Count < oresInMap)
         {

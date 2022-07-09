@@ -45,21 +45,17 @@ public class SaveLoadMenu : MonoBehaviour
         //return Path.Combine(Application.persistentDataPath, mapName + ".map");
         return Path.Combine(AI_File.PathSelfmadeMaps, mapName + ".map");
     }
-
-    public void Save(string path) => Save(path, hexGrid);
-
-    public static void Save(string path, HexGrid grid)
+    void Save(string path)
     {
         using (BinaryWriter writer = new BinaryWriter(File.Open(path, FileMode.Create)))
         {
             writer.Write(1);
-            grid.Save(writer);
+            hexGrid.Save(writer);
         }
+
     }
 
-    void Load(string path) => Load(path, hexGrid);
-
-    public static void Load(string path, HexGrid grid)
+    void Load(string path)
     {
         if (!File.Exists(path))
         {
@@ -71,7 +67,7 @@ public class SaveLoadMenu : MonoBehaviour
             int header = reader.ReadInt32();
             if (header <= 1)
             {
-                grid.Load(reader, header);
+                hexGrid.Load(reader, header);
                 HexMapCamera.ValidatePosition();
             }
             else
@@ -80,7 +76,6 @@ public class SaveLoadMenu : MonoBehaviour
             }
         }
     }
-
     public void Action()
     {
         string path = GetSelectedPath();
@@ -98,7 +93,6 @@ public class SaveLoadMenu : MonoBehaviour
         }
         Close();
     }
-
     public void SelectItem(string name)
     {
         nameInput.text = name;
@@ -106,11 +100,9 @@ public class SaveLoadMenu : MonoBehaviour
     void FillList()
     {
         for (int i = 0; i < listContent.childCount; i++)
+        {
             Destroy(listContent.GetChild(i).gameObject);
-
-        if (!Directory.Exists(AI_File.PathSelfmadeMaps))
-            Directory.CreateDirectory(AI_File.PathSelfmadeMaps);
-
+        }
         //string[] paths = Directory.GetFiles(Application.persistentDataPath, "*.map");
         string[] paths = Directory.GetFiles(AI_File.PathSelfmadeMaps, "*.map");
         Array.Sort(paths);
@@ -122,7 +114,6 @@ public class SaveLoadMenu : MonoBehaviour
             item.transform.SetParent(listContent, false);
         }
     }
-
     public void Delete()
     {
         string path = GetSelectedPath();

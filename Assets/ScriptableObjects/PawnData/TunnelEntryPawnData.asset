@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TunnelEntryPawnData
   m_EditorClassIdentifier: 
   type: 105
-  tier: 1
+  tier: 0
   pawnIcon:
     text: 
     colored: {fileID: 0}

@@ -107,8 +107,6 @@ public class MapSelectionMenu : MonoBehaviour
             item.mapPath = paths[i];
             item.transform.SetParent(contentTransform, false);
 
-            item.MapName = $"{item.MapName}({File.ReadAllBytes(item.mapPath).Length})";
-
             if (i == 0) first = item;
         }
 
