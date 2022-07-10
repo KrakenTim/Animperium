@@ -19,8 +19,8 @@ public class BlockedPawn : PlayerPawn
     {
         base.Awake();
 
-        int rotationFactor = HexCoordinates.X * HexCoordinates.Y * HexCoordinates.Z;
-
+        int rotationFactor = HexCoordinates.X * HexCoordinates.Y * HexCoordinates.Z + Mathf.RoundToInt(transform.position.x);
+        
         Vector3 angle = transform.eulerAngles;
         angle.y = (rotationFactor % 6) * 60f;
 
