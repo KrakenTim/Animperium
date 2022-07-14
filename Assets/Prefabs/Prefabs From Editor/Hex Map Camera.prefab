@@ -313,3 +313,7 @@ MonoBehaviour:
   moveSpeedMaxZoom: 100
   rotationSpeed: 100
   usedGrid: {fileID: 0}
+  OnSwapToGrid:
+    m_PersistentCalls:
+      m_Calls: []
+  mouseMoveBorder: {x: 0.025, y: 0.05}

@@ -2,6 +2,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 public class HexGrid : MonoBehaviour
 {
@@ -59,7 +60,7 @@ public class HexGrid : MonoBehaviour
 
     private void OnDisable()
     {
-        if (!GameManager.InGame)
+        if (!GameManager.InGame && !underground)
             SaveLoadMenu.Save(Path.Combine(AI_File.PathTempMaps, AI_File.NameEditorMap), this);
     }
 
@@ -316,25 +317,32 @@ public class HexGrid : MonoBehaviour
         int centerX = center.coordinates.X;
         int centerZ = center.coordinates.Z;
 
+        HexCell cell;
+
         for (int r = 0, z = centerZ - size; z <= centerZ; z++, r++)
         {
             for (int x = centerX - r; x <= centerX + size; x++)
             {
-                neighbourCells.Add(GetCell(new HexCoordinates(x, z)));
+
+                cell = GetCell(new HexCoordinates(x, z));
+
+                if (cell != null)
+                    neighbourCells.Add(cell);
             }
         }
         for (int r = 0, z = centerZ + size; z > centerZ; z--, r++)
         {
             for (int x = centerX - size; x <= centerX + r; x++)
             {
-                neighbourCells.Add(GetCell(new HexCoordinates(x, z)));
+                cell = GetCell(new HexCoordinates(x, z));
+
+                if (cell != null)
+                    neighbourCells.Add(cell);
             }
         }
 
         if (!withCenter)
             neighbourCells.Remove(center);
-
-        neighbourCells.Remove(null);
 
         return neighbourCells;
     }
