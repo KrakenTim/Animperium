@@ -90,6 +90,13 @@ public class GameInputManager : MonoBehaviour
             }
             else // rightClick
             {
+                if (IsCollectPossible())
+                {
+                    InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Collect);
+                    InputMessageExecuter.Send(message);
+                    return;
+                }
+
                 if (IsMovePossible())
                 {
                     InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Move);

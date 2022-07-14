@@ -87,7 +87,7 @@ MonoBehaviour:
     german: Lobby Liste
   - identifier: LocalMatch
     english: Start Local Match
-    german: Lokal
+    german: Spielen
   - identifier: MainMenu
     english: Main Menu
     german: "Hauptmen\xFC"

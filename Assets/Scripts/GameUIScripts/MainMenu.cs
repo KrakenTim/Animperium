@@ -9,6 +9,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class MainMenu : MonoBehaviour
 {
+    const bool MESSE_VERSION = true;
+
     public AudioSource ButtonSound;
 
     [SerializeField] PersistingMatchData currentMatchData;
@@ -20,9 +22,15 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        //if (LoadingScreen.instance)
-        //    LoadingScreen.instance.LoadScene(AI_Scene.SCENENAME_GamePreparation);
-        //else
+        if (MESSE_VERSION)
+        {
+            currentMatchData.MapPath = Path.Combine(AI_File.PathTempMaps, AI_File.NameMesseMap);
+
+            AI_Scene.LoadSceneWithLoadingScreen(AI_Scene.SCENENAME_Game);
+            return;
+        }
+
+
         SceneManager.LoadScene(AI_Scene.SCENENAME_GamePreparation);
         Debug.Log("Game Start");
     }
