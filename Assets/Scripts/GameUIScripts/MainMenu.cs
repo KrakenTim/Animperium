@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class MainMenu : MonoBehaviour
 {
-    const bool MESSE_VERSION = true;
+    public const bool MESSE_VERSION = true;
 
     public AudioSource ButtonSound;
 

@@ -63,6 +63,7 @@ public class GameInputManager : MonoBehaviour
 
         selectedHexCell = HexGridManager.Current.GetHexCell(hit.point);
 
+        bool isMenuOpen = false;
         if (IsPawnActionPossible(selectedHexCell))
         {
             if (wasLeftClick)
@@ -82,11 +83,16 @@ public class GameInputManager : MonoBehaviour
                 }
 
                 if (IsBuildingPossible())
+                {
                     InteractionMenuManager.OpenPawnCreationMenu(selectedHexCell);
+                    isMenuOpen = true;
+                }
 
                 if (IsTunnelBuildingPossible())
+                {
                     InteractionMenuManager.OpenPawnCreationMenu(selectedHexCell);
-
+                    isMenuOpen = true;
+                }
             }
             else // rightClick
             {
@@ -111,6 +117,9 @@ public class GameInputManager : MonoBehaviour
             InputMessageExecuter.Send(message);
             return;
         }
+
+        if (!isMenuOpen)
+            DeselectPawn();
     }
 
     /// <summary>
