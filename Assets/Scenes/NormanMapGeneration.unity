@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 3985.1436, g: 2466.2441, b: 1911.6836, a: 1}
+  m_IndirectSpecularColor: {r: 3986.9062, g: 2466.8486, b: 1910.7129, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3634,7 +3634,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: Player Turn
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6180,43 +6180,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 501649240331832854, guid: cdf1a1d8e03addc41ba5e39086fcf69f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 501649240331832854, guid: cdf1a1d8e03addc41ba5e39086fcf69f, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 501649240331832854, guid: cdf1a1d8e03addc41ba5e39086fcf69f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 96.666664
       objectReference: {fileID: 0}
     - target: {fileID: 501649240331832854, guid: cdf1a1d8e03addc41ba5e39086fcf69f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 251.66666
       objectReference: {fileID: 0}
     - target: {fileID: 501649240331832854, guid: cdf1a1d8e03addc41ba5e39086fcf69f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -25
       objectReference: {fileID: 0}
     - target: {fileID: 501649240872963216, guid: cdf1a1d8e03addc41ba5e39086fcf69f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 501649240872963216, guid: cdf1a1d8e03addc41ba5e39086fcf69f, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 501649240872963216, guid: cdf1a1d8e03addc41ba5e39086fcf69f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 96.666664
       objectReference: {fileID: 0}
     - target: {fileID: 501649240872963216, guid: cdf1a1d8e03addc41ba5e39086fcf69f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 501649240872963216, guid: cdf1a1d8e03addc41ba5e39086fcf69f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -25
       objectReference: {fileID: 0}
     - target: {fileID: 2748126013569991873, guid: cdf1a1d8e03addc41ba5e39086fcf69f, type: 3}
       propertyPath: m_Enabled
@@ -6356,23 +6356,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2748126014317229406, guid: cdf1a1d8e03addc41ba5e39086fcf69f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2748126014317229406, guid: cdf1a1d8e03addc41ba5e39086fcf69f, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2748126014317229406, guid: cdf1a1d8e03addc41ba5e39086fcf69f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 96.666664
       objectReference: {fileID: 0}
     - target: {fileID: 2748126014317229406, guid: cdf1a1d8e03addc41ba5e39086fcf69f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 48.333332
       objectReference: {fileID: 0}
     - target: {fileID: 2748126014317229406, guid: cdf1a1d8e03addc41ba5e39086fcf69f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -25
       objectReference: {fileID: 0}
     - target: {fileID: 6026378614961872211, guid: cdf1a1d8e03addc41ba5e39086fcf69f, type: 3}
       propertyPath: m_IsActive
