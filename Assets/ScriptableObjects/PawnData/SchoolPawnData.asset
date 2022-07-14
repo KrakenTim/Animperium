@@ -24,8 +24,13 @@ MonoBehaviour:
   viewRange: 3
   tier: 1
   resourceCosts:
+<<<<<<< HEAD
     food: 40
     wood: 50
+=======
+    food: 15
+    wood: 35
+>>>>>>> b272788188e9d69110b46e4d77eb13e7546db68e
     ore: 0
   populationCount: 0
   spawnedPawn: 0
