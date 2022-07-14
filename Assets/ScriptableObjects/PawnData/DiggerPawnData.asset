@@ -25,7 +25,7 @@ MonoBehaviour:
   viewRange: 2
   specialPower: 0
   resourceCosts:
-    food: 6
+    food: 26
     wood: 4
     ore: 0
   populationCount: 1
