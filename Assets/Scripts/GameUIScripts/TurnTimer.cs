@@ -12,6 +12,7 @@ public class TurnTimer : MonoBehaviour
     [SerializeField] TMP_Text turnTimeSecond;
     [Space]
     [SerializeField] ColorableImage activePlayerIcon;
+    [SerializeField] TMP_Text PlayerTurnMessage;
 
     public int maxSecondsPerTurn = 90;
     public int remainingSeconds = 90;
@@ -46,6 +47,7 @@ public class TurnTimer : MonoBehaviour
 
         if (remainingSeconds == 0)
         {
+            PlayerTurnMessage.SetText("Next Player");
             enabled = false; // Update is only called, if component is enabled.
 
             if (!OnlineGameManager.IsOnlineGame || GameManager.LocalPlayerID == GameManager.ActivePlayerID)
