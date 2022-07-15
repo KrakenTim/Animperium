@@ -53,8 +53,8 @@ MonoBehaviour:
     english: End Turn
     german: Zug beenden
   - identifier: FarmHouse
-    english: Farm House
-    german: Bauernhaus
+    english: Wind Mill
+    german: "Windm\xFChle"
   - identifier: FarmHouseTooltip
     english: Might also create Workers.
     german: <FarmHouseTooltip_de>

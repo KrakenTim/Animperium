@@ -34,7 +34,8 @@ public class PlayerHUD : MonoBehaviour
 
     public static void HoverPawn(PlayerPawn hoveredPawn)
     {
-        instance.pawnTooltip.SetPawn(hoveredPawn);
+        if (hoveredPawn != GameInputManager.SelectedPawn)
+            instance.pawnTooltip.SetPawn(hoveredPawn);
     }
 
     public static void UnHoverPawn()
@@ -47,6 +48,8 @@ public class PlayerHUD : MonoBehaviour
     /// </summary>
     private void SetSelectedPawn(PlayerPawn newPawn)
     {
+        if (newPawn == HoveredPawn) UnHoverPawn();
+
         selectedPawnStats.SetPawn(newPawn);
     }
 
@@ -55,7 +58,7 @@ public class PlayerHUD : MonoBehaviour
     /// </summary>
     public static void UpdateExistingPawns()
     {
-       if (instance.HoveredPawn?.HexCell == null)
+        if (instance.HoveredPawn?.HexCell == null)
             UnHoverPawn();
     }
 }
