@@ -19,16 +19,21 @@ MonoBehaviour:
     colored: {fileID: 0}
     baseIcon: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   maxHealth: 155
 =======
   maxHealth: 180
 >>>>>>> b272788188e9d69110b46e4d77eb13e7546db68e
+=======
+  maxHealth: 200
+>>>>>>> 9da9c5fb6ed6c557a498eda1c17d398a0d780476
   maxMovement: 3
-  attackPower: 60
+  attackPower: 68
   attackRange: 1
   viewRange: 4
   specialPower: 0
   resourceCosts:
+<<<<<<< HEAD
 <<<<<<< HEAD
     food: 27
     wood: 11
@@ -38,6 +43,11 @@ MonoBehaviour:
     wood: 0
     ore: 7
 >>>>>>> b272788188e9d69110b46e4d77eb13e7546db68e
+=======
+    food: 40
+    wood: 4
+    ore: 13
+>>>>>>> 9da9c5fb6ed6c557a498eda1c17d398a0d780476
   populationCount: 1
   linearUpgrade: 0
   learnsFight: 0

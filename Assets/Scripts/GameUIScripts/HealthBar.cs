@@ -7,6 +7,7 @@ public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Image healthBarSlider;
     [SerializeField] private Image healthBarBackground;
+    [SerializeField] private Image healthBarBorder;
 
     private PlayerPawn myPawn;
 
@@ -86,6 +87,6 @@ public class HealthBar : MonoBehaviour
 
         healthBarBackground.enabled = isVisible;
         healthBarSlider.enabled = isVisible;
-
+        healthBarBorder.enabled = isVisible;
     }
 }

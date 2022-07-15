@@ -26,19 +26,24 @@ MonoBehaviour:
   specialPower: 0
   resourceCosts:
 <<<<<<< HEAD
+<<<<<<< HEAD
     food: 44
     wood: 60
 =======
     food: 20
     wood: 40
 >>>>>>> b272788188e9d69110b46e4d77eb13e7546db68e
+=======
+    food: 30
+    wood: 70
+>>>>>>> 9da9c5fb6ed6c557a498eda1c17d398a0d780476
     ore: 0
   populationCount: 0
   linearUpgrade: 0
   learnsFight: 0
   learnsMagic: 0
   learnsDigging: 0
-  upgradesForUnlock: 6
+  upgradesForUnlock: 3
   spawnedPawn: 0
   playerPrefabs:
   - {fileID: 0}

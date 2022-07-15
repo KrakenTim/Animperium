@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class MainMenu : MonoBehaviour
 {
+    public const bool MESSE_VERSION = true;
+
     public AudioSource ButtonSound;
 
     private void Awake()
@@ -17,10 +19,23 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
+<<<<<<< HEAD
         //if (LoadingScreen.instance)
         //    LoadingScreen.instance.LoadScene(AI_Scene.SCENENAME_GamePreparation);
         //else
             SceneManager.LoadScene(AI_Scene.SCENENAME_GamePreparation);
+=======
+        if (MESSE_VERSION)
+        {
+            currentMatchData.MapPath = Path.Combine(AI_File.PathTempMaps, AI_File.NameMesseMap);
+
+            AI_Scene.LoadSceneWithLoadingScreen(AI_Scene.SCENENAME_Game);
+            return;
+        }
+
+
+        SceneManager.LoadScene(AI_Scene.SCENENAME_GamePreparation);
+>>>>>>> 9da9c5fb6ed6c557a498eda1c17d398a0d780476
         Debug.Log("Game Start");
     }
 

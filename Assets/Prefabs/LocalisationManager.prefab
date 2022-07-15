@@ -43,5 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3377469786dae2f4183faf16538f5b8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usedLanguage: 1
+  usedLanguage: 2
   localisationData: {fileID: 11400000, guid: efa9f337e03635346a808bc6acd61a42, type: 2}

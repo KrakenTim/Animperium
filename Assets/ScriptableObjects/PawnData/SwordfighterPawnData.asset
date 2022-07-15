@@ -29,12 +29,17 @@ MonoBehaviour:
   viewRange: 4
   specialPower: 0
   resourceCosts:
+<<<<<<< HEAD
     food: 14
 <<<<<<< HEAD
     wood: 6
 =======
     wood: 4
 >>>>>>> b272788188e9d69110b46e4d77eb13e7546db68e
+=======
+    food: 34
+    wood: 5
+>>>>>>> 9da9c5fb6ed6c557a498eda1c17d398a0d780476
     ore: 0
   populationCount: 1
   linearUpgrade: 0
