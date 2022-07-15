@@ -136,23 +136,24 @@ public class HexMapCamera : MonoBehaviour
             return;
         }
 
-        Vector2 mousePosition = actualCamera.ScreenToViewportPoint(Mouse.current.position.ReadValue());
+        //todo bug: UI jitter (see discord, bug is reportet as gif in feedback-chanel at 15.07. 10PM)
+        //Vector2 mousePosition = actualCamera.ScreenToViewportPoint(Mouse.current.position.ReadValue());
 
-        if (InScreen(mousePosition) && !IsMouseOverUI())
-        {
-            if (mousePosition.x < mouseMoveBorder.x)
-                xDelta = -(1f - mousePosition.x / mouseMoveBorder.x);
-            else if (mousePosition.x > 1f - mouseMoveBorder.x)
-                xDelta = 1f - (1f - mousePosition.x) / mouseMoveBorder.x;
+        //if (InScreen(mousePosition) && !IsMouseOverUI())
+        //{
+        //    if (mousePosition.x < mouseMoveBorder.x)
+        //        xDelta = -(1f - mousePosition.x / mouseMoveBorder.x);
+        //    else if (mousePosition.x > 1f - mouseMoveBorder.x)
+        //        xDelta = 1f - (1f - mousePosition.x) / mouseMoveBorder.x;
 
-            if (mousePosition.y < mouseMoveBorder.y)
-                zDelta = -(1f - mousePosition.y / mouseMoveBorder.y);
-            else if (mousePosition.y > 1f - mouseMoveBorder.y)
-                zDelta = 1f - (1f - mousePosition.y) / mouseMoveBorder.y;
+        //    if (mousePosition.y < mouseMoveBorder.y)
+        //        zDelta = -(1f - mousePosition.y / mouseMoveBorder.y);
+        //    else if (mousePosition.y > 1f - mouseMoveBorder.y)
+        //        zDelta = 1f - (1f - mousePosition.y) / mouseMoveBorder.y;
 
-            if (xDelta != 0f || zDelta != 0f)
-                AdjustPosition(xDelta, zDelta);
-        }
+        //    if (xDelta != 0f || zDelta != 0f)
+        //        AdjustPosition(xDelta, zDelta);
+        //}
     }
 
     void AdjustPosition(float xDelta, float zDelta)
