@@ -398,7 +398,7 @@ GameObject:
   - component: {fileID: 7321426153693556811}
   - component: {fileID: 7321426153693556808}
   m_Layer: 5
-  m_Name: BackButton
+  m_Name: CloseButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -452,7 +452,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c6341b3872211f1438c0fab126fd2956, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1cac6ad67a812be40a9dc13dd6ad7e36, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

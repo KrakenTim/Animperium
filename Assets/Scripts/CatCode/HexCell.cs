@@ -292,12 +292,10 @@ public class HexCell : MonoBehaviour
     public void Copy(HexCell blueprint)
     {
         TerrainTypeIndex = blueprint.TerrainTypeIndex;
-        Elevation = blueprint.Elevation;
-        WaterLevel = blueprint.WaterLevel;
 
-        DecoLevel = blueprint.DecoLevel;
-        PlantLevel = blueprint.PlantLevel;
-        SpecialIndex = blueprint.SpecialIndex;
+        Elevation = blueprint.Elevation;
+
+        WaterLevel = blueprint.WaterLevel;
     }
 
     /// <summary>

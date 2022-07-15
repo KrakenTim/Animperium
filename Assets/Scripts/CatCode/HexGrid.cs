@@ -2,7 +2,6 @@ using UnityEngine.UI;
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 public class HexGrid : MonoBehaviour
 {
@@ -32,8 +31,6 @@ public class HexGrid : MonoBehaviour
 
     public void Awake()
     {
-        Debug.Log($"[{GetType().Name}] AWAKE {gameObject.name}", this);
-
         #region Not in Tutorial
         if (underground) return;
         TempMapSaves ts = GetComponent<TempMapSaves>();
@@ -46,22 +43,6 @@ public class HexGrid : MonoBehaviour
         //		gridCanvas = GetComponentInChildren<Canvas>();
         //		hexMesh = GetComponentInChildren<HexMesh>();
         CreateMap(cellCountX, cellCountZ);
-    }
-
-    void OnEnable()
-    {
-        if (!HexMetrics.noiseSource)
-        {
-            HexMetrics.noiseSource = noiseSource;
-            HexMetrics.InitializeHashGrid(seed);
-            HexMetrics.colors = colors;
-        }
-    }
-
-    private void OnDisable()
-    {
-        if (!GameManager.InGame && !underground)
-            SaveLoadMenu.Save(Path.Combine(AI_File.PathTempMaps, AI_File.NameEditorMap), this);
     }
 
     public bool CreateMap(int x, int z)
@@ -92,6 +73,16 @@ public class HexGrid : MonoBehaviour
     //	void Start () {
     //		hexMesh.Triangulate(cells);
     //	}
+
+    void OnEnable()
+    {
+        if (!HexMetrics.noiseSource)
+        {
+            HexMetrics.noiseSource = noiseSource;
+            HexMetrics.InitializeHashGrid(seed);
+            HexMetrics.colors = colors;
+        }
+    }
 
     //	public void Refresh () {
     //		hexMesh.Triangulate(cells);
@@ -166,11 +157,7 @@ public class HexGrid : MonoBehaviour
         position = transform.InverseTransformPoint(position);
         HexCoordinates coordinates = HexCoordinates.FromPosition(position);
         int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
-
-        if (index >= 0 && index < cells.Length)
-            return cells[index];
-        return
-            null;
+        return cells[index];
     }
     /*
     public void ColorCell(Vector3 position, Color color)
@@ -317,32 +304,25 @@ public class HexGrid : MonoBehaviour
         int centerX = center.coordinates.X;
         int centerZ = center.coordinates.Z;
 
-        HexCell cell;
-
         for (int r = 0, z = centerZ - size; z <= centerZ; z++, r++)
         {
             for (int x = centerX - r; x <= centerX + size; x++)
             {
-
-                cell = GetCell(new HexCoordinates(x, z));
-
-                if (cell != null)
-                    neighbourCells.Add(cell);
+                neighbourCells.Add(GetCell(new HexCoordinates(x, z)));
             }
         }
         for (int r = 0, z = centerZ + size; z > centerZ; z--, r++)
         {
             for (int x = centerX - size; x <= centerX + r; x++)
             {
-                cell = GetCell(new HexCoordinates(x, z));
-
-                if (cell != null)
-                    neighbourCells.Add(cell);
+                neighbourCells.Add(GetCell(new HexCoordinates(x, z)));
             }
         }
 
         if (!withCenter)
             neighbourCells.Remove(center);
+
+        neighbourCells.Remove(null);
 
         return neighbourCells;
     }
@@ -383,7 +363,7 @@ public class HexGrid : MonoBehaviour
             x = reader.ReadInt32();
             z = reader.ReadInt32();
         }
-        if (x != cellCountX || z != cellCountZ || cells == null)
+        if (x != cellCountX || z != cellCountZ)
         {
             if (!CreateMap(x, z))
             {

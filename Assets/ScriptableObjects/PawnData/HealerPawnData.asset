@@ -13,11 +13,23 @@ MonoBehaviour:
   m_Name: HealerPawnData
   m_EditorClassIdentifier: 
   type: 3
+  friendlyName: Healer
   tier: 1
   pawnIcon:
     text: 
     colored: {fileID: 0}
     baseIcon: {fileID: 0}
+<<<<<<< HEAD
+  maxHealth: 70
+  maxMovement: 4
+  attackPower: 24
+  attackRange: 1
+  viewRange: 3
+  specialPower: 27
+  resourceCosts:
+    food: 16
+    wood: 3
+=======
   maxHealth: 60
   maxMovement: 4
   attackPower: 20
@@ -27,6 +39,7 @@ MonoBehaviour:
   resourceCosts:
     food: 25
     wood: 5
+>>>>>>> b272788188e9d69110b46e4d77eb13e7546db68e
     ore: 0
   populationCount: 1
   linearUpgrade: 0

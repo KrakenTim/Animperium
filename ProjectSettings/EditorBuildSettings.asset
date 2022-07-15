@@ -17,8 +17,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/NormanMapGeneration.unity
     guid: 244fb3bc8e731b543a88b083fe948fe3
-  - enabled: 1
-    path: Assets/Scenes/MapGeneration.unity
-    guid: 55d2f4b94883125458bbcb293509c8c9
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 8057ae8510192394f8846e8c6fe1a964, type: 2}
