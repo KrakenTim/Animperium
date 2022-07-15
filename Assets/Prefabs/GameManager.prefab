@@ -179,7 +179,7 @@ MonoBehaviour:
     playerResources:
       food: 100
       wood: 100
-      ore: 100
+      ore: 0
     ownedPawns: []
     name: 
   - playerID: 2
@@ -193,7 +193,7 @@ MonoBehaviour:
     playerResources:
       food: 100
       wood: 100
-      ore: 100
+      ore: 0
     ownedPawns: []
     name: 
 --- !u!114 &3666991950448948645
