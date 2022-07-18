@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,6 +12,8 @@ public class MainMenu : MonoBehaviour
     public const bool MESSE_VERSION = true;
 
     public AudioSource ButtonSound;
+
+    [SerializeField] PersistingMatchData currentMatchData;
 
     private void Awake()
     {
@@ -44,6 +47,11 @@ public class MainMenu : MonoBehaviour
 
     public void OpenMapEditor()
     {
+        currentMatchData.MapPath = Path.Combine(AI_File.PathTempMaps, AI_File.NameEditorMap);
+
+        if (!currentMatchData.IsMapPathValid)
+            currentMatchData.MapPath = null;
+
         if (LoadingScreen.instance)
             LoadingScreen.instance.LoadScene(AI_Scene.SCENENAME_MapEditor);
         else
