@@ -1,6 +1,10 @@
 using UnityEngine.InputSystem;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using System.Collections.Generic;
+using UnityEngine.InputSystem.UI;
 
 public class HexMapCamera : MonoBehaviour
 {
@@ -37,6 +41,15 @@ public class HexMapCamera : MonoBehaviour
     public HexGrid usedGrid;
 
     static HexMapCamera instance;
+    public static HexMapCamera Instance { get { return instance; } }
+
+    public UnityEvent<HexGridLayer> OnSwapToGrid = new UnityEvent<HexGridLayer>();
+
+    [SerializeField] Vector2 mouseMoveBorder = new Vector2(0.025f, 0.05f);
+
+    private Camera actualCamera;
+
+    int UILayer;
 
     public static bool Locked
     {
@@ -53,6 +66,17 @@ public class HexMapCamera : MonoBehaviour
 
     void Awake()
     {
+        UILayer = LayerMask.NameToLayer("UI");
+
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+
         swivel = transform.GetChild(0);
         stick = swivel.GetChild(0);
     }
@@ -60,6 +84,8 @@ public class HexMapCamera : MonoBehaviour
     {
         if (usedGrid == null)
             usedGrid = FindObjectOfType<HexGrid>();
+
+        actualCamera = stick.GetComponentInChildren<Camera>();
     }
 
     void OnEnable()
@@ -75,6 +101,7 @@ public class HexMapCamera : MonoBehaviour
 
     void Update()
     {
+        if (!Application.isFocused) return;
 
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
             SwapUsedGrid();
@@ -93,12 +120,40 @@ public class HexMapCamera : MonoBehaviour
             AdjustRotation(rotationDelta);
         }
 
+        UpdateMovement();
+    }
+
+    /// <summary>
+    /// reads keyboard and mouse input and position to decide if the camera should be moved.
+    /// </summary>
+    private void UpdateMovement()
+    {
         float xDelta = Input.GetAxis("Horizontal"); // Altes system
         float zDelta = Input.GetAxis("Vertical"); // Altes system
         if (xDelta != 0f || zDelta != 0f)
         {
             AdjustPosition(xDelta, zDelta);
+            return;
         }
+
+        //todo bug: UI jitter (see discord, bug is reportet as gif in feedback-chanel at 15.07. 10PM)
+        //Vector2 mousePosition = actualCamera.ScreenToViewportPoint(Mouse.current.position.ReadValue());
+
+        //if (InScreen(mousePosition) && !IsMouseOverUI())
+        //{
+        //    if (mousePosition.x < mouseMoveBorder.x)
+        //        xDelta = -(1f - mousePosition.x / mouseMoveBorder.x);
+        //    else if (mousePosition.x > 1f - mouseMoveBorder.x)
+        //        xDelta = 1f - (1f - mousePosition.x) / mouseMoveBorder.x;
+
+        //    if (mousePosition.y < mouseMoveBorder.y)
+        //        zDelta = -(1f - mousePosition.y / mouseMoveBorder.y);
+        //    else if (mousePosition.y > 1f - mouseMoveBorder.y)
+        //        zDelta = 1f - (1f - mousePosition.y) / mouseMoveBorder.y;
+
+        //    if (xDelta != 0f || zDelta != 0f)
+        //        AdjustPosition(xDelta, zDelta);
+        //}
     }
 
     void AdjustPosition(float xDelta, float zDelta)
@@ -185,6 +240,8 @@ public class HexMapCamera : MonoBehaviour
 
     public static void SwapUsedGrid()
     {
+        if (!GameManager.InGame) return;
+
         if (instance.usedGrid == HexGridManager.Current.Surface)
             SwapToUnderGround();
         else if (instance.usedGrid == HexGridManager.Current.Underground)
@@ -203,6 +260,7 @@ public class HexMapCamera : MonoBehaviour
     {
         if (instance.usedGrid == HexGridManager.Current.Surface) return;
 
+        Instance.OnSwapToGrid.Invoke(HexGridLayer.Surface);
         instance.usedGridLayer = HexGridLayer.Surface;
         instance.SwapToGrid(HexGridManager.Current.Surface);
     }
@@ -211,6 +269,7 @@ public class HexMapCamera : MonoBehaviour
     {
         if (instance.usedGrid == HexGridManager.Current.Underground) return;
 
+        Instance.OnSwapToGrid.Invoke(HexGridLayer.Underground);
         instance.usedGridLayer = HexGridLayer.Underground;
         instance.SwapToGrid(HexGridManager.Current.Underground);
     }
@@ -258,5 +317,25 @@ public class HexMapCamera : MonoBehaviour
     {
         if (instance)
             instance.AdjustPosition(0f, 0f);
+    }
+
+    /// <summary>
+    /// returns true if the given viewport position is in the screen
+    /// </summary>
+    public static bool InScreen(Vector2 viewportPosition)
+    {
+        return viewportPosition.x >= 0f && viewportPosition.x <= 1f && viewportPosition.y >= 0f && viewportPosition.y <= 1f;
+    }
+
+    /// <summary>
+    /// Since Eventsystem returns false positives on IsPointerOverGameObject()
+    /// </summary>
+    private bool IsMouseOverUI()
+    {
+        if (EventSystem.current == null)
+            return false;
+
+        RaycastResult lastRaycastResult = ((InputSystemUIInputModule)EventSystem.current.currentInputModule).GetLastRaycastResult(Mouse.current.deviceId);
+        return lastRaycastResult.gameObject != null && lastRaycastResult.gameObject.layer == UILayer;
     }
 }

@@ -18,11 +18,12 @@ public class ServerConnection : MonoBehaviour
     public UnityEvent<string, string> ReceivedCommandEvent = new UnityEvent<string, string>();
     public UnityEvent<string> RoomCreatedEvent = new UnityEvent<string>();
     public UnityEvent<string> RoomJoinedEvent = new UnityEvent<string>();
-    public UnityEvent<byte[]> ReceivedMapDataEvent = new UnityEvent<byte[]>();
+    //public UnityEvent<byte[]> ReceivedMapDataEvent = new UnityEvent<byte[]>();
+    public UnityEvent<string> ReceivedMapDataEvent = new UnityEvent<string>();
 
     private TcpClient tcpClient;
     private NetworkStream networktStream;    
-    private byte[] streamDataBuffer = new byte[2048];
+    private byte[] streamDataBuffer = new byte[8192];
     private Thread heartbeatThread;
     private int heartbeatTick = 0;
     private int heartbeatIntervall = 3000; //in milliseconds
@@ -78,7 +79,7 @@ public class ServerConnection : MonoBehaviour
     {
         while (true)
         {
-            streamDataBuffer = new Byte[2048];
+            streamDataBuffer = new Byte[8192];
             string receivedData = "";
             try
             {
@@ -102,15 +103,15 @@ public class ServerConnection : MonoBehaviour
                         {
                             Debug.Log("Received command: " + receivedCommands[i]);
                         }
-                        if (splittedData[0] == "MAPDATA")
-                        {
-                            Debug.Log("Received MAPDATA");
-                            InterpretMapData(streamDataBuffer);
-                        }
-                        else
-                        {
+                        //if (splittedData[0] == "MAPDATA")
+                        //{
+                        //    Debug.Log("Received MAPDATA");
+                        //    InterpretMapData(streamDataBuffer);
+                        //}
+                        //else
+                        //{
                             InterpretMessage(splittedData);
-                        }
+                        //}
                     }
 
                     //if (splittedMessage.Length == 1)
@@ -155,6 +156,9 @@ public class ServerConnection : MonoBehaviour
                 break;
             case "HEARTBEAT":
                 break;
+            case "MAPDATA":
+                ReceivedMapDataEvent.Invoke(_message[1]);
+                break;
             default:
                 Console.WriteLine("Can't interpret received message!\nMessage: " + _message);
                 break;
@@ -170,7 +174,7 @@ public class ServerConnection : MonoBehaviour
         {
             mapData.Add(_bytes[i]);
         }
-        ReceivedMapDataEvent.Invoke(mapData.ToArray());
+        //ReceivedMapDataEvent.Invoke(mapData.ToArray());
     }
 
     void Heartbeat()
@@ -268,9 +272,15 @@ public class ServerConnection : MonoBehaviour
     {
         Send("PLAYER_INFO|" + _name);
     }
+
     public void SendMapData(byte [] _mapdata)
     {
         SendByteArray("MAPDATA|", _mapdata);
+    }
+
+    public void SendMapData(string _mapdata)
+    {
+        Send("MAPDATA|" + _mapdata);
     }
     #endregion
 

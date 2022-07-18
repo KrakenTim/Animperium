@@ -13,17 +13,23 @@ public class ResourceToken : MonoBehaviour
 
     [SerializeField] HexCell hexCell;
     public HexCell HexCell => hexCell;
-    
+
     private void Start()
     {
-        if (!GameManager.InGame) return;
+        if (!GameManager.InGame)
+        {
+            RandomRotation();
+            return;
+        }
 
         if (Type == eResourceType.NONE || amount < 1)
             Debug.LogError($"Ressource of type {type} with an amount of {amount} found!", this);
 
         if (hexCell == null)
             SetHexCell(HexGridManager.Current.GetHexCell(transform.position));
-        
+
+        RandomRotation();
+
         if (type == eResourceType.Ore)
         {
             PlayerPawn.OnPawnMoved += UpdateVisibility;
@@ -130,5 +136,19 @@ public class ResourceToken : MonoBehaviour
     private void SetVisible(bool IsVisible)
     {
         gameObject.SetActive(IsVisible);
+    }
+
+    private void RandomRotation()
+    {
+        HexCoordinates coordinates;
+        if (HexCell == null)
+            coordinates = FindObjectOfType<HexGrid>().GetHexCell(transform.position).coordinates;
+        else
+            coordinates = HexCell.coordinates;
+
+        int rotationFactor = coordinates.X * coordinates.Y * coordinates.Z + Mathf.RoundToInt(transform.position.x);
+        Vector3 angle = transform.eulerAngles;
+        angle.y = (rotationFactor % 6) * 60f;
+        transform.eulerAngles = angle;
     }
 }

@@ -25,15 +25,15 @@ MonoBehaviour:
   viewRange: 3
   specialPower: 0
   resourceCosts:
-    food: 44
-    wood: 60
+    food: 30
+    wood: 70
     ore: 0
   populationCount: 0
   linearUpgrade: 0
   learnsFight: 0
   learnsMagic: 0
   learnsDigging: 0
-  upgradesForUnlock: 6
+  upgradesForUnlock: 3
   spawnedPawn: 0
   playerPrefabs:
   - {fileID: 0}

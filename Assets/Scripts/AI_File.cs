@@ -39,6 +39,9 @@ public static class AI_File
     /// </summary>
     public static string ShortPath(string path) => path.Replace(Application.dataPath + "/", "");
 
+    public const string NameEditorMap = "MapEditorMap.map";
+    public const string NameMesseMap = "MesseMap.map";
+
     /// <summary>
     /// writes the text into a UTF8 formated file at the given path, creates directory if necessary
     /// </summary>
