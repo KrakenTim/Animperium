@@ -18,9 +18,9 @@ MonoBehaviour:
     text: 
     colored: {fileID: 0}
     baseIcon: {fileID: 0}
-  maxHealth: 200
+  maxHealth: 216
   maxMovement: 3
-  attackPower: 68
+  attackPower: 74
   attackRange: 1
   viewRange: 4
   specialPower: 0
