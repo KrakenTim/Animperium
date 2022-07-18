@@ -26,9 +26,9 @@ MonoBehaviour:
   specialPower: 0
   resourceCosts:
     food: 10
-    wood: 25
+    wood: 30
     ore: 0
-  populationCount: -2
+  populationCount: -1
   linearUpgrade: 0
   learnsFight: 0
   learnsMagic: 0
