@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,7 +43,14 @@ public class EditorMouseArea : MonoBehaviour
     {
         yield return new WaitForSeconds(1f / ticksPerSecond);
 
-        UpdatePosition();
+        try
+        {
+            UpdatePosition();
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
 
         StartCoroutine(CheckMousePosition());
     }
@@ -63,7 +71,7 @@ public class EditorMouseArea : MonoBehaviour
         if (!enforce && newCenter && newCenter == lastCell) return;
 
         HashSet<HexCell> coveredCells = hexGrid.GetNeighbours(newCenter, usedBrushSize, withCenter: true);
-        
+
         int counter = 0;
         foreach (var cell in coveredCells)
         {

@@ -17,6 +17,11 @@ public class UIList : MonoBehaviour
         scrollRectangle = GetComponentInParent<ScrollRect>();
     }
 
+    private void OnEnable()
+    {
+        StartCoroutine(ScrollDown());
+    }
+
     public virtual void AddItem(string _item)
     {
         if (_item == string.Empty)
@@ -25,7 +30,8 @@ public class UIList : MonoBehaviour
         GameObject newItem = Instantiate(ListItemPrefab, this.transform);
         newItem.GetComponent<TextMeshProUGUI>().text = _item;
 
-        StartCoroutine(ScrollDown());
+        if (gameObject.activeInHierarchy)
+            StartCoroutine(ScrollDown());
     }
 
     public void RefreshList(string _itemList)
@@ -49,7 +55,7 @@ public class UIList : MonoBehaviour
     private IEnumerator ScrollDown()
     {
         yield return new WaitForEndOfFrame();
-        
+
         if (scrollRectangle)
             scrollRectangle.verticalNormalizedPosition = 0f;
     }

@@ -11,6 +11,8 @@ public class HexGridChunk : MonoBehaviour
 
     Canvas gridCanvas;
 
+    public static event System.Action OnTriangulate;
+
     void Awake()
     {
         gridCanvas = GetComponentInChildren<Canvas>();
@@ -70,6 +72,8 @@ public class HexGridChunk : MonoBehaviour
         //		hexMesh.triangles = triangles.ToArray();
         //		hexMesh.RecalculateNormals();
         //		meshCollider.sharedMesh = hexMesh;
+
+        OnTriangulate?.Invoke();
     }
 
     void Triangulate(HexCell cell)

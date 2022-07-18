@@ -179,7 +179,7 @@ MonoBehaviour:
     playerResources:
       food: 100
       wood: 100
-      ore: 100
+      ore: 0
     ownedPawns: []
     name: 
   - playerID: 2
@@ -193,7 +193,7 @@ MonoBehaviour:
     playerResources:
       food: 100
       wood: 100
-      ore: 100
+      ore: 0
     ownedPawns: []
     name: 
 --- !u!114 &3666991950448948645
@@ -480,7 +480,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   surface: {fileID: 0}
   underground: {fileID: 0}
-  oreAmount: 10
+  oresPer100Cells: 10
   orePrefab: {fileID: 4684800368167023825, guid: 530480d3cbda6ff42bd67b887515cffb, type: 3}
 --- !u!1 &7888250785561000236
 GameObject:

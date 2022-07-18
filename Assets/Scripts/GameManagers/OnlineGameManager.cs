@@ -17,6 +17,8 @@ public class OnlineGameManager : MonoBehaviour
 
     public static bool IsOnlineGame => instance != null;
 
+    public bool IsHost => LocalPlayerID == 1;
+
     public static int LocalPlayerID { get; private set; }
 
     /// <summary>
@@ -72,16 +74,12 @@ public class OnlineGameManager : MonoBehaviour
         if (startButton)
             startButton.interactable = false;
 
-        for (int i = 0; i < instance.players.Length; i++)
-        {
-            if (instance.players[i] == NameOnServer)
-                LocalPlayerID = i;
-        }
-
         InputMessage randomKeyMessage = InputMessageGenerator.CreateRandomKeyMessage();
         SendCommand(randomKeyMessage.ToString());
 
-        ServerConnection.Instance.SendMapData(File.ReadAllBytes(matchData.MapPath));
+        Debug.Log($"[{GetType().Name}] Sending map as byte[] with length {File.ReadAllBytes(matchData.MapPath).Length}.\n", this);
+
+        ServerConnection.Instance.SendMapData(Convert.ToBase64String(File.ReadAllBytes(matchData.MapPath)));
     }
 
     public static void PrepareGame()
@@ -121,13 +119,33 @@ public class OnlineGameManager : MonoBehaviour
         }
     }
 
-    private void CreateTemporaryMap(byte[] mapData)
-    {
-        string mapPath = Path.Combine(AI_File.PathTempMaps, "OnlineMap.map");
+    //private void CreateTemporaryMap(byte[] mapData)
+    //{
+    //    Debug.Log($"[{ GetType().Name}] Receiving map as byte[] with length {mapData.Length}.\n", this);
+
+    //    string mapPath = Path.Combine(AI_File.PathTempMaps, "OnlineMap.map");
         
-        File.WriteAllBytes(mapPath,mapData);
+    //    File.WriteAllBytes(mapPath,mapData);
+
+    //    matchData.MapPath = mapPath;
+
+    //    if (!IsHost) return;
+
+    //    InputMessage startGameMessage = InputMessageGenerator.CreateBasicMessage(ePlayeractionType.StartGame);
+    //    SendCommand(startGameMessage.ToString());
+    //}
+
+    private void CreateTemporaryMap(string mapData)
+    {
+        //Debug.Log($"[{ GetType().Name}] Receiving map as byte[] with length {mapData.Length}.\n", this);
+
+        string mapPath = Path.Combine(AI_File.PathTempMaps, "OnlineMap.map");
+
+        File.WriteAllBytes(mapPath, Convert.FromBase64String(mapData));
 
         matchData.MapPath = mapPath;
+
+        // if (!IsHost) return;
 
         InputMessage startGameMessage = InputMessageGenerator.CreateBasicMessage(ePlayeractionType.StartGame);
         SendCommand(startGameMessage.ToString());

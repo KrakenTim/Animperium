@@ -60,7 +60,8 @@ public class PlayerValues
     /// <summary>
     /// Is called if a relevant value of a player is changed, hands over the player's ID.
     /// </summary>
-    public static System.Action<int> OnValuesChanged;
+    public static System.Action<int> OnValuesChanged; // EventHandler oder EventData nutzen??? public event EventHandler<type> ist erweiterbar
+
 
     public void GiveUp()
     {
@@ -86,13 +87,13 @@ public class PlayerValues
             {
                 units += 1;
 
-                // if there's a townhall an a unit, we didn't lose yet.
+                // if there's a townhall and a unit, we didn't lose yet.
                 if (townHall) return false;
             }
 
             if (pawn.PawnType == ePlayerPawnType.TownHall)
             {
-                // if there's a townhall an a unit, we didn't lose yet.
+                // if there's a townhall and a unit, we didn't lose yet.
                 townHall = true;
 
                 if (units > 0) return false;

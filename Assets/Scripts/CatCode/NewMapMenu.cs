@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class NewMapMenu : MonoBehaviour
 {
-    [Header("Muss Durch 5 Teilbar sein!")]
+    [Header("Muss Durch 5 Teilbar sein! 10 for Mirror Function.")]
     public int SmallLength = 20;
     public int SmallHeight = 15;
+    [Space]
     public int MediumLength = 40;
     public int MediumHeight = 30;
+    [Space]
     public int LargeLength = 80;
     public int LargeHeight = 60;
 

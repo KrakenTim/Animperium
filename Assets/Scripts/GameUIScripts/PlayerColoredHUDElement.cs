@@ -10,7 +10,10 @@ public class PlayerColoredHUDElement : MonoBehaviour
     Color originalColor;
     Image myImage;
 
-   [SerializeField] bool useActiveInsteadOfLocal = false;
+    [SerializeField] bool useActiveInsteadOfLocal = false;
+    [Space]
+    [SerializeField] Sprite[] playerIDActiveObject = new Sprite[0];
+    [SerializeField] Image changedImage;
 
     private void Awake()
     {
@@ -42,7 +45,15 @@ public class PlayerColoredHUDElement : MonoBehaviour
 
     private void UpdateColor(int playerID)
     {
-        myImage.color = Color.Lerp(originalColor, GameManager.GetPlayerColor(playerID), playerTint);
+        if (playerTint > 0)
+            myImage.color = Color.Lerp(originalColor, GameManager.GetPlayerColor(playerID), playerTint);
+
+        // TODO more elegant solution
+        if (changedImage)
+        {
+            if (playerID > 0 && playerID < playerIDActiveObject.Length && playerIDActiveObject[playerID])
+                changedImage.sprite = playerIDActiveObject[playerID];
+        }
     }
 
     private void UpdateWithLocalColor()
