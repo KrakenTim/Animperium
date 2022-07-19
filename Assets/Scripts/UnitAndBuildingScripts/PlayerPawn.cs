@@ -205,7 +205,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public void Collect(ResourceToken resource)
     {
         MoveTo(resource.HexCell);
-        CanAct = false;
+        CanAct = true;
 
         resource.Harvest();
     }
@@ -219,7 +219,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
     public void UpgradedBuilding(PlayerPawn upgradeBuilding)
     {
-        CanAct = false;
+        CanAct = true;
     }
 
     public void MoveTo(HexCell targetPosition)
