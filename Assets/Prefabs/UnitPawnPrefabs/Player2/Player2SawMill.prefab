@@ -224,3 +224,93 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3925562600982658569, guid: e09d99feabfea3047904555e75a27d70, type: 3}
   m_PrefabInstance: {fileID: 762682380759550894}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1496155883228196979 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2186214275028237277, guid: e09d99feabfea3047904555e75a27d70, type: 3}
+  m_PrefabInstance: {fileID: 762682380759550894}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5535888996279842091 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5064009862189399685, guid: e09d99feabfea3047904555e75a27d70, type: 3}
+  m_PrefabInstance: {fileID: 762682380759550894}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8544659319857984690 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8935473664414121756, guid: e09d99feabfea3047904555e75a27d70, type: 3}
+  m_PrefabInstance: {fileID: 762682380759550894}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6995128194662456151 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7747923766829879545, guid: e09d99feabfea3047904555e75a27d70, type: 3}
+  m_PrefabInstance: {fileID: 762682380759550894}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6493995687751334533 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5803689931218448683, guid: e09d99feabfea3047904555e75a27d70, type: 3}
+  m_PrefabInstance: {fileID: 762682380759550894}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5482268624778708298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1496155883228196979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40483705c219da429af280e0693384c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usedIdentifier: SawMill
+--- !u!114 &1921659926579105430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5535888996279842091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40483705c219da429af280e0693384c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usedIdentifier: SawMill
+--- !u!114 &3015298180446997236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6493995687751334533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40483705c219da429af280e0693384c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usedIdentifier: SawMill
+--- !u!114 &731203927140299381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6995128194662456151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40483705c219da429af280e0693384c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usedIdentifier: SawMill
+--- !u!114 &4716842551030538570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8544659319857984690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40483705c219da429af280e0693384c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usedIdentifier: SawMill

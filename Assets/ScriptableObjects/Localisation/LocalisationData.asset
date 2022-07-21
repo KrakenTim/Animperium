@@ -151,6 +151,9 @@ MonoBehaviour:
   - identifier: Resume
     english: Resume
     german: Weiter
+  - identifier: SawMill
+    english: Saw Mill
+    german: "S\xE4gewerk"
   - identifier: School
     english: School
     german: Schule
