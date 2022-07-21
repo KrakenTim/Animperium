@@ -26,6 +26,7 @@ public enum ePlayerPawnType
     FarmHouse = 104,
     TunnelEntry = 105,
     Wall = 106,
+    SawMill = 107,
 
     // building upgrades 150 - 199
     School2 = 150, // formerly SchoolFight Lv.2

@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
     const int FoodPerTurn = 5;
+    const int WoodPerTurn = 5;
 
     public System.Action OnValueChange;
 
@@ -299,6 +300,9 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
         if (PawnType == ePlayerPawnType.FarmHouse && GameManager.ActivePlayerID == PlayerID)
             GameManager.AddResource(eResourceType.Food, FoodPerTurn);
+
+        if (PawnType == ePlayerPawnType.SawMill && GameManager.ActivePlayerID == PlayerID)
+            GameManager.AddResource(eResourceType.Wood, WoodPerTurn);
 
     }
 
