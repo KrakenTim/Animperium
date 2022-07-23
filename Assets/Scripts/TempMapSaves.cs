@@ -49,9 +49,8 @@ public class TempMapSaves : MonoBehaviour
 
     private void OnDisable()
     {
-        if (GameManager.InGame) return;
-
-        CreateSave(onlyIfNew: true);
+        if (!GameManager.InGame)
+            CreateSave(onlyIfNew: true);
     }
 
     public void Button_SaveMap() => CreateSave();
@@ -86,9 +85,9 @@ public class TempMapSaves : MonoBehaviour
         }
 
         string logFileName = $"{autoFileNamePrefix}{DateTime.Now.ToString("yyMMdd_HHmmss")}{logFileExtension}";
-        AI_File.WriteUTF8(content, AI_File.PathTempMaps + logFileName);
+        AI_File.WriteUTF8(content, Path.Combine(AI_File.PathTempMaps, logFileName));
 
-        Debug.Log($"Created new temporary Map named {logFileName}\nAt: {AI_File.PathTempMaps + logFileName}");
+        Debug.Log($"Created new temporary Map named {logFileName}\nAt: { Path.Combine(AI_File.PathTempMaps, logFileName)}");
     }
 
     private void LoadPath(string path)
@@ -152,16 +151,34 @@ public class TempMapSaves : MonoBehaviour
     {
         HexCell[] cells = grid.GetAllCells();
 
-        for (int i = 0; i < cells.Length / 2f; i++)
-            cells[cells.Length - (1 + i)].Copy(cells[i]);
+        for (int i = 0; i < cells.Length; i++)
+        {
+            int a = i;
+            int b = cells.Length - (1 + i);
+
+            if (a > b) break;
+
+            cells[b].Copy(cells[a]);
+        }
+
+        grid.enabled = true;
     }
 
     private void MirrorUpperHalf()
     {
         HexCell[] cells = grid.GetAllCells();
 
-        for (int i = 0; i < cells.Length / 2f; i++)
-            cells[i].Copy(cells[cells.Length - (1 + i)]);
+        for (int i = 0; i < cells.Length; i++)
+        {
+            int a = i;
+            int b = cells.Length - (1 + i);
+
+            if (a > b) break;
+
+            cells[a].Copy(cells[b]);
+        }
+
+        grid.enabled = true;
     }
 
     private Dictionary<string, string> GetTempMaps()

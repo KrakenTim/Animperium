@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,6 +13,8 @@ public class MainMenu : MonoBehaviour
 
     public AudioSource ButtonSound;
 
+    [SerializeField] PersistingMatchData currentMatchData;
+
     private void Awake()
     {
         QualitySettings.vSyncCount = 1;
@@ -19,12 +22,6 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-<<<<<<< HEAD
-        //if (LoadingScreen.instance)
-        //    LoadingScreen.instance.LoadScene(AI_Scene.SCENENAME_GamePreparation);
-        //else
-            SceneManager.LoadScene(AI_Scene.SCENENAME_GamePreparation);
-=======
         if (MESSE_VERSION)
         {
             currentMatchData.MapPath = Path.Combine(AI_File.PathTempMaps, AI_File.NameMesseMap);
@@ -35,7 +32,6 @@ public class MainMenu : MonoBehaviour
 
 
         SceneManager.LoadScene(AI_Scene.SCENENAME_GamePreparation);
->>>>>>> 9da9c5fb6ed6c557a498eda1c17d398a0d780476
         Debug.Log("Game Start");
     }
 
@@ -51,6 +47,11 @@ public class MainMenu : MonoBehaviour
 
     public void OpenMapEditor()
     {
+        currentMatchData.MapPath = Path.Combine(AI_File.PathTempMaps, AI_File.NameEditorMap);
+
+        if (!currentMatchData.IsMapPathValid)
+            currentMatchData.MapPath = null;
+
         if (LoadingScreen.instance)
             LoadingScreen.instance.LoadScene(AI_Scene.SCENENAME_MapEditor);
         else

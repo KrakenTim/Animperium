@@ -270,7 +270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UIIgnoredErrors: []
-  m_Parent: {fileID: 114350483966674976}
+  m_Parent: {fileID: 0}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
   m_UICollapsed: 1
@@ -727,7 +727,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UIIgnoredErrors: []
-  m_Parent: {fileID: 114350483966674976}
+  m_Parent: {fileID: 0}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
   m_UICollapsed: 1
@@ -13748,7 +13748,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615925}
   m_ExposedName: Radius
   m_Exposed: 1
-  m_Order: 1
+  m_Order: 0
   m_Category: 
   m_Min:
     m_Type:
@@ -13828,7 +13828,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615927}
   m_ExposedName: Wing Animation Speed
   m_Exposed: 1
-  m_Order: 2
+  m_Order: 0
   m_Category: 
   m_Min:
     m_Type:
@@ -14052,7 +14052,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"9a64863a6f25d714683adc9d68a4a7c0","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"43b14577d735f6647a5670bbca90c63f","type":3}}'
     m_Space: 2147483647
   m_Property:
     name: baseColorMap
@@ -15140,7 +15140,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"9a64863a6f25d714683adc9d68a4a7c0","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"43b14577d735f6647a5670bbca90c63f","type":3}}'
     m_Space: 2147483647
   m_Property:
     name: baseColorMap

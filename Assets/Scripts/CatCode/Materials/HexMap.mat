@@ -22,7 +22,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: HexMap
   m_Shader: {fileID: -6465566751694194690, guid: b819da2d045b9044ba10c1112836b0ff, type: 3}
-  m_ShaderKeywords: _DISABLE_SSR_TRANSPARENT
+  m_ShaderKeywords: _DISABLE_SSR_TRANSPARENT _NORMALMAP_TANGENT_SPACE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -94,18 +94,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SampleTexture2DArray_b4a796b7402a4da191ce424093dca4d2_TextureArray_1:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2DArray_be952cf272fa411fa2bfe61791f19080_TextureArray_1:
-        m_Texture: {fileID: 18700000, guid: 6c44d2e0f8c966f48916216bebb4d268, type: 2}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_a2d12711778a489083e841d8e0c0d04d_Texture_1:
-        m_Texture: {fileID: 2800000, guid: b5fff21e792c9474dad934553b5dd2ee, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _SpecularColorMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -130,10 +118,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Triplanar_d3cd09fca2ed4b43afbdcdaf83e78cdb_Texture_1:
-        m_Texture: {fileID: 2800000, guid: 958c5996f95210545be4b07ded0de272, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -147,8 +131,6 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_405f091a69a64b9a8efbbd3592e0ff8a: 0.05
-    - Vector1_cf564a77c8134cfa9d407d9e3ef0a4f7: 0.02
     - _AORemapMax: 1
     - _AORemapMin: 0
     - _ATDistance: 1
@@ -263,7 +245,6 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_9e25a2129461405d9473c89cb75cae50: {r: 0, g: 0, b: 0, a: 0}
-    - Vector3_1d08568aa7f043bfa5d241ce3976b6e3: {r: 1, g: 1, b: 1, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
