@@ -24,7 +24,7 @@ public static class PawnUpgradeController
 
         PlayerPawn newPawn = GameManager.PlaceNewPawn(newUnitData, position, upgradedUnit.PlayerID);
 
-        newPawn.Initialize(upgradedUnit.PlayerID, newUnitData.maxHealth - (upgradedUnit.PawnData.maxHealth - upgradedUnit.HP), upgradedUnit.MP, false);
+        newPawn.Initialize(upgradedUnit.PlayerID, newUnitData.maxHealth - (upgradedUnit.PawnData.maxHealth - upgradedUnit.HP), newUnitData.maxMovement-(upgradedUnit.MaxMovement- upgradedUnit.MP), true);
         newPawn.RotationY = oldRotation;
         resultingCosts = upgradeCost;
 
