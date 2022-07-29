@@ -22,12 +22,21 @@ MonoBehaviour:
   - identifier: Backlog
     english: Backlog
     german: Aktionslog
+  - identifier: Biomes
+    english: Biomes
+    german: Biome
   - identifier: Blaster
     english: Grenadier
     german: Grenadier
   - identifier: BlasterTooltip
     english: Fights with explosives. Especially effecting against buildings.
     german: <BlasterTooltip_de>
+  - identifier: Brush
+    english: Bush
+    german: Pinsel
+  - identifier: BrushSize
+    english: Brush Size
+    german: "Pinsel Gr\xF6\xDFe"
   - identifier: Buildings
     english: Buildings
     german: "Geb\xE4ude"
@@ -52,6 +61,9 @@ MonoBehaviour:
   - identifier: EndTurn
     english: End Turn
     german: Zug beenden
+  - identifier: Eraser
+    english: Eraser
+    german: Radierer
   - identifier: FarmHouse
     english: Wind Mill
     german: "Windm\xFChle"
@@ -64,6 +76,9 @@ MonoBehaviour:
   - identifier: Fullscreen
     english: Fullscreen
     german: Vollbild
+  - identifier: Functions
+    english: Functions
+    german: Funktionen
   - identifier: Healer
     english: Healer
     german: Heiler
@@ -73,6 +88,9 @@ MonoBehaviour:
   - identifier: Health
     english: Health
     german: Leben
+  - identifier: Height
+    english: Height
+    german: "H\xF6he"
   - identifier: Help
     english: Help
     german: Hilfe
@@ -82,6 +100,9 @@ MonoBehaviour:
   - identifier: Loading
     english: Loading...
     german: "L\xE4dt..."
+  - identifier: LoadMap
+    english: Load Map
+    german: Karte Laden
   - identifier: LobbyList
     english: Lobby List
     german: Lobby Liste
@@ -91,12 +112,21 @@ MonoBehaviour:
   - identifier: MainMenu
     english: Main Menu
     german: "Hauptmen\xFC"
+  - identifier: Map
+    english: Map
+    german: Karte
   - identifier: MapEditor
     english: Open Map Editor
     german: Karte erstellen
   - identifier: MasterVolume
     english: Master Volume
     german: "Gesamtlautst\xE4rke"
+  - identifier: MirrorLowerHalf
+    english: Mirror Lower Half
+    german: "Untere H\xE4lfte Spiegeln"
+  - identifier: MirrorUpperHalf
+    english: Mirror Upper Half
+    german: "Obere H\xE4lfte Spiegeln"
   - identifier: Movement
     english: Movement
     german: Bewegung
@@ -106,6 +136,9 @@ MonoBehaviour:
   - identifier: NameEntryField
     english: Name...
     german: Name...
+  - identifier: NewMap
+    english: New Map
+    german: Neue Karte
   - identifier: No
     english: No
     german: Nein
@@ -148,9 +181,18 @@ MonoBehaviour:
   - identifier: ReallySurrender
     english: Do you really want to surrender and go back to main menu?
     german: "Willst du wirklich aufgeben und ins Startmen\xFC zur\xFCckkehren?"
+  - identifier: Resources
+    english: Resources
+    german: Ressourcen
   - identifier: Resume
     english: Resume
     german: Weiter
+  - identifier: SaveMap
+    english: Save Map
+    german: Karte Speichern
+  - identifier: SawMill
+    english: Saw Mill
+    german: "S\xE4gewerk"
   - identifier: School
     english: School
     german: Schule
@@ -194,6 +236,9 @@ MonoBehaviour:
   - identifier: TownHall
     english: Town Hall
     german: Rathaus
+  - identifier: Townhalls
+    english: Townhalls
+    german: "Rath\xE4user"
   - identifier: TownHallTooltip
     english: First Home of Workers. Lose it and you'll lose the game.
     german: <TownHallTooltip_de>
@@ -206,6 +251,9 @@ MonoBehaviour:
   - identifier: Underground
     english: Underground
     german: Untergrund
+  - identifier: Undo
+    english: Undo
+    german: "R\xFCckg\xE4ngig"
   - identifier: Units
     english: Units
     german: Einheiten

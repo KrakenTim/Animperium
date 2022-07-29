@@ -67,7 +67,7 @@ public class HexFeatureManager : MonoBehaviour
         }
         Transform instance = Instantiate(prefab);
         position.y += instance.localScale.y * 0.5f;
-        instance.localPosition = cell.ObjectPosition;
+        instance.localPosition = HexMetrics.Perturb(position);
         instance.localRotation = Quaternion.Euler(0f, 360f * hash.e, 0f);
         instance.SetParent(container, false);
     }

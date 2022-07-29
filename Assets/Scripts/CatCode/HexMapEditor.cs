@@ -181,6 +181,7 @@ public class HexMapEditor : MonoBehaviour
     public void SetElevation(float elevation)
     {
         activeElevation = (int)elevation;
+        applyElevation = true;
     }
     public void SetApplyElevation(bool toggle)
     {
