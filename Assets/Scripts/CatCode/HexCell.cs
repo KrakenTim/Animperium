@@ -230,6 +230,17 @@ public class HexCell : MonoBehaviour
             return transform.localPosition;
         }
     }
+
+    [SerializeField] private Vector3 ObjectPositionOffsetCorrection;
+
+    public Vector3 ObjectPosition
+    {
+        get
+        {
+            return transform.position + ObjectPositionOffsetCorrection;
+        }
+    }
+
     public HexEdgeType GetEdgeType(HexDirection direction)
     {
         return HexMetrics.GetEdgeType(elevation, neighbors[(int)direction].elevation);

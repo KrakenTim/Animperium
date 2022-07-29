@@ -75,7 +75,7 @@ public class EditorMouseArea : MonoBehaviour
         int counter = 0;
         foreach (var cell in coveredCells)
         {
-            Vector3 pos = cell.transform.position;
+            Vector3 pos = cell.ObjectPosition;
             pos.y += decalOffset;
             decals[counter].transform.position = pos;
 

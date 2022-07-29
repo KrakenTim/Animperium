@@ -255,7 +255,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public static PlayerPawn PlaceNewPawn(PlayerPawnData placedPawnData, HexCell spot, int playerID, HexCell origin = null)
     {
-        PlayerPawn newPawn = Instantiate(placedPawnData.GetPawnPrefab(playerID), spot.transform.position,
+        PlayerPawn newPawn = Instantiate(placedPawnData.GetPawnPrefab(playerID), spot.ObjectPosition,
                                          Quaternion.identity, Instance.playerValueProvider.GetPlayerPawnParent(playerID));
 
         // Pawn adds itself to the grid on the matching position.
