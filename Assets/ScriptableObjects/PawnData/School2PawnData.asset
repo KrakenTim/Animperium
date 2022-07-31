@@ -26,7 +26,7 @@ MonoBehaviour:
   specialPower: 0
   resourceCosts:
     food: 25
-    wood: 55
+    wood: 30
     ore: 0
   populationCount: 0
   linearUpgrade: 0
