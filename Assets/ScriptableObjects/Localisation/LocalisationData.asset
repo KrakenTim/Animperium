@@ -62,8 +62,8 @@ MonoBehaviour:
     english: End Turn
     german: Zug beenden
   - identifier: Eraser
-    english: Eraser
-    german: Radierer
+    english: Erase Objects
+    german: Objekte Entfernen
   - identifier: FarmHouse
     english: Wind Mill
     german: "Windm\xFChle"

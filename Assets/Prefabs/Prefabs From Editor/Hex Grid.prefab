@@ -49,14 +49,14 @@ MonoBehaviour:
   cellCountZ: 15
   seed: 0
   colors:
-  - {r: 0.18195976, g: 0.8207547, b: 0.26515168, a: 1}
-  - {r: 0.8980392, g: 0.14097765, b: 0.054901943, a: 1}
-  - {r: 1, g: 0.73973227, b: 0, a: 1}
-  - {r: 0, g: 0.6791749, b: 1, a: 1}
-  - {r: 0.6226415, g: 0.2834986, b: 0.1321645, a: 1}
-  - {r: 0.5660378, g: 0.5641795, b: 0.5633678, a: 1}
-  - {r: 0.9528302, g: 0.9528302, b: 0.9528302, a: 1}
-  - {r: 0.17292362, g: 0.5471698, b: 0.07484871, a: 1}
+  - {r: 0, g: 0.54901963, b: 0, a: 1}
+  - {r: 0.82745105, g: 0.7058824, b: 0, a: 1}
+  - {r: 0.18823531, g: 0.07058824, b: 0, a: 1}
+  - {r: 0, g: 0.20392159, b: 0, a: 1}
+  - {r: 0, g: 0.18823531, b: 0, a: 1}
+  - {r: 0, g: 0.54901963, b: 0, a: 1}
+  - {r: 0, g: 0.54901963, b: 0, a: 1}
+  - {r: 0.43529412, g: 0.39215687, b: 0.36078432, a: 1}
   touchedColor: {r: 0.22841759, g: 0.6840788, b: 0.8207547, a: 1}
   cellPrefab: {fileID: 2558602782816838016, guid: 78afd61948726be40bc9a2d96ae829bf, type: 3}
   cellLabelPrefab: {fileID: 8258263730086729817, guid: 0c923b3976c68dc4ea2eebb21550f802, type: 3}
@@ -78,5 +78,4 @@ MonoBehaviour:
   currentMatchData: {fileID: 11400000, guid: dbd21c4c8d084fd49bfabc086c8a7ef2, type: 2}
   loadPathOnAwake: 1
   loadTempMapOnAwake: 1
-  path: 
   loadMap: "2\t2\n1\t2\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n2\t0\n1\t2\n2\t0\n2\t0\n1\t2\n1\t2\n2\t0\n2\t0\n1\t2\n1\t2\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n3\t0\n3\t0\n3\t0\n2\t0\n3\t0\n3\t0\n3\t0\n3\t0\n3\t0\n3\t0\n3\t0\n3\t0\n3\t0\n2\t0\n3\t0\n3\t0\n3\t0\n3\t0\n4\t4\n4\t4\n3\t0\n3\t0\n3\t0\n3\t0\n4\t4\n4\t4\n3\t0\n4\t4\n4\t4\n4\t4\n4\t4\n3\t0\n3\t0\n3\t0\n4\t4\n4\t4\n4\t4\n4\t4\n4\t4\n5\t4\n4\t4\n4\t4\n4\t4\n4\t4\n4\t4\n4\t4\n4\t4\n4\t4\n5\t4\n5\t4\n4\t4\n4\t4\n4\t4\n4\t4"
