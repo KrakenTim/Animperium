@@ -9,6 +9,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 {
     const int FoodPerTurn = 5;
     const int WoodPerTurn = 5;
+    const string PawnAnimationAttacking = "Attacking";
+    const string PawnAnimationDefeated = "Defeated";
 
     public System.Action OnValueChange;
 
@@ -18,6 +20,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public static event System.Action<PlayerPawn, HexCell, HexCell> OnPawnMoved;
 
     [SerializeField] PlayerPawnData pawnData;
+    [SerializeField] Animator animator;
     public PlayerPawnData PawnData => pawnData;
     public ePlayerPawnType PawnType => pawnData.type;
     public int MaxHealth => pawnData.maxHealth;
@@ -200,6 +203,11 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         else
             victim.Damaged(this, AttackPower);
 
+        if (animator)
+        {
+            animator.SetTrigger(PawnAnimationAttacking);
+        }
+
         CanAct = false;
     }
 
@@ -261,9 +269,21 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
         if (currentHealth <= 0)
         {
+            if (animator)
+            {
+                animator.SetTrigger(PawnAnimationDefeated);
+            }
+
+            Collider[] colliders = gameObject.GetComponentsInChildren<Collider>();
+
+            foreach (Collider collider in colliders)
+            {
+                collider.enabled = false;
+            }
+
             FeedbackManager.PlayPawnDestroyed(this);
 
-            GameManager.RemovePlayerPawn(this);
+            GameManager.RemovePlayerPawn(this, waitBeforeDestroy : true);
         }
         else
         {

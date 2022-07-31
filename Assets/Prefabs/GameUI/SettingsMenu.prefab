@@ -132,12 +132,6 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: German
       m_Image: {fileID: 0}
-    - m_Text: Polish
-      m_Image: {fileID: 0}
-    - m_Text: Spanish
-      m_Image: {fileID: 0}
-    - m_Text: Italian
-      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
