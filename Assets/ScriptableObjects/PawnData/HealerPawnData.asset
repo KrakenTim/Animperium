@@ -23,7 +23,7 @@ MonoBehaviour:
   attackPower: 20
   attackRange: 1
   viewRange: 4
-  specialPower: 24
+  specialPower: 25
   resourceCosts:
     food: 25
     wood: 5

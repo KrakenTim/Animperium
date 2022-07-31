@@ -28,8 +28,39 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 9184171445523752507}
+  - {fileID: 2004831244383344283}
   m_Father: {fileID: 7888250785865957958}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7788984628804133185
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2004831244383344283}
+  m_Layer: 0
+  m_Name: HexCellDecals
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2004831244383344283
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7788984628804133185}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7206047196898258010}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7888250784874348199
 GameObject:
@@ -49,6 +80,7 @@ GameObject:
   - component: {fileID: 6796558578657829819}
   - component: {fileID: 7299776127649470983}
   - component: {fileID: 4510438806459560505}
+  - component: {fileID: 2206180062960858276}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -118,6 +150,7 @@ MonoBehaviour:
   selectedPawn: {fileID: 0}
   selectedHexCell: {fileID: 0}
   selectedPawnDecal: {fileID: 9184171445523752505}
+  hexcellDecalManager: {fileID: 2206180062960858276}
   decalOffset: 0.1
 --- !u!114 &7888250784874348219
 MonoBehaviour:
@@ -482,6 +515,41 @@ MonoBehaviour:
   underground: {fileID: 0}
   oresPer100Cells: 10
   orePrefab: {fileID: 4684800368167023825, guid: 530480d3cbda6ff42bd67b887515cffb, type: 3}
+--- !u!114 &2206180062960858276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7888250784874348199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6686762db7553244984806a8cb3a77a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  decals:
+  - actionType: 2
+    actionDecalPrefab: {fileID: 3258602312213353362, guid: cb759c20e7d31a74e8b1406785061958, type: 3}
+  - actionType: 6
+    actionDecalPrefab: {fileID: 3258602312213353362, guid: b470f2fb006b64544b123dfcad6ee363, type: 3}
+  - actionType: 4
+    actionDecalPrefab: {fileID: 3258602312213353362, guid: b470f2fb006b64544b123dfcad6ee363, type: 3}
+  - actionType: 3
+    actionDecalPrefab: {fileID: 3258602312213353362, guid: 73dc09fb399d3ea4d836f802441bd4e3, type: 3}
+  - actionType: 10
+    actionDecalPrefab: {fileID: 3258602312213353362, guid: 8ad802a9331f2bf46b9d5742682a8a0d, type: 3}
+  - actionType: 1
+    actionDecalPrefab: {fileID: 3258602312213353362, guid: d872f0c25eda6904f997b229a557e595, type: 3}
+  - actionType: 8
+    actionDecalPrefab: {fileID: 3258602312213353362, guid: 3170738f301633245b9b57032cda3260, type: 3}
+  - actionType: 5
+    actionDecalPrefab: {fileID: 3258602312213353362, guid: 65fd84c735dd974448160e3187d1a23a, type: 3}
+  - actionType: 7
+    actionDecalPrefab: {fileID: 3258602312213353362, guid: 65fd84c735dd974448160e3187d1a23a, type: 3}
+  - actionType: 9
+    actionDecalPrefab: {fileID: 3258602312213353362, guid: d872f0c25eda6904f997b229a557e595, type: 3}
+  decalParent: {fileID: 2004831244383344283}
+  decalOffset: {x: 0, y: 0.1, z: 0}
 --- !u!1 &7888250785561000236
 GameObject:
   m_ObjectHideFlags: 0
