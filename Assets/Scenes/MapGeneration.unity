@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 4044.5137, g: 2480.9824, b: 1871.6953, a: 1}
+  m_IndirectSpecularColor: {r: 4045.249, g: 2482.1426, b: 1873.543, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4455,7 +4455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c40483705c219da429af280e0693384c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usedIdentifier: Controls
+  usedIdentifier: Functions
 --- !u!114 &599980642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8304,6 +8304,7 @@ GameObject:
   - component: {fileID: 1029483195}
   - component: {fileID: 1029483194}
   - component: {fileID: 1029483193}
+  - component: {fileID: 1029483196}
   m_Layer: 0
   m_Name: MenuButton
   m_TagString: Untagged
@@ -8374,7 +8375,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1029483194}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1029483196}
+        m_TargetAssemblyTypeName: LeaveEditor, Assembly-CSharp
+        m_MethodName: ReturnToMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1029483194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8413,6 +8426,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1029483191}
   m_CullTransparentMesh: 1
+--- !u!114 &1029483196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029483191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1136209ae42f2cc4d99fc63917cd8c71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1032879696
 GameObject:
   m_ObjectHideFlags: 0
@@ -9848,7 +9873,7 @@ PrefabInstance:
     - target: {fileID: 3742140056524107426, guid: 247db13c59166bf42bc70fe38d954528, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1227411051}
+      objectReference: {fileID: 0}
     - target: {fileID: 3742140056524107426, guid: 247db13c59166bf42bc70fe38d954528, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ReturnToMainMenu
@@ -9928,23 +9953,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3742140056524107429, guid: 247db13c59166bf42bc70fe38d954528, type: 3}
   m_PrefabInstance: {fileID: 1227411048}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1227411050 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3742140056524107428, guid: 247db13c59166bf42bc70fe38d954528, type: 3}
-  m_PrefabInstance: {fileID: 1227411048}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1227411051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1227411050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1136209ae42f2cc4d99fc63917cd8c71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1261401864
 GameObject:
   m_ObjectHideFlags: 0
