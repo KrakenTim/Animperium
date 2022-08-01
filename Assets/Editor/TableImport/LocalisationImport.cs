@@ -34,7 +34,7 @@ public static class LocalisationImport
 
         localisationData.UpdateList(CreateLocalisationList(table, NAME_LocalisationTable));
 
-        Debug.Log($"LocalisationImport\t{NAME_LocalisationTable} import finished.\n");
+        Debug.Log($"LocalisationImport\t{NAME_LocalisationTable} import finished.\n",localisationData);
     }
 
     /// <summary>

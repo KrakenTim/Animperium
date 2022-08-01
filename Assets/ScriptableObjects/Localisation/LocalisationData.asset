@@ -271,7 +271,7 @@ MonoBehaviour:
     german: "Nahk\xE4mpfer."
   - identifier: Terrain
     english: Terrain
-    german: Terarin
+    german: Terrain
   - identifier: TerrainHeight
     english: Terrain Height
     german: "Terrainh\xF6he"
