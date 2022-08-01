@@ -550,6 +550,7 @@ MonoBehaviour:
     actionDecalPrefab: {fileID: 3258602312213353362, guid: d872f0c25eda6904f997b229a557e595, type: 3}
   decalParent: {fileID: 2004831244383344283}
   decalOffset: {x: 0, y: 0.1, z: 0}
+  rotationOffset: 30
 --- !u!1 &7888250785561000236
 GameObject:
   m_ObjectHideFlags: 0
