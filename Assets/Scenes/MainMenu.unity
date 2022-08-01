@@ -3636,7 +3636,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5489711774857843477, guid: 3965a017559c62042b40ff93b31c02f6, type: 3}
       propertyPath: m_text
-      value: Start Online Match
+      value: Map Editor
       objectReference: {fileID: 0}
     - target: {fileID: 5489711774857843477, guid: 3965a017559c62042b40ff93b31c02f6, type: 3}
       propertyPath: m_fontSize
@@ -4437,7 +4437,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 03a60043f485c7d489065dce2413c6c4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8767de633360c21408413b7016b374c1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

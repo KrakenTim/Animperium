@@ -2,11 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.IO;
+using TMPro;
 
 public class SaveLoadMenu : MonoBehaviour
 {
-    public Text menuLabel, actionButtonLabel;
-    public InputField nameInput;
+    public TMP_InputField nameInput;
     public RectTransform listContent;
     public SaveLoadItem itemPrefab;
     public HexGrid hexGrid;
@@ -15,16 +15,7 @@ public class SaveLoadMenu : MonoBehaviour
 
     public void Open(bool saveMode)
     {
-        this.saveMode = saveMode; if (saveMode)
-        {
-            menuLabel.text = "Save Map";
-            actionButtonLabel.text = "Save";
-        }
-        else
-        {
-            menuLabel.text = "Load Map";
-            actionButtonLabel.text = "Load";
-        }
+        this.saveMode = saveMode;
         FillList();
         gameObject.SetActive(true);
         HexMapCamera.Locked = true;
