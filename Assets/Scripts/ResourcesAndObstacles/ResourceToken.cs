@@ -60,7 +60,7 @@ public class ResourceToken : MonoBehaviour
             newCell.SetResource(this);
 
             if (hexCell)
-                transform.position = hexCell.transform.position;
+                transform.position = hexCell.ObjectPosition;
         }
     }
 

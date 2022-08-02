@@ -67,7 +67,7 @@ public class MultiplayerMenu : MonoBehaviour
     #region Server Commands
     public void JoinServer()
     {
-        if (ServerConnection.Instance.ConnectToServer())
+        if (ServerConnection.Instance.ConnectToServer() && NameInput.text != string.Empty)
         {
             OpenMenu(ServerMenu);
             ServerConnection.Instance.SendPlayerInfo(NameInput.text);

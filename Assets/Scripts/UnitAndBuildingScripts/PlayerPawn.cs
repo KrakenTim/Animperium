@@ -245,7 +245,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         OnValueChange?.Invoke();
 
         if (oldPosition.gridLayer == targetPosition.gridLayer)
-            StartCoroutine(JumpTo(oldPosition.transform.position, targetPosition.transform.position, jumpTime));
+            StartCoroutine(JumpTo(oldPosition.transform.position, targetPosition.ObjectPosition, jumpTime));
     }
 
     public void Dig(HexCell targetCell)
@@ -329,7 +329,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public void UpdatePosition()
     {
         if (hexCell)
-            transform.position = hexCell.transform.position;
+            transform.position = hexCell.ObjectPosition;
         else
             Debug.LogError("Tried to Update Position without HexCell", this);
     }

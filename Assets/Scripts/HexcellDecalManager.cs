@@ -19,6 +19,8 @@ public class HexcellDecalManager : MonoBehaviour
 
     [SerializeField] Vector3 decalOffset = new Vector3(0f, 0.1f, 0f);
 
+    [SerializeField] float rotationOffset = 30f;
+
     bool allDeactivated;
 
     private void OnEnable()
@@ -56,11 +58,11 @@ public class HexcellDecalManager : MonoBehaviour
         allDeactivated = true;
     }
 
-    private void PlaceDecals(HashSet<HexCell> cells)
+    private void PlaceDecals(HashSet<HexCell> neighbourCells)
     {
         Dictionary<ePlayeractionType, List<HexCell>> sortedCells = new Dictionary<ePlayeractionType, List<HexCell>>();
 
-        foreach (HexCell cell in cells)
+        foreach (HexCell cell in neighbourCells)
         {
             ePlayeractionType possibleAction = GameInputManager.PossibleAction(cell);
 
@@ -97,7 +99,13 @@ public class HexcellDecalManager : MonoBehaviour
 
             for (int i = 0; i < difference; i++)
             {
-                decalObjectPool[action].Add(Instantiate(decalPrefab, decalParent));
+                GameObject newDecal = Instantiate(decalPrefab, decalParent);
+
+                decalObjectPool[action].Add(newDecal);
+
+                Vector3 rotation = newDecal.transform.localEulerAngles;
+                rotation.y += rotationOffset;
+                newDecal.transform.localEulerAngles = rotation;
             }
         }
 

@@ -290,7 +290,7 @@ public class GameInputManager : MonoBehaviour
     {
         if (!selectedPawn) return;
 
-        Vector3 position = selectedPawn.HexCell.transform.position;
+        Vector3 position = selectedPawn.HexCell.ObjectPosition;
         position.y += decalOffset;
         selectedPawnDecal.transform.position = position;
 
@@ -409,30 +409,38 @@ public class GameInputManager : MonoBehaviour
 
         if (cell.HasPawn)
         {
-            if (instance.IsAttackPossible(cell.Pawn))
+            if (instance.IsPawnActionPossible(cell, instance.selectedPawn.AttackRange) && instance.IsAttackPossible(cell.Pawn))
                 return ePlayeractionType.Attack;
 
-            if (instance.IsLayerSwitchPossible(cell.Pawn, out HexCell unused))
-                return ePlayeractionType.LayerSwitch;
+            if (instance.IsPawnActionPossible(cell))
+            {
+                if (instance.IsLayerSwitchPossible(cell.Pawn, out HexCell unused))
+                    return ePlayeractionType.LayerSwitch;
 
-            if (instance.IsHealingPossible(cell.Pawn))
-                return ePlayeractionType.Heal;
+                if (instance.IsHealingPossible(cell.Pawn))
+                    return ePlayeractionType.Heal;
 
-            if (instance.IsLearningPossible(cell.Pawn))
-                return cell.Pawn.IsUnit ? ePlayeractionType.UnitUpgrade : ePlayeractionType.BuildingUpgrade;
+                if (instance.IsLearningPossible(cell.Pawn))
+                    return cell.Pawn.IsUnit ? ePlayeractionType.UnitUpgrade : ePlayeractionType.BuildingUpgrade;
+            }
+
+            return ePlayeractionType.NONE;
         }
 
-        if (instance.IsCollectPossible(cell))
-            return ePlayeractionType.Collect;
+        if (instance.IsPawnActionPossible(cell))
+        {
+            if (instance.IsCollectPossible(cell))
+                return ePlayeractionType.Collect;
 
-        if (instance.IsSpawnPossible(cell))
-            return ePlayeractionType.Spawn;
+            if (instance.IsSpawnPossible(cell))
+                return ePlayeractionType.Spawn;
 
-        if (instance.IsBuildingPossible(cell))
-            return ePlayeractionType.Build;
+            if (instance.IsBuildingPossible(cell))
+                return ePlayeractionType.Build;
 
-        if (instance.IsTunnelBuildingPossible(cell))
-            return ePlayeractionType.Build;
+            if (instance.IsTunnelBuildingPossible(cell))
+                return ePlayeractionType.Build;
+        }
 
         if (instance.IsDiggingPossible(cell))
             return ePlayeractionType.Digging;

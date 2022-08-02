@@ -231,12 +231,21 @@ public class HexCell : MonoBehaviour
             return transform.localPosition;
         }
     }
-
     public Vector3 WorldPosition
     {
         get
         {
             return transform.position;
+        }
+    }
+
+    [SerializeField] private Vector3 ObjectPositionOffsetCorrection;
+
+    public Vector3 ObjectPosition
+    {
+        get
+        {
+            return transform.position + ObjectPositionOffsetCorrection;
         }
     }
 

@@ -5,13 +5,15 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
+
 
 public class MapSelectionMenu : MonoBehaviour
 {
     [SerializeField] PersistingMatchData currentMatchData;
 
     [Space]
-    public InputField nameInput;
+    public TMP_InputField nameInput;
     public RectTransform listSelfCreatedContent;
     public RectTransform listDefaultContent;
     [Space]
@@ -107,7 +109,7 @@ public class MapSelectionMenu : MonoBehaviour
             item.mapPath = paths[i];
             item.transform.SetParent(contentTransform, false);
 
-            item.MapName = $"{item.MapName}({File.ReadAllBytes(item.mapPath).Length})";
+            item.MapName = $"{item.MapName}"; // ({File.ReadAllBytes(item.mapPath).Length})";
 
             if (i == 0) first = item;
         }

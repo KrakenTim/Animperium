@@ -60,9 +60,11 @@ public class TurnTimer : MonoBehaviour
     {
         remainingSeconds = maxSecondsPerTurn;
 
-        inGameTurn.text = GameManager.Turn.ToString();
+        if (inGameTurn)
+            inGameTurn.text = GameManager.Turn.ToString();
 
-        activePlayerIcon.SetPlayer(GameManager.ActivePlayerID);
+        if (activePlayerIcon)
+            activePlayerIcon.SetPlayer(GameManager.ActivePlayerID);
 
         enabled = true;
         secondTick = 0;

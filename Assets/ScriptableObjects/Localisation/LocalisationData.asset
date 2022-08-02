@@ -36,22 +36,37 @@ MonoBehaviour:
     german: Pinsel
   - identifier: BrushSize
     english: Brush Size
-    german: "Pinsel Gr\xF6\xDFe"
+    german: "Pinselgr\xF6\xDFe"
   - identifier: Buildings
     english: Buildings
     german: "Geb\xE4ude"
   - identifier: CanAct
     english: Can Act
     german: "Handlungsf\xE4hig"
+  - identifier: Cancel
+    english: Cancel
+    german: Abbrechen
   - identifier: CantDigThrough
     english: Can't dig through!
     german: <CantDigThrough_de>
   - identifier: Chat
     english: Chat
     german: Chat
+  - identifier: ChooseMap
+    english: Choose Map
+    german: "Karte ausw\xE4hlen"
   - identifier: Credits
     english: Credits
     german: Mitwirkende
+  - identifier: CustomMaps
+    english: Custom Maps
+    german: Eigene Karten
+  - identifier: Delete
+    english: Delete
+    german: "L\xF6schen"
+  - identifier: DeleteMap
+    english: Delete Map
+    german: "Karte L\xF6schen"
   - identifier: Digger
     english: Digger
     german: Buddler
@@ -94,9 +109,18 @@ MonoBehaviour:
   - identifier: Help
     english: Help
     german: Hilfe
+  - identifier: JoinMultiplayer
+    english: Join Multiplayer
+    german: Multiplayer beitreten
+  - identifier: LargeMap
+    english: Large (coming soon)
+    german: "Gro\xDF (coming soon)"
   - identifier: Leave
     english: Leave
     german: Verlassen
+  - identifier: Load
+    english: Load
+    german: Laden
   - identifier: Loading
     english: Loading...
     german: "L\xE4dt..."
@@ -121,6 +145,9 @@ MonoBehaviour:
   - identifier: MasterVolume
     english: Master Volume
     german: "Gesamtlautst\xE4rke"
+  - identifier: MediumMap
+    english: Medium (coming soon)
+    german: "Mittel (bald verf\xFCgbar)"
   - identifier: MirrorLowerHalf
     english: Mirror Lower Half
     german: "Untere H\xE4lfte Spiegeln"
@@ -151,9 +178,15 @@ MonoBehaviour:
   - identifier: NotEnoughUpgradesOne
     english: Need to upgrade one more unit!
     german: Eine weitere Einheit muss weitergebildet werden!
+  - identifier: OfficialMaps
+    english: Official Maps
+    german: Offizielle Karten
   - identifier: OnlineMatch
     english: Start Online Match
     german: Online
+  - identifier: OnlinePlayers
+    english: Online Players
+    german: Online Spieler
   - identifier: Ore
     english: Ore
     german: Erz
@@ -208,6 +241,9 @@ MonoBehaviour:
   - identifier: Settings
     english: Settings
     german: Einstellungen
+  - identifier: SmallMap
+    english: Small
+    german: Klein
   - identifier: Sneaker
     english: Sneaker
     german: Schleicher
@@ -233,6 +269,12 @@ MonoBehaviour:
   - identifier: SwordfighterTooltip
     english: Meele Fighter.
     german: "Nahk\xE4mpfer."
+  - identifier: Terrain
+    english: Terrain
+    german: Terrain
+  - identifier: TerrainHeight
+    english: Terrain Height
+    german: "Terrainh\xF6he"
   - identifier: TownHall
     english: Town Hall
     german: Rathaus
@@ -280,6 +322,12 @@ MonoBehaviour:
   - identifier: WarmageTooltip
     english: Fight experienced mage, throwing spells from afar.
     german: <WarmageTooltip_de>
+  - identifier: Water
+    english: Water
+    german: Wasser
+  - identifier: WaterHeight
+    english: Water Height
+    german: "Wasserh\xF6he"
   - identifier: Wood
     english: Wood
     german: Holz

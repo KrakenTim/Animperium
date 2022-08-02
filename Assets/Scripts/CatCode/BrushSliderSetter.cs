@@ -1,18 +1,22 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class BrushSliderSetter : MonoBehaviour
 {
-    [SerializeField] Slider MySlider;
+    [SerializeField] Slider slider;
+    [SerializeField] TextMeshProUGUI text;
 
     public void ValueChanged()
     {
-        HexMapEditor.Instance.SetBrushSize(MySlider.value);
+        HexMapEditor.Instance.SetBrushSize(slider.value);
+        text.text = slider.value.ToString();
     }
 
     private void SetSlider(int NewValue)
     {
-        MySlider.SetValueWithoutNotify(NewValue);
+        slider.SetValueWithoutNotify(NewValue);
+        text.text = slider.value.ToString();
     }
 
     private void OnEnable()

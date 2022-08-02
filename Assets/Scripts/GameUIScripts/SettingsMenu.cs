@@ -16,7 +16,7 @@ public class SettingsMenu : MonoBehaviour
 
     List<int> widths = new List<int>() { 1280, 1280, 1280, 1920, 2560, 3840 };
     List<int> heights = new List<int>() { 720, 800, 1024, 1080, 1440, 2160 };
-    List<eLanguage> languageList = new List<eLanguage>() { eLanguage.English, eLanguage.German, eLanguage.Polish, eLanguage.Spanish, eLanguage.Italian };
+    List<eLanguage> languageList = new List<eLanguage>() { eLanguage.English, eLanguage.German};
 
     void Start()
     {
