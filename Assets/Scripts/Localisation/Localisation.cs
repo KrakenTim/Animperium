@@ -25,13 +25,12 @@ public class Localisation : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(this);
 
-        //if (PlayerPrefs.HasKey(LANGUAGE)
-        //    && System.Enum.TryParse(PlayerPrefs.GetString(LANGUAGE), out eLanguage preferredLanguage)
-        //    && preferredLanguage != eLanguage.NONE)
-        //{
-        //    usedLanguage = preferredLanguage;
-        //}
-        usedLanguage = eLanguage.German;
+        if (PlayerPrefs.HasKey(LANGUAGE)
+            && System.Enum.TryParse(PlayerPrefs.GetString(LANGUAGE), out eLanguage preferredLanguage)
+            && preferredLanguage != eLanguage.NONE)
+        {
+            usedLanguage = preferredLanguage;
+        }
 
         localisationData.Initialise();
         SetLanguage(usedLanguage, enforce: true);

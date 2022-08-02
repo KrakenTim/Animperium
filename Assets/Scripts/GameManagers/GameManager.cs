@@ -76,28 +76,13 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Keyboard.current.enterKey.wasPressedThisFrame) EndTurn();
-
-        if (PressedSurrenderCombo())
-            PlayerResigned(ActivePlayerID);
+        if (Keyboard.current.enterKey.wasPressedThisFrame) EndTurn();        
     }
 
     private void OnDestroy()
     {
         if (Instance = this)
             Instance = null;
-    }
-
-    /// <summary>
-    /// shortcut build in for MESSE
-    /// </summary>
-    private bool PressedSurrenderCombo()
-    {
-        return MainMenu.MESSE_VERSION
-            && Keyboard.current.sKey.isPressed
-            && Keyboard.current.tKey.isPressed
-            && Keyboard.current.oKey.isPressed
-            && Keyboard.current.pKey.wasPressedThisFrame;
     }
 
     public static void EndTurn()
