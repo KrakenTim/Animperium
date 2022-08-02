@@ -131,7 +131,7 @@ MonoBehaviour:
     english: Lobby List
     german: Lobby Liste
   - identifier: LocalMatch
-    english: Start Local Match
+    english: Play
     german: Spielen
   - identifier: MainMenu
     english: Main Menu
@@ -182,7 +182,7 @@ MonoBehaviour:
     english: Official Maps
     german: Offizielle Karten
   - identifier: OnlineMatch
-    english: Start Online Match
+    english: Online
     german: Online
   - identifier: OnlinePlayers
     english: Online Players

@@ -139,7 +139,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         currentHealth = hp;
         movementPoints = mp;
         this.CanAct = canAct;
-
+        
         OnValueChange?.Invoke();
 
         if (currentHealth < MaxHealth)

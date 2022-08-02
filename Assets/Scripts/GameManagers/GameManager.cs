@@ -350,7 +350,7 @@ public class GameManager : MonoBehaviour
                 result.PopulationMax -= -pawn.PawnData.populationCount;
         }
         pawn.SetHexCell(null);
-        Destroy(pawn.gameObject, waitBeforeDestroy? 1.5f:0f);
+        Destroy(pawn.gameObject, waitBeforeDestroy? 2f:0f);
 
         Instance.CheckIfGameEnds(pawn.PlayerID);
 
