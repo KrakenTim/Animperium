@@ -675,10 +675,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 587528387}
     m_Modifications:
+    - target: {fileID: 1129719836235898894, guid: c2440d1f7239522429884f866b9122af, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129719836235898894, guid: c2440d1f7239522429884f866b9122af, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 1129719836235898895, guid: c2440d1f7239522429884f866b9122af, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9b7bcefe07af29340886be5acf0d74b5, type: 3}
+      objectReference: {fileID: 21300000, guid: 4ba61171797d4f14b924343e8db20684, type: 3}
     - target: {fileID: 1129719836795408444, guid: c2440d1f7239522429884f866b9122af, type: 3}
       propertyPath: m_Name
       value: MenuButton
@@ -1064,7 +1072,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 1
+  m_MatchWidthOrHeight: 0.2
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -1217,7 +1225,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 549987538}
   m_HandleRect: {fileID: 549987537}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2919,10 +2927,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 878192412}
     m_Modifications:
+    - target: {fileID: 1129719836235898894, guid: c2440d1f7239522429884f866b9122af, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129719836235898894, guid: c2440d1f7239522429884f866b9122af, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 1129719836235898895, guid: c2440d1f7239522429884f866b9122af, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9b7bcefe07af29340886be5acf0d74b5, type: 3}
+      objectReference: {fileID: 21300000, guid: 4ba61171797d4f14b924343e8db20684, type: 3}
     - target: {fileID: 1129719836795408444, guid: c2440d1f7239522429884f866b9122af, type: 3}
       propertyPath: m_Name
       value: MenuButton
@@ -3557,7 +3573,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 387128547}
   m_HandleRect: {fileID: 387128546}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -3687,10 +3703,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1133998741}
     m_Modifications:
+    - target: {fileID: 1129719836235898894, guid: c2440d1f7239522429884f866b9122af, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129719836235898894, guid: c2440d1f7239522429884f866b9122af, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 1129719836235898895, guid: c2440d1f7239522429884f866b9122af, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: b8de26025bc11ff47ac544be400fda85, type: 3}
+      objectReference: {fileID: 21300000, guid: 4ba61171797d4f14b924343e8db20684, type: 3}
     - target: {fileID: 1129719836795408444, guid: c2440d1f7239522429884f866b9122af, type: 3}
       propertyPath: m_Name
       value: IconButton
@@ -4953,6 +4977,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 791641890511213550, guid: 89ffb249ad6a2ca46826d97fa7b9c49f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 791641890511213550, guid: 89ffb249ad6a2ca46826d97fa7b9c49f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 791641890511213550, guid: 89ffb249ad6a2ca46826d97fa7b9c49f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 791641890511213550, guid: 89ffb249ad6a2ca46826d97fa7b9c49f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 791641890511213550, guid: 89ffb249ad6a2ca46826d97fa7b9c49f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1590218966532700124, guid: 89ffb249ad6a2ca46826d97fa7b9c49f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -5746,7 +5790,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 706845874}
   m_HandleRect: {fileID: 706845873}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -6204,7 +6248,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 445275516}
   m_HandleRect: {fileID: 445275515}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

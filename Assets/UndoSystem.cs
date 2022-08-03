@@ -36,7 +36,7 @@ public class UndoSystem : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(alternativeGoBackKey) || Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.LeftControl))
+        if ((Input.GetKeyDown(alternativeGoBackKey) && !SaveLoadMenu.menuOpen) || Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.LeftControl))
             Undo();
     }
 

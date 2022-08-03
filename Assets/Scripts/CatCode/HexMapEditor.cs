@@ -137,6 +137,7 @@ public class HexMapEditor : MonoBehaviour
             }
 
             cell.Elevation += terrainLevelIncrement;
+            cell.Elevation = Mathf.Max(0, cell.Elevation);
 
             if (applySpecialIndex)
             {
