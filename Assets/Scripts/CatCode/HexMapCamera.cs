@@ -86,6 +86,8 @@ public class HexMapCamera : MonoBehaviour
             usedGrid = FindObjectOfType<HexGrid>();
 
         actualCamera = stick.GetComponentInChildren<Camera>();
+
+        AdjustZoom(0);
     }
 
     void OnEnable()
