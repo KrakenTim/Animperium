@@ -6,6 +6,8 @@ using TMPro;
 
 public class SaveLoadMenu : MonoBehaviour
 {
+    public static bool menuOpen { get; private set; }
+
     public TMP_InputField nameInput;
     public RectTransform listContent;
     public SaveLoadItem itemPrefab;
@@ -17,15 +19,19 @@ public class SaveLoadMenu : MonoBehaviour
     {
         this.saveMode = saveMode;
         FillList();
+
         gameObject.SetActive(true);
         HexMapCamera.Locked = true;
+        menuOpen = true;
     }
 
     public void Close()
     {
         gameObject.SetActive(false);
         HexMapCamera.Locked = false;
+        menuOpen = false;
     }
+
     string GetSelectedPath()
     {
         string mapName = nameInput.text;
