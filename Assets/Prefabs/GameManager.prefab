@@ -257,7 +257,7 @@ MonoBehaviour:
   attackExplosion:
     delay: 1.5
     vfxStarter: {fileID: 0}
-    sfxTarget: {fileID: 0}
+    sfxTarget: {fileID: 8300000, guid: e6ecb84bf4a4e3b44951f70eeef68d61, type: 3}
     vfxTarget: {fileID: 8007349227208271505, guid: 9c5fe913473e73e4bab914c13e861ec7, type: 3}
   build:
     delay: 0
