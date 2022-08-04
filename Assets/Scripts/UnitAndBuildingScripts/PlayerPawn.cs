@@ -9,6 +9,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 {
     const int FoodPerTurn = 5;
     const int WoodPerTurn = 5;
+    const string PawnAnimationAttacking = "Attacking";
+    const string PawnAnimationDefeated = "Defeated";
 
     public System.Action OnValueChange;
 
@@ -18,6 +20,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public static event System.Action<PlayerPawn, HexCell, HexCell> OnPawnMoved;
 
     [SerializeField] PlayerPawnData pawnData;
+    [SerializeField] Animator animator;
     public PlayerPawnData PawnData => pawnData;
     public ePlayerPawnType PawnType => pawnData.type;
     public int MaxHealth => pawnData.maxHealth;
@@ -31,6 +34,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public bool CanDig => (PawnType == ePlayerPawnType.Digger || PawnType == ePlayerPawnType.Blaster);
 
     public bool IsMagicUser => (PawnType == ePlayerPawnType.Warmage || PawnType == ePlayerPawnType.Healer);
+    public bool IsExplosionUser => (PawnType == ePlayerPawnType.Blaster);
     public bool IsBuilding => PawnType.IsBuilding();
     public bool IsUnit => PawnType.IsUnit();
 
@@ -136,7 +140,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         currentHealth = hp;
         movementPoints = mp;
         this.CanAct = canAct;
-
+        
         OnValueChange?.Invoke();
 
         if (currentHealth < MaxHealth)
@@ -200,6 +204,11 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         else
             victim.Damaged(this, AttackPower);
 
+        if (animator)
+        {
+            animator.SetTrigger(PawnAnimationAttacking);
+        }
+
         CanAct = false;
     }
 
@@ -261,9 +270,21 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
         if (currentHealth <= 0)
         {
+            if (animator)
+            {
+                animator.SetTrigger(PawnAnimationDefeated);
+            }
+
+            Collider[] colliders = gameObject.GetComponentsInChildren<Collider>();
+
+            foreach (Collider collider in colliders)
+            {
+                collider.enabled = false;
+            }
+
             FeedbackManager.PlayPawnDestroyed(this);
 
-            GameManager.RemovePlayerPawn(this);
+            GameManager.RemovePlayerPawn(this, waitBeforeDestroy : true);
         }
         else
         {
