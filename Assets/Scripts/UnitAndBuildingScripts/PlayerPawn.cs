@@ -34,6 +34,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public bool CanDig => (PawnType == ePlayerPawnType.Digger || PawnType == ePlayerPawnType.Blaster);
 
     public bool IsMagicUser => (PawnType == ePlayerPawnType.Warmage || PawnType == ePlayerPawnType.Healer);
+    public bool IsExplosionUser => (PawnType == ePlayerPawnType.Blaster);
     public bool IsBuilding => PawnType.IsBuilding();
     public bool IsUnit => PawnType.IsUnit();
 

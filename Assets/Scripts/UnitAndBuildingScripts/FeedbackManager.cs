@@ -34,6 +34,7 @@ public class FeedbackManager : MonoBehaviour
     [Header("Player Action Feedback")]
     [SerializeField] PlayeractionFeedback attackPhysical;
     [SerializeField] PlayeractionFeedback attackMagical;
+    [SerializeField] PlayeractionFeedback attackExplosion;
     [SerializeField] PlayeractionFeedback build;
     [SerializeField] PlayeractionFeedback buildingUpgrade;
     [SerializeField] PlayeractionFeedback digging;
@@ -142,6 +143,8 @@ public class FeedbackManager : MonoBehaviour
             case ePlayeractionType.Attack:
                 if (actingPawn.IsMagicUser)
                     return attackMagical;
+                if (actingPawn.IsExplosionUser)
+                    return attackExplosion;
                 else
                     return attackPhysical;
 
