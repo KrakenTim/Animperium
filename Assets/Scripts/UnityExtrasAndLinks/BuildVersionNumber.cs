@@ -105,8 +105,8 @@ public class BuildVersionNumber : MonoBehaviour
     public void OnPreprocessBuild(UnityEditor.Build.Reporting.BuildReport report)
     {
 #if UNITY_PRO_LICENSE
-        if (PlayerSettings.SplashScreen.show)
-            PlayerSettings.SplashScreen.show = false;
+        if (PlayerSettings.SplashScreen.showUnityLogo)
+            PlayerSettings.SplashScreen.showUnityLogo = false;
 #endif
         if (RemovePlayerPrefsBeforeBuild) PlayerPrefs.DeleteAll();
 
