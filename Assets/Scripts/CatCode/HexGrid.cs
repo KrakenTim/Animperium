@@ -1,19 +1,25 @@
 using UnityEngine.UI;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 public class HexGrid : MonoBehaviour
 {
-    //	public int width = 6;
-    //	public int height = 6;
+    int chunkCountX, chunkCountZ;
 
+    #region Not in Tutorial
+    [SerializeField] bool underground;
 
+    public int ChunkCountX => chunkCountX;
+    public int ChunkCountZ => chunkCountZ;
+    #endregion Not in Tutorial
 
-    int cellCountX, cellCountZ;
-    public int chunkCountX = 4, chunkCountZ = 3;
+    public int cellCountX = 20, cellCountZ = 15;
     public int seed;
 
-    public Color defaultColor = Color.white;
+    public Color[] colors;
+    //public Color defaultColor = Color.white;
     public Color touchedColor = Color.green;
     public HexCell cellPrefab;
     public Text cellLabelPrefab;
@@ -24,29 +30,23 @@ public class HexGrid : MonoBehaviour
     //	Canvas gridCanvas;
     //	HexMesh hexMesh;
 
-
-
     public void Awake()
     {
-        #region Not in Editor
-        if (GetComponent<TempMapSaves>().LoadsInsteadOfHexGrid)
-            return;
-        #endregion Not in Editor
+        Debug.Log($"[{GetType().Name}] AWAKE {gameObject.name}", this);
+
+        #region Not in Tutorial
+        if (underground) return;
+        TempMapSaves ts = GetComponent<TempMapSaves>();
+        if (ts && ts.LoadsInsteadOfHexGrid) return;
+        #endregion Not in Tutorial
+
         HexMetrics.noiseSource = noiseSource;
         HexMetrics.InitializeHashGrid(seed);
+        HexMetrics.colors = colors;
         //		gridCanvas = GetComponentInChildren<Canvas>();
         //		hexMesh = GetComponentInChildren<HexMesh>();
-
-        cellCountX = chunkCountX * HexMetrics.chunkSizeX;
-        cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
-
-        CreateChunks();
-        CreateCells();
+        CreateMap(cellCountX, cellCountZ);
     }
-
-    //	void Start () {
-    //		hexMesh.Triangulate(cells);
-    //	}
 
     void OnEnable()
     {
@@ -54,8 +54,44 @@ public class HexGrid : MonoBehaviour
         {
             HexMetrics.noiseSource = noiseSource;
             HexMetrics.InitializeHashGrid(seed);
+            HexMetrics.colors = colors;
         }
     }
+
+    private void OnDisable()
+    {
+        if (!GameManager.InGame && !underground)
+            SaveLoadMenu.Save(Path.Combine(AI_File.PathTempMaps, AI_File.NameEditorMap), this);
+    }
+
+    public bool CreateMap(int x, int z)
+    {
+        if (x <= 0 || x % HexMetrics.chunkSizeX != 0 || z <= 0 || z % HexMetrics.chunkSizeZ != 0)
+        {
+            Debug.LogError("Unsupported map size.");
+            return false;
+        }
+        if (chunks != null)
+        {
+            for (int i = 0; i < chunks.Length; i++)
+            {
+                Destroy(chunks[i].gameObject);
+            }
+        }
+        cellCountX = x;
+        cellCountZ = z;
+        chunkCountX = cellCountX / HexMetrics.chunkSizeX;
+        chunkCountZ = cellCountZ / HexMetrics.chunkSizeZ;
+
+        CreateChunks();
+        CreateCells();
+
+        return true;
+    }
+
+    //	void Start () {
+    //		hexMesh.Triangulate(cells);
+    //	}
 
     //	public void Refresh () {
     //		hexMesh.Triangulate(cells);
@@ -77,7 +113,7 @@ public class HexGrid : MonoBehaviour
         //cell.transform.SetParent(transform, false);
         cell.transform.localPosition = position;
         cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
-        cell.color = defaultColor;
+        //cell.color = defaultColor;
 
 
         if (x > 0)
@@ -130,7 +166,11 @@ public class HexGrid : MonoBehaviour
         position = transform.InverseTransformPoint(position);
         HexCoordinates coordinates = HexCoordinates.FromPosition(position);
         int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
-        return cells[index];
+
+        if (index >= 0 && index < cells.Length)
+            return cells[index];
+        return
+            null;
     }
     /*
     public void ColorCell(Vector3 position, Color color)
@@ -197,6 +237,7 @@ public class HexGrid : MonoBehaviour
             {
                 HexGridChunk chunk = chunks[i++] = Instantiate(chunkPrefab);
                 chunk.transform.SetParent(transform);
+                chunk.transform.localPosition = Vector3.zero;
             }
         }
     }
@@ -261,5 +302,102 @@ public class HexGrid : MonoBehaviour
         chunks = null;
     }
 
+    public HashSet<HexCell> GetNeighbours(HexCell center, int size, bool withCenter = false)
+    {
+        HashSet<HexCell> neighbourCells = new HashSet<HexCell>();
+
+        if (size < 1)
+        {
+            if (withCenter)
+                neighbourCells.Add(center);
+
+            return neighbourCells;
+        }
+
+        int centerX = center.coordinates.X;
+        int centerZ = center.coordinates.Z;
+
+        HexCell cell;
+
+        for (int r = 0, z = centerZ - size; z <= centerZ; z++, r++)
+        {
+            for (int x = centerX - r; x <= centerX + size; x++)
+            {
+
+                cell = GetCell(new HexCoordinates(x, z));
+
+                if (cell != null)
+                    neighbourCells.Add(cell);
+            }
+        }
+        for (int r = 0, z = centerZ + size; z > centerZ; z--, r++)
+        {
+            for (int x = centerX - size; x <= centerX + r; x++)
+            {
+                cell = GetCell(new HexCoordinates(x, z));
+
+                if (cell != null)
+                    neighbourCells.Add(cell);
+            }
+        }
+
+        if (!withCenter)
+            neighbourCells.Remove(center);
+
+        return neighbourCells;
+    }
+
+    /// <summary>
+    /// x,y is horizontal, z,w is vertical extension.
+    /// </summary>
+    public Vector4 WorldArea()
+    {
+        Vector4 area = new Vector4();
+        area.x = cells[0].transform.position.x;
+        area.z = cells[0].transform.position.z;
+
+        area.y = cells[cells.Length - 1].transform.position.x;
+        area.w = cells[cells.Length - 1].transform.position.z;
+
+        return area;
+    }
+
     #endregion Not in Tutorial
+
+
+    public void Save(BinaryWriter writer)
+    {
+        writer.Write(cellCountX);
+        writer.Write(cellCountZ);
+        for (int i = 0; i < cells.Length; i++)
+        {
+            cells[i].Save(writer);
+        }
+    }
+
+    public void Load(BinaryReader reader, int header)
+    {
+        int x = 20, z = 15;
+        if (header >= 1)
+        {
+            x = reader.ReadInt32();
+            z = reader.ReadInt32();
+        }
+        if (x != cellCountX || z != cellCountZ || cells == null)
+        {
+            if (!CreateMap(x, z))
+            {
+                return;
+            }
+        }
+
+        for (int i = 0; i < cells.Length; i++)
+        {
+            cells[i].Load(reader);
+        }
+        for (int i = 0; i < chunks.Length; i++)
+        {
+            chunks[i].Refresh();
+        }
+    }
 }

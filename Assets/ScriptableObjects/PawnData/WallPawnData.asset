@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 861953c784eefcb48b40b867d6208ef9, type: 3}
+  m_Name: WallPawnData
+  m_EditorClassIdentifier: 
+  type: 106
+  tier: 0
+  pawnIcon:
+    text: 
+    colored: {fileID: 0}
+    baseIcon: {fileID: 0}
+  maxHealth: 120
+  maxMovement: 0
+  attackPower: 0
+  attackRange: 1
+  viewRange: 0
+  specialPower: 0
+  resourceCosts:
+    food: 0
+    wood: 10
+    ore: 0
+  populationCount: 0
+  linearUpgrade: 0
+  learnsFight: 0
+  learnsMagic: 0
+  learnsDigging: 0
+  upgradesForUnlock: 0
+  spawnedPawn: 0
+  playerPrefabs:
+  - {fileID: 0}
+  - {fileID: 7044294374554152587, guid: eb46d814833c7e144a84bbe8cc011c04, type: 3}
+  - {fileID: 7044294374554152587, guid: 57a0a9df990725649ab5208c46440fa9, type: 3}

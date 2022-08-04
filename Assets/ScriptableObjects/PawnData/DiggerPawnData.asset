@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 861953c784eefcb48b40b867d6208ef9, type: 3}
+  m_Name: DiggerPawnData
+  m_EditorClassIdentifier: 
+  type: 4
+  tier: 1
+  pawnIcon:
+    text: 
+    colored: {fileID: 0}
+    baseIcon: {fileID: 0}
+  maxHealth: 52
+  maxMovement: 4
+  attackPower: 14
+  attackRange: 1
+  viewRange: 2
+  specialPower: 0
+  resourceCosts:
+    food: 23
+    wood: 3
+    ore: 0
+  populationCount: 1
+  linearUpgrade: 0
+  learnsFight: 6
+  learnsMagic: 7
+  learnsDigging: 0
+  upgradesForUnlock: 0
+  spawnedPawn: 0
+  playerPrefabs:
+  - {fileID: 0}
+  - {fileID: 7044294374554152587, guid: dc2c89ee060b59443ace39747ef55f24, type: 3}
+  - {fileID: 7044294374554152587, guid: 35906e96ca4e59946989ba81f478be8d, type: 3}

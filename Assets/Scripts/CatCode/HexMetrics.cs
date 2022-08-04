@@ -37,6 +37,8 @@ public static class HexMetrics
 
     static HexHash[] hashGrid;
 
+    public static Color[] colors;
+
     public static Texture2D noiseSource;
 
     static Vector3[] corners = {
@@ -74,6 +76,19 @@ public static class HexMetrics
         return (corners[(int)direction] + corners[(int)direction + 1]) * blendFactor;
     }
 
+    static float[][] featureThresholds = { 
+        new float[] { 0.4f, 0.6f, 0.8f },
+        new float[] { 0.2f, 0.4f, 0.8f }, 
+        new float[] { 0.2f, 0.4f, 0.6f, 0.8f }, 
+        new float[] { 0.2f, 0.4f, 0.6f, 0.8f }, 
+        new float[] { 0.2f, 0.4f, 0.6f, 0.8f }, 
+        new float[] { 0.2f, 0.6f }, 
+        new float[] { 0.8f, 0.2f } };
+
+    public static float[] GetFeatureThresholds(int level)
+    {
+        return featureThresholds[level];
+    }
 
     public static Vector3 TerraceLerp(Vector3 a, Vector3 b, int step)
     {

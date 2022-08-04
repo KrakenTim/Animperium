@@ -14,17 +14,9 @@ public class PawnStatsUI : MonoBehaviour
     [SerializeField] TMP_Text movementValue;
     [SerializeField] TMP_Text attackValue;
     [SerializeField] GameObject canAct;
-    [Space]
-    [SerializeField] Image coloredBackground;
-    [SerializeField, Range(0f, 1f)] float tintIntensity = 0.25f;
 
     private PlayerPawn myPawn;
-    private Color originalColor;
-
-    private void Awake()
-    {
-        originalColor = coloredBackground.color;
-    }
+    public PlayerPawn Pawn => myPawn;
 
     private void OnDestroy()
     {
@@ -60,10 +52,10 @@ public class PawnStatsUI : MonoBehaviour
 
         attackValue.text = myPawn.AttackPower.ToString();
 
-        if (originalColor.a == 0)
-            originalColor = coloredBackground.color;
+        //if (originalColor.a == 0)
+        //    originalColor = coloredBackground.color;
 
-        coloredBackground.color = Color.Lerp(originalColor, GameManager.GetPlayerColor(myPawn.PlayerID), tintIntensity);
+        //coloredBackground.color = Color.Lerp(originalColor, GameManager.GetPlayerColor(myPawn.PlayerID), tintIntensity);
     }
 
     /// <summary>

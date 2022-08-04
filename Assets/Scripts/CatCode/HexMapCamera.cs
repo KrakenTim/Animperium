@@ -1,18 +1,24 @@
 using UnityEngine.InputSystem;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using System.Collections.Generic;
+using UnityEngine.InputSystem.UI;
 
 public class HexMapCamera : MonoBehaviour
 {
     #region Not in tutorial
-    static HexMapCamera instance;
 
-    public static Vector3 LocalPosition => instance.transform.localPosition;
+    public static Vector3 Position => instance.transform.position;
 
     public static float RotationAngle => instance.rotationAngle;
     private const float DefaultMoveTime = 0.5f;
 
-    #endregion Not in tutorial
+    private HexGridLayer usedGridLayer;
+    public static HexGridLayer GridLayer => instance.usedGridLayer;
+
+    #endregion Not in tutorial   
 
     public float zoomSensitivity;
 
@@ -32,19 +38,62 @@ public class HexMapCamera : MonoBehaviour
     Transform swivel, stick;
 
     [Tooltip("Manual Assignment Of Grid Required")]
-    public HexGrid grid;
+    public HexGrid usedGrid;
 
+    static HexMapCamera instance;
+    public static HexMapCamera Instance { get { return instance; } }
+
+    public UnityEvent<HexGridLayer> OnSwapToGrid = new UnityEvent<HexGridLayer>();
+
+    [SerializeField] Vector2 mouseMoveBorder = new Vector2(0.025f, 0.05f);
+
+    private Camera actualCamera;
+
+    int UILayer;
+
+    public static bool Locked
+    {
+        get
+        {
+            return !instance.enabled;
+        }
+
+        set
+        {
+            instance.enabled = !value;
+        }
+    }
 
     void Awake()
     {
-        #region Not in tutorial
-        instance = this;
-        #endregion Not in tutorial
+        UILayer = LayerMask.NameToLayer("UI");
+
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
 
         swivel = transform.GetChild(0);
         stick = swivel.GetChild(0);
     }
+    private void Start()
+    {
+        if (usedGrid == null)
+            usedGrid = FindObjectOfType<HexGrid>();
 
+        actualCamera = stick.GetComponentInChildren<Camera>();
+
+        AdjustZoom(0);
+    }
+
+    void OnEnable()
+    {
+        instance = this;
+    }
     #region Not in tutorial
     private void OnDestroy()
     {
@@ -54,6 +103,13 @@ public class HexMapCamera : MonoBehaviour
 
     void Update()
     {
+        if (!Application.isFocused) return;
+
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+            SwapUsedGrid();
+        else if (Keyboard.current.nKey.wasPressedThisFrame)
+            SetRotation(0);
+
         float zoomDelta = Mouse.current.scroll.ReadValue().y * zoomSensitivity;
         if (zoomDelta != 0f)
         {
@@ -66,12 +122,40 @@ public class HexMapCamera : MonoBehaviour
             AdjustRotation(rotationDelta);
         }
 
+        UpdateMovement();
+    }
+
+    /// <summary>
+    /// reads keyboard and mouse input and position to decide if the camera should be moved.
+    /// </summary>
+    private void UpdateMovement()
+    {
         float xDelta = Input.GetAxis("Horizontal"); // Altes system
         float zDelta = Input.GetAxis("Vertical"); // Altes system
         if (xDelta != 0f || zDelta != 0f)
         {
             AdjustPosition(xDelta, zDelta);
+            return;
         }
+
+        //todo bug: UI jitter (see discord, bug is reportet as gif in feedback-chanel at 15.07. 10PM)
+        //Vector2 mousePosition = actualCamera.ScreenToViewportPoint(Mouse.current.position.ReadValue());
+
+        //if (InScreen(mousePosition) && !IsMouseOverUI())
+        //{
+        //    if (mousePosition.x < mouseMoveBorder.x)
+        //        xDelta = -(1f - mousePosition.x / mouseMoveBorder.x);
+        //    else if (mousePosition.x > 1f - mouseMoveBorder.x)
+        //        xDelta = 1f - (1f - mousePosition.x) / mouseMoveBorder.x;
+
+        //    if (mousePosition.y < mouseMoveBorder.y)
+        //        zDelta = -(1f - mousePosition.y / mouseMoveBorder.y);
+        //    else if (mousePosition.y > 1f - mouseMoveBorder.y)
+        //        zDelta = 1f - (1f - mousePosition.y) / mouseMoveBorder.y;
+
+        //    if (xDelta != 0f || zDelta != 0f)
+        //        AdjustPosition(xDelta, zDelta);
+        //}
     }
 
     void AdjustPosition(float xDelta, float zDelta)
@@ -101,18 +185,35 @@ public class HexMapCamera : MonoBehaviour
     {
         CameraValues result = new CameraValues();
 
-        result.localPosition = LocalPosition;
+        result.localPosition = instance.transform.localPosition;
         result.rotationY = RotationAngle;
         result.zoom01 = instance.zoom;
+        result.layer = GridLayer;
 
         return result;
     }
 
     public static void SetCameraValues(CameraValues newValues)
     {
+        SwapToGrid(newValues.layer);
+
         SetPosition(newValues.localPosition);
         instance.SetRotation(newValues.rotationY);
         instance.SetZoom(newValues.zoom01);
+    }
+
+    public static void SetToCenter()
+    {
+        HexCell[] grid = instance.usedGrid.GetAllCells();
+
+        Vector3 centerPosition;
+
+        if (grid.Length % 2 == 1) //uneven number of cells, use middle
+            centerPosition = grid[grid.Length / 2].transform.position;
+        else // even number of cells, use average of both cells in the middle
+            centerPosition = (grid[grid.Length / 2].transform.position + grid[grid.Length / 2 + 1].transform.position) / 2f;
+
+        SetPosition(centerPosition);
     }
 
     public static void SetPosition(Vector3 position)
@@ -139,15 +240,63 @@ public class HexMapCamera : MonoBehaviour
         }
     }
 
+    public static void SwapUsedGrid()
+    {
+        if (!GameManager.InGame) return;
+
+        if (instance.usedGrid == HexGridManager.Current.Surface)
+            SwapToUnderGround();
+        else if (instance.usedGrid == HexGridManager.Current.Underground)
+            SwapToSurface();
+    }
+
+    public static void SwapToGrid(HexGridLayer layer)
+    {
+        if (layer == HexGridLayer.Surface)
+            SwapToSurface();
+        else
+            SwapToUnderGround();
+    }
+
+    public static void SwapToSurface()
+    {
+        if (instance.usedGrid == HexGridManager.Current.Surface) return;
+
+        Instance.OnSwapToGrid.Invoke(HexGridLayer.Surface);
+        instance.usedGridLayer = HexGridLayer.Surface;
+        instance.SwapToGrid(HexGridManager.Current.Surface);
+    }
+
+    public static void SwapToUnderGround()
+    {
+        if (instance.usedGrid == HexGridManager.Current.Underground) return;
+
+        Instance.OnSwapToGrid.Invoke(HexGridLayer.Underground);
+        instance.usedGridLayer = HexGridLayer.Underground;
+        instance.SwapToGrid(HexGridManager.Current.Underground);
+    }
+
+    private void SwapToGrid(HexGrid newGrid)
+    {
+        HexGrid oldGrid = instance.usedGrid;
+        usedGrid = newGrid;
+
+        SetPosition(instance.transform.localPosition + newGrid.transform.position - oldGrid.transform.position);
+    }
+
     #endregion Not in tutorial
 
     Vector3 ClampPosition(Vector3 position)
     {
-        float xMax = (grid.chunkCountX * HexMetrics.chunkSizeX - 0.5f) * (2f * HexMetrics.innerRadius);
-        position.x = Mathf.Clamp(position.x, 0f, xMax);
+        Vector4 area = usedGrid.WorldArea();
 
-        float zMax = (grid.chunkCountZ * HexMetrics.chunkSizeZ - 1f) * (1.5f * HexMetrics.outerRadius);
-        position.z = Mathf.Clamp(position.z, 0f, zMax);
+        //float xMax = (grid.cellCountX - 0.5f) * (2f * HexMetrics.innerRadius);
+        //position.x = Mathf.Clamp(position.x, 0f, xMax);
+        position.x = Mathf.Clamp(position.x, area.x, area.y);
+
+        //float zMax = (grid.cellCountZ - 1) * (1.5f * HexMetrics.outerRadius);
+        //position.z = Mathf.Clamp(position.z, 0f, zMax);
+        position.z = Mathf.Clamp(position.z, area.z, area.w);
 
         return position;
     }
@@ -164,5 +313,31 @@ public class HexMapCamera : MonoBehaviour
             rotationAngle -= 360f;
         }
         transform.localRotation = Quaternion.Euler(0f, rotationAngle, 0f);
+    }
+
+    public static void ValidatePosition()
+    {
+        if (instance)
+            instance.AdjustPosition(0f, 0f);
+    }
+
+    /// <summary>
+    /// returns true if the given viewport position is in the screen
+    /// </summary>
+    public static bool InScreen(Vector2 viewportPosition)
+    {
+        return viewportPosition.x >= 0f && viewportPosition.x <= 1f && viewportPosition.y >= 0f && viewportPosition.y <= 1f;
+    }
+
+    /// <summary>
+    /// Since Eventsystem returns false positives on IsPointerOverGameObject()
+    /// </summary>
+    private bool IsMouseOverUI()
+    {
+        if (EventSystem.current == null)
+            return false;
+
+        RaycastResult lastRaycastResult = ((InputSystemUIInputModule)EventSystem.current.currentInputModule).GetLastRaycastResult(Mouse.current.deviceId);
+        return lastRaycastResult.gameObject != null && lastRaycastResult.gameObject.layer == UILayer;
     }
 }

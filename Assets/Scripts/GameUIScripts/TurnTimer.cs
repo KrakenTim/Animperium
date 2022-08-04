@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class TurnTimer : MonoBehaviour
 {
@@ -9,17 +10,19 @@ public class TurnTimer : MonoBehaviour
     [Space]
     [SerializeField] TMP_Text turnTimeMinute;
     [SerializeField] TMP_Text turnTimeSecond;
+    [Space]
+    [SerializeField] ColorableImage activePlayerIcon;
 
     public int maxSecondsPerTurn = 90;
     public int remainingSeconds = 90;
-    public bool deductingTime;
+    float secondTick;
 
     private void Awake()
     {
         GameManager.TurnStarted += ResetTimer;
     }
 
-    private void OnDiestroy()
+    private void OnDestroy()
     {
         GameManager.TurnStarted -= ResetTimer;
     }
@@ -27,31 +30,44 @@ public class TurnTimer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (deductingTime == false)
+        secondTick += Time.deltaTime;
+        if (secondTick >= 1f)
         {
-            deductingTime = true;
-            StartCoroutine(DeductSeconds());
+            secondTick -= 1;
 
-            UpdateTimerVisual();
+            DeductSecond();
         }
     }
 
-    IEnumerator DeductSeconds()
+    void DeductSecond()
     {
-        yield return new WaitForSeconds(1);
         remainingSeconds -= 1;
+        UpdateTimerVisual();
 
-        if (remainingSeconds <= 0)
-            GameManager.EndTurn();
+        if (remainingSeconds == 0)
+        {
+            enabled = false; // Update is only called, if component is enabled.
 
-        deductingTime = false;
+            if (!OnlineGameManager.IsOnlineGame || GameManager.LocalPlayerID == GameManager.ActivePlayerID)
+            {
+                var message = InputMessageGenerator.CreateBasicMessage(ePlayeractionType.EndTurn);
+                InputMessageExecuter.Send(message);
+            }
+        }
     }
 
     private void ResetTimer(int unusedPlayerID)
     {
         remainingSeconds = maxSecondsPerTurn;
 
-        inGameTurn.text = GameManager.Turn.ToString();
+        if (inGameTurn)
+            inGameTurn.text = GameManager.Turn.ToString();
+
+        if (activePlayerIcon)
+            activePlayerIcon.SetPlayer(GameManager.ActivePlayerID);
+
+        enabled = true;
+        secondTick = 0;
 
         UpdateTimerVisual();
     }

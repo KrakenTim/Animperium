@@ -88,7 +88,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 10000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -305,11 +305,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoomSensitivity: 0.001
-  stickMinZoom: -250
+  stickMinZoom: -105
   stickMaxZoom: -45
-  swivelMinZoom: 90
+  swivelMinZoom: 60
   swivelMaxZoom: 45
   moveSpeedMinZoom: 300
   moveSpeedMaxZoom: 100
   rotationSpeed: 100
-  grid: {fileID: 0}
+  usedGrid: {fileID: 0}
+  OnSwapToGrid:
+    m_PersistentCalls:
+      m_Calls: []
+  mouseMoveBorder: {x: 0.025, y: 0.05}

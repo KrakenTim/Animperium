@@ -43,10 +43,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 754502590c865fa479d3555eaf6b6e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridLayer: 0
   coordinates:
     x: 0
     z: 0
-  color: {r: 0, g: 0, b: 0, a: 0}
+  uiRect: {fileID: 0}
+  chunk: {fileID: 0}
+  tempSaveColorID: 0
   neighbors:
   - {fileID: 0}
   - {fileID: 0}
@@ -57,3 +60,4 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   Underground: 0
+  ObjectPositionOffsetCorrection: {x: -2.5, y: 0, z: -2.5}

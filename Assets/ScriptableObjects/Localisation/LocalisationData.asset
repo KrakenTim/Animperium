@@ -22,60 +22,138 @@ MonoBehaviour:
   - identifier: Backlog
     english: Backlog
     german: Aktionslog
+  - identifier: Biomes
+    english: Biomes
+    german: Biome
   - identifier: Blaster
     english: Grenadier
     german: Grenadier
+  - identifier: BlasterTooltip
+    english: Fights with explosives. Especially effecting against buildings.
+    german: <BlasterTooltip_de>
+  - identifier: Brush
+    english: Bush
+    german: Pinsel
+  - identifier: BrushSize
+    english: Brush Size
+    german: "Pinselgr\xF6\xDFe"
   - identifier: Buildings
     english: Buildings
     german: "Geb\xE4ude"
   - identifier: CanAct
     english: Can Act
     german: "Handlungsf\xE4hig"
+  - identifier: Cancel
+    english: Cancel
+    german: Abbrechen
+  - identifier: CantDigThrough
+    english: Can't dig through!
+    german: <CantDigThrough_de>
   - identifier: Chat
     english: Chat
     german: Chat
+  - identifier: ChooseMap
+    english: Choose Map
+    german: "Karte ausw\xE4hlen"
   - identifier: Credits
     english: Credits
     german: Mitwirkende
+  - identifier: CustomMaps
+    english: Custom Maps
+    german: Eigene Karten
+  - identifier: Delete
+    english: Delete
+    german: "L\xF6schen"
+  - identifier: DeleteMap
+    english: Delete Map
+    german: "Karte L\xF6schen"
   - identifier: Digger
     english: Digger
     german: Buddler
+  - identifier: DiggerTooltip
+    english: Collects ore. (Might dig tunnels.)
+    german: Sammelt Erze. (Kann Tunnel bauen.)
   - identifier: EndTurn
     english: End Turn
     german: Zug beenden
+  - identifier: Eraser
+    english: Erase Objects
+    german: Objekte Entfernen
   - identifier: FarmHouse
-    english: Farm House
-    german: Bauernhaus
+    english: Wind Mill
+    german: "Windm\xFChle"
+  - identifier: FarmHouseTooltip
+    english: Might also create Workers.
+    german: <FarmHouseTooltip_de>
   - identifier: Food
     english: Food
     german: Nahrung
   - identifier: Fullscreen
     english: Fullscreen
     german: Vollbild
+  - identifier: Functions
+    english: Functions
+    german: Funktionen
   - identifier: Healer
     english: Healer
     german: Heiler
+  - identifier: HealerTooltip
+    english: Might heal allies and attack enemies.
+    german: "Kann Verb\xFCndete heilen und Gegner angreifen."
   - identifier: Health
     english: Health
     german: Leben
+  - identifier: Height
+    english: Height
+    german: "H\xF6he"
+  - identifier: Help
+    english: Help
+    german: Hilfe
+  - identifier: JoinMultiplayer
+    english: Join Multiplayer
+    german: Multiplayer beitreten
+  - identifier: LargeMap
+    english: Large (coming soon)
+    german: "Gro\xDF (coming soon)"
   - identifier: Leave
     english: Leave
     german: Verlassen
+  - identifier: Load
+    english: Load
+    german: Laden
   - identifier: Loading
     english: Loading...
     german: "L\xE4dt..."
+  - identifier: LoadMap
+    english: Load Map
+    german: Karte Laden
   - identifier: LobbyList
     english: Lobby List
     german: Lobby Liste
   - identifier: LocalMatch
-    english: Start Local Match
-    german: Lokal
+    english: Play
+    german: Spielen
   - identifier: MainMenu
     english: Main Menu
     german: "Hauptmen\xFC"
+  - identifier: Map
+    english: Map
+    german: Karte
+  - identifier: MapEditor
+    english: Open Map Editor
+    german: Karte erstellen
   - identifier: MasterVolume
     english: Master Volume
     german: "Gesamtlautst\xE4rke"
+  - identifier: MediumMap
+    english: Medium (coming soon)
+    german: "Mittel (bald verf\xFCgbar)"
+  - identifier: MirrorLowerHalf
+    english: Mirror Lower Half
+    german: "Untere H\xE4lfte Spiegeln"
+  - identifier: MirrorUpperHalf
+    english: Mirror Upper Half
+    german: "Obere H\xE4lfte Spiegeln"
   - identifier: Movement
     english: Movement
     german: Bewegung
@@ -85,6 +163,9 @@ MonoBehaviour:
   - identifier: NameEntryField
     english: Name...
     german: Name...
+  - identifier: NewMap
+    english: New Map
+    german: Neue Karte
   - identifier: No
     english: No
     german: Nein
@@ -97,9 +178,15 @@ MonoBehaviour:
   - identifier: NotEnoughUpgradesOne
     english: Need to upgrade one more unit!
     german: Eine weitere Einheit muss weitergebildet werden!
+  - identifier: OfficialMaps
+    english: Official Maps
+    german: Offizielle Karten
   - identifier: OnlineMatch
-    english: Start Online Match
+    english: Online
     german: Online
+  - identifier: OnlinePlayers
+    english: Online Players
+    german: Online Spieler
   - identifier: Ore
     english: Ore
     german: Erz
@@ -127,21 +214,43 @@ MonoBehaviour:
   - identifier: ReallySurrender
     english: Do you really want to surrender and go back to main menu?
     german: "Willst du wirklich aufgeben und ins Startmen\xFC zur\xFCckkehren?"
+  - identifier: Resources
+    english: Resources
+    german: Ressourcen
   - identifier: Resume
     english: Resume
     german: Weiter
+  - identifier: SaveMap
+    english: Save Map
+    german: Karte Speichern
+  - identifier: SawMill
+    english: Saw Mill
+    german: "S\xE4gewerk"
   - identifier: School
     english: School
     german: Schule
   - identifier: School2
     english: School II
     german: Schule II
+  - identifier: School2Tooltip
+    english: Improved school. Teaches basic and advanced roles.
+    german: <School2Tooltip_de>
+  - identifier: SchoolTooltip
+    english: Teaches basic roles to Workers.
+    german: <SchoolTooltip_de>
   - identifier: Settings
     english: Settings
     german: Einstellungen
+  - identifier: SmallMap
+    english: Small
+    german: Klein
   - identifier: Sneaker
     english: Sneaker
     german: Schleicher
+  - identifier: SneakerTooltip
+    english: Specialist in moving around undetected. Can't be seen except on close
+      distance.
+    german: <SneakerTooltip_de>
   - identifier: StartGame
     english: Start Game
     german: Spiel starten
@@ -157,15 +266,36 @@ MonoBehaviour:
   - identifier: Swordfighter
     english: Sword Fighter
     german: "Schwertk\xE4mpfer"
+  - identifier: SwordfighterTooltip
+    english: Meele Fighter.
+    german: "Nahk\xE4mpfer."
+  - identifier: Terrain
+    english: Terrain
+    german: Terrain
+  - identifier: TerrainHeight
+    english: Terrain Height
+    german: "Terrainh\xF6he"
   - identifier: TownHall
     english: Town Hall
     german: Rathaus
+  - identifier: Townhalls
+    english: Townhalls
+    german: "Rath\xE4user"
+  - identifier: TownHallTooltip
+    english: First Home of Workers. Lose it and you'll lose the game.
+    german: <TownHallTooltip_de>
+  - identifier: TunnelEntry
+    english: Tunnel
+    german: Tunnel
   - identifier: TurnTime
     english: Turn Time
     german: Rundenzeit
   - identifier: Underground
     english: Underground
     german: Untergrund
+  - identifier: Undo
+    english: Undo
+    german: "R\xFCckg\xE4ngig"
   - identifier: Units
     english: Units
     german: Einheiten
@@ -175,12 +305,29 @@ MonoBehaviour:
   - identifier: Villager
     english: Worker
     german: Arbeiter
+  - identifier: VillagerTooltip
+    english: Collects Wood and Food. Can put up buildings. Send them to School to
+      take over a new role.
+    german: "Sammelt Holz und Nahrung. Kann Geb\xE4ude errichten. Kann in der Schule
+      eine neue Rolle lernen."
   - identifier: Wall
     english: Barricade
     german: Barrikade
+  - identifier: WallTooltip
+    english: Sturdy, blocks paths for enemies and friends alike.
+    german: <WallTooltip_de>
   - identifier: Warmage
     english: War Mage
     german: Kampfmagier
+  - identifier: WarmageTooltip
+    english: Fight experienced mage, throwing spells from afar.
+    german: <WarmageTooltip_de>
+  - identifier: Water
+    english: Water
+    german: Wasser
+  - identifier: WaterHeight
+    english: Water Height
+    german: "Wasserh\xF6he"
   - identifier: Wood
     english: Wood
     german: Holz

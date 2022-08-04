@@ -11,13 +11,15 @@ using UnityEngine;
 public class TempMapSaves : MonoBehaviour
 {
     HexGrid grid;
-    [SerializeField] HexMapEditor editor;
 
     [SerializeField] GameObject hideInBuild;
 
     [Space]
-    [SerializeField] public bool loadMapOnAwake = true;
-    public bool LoadsInsteadOfHexGrid => loadMapOnAwake && !string.IsNullOrWhiteSpace(loadMap);
+    [SerializeField] PersistingMatchData currentMatchData;
+    [SerializeField] public bool loadPathOnAwake = true;
+
+    [SerializeField] public bool loadTempMapOnAwake = true;
+    public bool LoadsInsteadOfHexGrid => loadTempMapOnAwake && !string.IsNullOrWhiteSpace(loadMap);
     [SerializeField] [TextArea] string loadMap;
 
     /// <summary>
@@ -31,10 +33,12 @@ public class TempMapSaves : MonoBehaviour
         if (grid == null)
             grid = GetComponent<HexGrid>();
 
-        if (editor == null)
-            editor = FindObjectOfType<HexMapEditor>();
-
-        if (loadMapOnAwake)
+        if (loadPathOnAwake && currentMatchData != null && currentMatchData.IsMapPathValid)
+        {
+            LoadPath(currentMatchData.MapPath);
+            return;
+        }
+        else if (loadTempMapOnAwake)
             LoadString();
 
 #if !UNITY_EDITOR
@@ -45,9 +49,8 @@ public class TempMapSaves : MonoBehaviour
 
     private void OnDisable()
     {
-        if (GameManager.InGame) return;
-
-        CreateSave(onlyIfNew: true);
+        if (!GameManager.InGame)
+            CreateSave(onlyIfNew: true);
     }
 
     public void Button_SaveMap() => CreateSave();
@@ -59,7 +62,7 @@ public class TempMapSaves : MonoBehaviour
 
     private void CreateSave(bool onlyIfNew = false)
     {
-        string mapSave = grid.chunkCountX + "\t" + grid.chunkCountZ + "\n";
+        string mapSave = grid.ChunkCountX + "\t" + grid.ChunkCountZ + "\n";
         foreach (var cell in grid.GetAllCells())
         {
             mapSave += cell.Elevation + "\t" + cell.tempSaveColorID + "\n";
@@ -82,9 +85,30 @@ public class TempMapSaves : MonoBehaviour
         }
 
         string logFileName = $"{autoFileNamePrefix}{DateTime.Now.ToString("yyMMdd_HHmmss")}{logFileExtension}";
-        AI_File.WriteUTF8(content, AI_File.PathTempMaps + logFileName);
+        AI_File.WriteUTF8(content, Path.Combine(AI_File.PathTempMaps, logFileName));
 
-        Debug.Log($"Created new temporary Map named {logFileName}\nAt: {AI_File.PathTempMaps + logFileName}");
+        Debug.Log($"Created new temporary Map named {logFileName}\nAt: { Path.Combine(AI_File.PathTempMaps, logFileName)}");
+    }
+
+    private void LoadPath(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
+        {
+            Debug.LogError("File does not exist " + path, this);
+            return;
+        }
+
+        using (BinaryReader reader = new BinaryReader(File.OpenRead(path)))
+        {
+            int header = reader.ReadInt32();
+            if (header <= 1)
+            {
+                grid.Load(reader, header);
+                HexMapCamera.ValidatePosition();
+            }
+            else
+                Debug.LogWarning($"Unknown map format {header} in file!\n{path}", this);
+        }
     }
 
     private void LoadString()
@@ -96,12 +120,12 @@ public class TempMapSaves : MonoBehaviour
 
         Debug.Log($"Loading new {nextLine[0]}x{nextLine[1]} Map.\n");
 
-        if (loadMapOnAwake || grid.chunkCountX != int.Parse(nextLine[0]) || grid.chunkCountZ != int.Parse(nextLine[1]))
+        if (loadTempMapOnAwake || grid.ChunkCountX != int.Parse(nextLine[0]) || grid.ChunkCountZ != int.Parse(nextLine[1]))
         {
-            loadMapOnAwake = false;
+            loadTempMapOnAwake = false;
 
-            grid.chunkCountX = int.Parse(nextLine[0]);
-            grid.chunkCountZ = int.Parse(nextLine[1]);
+            grid.cellCountX = int.Parse(nextLine[0]) * HexMetrics.chunkSizeX;
+            grid.cellCountZ = int.Parse(nextLine[1]) * HexMetrics.chunkSizeZ;
 
             grid.Clear();
             grid.Awake();
@@ -116,11 +140,7 @@ public class TempMapSaves : MonoBehaviour
 
             cells[cellID].Elevation = int.Parse(nextLine[0]);
 
-            if (editor)
-            {
-                cells[cellID].Color = editor.colors[int.Parse(nextLine[1])];
-                cells[cellID].tempSaveColorID = int.Parse(nextLine[1]);
-            }
+            cells[cellID].TerrainTypeIndex = int.Parse(nextLine[1]);
         }
 
         foreach (var item in grid.GetAllChunks())
@@ -131,16 +151,34 @@ public class TempMapSaves : MonoBehaviour
     {
         HexCell[] cells = grid.GetAllCells();
 
-        for (int i = 0; i < cells.Length / 2f; i++)
-            cells[cells.Length - (1 + i)].Copy(cells[i]);
+        for (int i = 0; i < cells.Length; i++)
+        {
+            int a = i;
+            int b = cells.Length - (1 + i);
+
+            if (a > b) break;
+
+            cells[b].Copy(cells[a]);
+        }
+
+        grid.enabled = true;
     }
 
     private void MirrorUpperHalf()
     {
         HexCell[] cells = grid.GetAllCells();
 
-        for (int i = 0; i < cells.Length / 2f; i++)
-            cells[i].Copy(cells[cells.Length - (1 + i)]);
+        for (int i = 0; i < cells.Length; i++)
+        {
+            int a = i;
+            int b = cells.Length - (1 + i);
+
+            if (a > b) break;
+
+            cells[a].Copy(cells[b]);
+        }
+
+        grid.enabled = true;
     }
 
     private Dictionary<string, string> GetTempMaps()

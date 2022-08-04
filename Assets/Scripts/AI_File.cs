@@ -18,14 +18,29 @@ public static class AI_File
     public static string PathInputLogs => Application.streamingAssetsPath + "/InputLogs/";
 
     /// <summary>
-    /// Application.streamingAssetsPath + "/TempMaps/"
+    /// Application.streamingAssetsPath + "/TempMaps"
     /// </summary>
-    public static string PathTempMaps => Application.streamingAssetsPath + "/TempMaps/";
+    public static string PathTempMaps => Path.Combine(Application.streamingAssetsPath, "TempMaps");
+
+    /// <summary>
+    /// Application.dataPath + "/DefaultMaps"
+    /// </summary>
+    public static string PathDefaultMaps => Path.Combine(Application.streamingAssetsPath, "DefaultMaps");
+
+    /// <summary>
+    /// Application.persistentDataPath + "/Maps"
+    /// </summary>
+    public static string PathSelfmadeMaps => Path.Combine(Application.persistentDataPath, "Maps");
+
+
 
     /// <summary>
     /// removes Application.dataPath (which leads to the Assets-folder) of given path
     /// </summary>
     public static string ShortPath(string path) => path.Replace(Application.dataPath + "/", "");
+
+    public const string NameEditorMap = "MapEditorMap.map";
+    public const string NameMesseMap = "MesseMap.map";
 
     /// <summary>
     /// writes the text into a UTF8 formated file at the given path, creates directory if necessary

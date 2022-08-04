@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 861953c784eefcb48b40b867d6208ef9, type: 3}
+  m_Name: School2PawnData
+  m_EditorClassIdentifier: 
+  type: 150
+  tier: 2
+  pawnIcon:
+    text: 
+    colored: {fileID: 0}
+    baseIcon: {fileID: 0}
+  maxHealth: 200
+  maxMovement: 0
+  attackPower: 0
+  attackRange: 1
+  viewRange: 3
+  specialPower: 0
+  resourceCosts:
+    food: 25
+    wood: 30
+    ore: 0
+  populationCount: 0
+  linearUpgrade: 0
+  learnsFight: 0
+  learnsMagic: 0
+  learnsDigging: 0
+  upgradesForUnlock: 3
+  spawnedPawn: 0
+  playerPrefabs:
+  - {fileID: 0}
+  - {fileID: 7845875270959048770, guid: 9cabc8bf47e76e94caafe7936630e858, type: 3}
+  - {fileID: 1474889369384364353, guid: 345b875c05c88ac45bd9a48e5c452d9b, type: 3}
