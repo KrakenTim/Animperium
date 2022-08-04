@@ -462,7 +462,7 @@ public class GameInputManager : MonoBehaviour
         if (instance.IsDiggingPossible(cell))
             return ePlayeractionType.Digging;
 
-        if (instance.IsMovePossible(cell))
+        if (cell.CanMoveOnto(SelectedPawn.HexCell) &&  instance.IsMovePossible(cell))
             return ePlayeractionType.Move;
 
         return ePlayeractionType.NONE;
