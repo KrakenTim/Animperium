@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class SaveLoadItem : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class SaveLoadItem : MonoBehaviour
         set
         {
             mapName = value;
-            transform.GetChild(0).GetComponent<Text>().text = value;
+            transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = value;
         }
     }
 

@@ -18,6 +18,7 @@ public class GameInputManager : MonoBehaviour
     public static HexCell SelectedHexCell => instance.selectedHexCell;
 
     [SerializeField] GameObject selectedPawnDecal;
+    [SerializeField] HexcellDecalManager hexcellDecalManager;
     [SerializeField] float decalOffset = 0.1f;
 
     private void Awake()
@@ -68,27 +69,27 @@ public class GameInputManager : MonoBehaviour
         {
             if (wasLeftClick)
             {
-                if (IsCollectPossible())
+                if (IsCollectPossible(selectedHexCell))
                 {
                     InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Collect);
                     InputMessageExecuter.Send(message);
                     return;
                 }
 
-                if (IsSpawnPossible())
+                if (IsSpawnPossible(selectedHexCell))
                 {
                     InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Spawn);
                     InputMessageExecuter.Send(message);
                     return;
                 }
 
-                if (IsBuildingPossible())
+                if (IsBuildingPossible(selectedHexCell))
                 {
                     InteractionMenuManager.OpenPawnCreationMenu(selectedHexCell);
                     isMenuOpen = true;
                 }
 
-                if (IsTunnelBuildingPossible())
+                if (IsTunnelBuildingPossible(selectedHexCell))
                 {
                     InteractionMenuManager.OpenPawnCreationMenu(selectedHexCell);
                     isMenuOpen = true;
@@ -96,14 +97,14 @@ public class GameInputManager : MonoBehaviour
             }
             else // rightClick
             {
-                if (IsCollectPossible())
+                if (IsCollectPossible(selectedHexCell))
                 {
                     InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Collect);
                     InputMessageExecuter.Send(message);
                     return;
                 }
 
-                if (IsMovePossible())
+                if (IsMovePossible(selectedHexCell))
                 {
                     InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Move);
                     InputMessageExecuter.Send(message);
@@ -111,7 +112,7 @@ public class GameInputManager : MonoBehaviour
                 }
             }
         }
-        else if (!wasLeftClick && IsDiggingPossible() && IsPawnActionPossible(SelectedHexCell, ignoreEnvironment: true))
+        else if (!wasLeftClick && IsDiggingPossible(selectedHexCell) && IsPawnActionPossible(SelectedHexCell, ignoreEnvironment: true))
         {
             InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Digging);
             InputMessageExecuter.Send(message);
@@ -135,39 +136,39 @@ public class GameInputManager : MonoBehaviour
             && (ignoreEnvironment || interactionRange > 1 || targetCell.CanMoveOnto(selectedPawn.HexCell));
     }
 
-    private bool IsCollectPossible()
+    private bool IsCollectPossible(HexCell cell)
     {
-        return selectedHexCell.Resource != null
-               && selectedHexCell.Resource.CanCollect(selectedPawn) && selectedPawn.MP > 0;
+        return cell.Resource != null
+               && cell.Resource.CanCollect(selectedPawn) && selectedPawn.MP > 0;
     }
 
-    private bool IsMovePossible()
+    private bool IsMovePossible(HexCell cell)
     {
-        return selectedPawn.IsUnit && selectedPawn.MP > 0
-            && HexGridManager.IsWalkable(selectedHexCell);
+        return SelectedPawn.IsUnit && selectedPawn.MP > 0
+            && HexGridManager.IsWalkable(cell);
     }
 
-    private bool IsDiggingPossible()
+    private bool IsDiggingPossible(HexCell cell)
     {
-        return selectedPawn.CanDig && selectedPawn.MP > 0 && HexGridManager.IsUnderground(selectedHexCell) && selectedHexCell.IsDiggable;
+        return selectedPawn.CanDig && selectedPawn.MP > 0 && HexGridManager.IsUnderground(cell) && cell.IsDiggable;
     }
 
-    private bool IsSpawnPossible()
+    private bool IsSpawnPossible(HexCell cell)
     {
         // TODO(24.04.22) might check if needed resources are available and you have enough space in population to spawn.
-        return !selectedHexCell.HasPawn && selectedPawn.Spawn != ePlayerPawnType.NONE
+        return !cell.HasPawn && !cell.HasResource && selectedPawn.Spawn != ePlayerPawnType.NONE
                && GameManager.PlayerPopulation(selectedPawn.PlayerID) < GameManager.PlayerPopulationMax(selectedPawn.PlayerID);
     }
 
-    private bool IsBuildingPossible()
+    private bool IsBuildingPossible(HexCell cell)
     {
-        return selectedPawn.PawnType == ePlayerPawnType.Villager && !selectedHexCell.HasPawn && selectedHexCell.Resource == null
-               && HexGridManager.IsSurface(selectedHexCell);
+        return selectedPawn.PawnType == ePlayerPawnType.Villager && !cell.HasPawn && !cell.HasResource
+               && HexGridManager.IsSurface(cell);
     }
 
-    private bool IsTunnelBuildingPossible()
+    private bool IsTunnelBuildingPossible(HexCell cell)
     {
-        return selectedPawn.PawnType == ePlayerPawnType.Digger && !selectedHexCell.HasPawn && selectedHexCell.Resource == null;
+        return selectedPawn.PawnType == ePlayerPawnType.Digger && !cell.HasPawn && !cell.HasResource;
     }
 
     private bool IsAttackPossible(PlayerPawn otherPawn)
@@ -289,9 +290,11 @@ public class GameInputManager : MonoBehaviour
     {
         if (!selectedPawn) return;
 
-        Vector3 position = selectedPawn.HexCell.transform.position;
+        Vector3 position = selectedPawn.HexCell.ObjectPosition;
         position.y += decalOffset;
         selectedPawnDecal.transform.position = position;
+
+        hexcellDecalManager.UpdateDecals(selectedPawn);
     }
 
     private void SelectNextActivePawn(bool previous = false)
@@ -398,5 +401,53 @@ public class GameInputManager : MonoBehaviour
     private static bool IsUnitCanActAndIsOnLayer(PlayerPawn pawn, HexGridLayer layer)
     {
         return pawn.CanAct && pawn.HexCell.gridLayer == layer && !pawn.PawnType.IsBuilding();
+    }
+
+    public static ePlayeractionType PossibleAction(HexCell cell)
+    {
+        if (SelectedPawn == null || cell == null) return ePlayeractionType.NONE;
+
+        if (cell.HasPawn)
+        {
+            if (instance.IsPawnActionPossible(cell, instance.selectedPawn.AttackRange) && instance.IsAttackPossible(cell.Pawn))
+                return ePlayeractionType.Attack;
+
+            if (instance.IsPawnActionPossible(cell))
+            {
+                if (instance.IsLayerSwitchPossible(cell.Pawn, out HexCell unused))
+                    return ePlayeractionType.LayerSwitch;
+
+                if (instance.IsHealingPossible(cell.Pawn))
+                    return ePlayeractionType.Heal;
+
+                if (instance.IsLearningPossible(cell.Pawn))
+                    return cell.Pawn.IsUnit ? ePlayeractionType.UnitUpgrade : ePlayeractionType.BuildingUpgrade;
+            }
+
+            return ePlayeractionType.NONE;
+        }
+
+        if (instance.IsPawnActionPossible(cell))
+        {
+            if (instance.IsCollectPossible(cell))
+                return ePlayeractionType.Collect;
+
+            if (instance.IsSpawnPossible(cell))
+                return ePlayeractionType.Spawn;
+
+            if (instance.IsBuildingPossible(cell))
+                return ePlayeractionType.Build;
+
+            if (instance.IsTunnelBuildingPossible(cell))
+                return ePlayeractionType.Build;
+        }
+
+        if (instance.IsDiggingPossible(cell))
+            return ePlayeractionType.Digging;
+
+        if (instance.IsMovePossible(cell))
+            return ePlayeractionType.Move;
+
+        return ePlayeractionType.NONE;
     }
 }

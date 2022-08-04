@@ -9,7 +9,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class MainMenu : MonoBehaviour
 {
-    public const bool MESSE_VERSION = true;
+    // Set MESSE_VERSION of true when we Presentate our Game by Events like Gamescom, Gamesweek etc.
+    public const bool MESSE_VERSION = false;
 
     public AudioSource ButtonSound;
 
@@ -22,9 +23,12 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
+        // For Events like Gamescom, Gamesweek etc.
         if (MESSE_VERSION)
         {
+#pragma warning disable CS0162 // Unerreichbarer Code wurde entdeckt.
             currentMatchData.MapPath = Path.Combine(AI_File.PathTempMaps, AI_File.NameMesseMap);
+#pragma warning restore CS0162 // Unerreichbarer Code wurde entdeckt.
 
             AI_Scene.LoadSceneWithLoadingScreen(AI_Scene.SCENENAME_Game);
             return;

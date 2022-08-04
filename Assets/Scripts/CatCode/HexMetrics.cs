@@ -76,7 +76,14 @@ public static class HexMetrics
         return (corners[(int)direction] + corners[(int)direction + 1]) * blendFactor;
     }
 
-    static float[][] featureThresholds = { new float[] { 0.0f, 0.0f, 0.4f }, new float[] { 0.0f, 0.4f, 0.6f }, new float[] { 0.4f, 0.6f, 0.8f } };
+    static float[][] featureThresholds = { 
+        new float[] { 0.4f, 0.6f, 0.8f },
+        new float[] { 0.2f, 0.4f, 0.8f }, 
+        new float[] { 0.2f, 0.4f, 0.6f, 0.8f }, 
+        new float[] { 0.2f, 0.4f, 0.6f, 0.8f }, 
+        new float[] { 0.2f, 0.4f, 0.6f, 0.8f }, 
+        new float[] { 0.2f, 0.6f }, 
+        new float[] { 0.8f, 0.2f } };
 
     public static float[] GetFeatureThresholds(int level)
     {

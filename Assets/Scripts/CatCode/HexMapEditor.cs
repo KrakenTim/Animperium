@@ -24,15 +24,20 @@ public class HexMapEditor : MonoBehaviour
 
     #endregion Not in Tutorial
 
-    private int activeElevation;
+    private int activeTerrainLevel;
 
-    int activeWaterLevel;
+    private int activeWaterLevel;
 
     int activeDecoLevel, activePlantLevel, activeSpecialIndex;
 
-    bool applyElevation;
+    private int terrainLevelIncrement;
 
-    bool applyWaterLevel;
+    private int waterLevelIncrement;
+
+    private bool applyFixedWaterLevel;
+    private bool applyFixedTerrainLevel;
+
+    bool applyWater;
 
     bool applyDecoLevel, applyPlantLevel, applySpecialIndex;
 
@@ -43,8 +48,7 @@ public class HexMapEditor : MonoBehaviour
     void Awake()
     {
         //SelectColor(-1);
-        SetTerrainTypeIndex(-1);
-        applyElevation = false;
+        SetTerrainTypeIndex(0);
         if (Instance == null)
         {
             Instance = this;
@@ -62,6 +66,11 @@ public class HexMapEditor : MonoBehaviour
         {
             HandleInput();
         }
+        else if (Mouse.current.rightButton.wasPressedThisFrame && !EventSystem.current.IsPointerOverGameObject())
+        {
+            Erase();
+            HandleInput();
+        }
     }
 
     void HandleInput()
@@ -73,6 +82,7 @@ public class HexMapEditor : MonoBehaviour
             EditCells(hexGrid.GetCell(hit.point));
         }
     }
+
     void EditCells(HexCell center)
     {
         int centerX = center.coordinates.X;
@@ -93,37 +103,8 @@ public class HexMapEditor : MonoBehaviour
             }
         }
     }
-    public void SetApplyDecoLevel(bool toggle)
-    {
-        applyDecoLevel = toggle;
-    }
 
-    public void SetDecoLevel(float level)
-    {
-        activeDecoLevel = (int)level;
-    }
-    public void SetApplyPlantLevel(bool toggle)
-    {
-        applyPlantLevel = toggle;
-    }
 
-    public void SetPlantLevel(float level)
-    {
-        activePlantLevel = (int)level;
-    }
-    public void SetApplySpecialIndex(bool toggle)
-    {
-        applySpecialIndex = toggle;
-    }
-
-    public void SetSpecialIndex(float index)
-    {
-        activeSpecialIndex = (int)index;
-    }
-    public void SetTerrainTypeIndex(int index)
-    {
-        activeTerrainTypeIndex = index;
-    }
     void EditCell(HexCell cell)
     {
         if (cell)
@@ -140,14 +121,24 @@ public class HexMapEditor : MonoBehaviour
             {
                 cell.TerrainTypeIndex = activeTerrainTypeIndex;
             }
-            if (applyElevation)
+
+            if ((applyWater || waterLevelIncrement == 1) && cell.WaterLevel <= cell.Elevation)
             {
-                cell.Elevation = activeElevation;
+                cell.WaterLevel = Mathf.Max(0, cell.Elevation + 1);
             }
-            if (applyWaterLevel)
+            else
             {
-                cell.WaterLevel = activeWaterLevel;
+                cell.WaterLevel += waterLevelIncrement;
+                cell.WaterLevel = Mathf.Max(0, cell.WaterLevel);
+                if (cell.WaterLevel <= cell.Elevation && cell.Elevation > 0)
+                {
+                    cell.WaterLevel = 0;
+                }
             }
+
+            cell.Elevation += terrainLevelIncrement;
+            cell.Elevation = Mathf.Max(0, cell.Elevation);
+
             if (applySpecialIndex)
             {
                 cell.SpecialIndex = activeSpecialIndex;
@@ -161,30 +152,25 @@ public class HexMapEditor : MonoBehaviour
             {
                 cell.PlantLevel = activePlantLevel;
             }
-
         }
     }
 
-    // /*    public void SelectColor(int index)
-    //    {
-    //        applyColor = index >= 0;
-    //        if (applyColor)
-    //        {
-    //            activeColor = colors[index];
-
-    //            #region Not in Tutorial
-    //            tempSaveColorID = index;
-    //            #endregion Not in Tutorial
-    //        }
-    //    }*/
-
-    public void SetElevation(float elevation)
+    public void SetTerrainTypeIndex(int index)
     {
-        activeElevation = (int)elevation;
+        ResetEditSettings();
+        activeTerrainTypeIndex = index;
     }
-    public void SetApplyElevation(bool toggle)
+
+    public void SetPlantLevel(int plantLevel)
     {
-        applyElevation = toggle;
+        applyPlantLevel = true;
+        activePlantLevel = plantLevel;
+    }
+
+    public void SetDecoLevel(int decoLevel)
+    {
+        applyDecoLevel = true;
+        activeDecoLevel = decoLevel;
     }
 
     public void SetBrushSize(float size)
@@ -196,20 +182,65 @@ public class HexMapEditor : MonoBehaviour
         }
     }
 
-    public void ShowUI(bool visible)
-    {
-        hexGrid.ShowUI(visible);
-    }
-    public void SetApplyWaterLevel(bool toggle)
-    {
-        applyWaterLevel = toggle;
-    }
 
-    public void SetWaterLevel(float level)
+
+    public void ApplyWater()
     {
-        activeWaterLevel = (int)level;
+        ResetEditSettings();
+        applyWater = true;
     }
 
+    public void SetTerrainElevation(int increment)
+    {
+        ResetEditSettings();
+        terrainLevelIncrement = increment;
+    }
 
+    public void SetTerrainElevationOnFixedLevel(int elevationLevel)
+    {
+        ResetEditSettings();
+        activeTerrainLevel = elevationLevel;
+    }
 
+    public void SetWaterElevation(int increment)
+    {
+        ResetEditSettings();
+        waterLevelIncrement = increment;
+    }
+    public void SetWaterElevationOnFixedLevel(int elevationLevel)
+    {
+        ResetEditSettings();
+        activeWaterLevel = elevationLevel;
+    }
+
+    public void Erase()
+    {
+        ResetEditSettings();
+        applySpecialIndex = true;
+        activeSpecialIndex = 0;
+    }
+
+    public void SetSpecialIndex(int index)
+    {
+        ResetEditSettings();
+        applySpecialIndex = true;
+        activeSpecialIndex = index;
+    }
+
+    private void ResetEditSettings()
+    {
+        applyDecoLevel = false;
+        applyPlantLevel = false;
+        applySpecialIndex = false;
+        activeTerrainTypeIndex = -1;
+        waterLevelIncrement = 0;
+        terrainLevelIncrement = 0;
+        applyWater = false;
+
+        applyFixedWaterLevel = false;
+        activeWaterLevel = 0;
+
+        applyFixedTerrainLevel = false;
+        activeTerrainLevel = 0;
+    }
 }

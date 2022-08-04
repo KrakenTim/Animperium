@@ -168,6 +168,7 @@ public class HexCell : MonoBehaviour
 
     private ResourceToken resource;
     public ResourceToken Resource => resource;
+    public bool HasResource => resource != null;
 
     public int tempSaveColorID = 0;
 
@@ -230,6 +231,24 @@ public class HexCell : MonoBehaviour
             return transform.localPosition;
         }
     }
+    public Vector3 WorldPosition
+    {
+        get
+        {
+            return transform.position;
+        }
+    }
+
+    [SerializeField] private Vector3 ObjectPositionOffsetCorrection;
+
+    public Vector3 ObjectPosition
+    {
+        get
+        {
+            return transform.position + ObjectPositionOffsetCorrection;
+        }
+    }
+
     public HexEdgeType GetEdgeType(HexDirection direction)
     {
         return HexMetrics.GetEdgeType(elevation, neighbors[(int)direction].elevation);

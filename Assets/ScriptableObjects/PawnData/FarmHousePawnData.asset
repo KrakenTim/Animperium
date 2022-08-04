@@ -18,15 +18,15 @@ MonoBehaviour:
     text: 
     colored: {fileID: 0}
     baseIcon: {fileID: 0}
-  maxHealth: 100
+  maxHealth: 70
   maxMovement: 0
   attackPower: 0
   attackRange: 1
   viewRange: 2
   specialPower: 0
   resourceCosts:
-    food: 10
-    wood: 30
+    food: 0
+    wood: 32
     ore: 0
   populationCount: -1
   linearUpgrade: 0
