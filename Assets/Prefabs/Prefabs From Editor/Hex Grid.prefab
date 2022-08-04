@@ -49,14 +49,14 @@ MonoBehaviour:
   cellCountZ: 15
   seed: 0
   colors:
-  - {r: 0, g: 0.54901963, b: 0, a: 1}
-  - {r: 0.82745105, g: 0.7058824, b: 0, a: 1}
+  - {r: 0.07355822, g: 0.5377358, b: 0.07355822, a: 1}
+  - {r: 0.8490566, g: 0.78021264, b: 0.38047346, a: 1}
   - {r: 0.18823531, g: 0.07058824, b: 0, a: 1}
   - {r: 0, g: 0.20392159, b: 0, a: 1}
   - {r: 0, g: 0.18823531, b: 0, a: 1}
   - {r: 0, g: 0.54901963, b: 0, a: 1}
   - {r: 0, g: 0.54901963, b: 0, a: 1}
-  - {r: 0.43529412, g: 0.39215687, b: 0.36078432, a: 1}
+  - {r: 0.4339623, g: 0.39154863, b: 0.3582236, a: 1}
   touchedColor: {r: 0.22841759, g: 0.6840788, b: 0.8207547, a: 1}
   cellPrefab: {fileID: 2558602782816838016, guid: 78afd61948726be40bc9a2d96ae829bf, type: 3}
   cellLabelPrefab: {fileID: 8258263730086729817, guid: 0c923b3976c68dc4ea2eebb21550f802, type: 3}
@@ -69,7 +69,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2541496302950810128}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 07894056748662142b4665d42b2ef8a7, type: 3}
   m_Name: 
@@ -77,5 +77,5 @@ MonoBehaviour:
   hideInBuild: {fileID: 0}
   currentMatchData: {fileID: 11400000, guid: dbd21c4c8d084fd49bfabc086c8a7ef2, type: 2}
   loadPathOnAwake: 1
-  loadTempMapOnAwake: 1
-  loadMap: "2\t2\n1\t2\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n2\t0\n1\t2\n2\t0\n2\t0\n1\t2\n1\t2\n2\t0\n2\t0\n1\t2\n1\t2\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n3\t0\n3\t0\n3\t0\n2\t0\n3\t0\n3\t0\n3\t0\n3\t0\n3\t0\n3\t0\n3\t0\n3\t0\n3\t0\n2\t0\n3\t0\n3\t0\n3\t0\n3\t0\n4\t4\n4\t4\n3\t0\n3\t0\n3\t0\n3\t0\n4\t4\n4\t4\n3\t0\n4\t4\n4\t4\n4\t4\n4\t4\n3\t0\n3\t0\n3\t0\n4\t4\n4\t4\n4\t4\n4\t4\n4\t4\n5\t4\n4\t4\n4\t4\n4\t4\n4\t4\n4\t4\n4\t4\n4\t4\n4\t4\n5\t4\n5\t4\n4\t4\n4\t4\n4\t4\n4\t4"
+  loadTempMapOnAwake: 0
+  loadMap: "4\t4\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n2\t4\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n3\t4\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n2\t4\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n2\t4\n0\t3\n0\t3\n0\t3\n3\t4\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n1\t2\n1\t2\n2\t0\n2\t0\n2\t0\n1\t2\n1\t2\n1\t2\n0\t3\n0\t3\n1\t2\n1\t2\n0\t3\n0\t3\n3\t4\n0\t3\n0\t3\n0\t3\n0\t3\n1\t2\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n1\t2\n1\t2\n1\t2\n3\t4\n1\t2\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n1\t2\n2\t0\n2\t0\n3\t0\n3\t0\n3\t0\n2\t0\n2\t0\n2\t0\n2\t0\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n1\t2\n2\t0\n3\t0\n3\t0\n3\t0\n3\t0\n3\t0\n2\t0\n3\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n1\t2\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n1\t2\n1\t2\n2\t0\n3\t0\n3\t0\n4\t4\n4\t4\n3\t0\n3\t0\n3\t0\n3\t0\n3\t0\n3\t0\n2\t0\n2\t0\n1\t2\n0\t3\n0\t3\n0\t3\n0\t3\n1\t2\n1\t2\n2\t0\n3\t0\n3\t0\n4\t4\n4\t4\n4\t4\n4\t4\n4\t4\n3\t0\n4\t4\n3\t0\n2\t0\n1\t2\n1\t2\n0\t3\n0\t3\n0\t3\n0\t3\n1\t2\n1\t2\n2\t0\n3\t0\n4\t4\n3\t0\n4\t4\n4\t4\n4\t4\n4\t4\n4\t4\n3\t0\n3\t0\n2\t0\n1\t2\n1\t2\n0\t3\n0\t3\n0\t3\n0\t3\n1\t2\n2\t0\n2\t0\n3\t0\n3\t0\n3\t0\n3\t0\n3\t0\n3\t0\n4\t4\n4\t4\n3\t0\n3\t0\n2\t0\n1\t2\n1\t2\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n1\t2\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n3\t0\n2\t0\n3\t0\n3\t0\n3\t0\n3\t0\n3\t0\n2\t0\n1\t2\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n2\t0\n2\t0\n2\t0\n2\t0\n3\t0\n3\t0\n3\t0\n2\t0\n2\t0\n1\t2\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n1\t2\n3\t4\n1\t2\n1\t2\n1\t2\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n2\t0\n1\t2\n0\t3\n0\t3\n0\t3\n0\t3\n3\t4\n0\t3\n0\t3\n1\t2\n1\t2\n0\t3\n0\t3\n1\t2\n1\t2\n1\t2\n2\t0\n2\t0\n2\t0\n1\t2\n1\t2\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n1\t2\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n3\t4\n0\t3\n0\t3\n0\t3\n2\t4\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n2\t4\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n3\t4\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n2\t4\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3\n0\t3"
