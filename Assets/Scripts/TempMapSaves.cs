@@ -65,7 +65,7 @@ public class TempMapSaves : MonoBehaviour
         string mapSave = grid.ChunkCountX + "\t" + grid.ChunkCountZ + "\n";
         foreach (var cell in grid.GetAllCells())
         {
-            mapSave += cell.Elevation + "\t" + cell.tempSaveColorID + "\n";
+            mapSave += cell.Elevation + "\t" + cell.TerrainTypeIndex + "\n";
         }
 
         loadMap = mapSave.TrimEnd();

@@ -94,7 +94,7 @@ public class HexCell : MonoBehaviour
     {
         get
         {
-            return tempSaveColorID != HexMapEditor.TERRAIN_Rock && Elevation == HexGridManager.UNDIGGED_ELEVATION;
+            return terrainTypeIndex != HexMapEditor.TERRAIN_Rock && Elevation == HexGridManager.UNDIGGED_ELEVATION;
         }
     }
 
@@ -104,7 +104,7 @@ public class HexCell : MonoBehaviour
     {
         get
         {
-            return IsUnderwater || tempSaveColorID == HexMapEditor.TERRAIN_Rock;
+            return IsUnderwater || terrainTypeIndex == HexMapEditor.TERRAIN_Rock;
         }
     }
     #endregion
@@ -169,9 +169,7 @@ public class HexCell : MonoBehaviour
     private ResourceToken resource;
     public ResourceToken Resource => resource;
     public bool HasResource => resource != null;
-
-    public int tempSaveColorID = 0;
-
+    
     #endregion Not in Tutorial
 
     [SerializeField]
