@@ -12,6 +12,7 @@ public class FeedbackManager : MonoBehaviour
     [System.Serializable]
     public class PlayeractionFeedback
     {
+        public float delay;
         public GameObject vfxStarter;
         [Space]
         public AudioClip sfxTarget;
@@ -77,7 +78,7 @@ public class FeedbackManager : MonoBehaviour
 
         PlayeractionFeedback usedFeedBack = instance.GetPlayeractionFeedback(action, actingPawn);
 
-        instance.PlayPawnFeedback(actingPawn, targetCell, usedFeedBack);
+        instance.PreparePawnFeedback(actingPawn, targetCell, usedFeedBack);
     }
 
     /// <summary>
@@ -86,9 +87,9 @@ public class FeedbackManager : MonoBehaviour
     public static void PlayPawnDamaged(PlayerPawn damagedPawn)
     {
         if (damagedPawn.IsBuilding)
-            instance.PlayPawnFeedback(damagedPawn, null, instance.buildingDamaged);
+            instance.PreparePawnFeedback(damagedPawn, null, instance.buildingDamaged);
         else
-            instance.PlayPawnFeedback(damagedPawn, null, instance.unitWounded);
+            instance.PreparePawnFeedback(damagedPawn, null, instance.unitWounded);
     }
 
     /// <summary>
@@ -97,16 +98,23 @@ public class FeedbackManager : MonoBehaviour
     public static void PlayPawnDestroyed(PlayerPawn destroyedPawn)
     {
         if (destroyedPawn.IsBuilding)
-            instance.PlayPawnFeedback(destroyedPawn, null, instance.buildingDestroyed);
+            instance.PreparePawnFeedback(destroyedPawn, null, instance.buildingDestroyed);
         else
-            instance.PlayPawnFeedback(destroyedPawn, null, instance.unitKilled);
+            instance.PreparePawnFeedback(destroyedPawn, null, instance.unitKilled);
     }
 
     /// <summary>
     /// Plays given feedback at the matching positions.
     /// </summary>
-    private void PlayPawnFeedback(PlayerPawn actingPawn, HexCell targetCell, PlayeractionFeedback playedFeedback)
+    private void PreparePawnFeedback(PlayerPawn actingPawn, HexCell targetCell, PlayeractionFeedback playedFeedback)
     {
+        StartCoroutine(PlayDelayedFeedback(actingPawn, targetCell, playedFeedback));
+    }
+
+    private IEnumerator PlayDelayedFeedback(PlayerPawn actingPawn, HexCell targetCell, PlayeractionFeedback playedFeedback)
+    {
+        yield return new WaitForSeconds(playedFeedback.delay);
+
         if (playedFeedback.sfxTarget != null)
             simpleAudioSource.PlayOneShot(playedFeedback.sfxTarget);
 
