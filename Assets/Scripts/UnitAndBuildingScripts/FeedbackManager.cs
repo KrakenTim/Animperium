@@ -55,6 +55,10 @@ public class FeedbackManager : MonoBehaviour
     [Space]
     [SerializeField] PlayeractionFeedback fallbackPlaceholder;
 
+    private PlayerPawn lastActingPawn;
+    public static PlayerPawn LastActingPawn => instance.lastActingPawn;
+    private HexCell lastTargetCell;
+    public static HexCell LastTargetCell => instance.lastTargetCell;
 
     private void Awake()
     {
@@ -122,6 +126,9 @@ public class FeedbackManager : MonoBehaviour
         if (actingPawn != null)
             rotation.y = actingPawn.transform.eulerAngles.y;
 
+        lastActingPawn = actingPawn;
+        lastTargetCell = targetCell;
+
         if (actingPawn != null && playedFeedback.vfxStarter != null)
             SpawnVFX(playedFeedback.vfxStarter, actingPawn.WorldPosition, rotation);
 
@@ -136,7 +143,7 @@ public class FeedbackManager : MonoBehaviour
     {
         GameObject newVFXEffect = Instantiate(vfxPrefab, worldPosition, Quaternion.Euler(eulerRotation), vfxParentTransform);
 
-        Destroy(newVFXEffect, 10f);
+        Destroy(newVFXEffect, 5f);
     }
 
     /// <summary>
@@ -194,6 +201,7 @@ public class FeedbackManager : MonoBehaviour
                 {
                     attackPhysical.FillEmpty(fallbackPlaceholder);
                     attackMagical.FillEmpty(fallbackPlaceholder);
+                    attackExplosion.FillEmpty(fallbackPlaceholder);
                     continue;
                 }
 
