@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.IO;
+using System.Collections.Generic;
 
 public enum HexDirection
 {
@@ -90,6 +91,18 @@ public class HexCell : MonoBehaviour
     }
 
     #region NotInTutorial
+    HashSet<int> blockingPlants = new HashSet<int> { 2, 3, 4 };
+    /// <summary>
+    /// no resource, pawn or blocking vegetation.
+    /// </summary>
+    public bool IsntBlocked
+    {
+        get
+        {
+            return !HasPawn && !HasResource && !blockingPlants.Contains(plantLevel);
+        }
+    }
+
     public bool IsDiggable
     {
         get
@@ -169,7 +182,7 @@ public class HexCell : MonoBehaviour
     private ResourceToken resource;
     public ResourceToken Resource => resource;
     public bool HasResource => resource != null;
-    
+
     #endregion Not in Tutorial
 
     [SerializeField]

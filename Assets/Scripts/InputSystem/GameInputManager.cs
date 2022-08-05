@@ -173,19 +173,19 @@ public class GameInputManager : MonoBehaviour
     private bool IsSpawnPossible(HexCell cell)
     {
         // TODO(24.04.22) might check if needed resources are available and you have enough space in population to spawn.
-        return !cell.HasPawn && !cell.HasResource && selectedPawn.Spawn != ePlayerPawnType.NONE
+        return cell.IsntBlocked && selectedPawn.Spawn != ePlayerPawnType.NONE
                && GameManager.PlayerPopulation(selectedPawn.PlayerID) < GameManager.PlayerPopulationMax(selectedPawn.PlayerID);
     }
 
     private bool IsBuildingPossible(HexCell cell)
     {
-        return selectedPawn.PawnType == ePlayerPawnType.Villager && !cell.HasPawn && !cell.HasResource
+        return selectedPawn.PawnType == ePlayerPawnType.Villager && cell.IsntBlocked
                && HexGridManager.IsSurface(cell);
     }
 
     private bool IsTunnelBuildingPossible(HexCell cell)
     {
-        return selectedPawn.PawnType == ePlayerPawnType.Digger && !cell.HasPawn && !cell.HasResource;
+        return selectedPawn.PawnType == ePlayerPawnType.Digger && cell.IsntBlocked;
     }
 
     private bool IsAttackPossible(PlayerPawn otherPawn)
