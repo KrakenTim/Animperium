@@ -352,6 +352,7 @@ GameObject:
   - component: {fileID: 3279755470650334797}
   - component: {fileID: 3279755470650334835}
   - component: {fileID: 3279755470650334796}
+  - component: {fileID: 2922123479301322052}
   m_Layer: 5
   m_Name: Victory
   m_TagString: Untagged
@@ -474,9 +475,22 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2922123479301322052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3279755470650334798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40483705c219da429af280e0693384c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usedIdentifier: Victory
 --- !u!1 &3279755470660468216
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,6 +798,7 @@ GameObject:
   - component: {fileID: 3279755471270140468}
   - component: {fileID: 3279755471270140474}
   - component: {fileID: 3279755471270140475}
+  - component: {fileID: 4315950139959379080}
   m_Layer: 5
   m_Name: Lose
   m_TagString: Untagged
@@ -908,6 +923,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4315950139959379080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3279755471270140469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40483705c219da429af280e0693384c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usedIdentifier: Lose
 --- !u!1 &3279755471636060670
 GameObject:
   m_ObjectHideFlags: 0
