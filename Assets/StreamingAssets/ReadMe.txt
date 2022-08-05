@@ -44,8 +44,8 @@ select a Digger then press left mouse button next to the HexCell from Digger to 
 Collect Resources:
 Villager next to Food or Wood, then press left mouse Button on them to collect the resource. Villager can not collect Ore resource (Only Digger).
 Digger next to Ore, then press left mouse Button on them to collect the Ore.
-Farm House give 5 Food per Turn is cumulative.
-
+Farm Houses generate 5 Food per Turn.
+Saw Mills produce 5 Wood per Turn.
 
 Population Limit:
 The Base spawn max population can be increased when you build a Windmill.
@@ -57,5 +57,3 @@ You won when you Destroy the Enemy TownHall, the Enemy have not enough resource 
 
 INFO: 
 Tunnel is invisible for enemies when they are not close enough and when a Tunnelentry is destroyed the counterpart will be be removed.
-
-Sneaker Ability works but the 2 stealth VFX must be fixed per coding.
