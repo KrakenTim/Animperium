@@ -131,8 +131,8 @@ Material:
     - HeightFrequency_: 1
     - NormalStrength_: 1
     - RefractionSpeed_: 0.05
-    - RefractionStrength_: 0.05
-    - Smoothness_: 1
+    - RefractionStrength_: 0
+    - Smoothness_: 0
     - WaveAmplitude_: 0.01
     - WaveSpeed_: 2
     - _AORemapMax: 1
