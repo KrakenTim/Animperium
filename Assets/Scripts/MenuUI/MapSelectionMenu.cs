@@ -105,11 +105,11 @@ public class MapSelectionMenu : MonoBehaviour
         {
             SaveLoadItem item = Instantiate(itemPrefab);
             item.selectionMenu = this;
-            item.MapName = Path.GetFileNameWithoutExtension(paths[i]);
+            item.MapName = SaveLoadMenu.CamelToTitleCase(Path.GetFileNameWithoutExtension(paths[i]));
             item.mapPath = paths[i];
             item.transform.SetParent(contentTransform, false);
 
-            item.MapName = $"{item.MapName}"; // ({File.ReadAllBytes(item.mapPath).Length})";
+            //item.MapName = $"{item.MapName} ({File.ReadAllBytes(item.mapPath).Length})";
 
             if (i == 0) first = item;
         }
