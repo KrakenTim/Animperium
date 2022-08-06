@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System;
 using System.IO;
 using TMPro;
+using System.Text.RegularExpressions;
 
 public class SaveLoadMenu : MonoBehaviour
 {
@@ -34,13 +35,35 @@ public class SaveLoadMenu : MonoBehaviour
 
     string GetSelectedPath()
     {
-        string mapName = nameInput.text;
-        if (mapName.Length == 0)
-        {
-            return null;
-        }
+        nameInput.text = CleanMapName(nameInput.text);
+
+        if (string.IsNullOrWhiteSpace(nameInput.text)) return null;
+
+
         //return Path.Combine(Application.persistentDataPath, mapName + ".map");
-        return Path.Combine(AI_File.PathSelfmadeMaps, mapName + ".map");
+        return Path.Combine(AI_File.PathSelfmadeMaps, nameInput.text + ".map");
+    }
+
+    /// <summary>
+    /// removes whitespace from mapnames
+    /// </summary>
+    private string CleanMapName(string inputText)
+    {
+        if (inputText == null) return null;
+
+        string[] nameSnippets = inputText.Trim().Split(' ');
+
+        string result = "";
+
+        foreach (string snippet in nameSnippets)
+        {
+            if (snippet.Length > 1)
+                result += snippet.Substring(0, 1).ToUpper() + snippet.Substring(1);
+            else if (snippet.Length == 1)
+                result += snippet.ToUpper();
+        }
+
+        return result;
     }
 
     public void Save(string path) => Save(path, hexGrid);
@@ -115,9 +138,15 @@ public class SaveLoadMenu : MonoBehaviour
         {
             SaveLoadItem item = Instantiate(itemPrefab);
             item.menu = this;
-            item.MapName = Path.GetFileNameWithoutExtension(paths[i]);
+            item.MapName = CamelToTitleCase(Path.GetFileNameWithoutExtension(paths[i]));
             item.transform.SetParent(listContent, false);
         }
+    }
+
+    public static string CamelToTitleCase(string text)
+    {
+        text = text.Substring(0, 1).ToUpper() + text.Substring(1);
+        return Regex.Replace(text, @"(\B[A-Z])", @" $1");
     }
 
     public void Delete()
