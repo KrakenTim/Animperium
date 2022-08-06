@@ -17,7 +17,7 @@ public class TempMapSaves : MonoBehaviour
     [Space]
     [SerializeField] PersistingMatchData currentMatchData;
     [SerializeField] public bool loadPathOnAwake = true;
-
+    [Space]
     [SerializeField] public bool loadTempMapOnAwake = true;
     public bool LoadsInsteadOfHexGrid => loadTempMapOnAwake && !string.IsNullOrWhiteSpace(loadMap);
     [SerializeField] [TextArea] string loadMap;
@@ -36,6 +36,7 @@ public class TempMapSaves : MonoBehaviour
         if (loadPathOnAwake && currentMatchData != null && currentMatchData.IsMapPathValid)
         {
             LoadPath(currentMatchData.MapPath);
+            HexMapCamera.SetToCenter();
             return;
         }
         else if (loadTempMapOnAwake)

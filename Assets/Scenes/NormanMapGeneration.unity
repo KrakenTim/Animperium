@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 3944.5293, g: 2452.545, b: 1933.9434, a: 1}
+  m_IndirectSpecularColor: {r: 3869.584, g: 2421.8965, b: 1969.0977, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2177,6 +2177,34 @@ PrefabInstance:
       propertyPath: usedGrid
       value: 
       objectReference: {fileID: 1823811209}
+    - target: {fileID: 5843188502266327105, guid: e07688692c90db84fb6d028bd17524e3, type: 3}
+      propertyPath: OnSwapToGrid.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5843188502266327105, guid: e07688692c90db84fb6d028bd17524e3, type: 3}
+      propertyPath: OnSwapToGrid.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5843188502266327105, guid: e07688692c90db84fb6d028bd17524e3, type: 3}
+      propertyPath: OnSwapToGrid.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3935393851250254341}
+    - target: {fileID: 5843188502266327105, guid: e07688692c90db84fb6d028bd17524e3, type: 3}
+      propertyPath: OnSwapToGrid.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5843188502266327105, guid: e07688692c90db84fb6d028bd17524e3, type: 3}
+      propertyPath: OnSwapToGrid.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SwitchLighting
+      objectReference: {fileID: 0}
+    - target: {fileID: 5843188502266327105, guid: e07688692c90db84fb6d028bd17524e3, type: 3}
+      propertyPath: OnSwapToGrid.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LightningManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5843188502266327105, guid: e07688692c90db84fb6d028bd17524e3, type: 3}
+      propertyPath: OnSwapToGrid.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5843188502266327111, guid: e07688692c90db84fb6d028bd17524e3, type: 3}
       propertyPath: m_Name
       value: Hex Map Camera
@@ -7140,6 +7168,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c8c6ff348a8fa543b77749baaf1f3cb, type: 3}
+--- !u!114 &3935393851250254341 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8564262877621787152, guid: 8c8c6ff348a8fa543b77749baaf1f3cb, type: 3}
+  m_PrefabInstance: {fileID: 3935393851250254340}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c3aa3a227cc50b4498addb4c667b885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5548858272773109390
 PrefabInstance:
   m_ObjectHideFlags: 0
