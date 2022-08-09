@@ -143,7 +143,7 @@ MonoBehaviour:
     english: Map
     german: Karte
   - identifier: MapEditor
-    english: Open Map Editor
+    english: Map Editor
     german: Karte erstellen
   - identifier: MasterVolume
     english: Master Volume
