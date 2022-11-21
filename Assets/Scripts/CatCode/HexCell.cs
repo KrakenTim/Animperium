@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.IO;
+using System.Collections.Generic;
 
 public enum HexDirection
 {
@@ -90,11 +91,23 @@ public class HexCell : MonoBehaviour
     }
 
     #region NotInTutorial
+    HashSet<int> blockingPlants = new HashSet<int> { 2, 3, 4 };
+    /// <summary>
+    /// no resource, pawn or blocking vegetation.
+    /// </summary>
+    public bool IsntBlocked
+    {
+        get
+        {
+            return !HasPawn && !HasResource && !blockingPlants.Contains(plantLevel);
+        }
+    }
+
     public bool IsDiggable
     {
         get
         {
-            return tempSaveColorID != HexMapEditor.TERRAIN_Rock && Elevation == HexGridManager.UNDIGGED_ELEVATION;
+            return terrainTypeIndex != HexMapEditor.TERRAIN_Rock && Elevation == HexGridManager.UNDIGGED_ELEVATION;
         }
     }
 
@@ -104,7 +117,7 @@ public class HexCell : MonoBehaviour
     {
         get
         {
-            return IsUnderwater || tempSaveColorID == HexMapEditor.TERRAIN_Water || tempSaveColorID == HexMapEditor.TERRAIN_Rock;
+            return IsUnderwater || terrainTypeIndex == HexMapEditor.TERRAIN_Rock;
         }
     }
     #endregion
@@ -169,8 +182,6 @@ public class HexCell : MonoBehaviour
     private ResourceToken resource;
     public ResourceToken Resource => resource;
     public bool HasResource => resource != null;
-
-    public int tempSaveColorID = 0;
 
     #endregion Not in Tutorial
 
@@ -326,7 +337,7 @@ public class HexCell : MonoBehaviour
     /// <param name="origin">the cell the pawn starts at</param>
     public bool CanMoveOnto(HexCell origin)
     {
-        return Mathf.Abs(origin.Elevation - Elevation) < 2 && !IsUnderwater && terrainTypeIndex != HexMapEditor.TERRAIN_Water;
+        return Mathf.Abs(origin.Elevation - Elevation) < 2 && !IsUnderwater;
     }
 
     public int DistanceTo(HexCell other)

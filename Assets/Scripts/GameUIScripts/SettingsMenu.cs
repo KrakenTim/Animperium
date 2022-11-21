@@ -58,10 +58,6 @@ public class SettingsMenu : MonoBehaviour
     {
         PlayerPrefs.SetFloat(VOLOUME_Master, VolumeSlider.value);
     }
-    //public void SetVolume (float volume)
-    //{
-    //    Debug.Log(volume);
-    //}
 
     public void SetScreenSize(int index)
     {

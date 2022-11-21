@@ -9,6 +9,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 {
     const int FoodPerTurn = 5;
     const int WoodPerTurn = 5;
+    const string PawnAnimationAttacking = "Attacking";
+    const string PawnAnimationDefeated = "Defeated";
 
     public System.Action OnValueChange;
 
@@ -31,8 +33,13 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public bool CanDig => (PawnType == ePlayerPawnType.Digger || PawnType == ePlayerPawnType.Blaster);
 
     public bool IsMagicUser => (PawnType == ePlayerPawnType.Warmage || PawnType == ePlayerPawnType.Healer);
+    public bool IsExplosionUser => (PawnType == ePlayerPawnType.Blaster);
     public bool IsBuilding => PawnType.IsBuilding();
     public bool IsUnit => PawnType.IsUnit();
+
+    [SerializeField] Animator animator;
+    PlayerPawn actionTarget;
+    [SerializeField] float attackEffectDelay = 1.5f;
 
     /// <summary>
     /// Returns Pawn Icon if not null else it's the Players Icon
@@ -195,12 +202,32 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
     public void Attack(PlayerPawn victim)
     {
-        if (PawnType == ePlayerPawnType.Blaster && victim.IsBuilding)
-            victim.Damaged(this, Mathf.Max(AttackPower, pawnData.specialPower));
+        actionTarget = victim;
+
+        if (animator)
+        {
+            animator.SetTrigger(PawnAnimationAttacking);
+            GameInputManager.LockPawn(this);
+
+            StartCoroutine(ApplyAttack(attackEffectDelay));
+        }
         else
-            victim.Damaged(this, AttackPower);
+            StartCoroutine(ApplyAttack());
 
         CanAct = false;
+    }
+    
+    private IEnumerator ApplyAttack(float waitTime = 0f)
+    {
+        yield return new WaitForSeconds(waitTime);
+
+        if (PawnType == ePlayerPawnType.Blaster && actionTarget.IsBuilding)
+            actionTarget.Damaged(this, Mathf.Max(AttackPower, pawnData.specialPower));
+        else
+            actionTarget.Damaged(this, AttackPower);
+
+        actionTarget = null;
+        GameInputManager.UnlockPawn(this);
     }
 
     public void Collect(ResourceToken resource)
@@ -261,9 +288,19 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
         if (currentHealth <= 0)
         {
+            if (animator)
+            {
+                animator.SetTrigger(PawnAnimationDefeated);
+            }
+
+            Collider[] colliders = gameObject.GetComponentsInChildren<Collider>();
+
+            foreach (Collider collider in colliders)
+                collider.enabled = false;
+
             FeedbackManager.PlayPawnDestroyed(this);
 
-            GameManager.RemovePlayerPawn(this);
+            GameManager.RemovePlayerPawn(this, waitBeforeDestroy: true);
         }
         else
         {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,6 +21,15 @@ public class GameInputManager : MonoBehaviour
     [SerializeField] GameObject selectedPawnDecal;
     [SerializeField] HexcellDecalManager hexcellDecalManager;
     [SerializeField] float decalOffset = 0.1f;
+
+    private HashSet<PlayerPawn> lockingPawns = new HashSet<PlayerPawn>();
+
+    private bool IsLocked => lockingPawns.Count > 0;
+
+    public System.Action LockStateChanged;
+
+    float emergencyUnlockTimeLimit = 10f;
+    float emergencyUnlockElapsed = 0f;
 
     private void Awake()
     {
@@ -53,6 +63,13 @@ public class GameInputManager : MonoBehaviour
             {
                 ClickedOnHex(wasLeftClick: false);
             }
+        }
+
+        if (IsLocked)
+        {
+            emergencyUnlockElapsed += Time.unscaledDeltaTime;
+            if (emergencyUnlockElapsed > emergencyUnlockTimeLimit)
+                EnforceUnlock();
         }
     }
 
@@ -156,19 +173,19 @@ public class GameInputManager : MonoBehaviour
     private bool IsSpawnPossible(HexCell cell)
     {
         // TODO(24.04.22) might check if needed resources are available and you have enough space in population to spawn.
-        return !cell.HasPawn && !cell.HasResource && selectedPawn.Spawn != ePlayerPawnType.NONE
+        return cell.IsntBlocked && selectedPawn.Spawn != ePlayerPawnType.NONE
                && GameManager.PlayerPopulation(selectedPawn.PlayerID) < GameManager.PlayerPopulationMax(selectedPawn.PlayerID);
     }
 
     private bool IsBuildingPossible(HexCell cell)
     {
-        return selectedPawn.PawnType == ePlayerPawnType.Villager && !cell.HasPawn && !cell.HasResource
+        return selectedPawn.PawnType == ePlayerPawnType.Villager && cell.IsntBlocked
                && HexGridManager.IsSurface(cell);
     }
 
     private bool IsTunnelBuildingPossible(HexCell cell)
     {
-        return selectedPawn.PawnType == ePlayerPawnType.Digger && !cell.HasPawn && !cell.HasResource;
+        return selectedPawn.PawnType == ePlayerPawnType.Digger && cell.IsntBlocked;
     }
 
     private bool IsAttackPossible(PlayerPawn otherPawn)
@@ -445,9 +462,43 @@ public class GameInputManager : MonoBehaviour
         if (instance.IsDiggingPossible(cell))
             return ePlayeractionType.Digging;
 
-        if (instance.IsMovePossible(cell))
+        if (cell.CanMoveOnto(SelectedPawn.HexCell) &&  instance.IsMovePossible(cell))
             return ePlayeractionType.Move;
 
         return ePlayeractionType.NONE;
+    }
+
+    public static void LockPawn(PlayerPawn lockedPawn)
+    {
+        bool oldLockState = instance.IsLocked;
+
+        instance.emergencyUnlockElapsed = 0f;
+        instance.lockingPawns.Add(lockedPawn);
+
+        if (oldLockState != true)
+            instance.LockStateChanged?.Invoke();
+    }
+
+    public static void UnlockPawn(PlayerPawn unlockedPawn)
+    {
+        bool oldLockState = instance.IsLocked;
+
+        instance.emergencyUnlockElapsed = 0f;
+        instance.lockingPawns.Remove(unlockedPawn);
+
+        if (oldLockState != instance.IsLocked)
+            instance.LockStateChanged?.Invoke();
+    }
+
+    private void EnforceUnlock()
+    {
+        if (!IsLocked) return;
+
+        Debug.LogError($"[GameInputManager] Enforced Input Unlock after time limit({emergencyUnlockTimeLimit}) was up!" +
+                       $"\nDid you forget to set up an unlock? For {lockingPawns.First()}'s action for example?",
+                       lockingPawns.First());
+
+        lockingPawns.Clear();
+        LockStateChanged?.Invoke();
     }
 }

@@ -6,17 +6,14 @@ using UnityEngine.UI;
 public class InteractionMenuManager : MonoBehaviour
 {
     private static InteractionMenuManager instance;
-
-    [SerializeField] Image background;
+    
     [SerializeField] InteractionContextButton buttonPrefab;
     [Space]
     [SerializeField] GameObject buttonFrame;
     [SerializeField] GameObject mouseRaycastBlocker;
 
     List<InteractionContextButton> buttonList;
-
-    Color currentPlayerColor;
-
+    
     private void Awake()
     {
         instance = this;
@@ -79,7 +76,7 @@ public class InteractionMenuManager : MonoBehaviour
             }
             InteractionContextButton nextButton = Instantiate(instance.buttonPrefab, instance.buttonFrame.transform);
 
-            nextButton.Initialise(pawnData, targetCell, actingUnit, actionType, currentPlayerColor);
+            nextButton.Initialise(pawnData, targetCell, actingUnit, actionType);
 
             instance.buttonList.Add(nextButton);
         }
@@ -103,9 +100,6 @@ public class InteractionMenuManager : MonoBehaviour
     private void TurnStarted(int playerID)
     {
         InteractionMenuManager.Close();
-
-        instance.currentPlayerColor = GameManager.GetPlayerColor(playerID);
-        instance.background.color = instance.currentPlayerColor;
     }
 
     public static void Close()

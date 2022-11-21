@@ -133,6 +133,9 @@ MonoBehaviour:
   - identifier: LocalMatch
     english: Play
     german: Spielen
+  - identifier: Lose
+    english: Lose!
+    german: Verloren!
   - identifier: MainMenu
     english: Main Menu
     german: "Hauptmen\xFC"
@@ -140,7 +143,7 @@ MonoBehaviour:
     english: Map
     german: Karte
   - identifier: MapEditor
-    english: Open Map Editor
+    english: Map Editor
     german: Karte erstellen
   - identifier: MasterVolume
     english: Master Volume
@@ -190,6 +193,9 @@ MonoBehaviour:
   - identifier: Ore
     english: Ore
     german: Erz
+  - identifier: Pause
+    english: Pause
+    german: Pause
   - identifier: PauseMenu
     english: Pause Menu
     german: "Pausenmen\xFC"
@@ -302,6 +308,9 @@ MonoBehaviour:
   - identifier: Veteran
     english: Veteran
     german: Veteran
+  - identifier: Victory
+    english: Victory!
+    german: Gewonnen!
   - identifier: Villager
     english: Worker
     german: Arbeiter

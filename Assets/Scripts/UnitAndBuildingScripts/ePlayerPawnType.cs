@@ -32,7 +32,7 @@ public enum ePlayerPawnType
     School2 = 150, // formerly SchoolFight Lv.2
 
     // non-player pawn 200+
-    ObsctacleStone = 200
+    Obsctacle = 200
 }
 
 public static class ePlayerPawnTypeExtensions

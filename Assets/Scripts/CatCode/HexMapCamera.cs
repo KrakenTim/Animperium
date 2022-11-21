@@ -1,9 +1,9 @@
-using UnityEngine.InputSystem;
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using System.Collections.Generic;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 
 public class HexMapCamera : MonoBehaviour
@@ -41,7 +41,16 @@ public class HexMapCamera : MonoBehaviour
     public HexGrid usedGrid;
 
     static HexMapCamera instance;
-    public static HexMapCamera Instance { get { return instance; } }
+    public static HexMapCamera Instance
+    {
+        get
+        {
+            if (instance == null)
+                instance = FindObjectOfType<HexMapCamera>();
+
+            return instance;
+        }
+    }
 
     public UnityEvent<HexGridLayer> OnSwapToGrid = new UnityEvent<HexGridLayer>();
 
@@ -86,6 +95,8 @@ public class HexMapCamera : MonoBehaviour
             usedGrid = FindObjectOfType<HexGrid>();
 
         actualCamera = stick.GetComponentInChildren<Camera>();
+
+        AdjustZoom(0);
     }
 
     void OnEnable()
@@ -202,14 +213,12 @@ public class HexMapCamera : MonoBehaviour
 
     public static void SetToCenter()
     {
+        if (Instance.usedGrid == null)
+            instance.usedGrid = FindObjectOfType<HexGrid>();
+
         HexCell[] grid = instance.usedGrid.GetAllCells();
 
-        Vector3 centerPosition;
-
-        if (grid.Length % 2 == 1) //uneven number of cells, use middle
-            centerPosition = grid[grid.Length / 2].transform.position;
-        else // even number of cells, use average of both cells in the middle
-            centerPosition = (grid[grid.Length / 2].transform.position + grid[grid.Length / 2 + 1].transform.position) / 2f;
+        Vector3 centerPosition = (grid[0].transform.position + grid[grid.Length - 1].transform.position) / 2f;
 
         SetPosition(centerPosition);
     }

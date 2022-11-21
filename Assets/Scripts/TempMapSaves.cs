@@ -17,7 +17,7 @@ public class TempMapSaves : MonoBehaviour
     [Space]
     [SerializeField] PersistingMatchData currentMatchData;
     [SerializeField] public bool loadPathOnAwake = true;
-
+    [Space]
     [SerializeField] public bool loadTempMapOnAwake = true;
     public bool LoadsInsteadOfHexGrid => loadTempMapOnAwake && !string.IsNullOrWhiteSpace(loadMap);
     [SerializeField] [TextArea] string loadMap;
@@ -36,6 +36,7 @@ public class TempMapSaves : MonoBehaviour
         if (loadPathOnAwake && currentMatchData != null && currentMatchData.IsMapPathValid)
         {
             LoadPath(currentMatchData.MapPath);
+            HexMapCamera.SetToCenter();
             return;
         }
         else if (loadTempMapOnAwake)
@@ -65,7 +66,7 @@ public class TempMapSaves : MonoBehaviour
         string mapSave = grid.ChunkCountX + "\t" + grid.ChunkCountZ + "\n";
         foreach (var cell in grid.GetAllCells())
         {
-            mapSave += cell.Elevation + "\t" + cell.tempSaveColorID + "\n";
+            mapSave += cell.Elevation + "\t" + cell.TerrainTypeIndex + "\n";
         }
 
         loadMap = mapSave.TrimEnd();

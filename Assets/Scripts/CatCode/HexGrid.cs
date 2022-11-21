@@ -146,7 +146,7 @@ public class HexGrid : MonoBehaviour
         label.text = cell.coordinates.ToStringOnSeparateLines();
         cell.uiRect = label.rectTransform;
 
-        cell.Elevation = 0;
+        cell.Elevation = 2;
 
         AddCellToChunk(x, z, cell);
     }

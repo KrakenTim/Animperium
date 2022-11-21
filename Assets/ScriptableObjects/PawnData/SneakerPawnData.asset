@@ -17,7 +17,7 @@ MonoBehaviour:
   pawnIcon:
     text: 
     colored: {fileID: 0}
-    baseIcon: {fileID: 0}
+    baseIcon: {fileID: 21300000, guid: 0c92e334ae426144aab3faa82c2c9ad1, type: 3}
   maxHealth: 108
   maxMovement: 5
   attackPower: 62

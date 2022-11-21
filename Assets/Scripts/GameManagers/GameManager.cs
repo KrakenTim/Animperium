@@ -336,7 +336,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Removes Pawn from owned pawns List of the player and takes it of the grid.
     /// </summary>
-    public static void RemovePlayerPawn(PlayerPawn pawn)
+    public static void RemovePlayerPawn(PlayerPawn pawn, bool waitBeforeDestroy = false)
     {
         if (Instance.TryGetPlayerValues(pawn.PlayerID, out PlayerValues result))
         {
@@ -350,7 +350,7 @@ public class GameManager : MonoBehaviour
                 result.PopulationMax -= -pawn.PawnData.populationCount;
         }
         pawn.SetHexCell(null);
-        Destroy(pawn.gameObject);
+        Destroy(pawn.gameObject, waitBeforeDestroy? 2f:0f);
 
         Instance.CheckIfGameEnds(pawn.PlayerID);
 

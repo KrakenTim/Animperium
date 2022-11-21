@@ -18,15 +18,13 @@ public class InteractionContextButton : MonoBehaviour, IPointerEnterHandler, IPo
     [Space]
     [SerializeField] GameObject notPossibleBox;
     [SerializeField] LocalisedText notPossibleMessage;
-    [SerializeField] Image notPossibleBackground;
 
     private Button myButton;
     private PlayerPawnData actingUnit;
     private HexCell targetCell;
     private ePlayeractionType actionType;
 
-    public void Initialise(PlayerPawnData newPawnData, HexCell targetCell, PlayerPawnData actingUnit, ePlayeractionType actionType,
-                           Color playerColor)
+    public void Initialise(PlayerPawnData newPawnData, HexCell targetCell, PlayerPawnData actingUnit, ePlayeractionType actionType)
     {
         this.newPawnData = newPawnData;
         this.actingUnit = actingUnit;
@@ -64,10 +62,7 @@ public class InteractionContextButton : MonoBehaviour, IPointerEnterHandler, IPo
             default:
                 Debug.LogError("ContextButton\tInitialised UNDEFINED for " + actionType);
                 break;
-        }
-
-        if (!myButton.interactable)
-            notPossibleBackground.color = playerColor;
+        }        
     }
 
     /// <summary>

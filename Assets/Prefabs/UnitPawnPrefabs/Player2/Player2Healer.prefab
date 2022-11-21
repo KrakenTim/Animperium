@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pawnData: {fileID: 11400000, guid: 219c0e54115317d4f83a2dfdb1552632, type: 2}
+  animator: {fileID: 2814115183255448798}
   playerID: 2
   pawnID: 0
   currentHealth: 0

@@ -50,12 +50,10 @@ public class HexGridManager : MonoBehaviour
 
     public static bool IsWalkable(HexCell cell)
     {
-        if (cell.HasPawn || cell.Resource != null) return false;
-
-        if (IsSurface(cell)) return true;
-
-
-        return cell.Elevation == DIGGED_ELEVATION;
+        if (IsSurface(cell))
+            return cell.IsntBlocked;
+        else
+            return cell.Elevation == DIGGED_ELEVATION && cell.IsntBlocked;        
     }
 
     public HexCell GetHexCell(HexCoordinates coordinates, int layer)
