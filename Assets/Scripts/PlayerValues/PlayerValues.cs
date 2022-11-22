@@ -112,7 +112,7 @@ public class PlayerValues
         foreach (ePlayerPawnType spawn in possibleSpawns)
         {
             // if we can spawn something we didn't lose yet
-            if (HasResourcesToSpawn(GameManager.GetPawnData(spawn)))
+            if (HasResourcesToSpawn(spawn))
                 return false;
         }
 
@@ -120,11 +120,24 @@ public class PlayerValues
         return true;
     }
 
+    public bool CanBuildAnything(List<PlayerPawnData> spawnDatas)
+    {
+        foreach (var data in spawnDatas)
+        {
+            if (HasResourcesToSpawn(data)) return true;
+        }
+        return false;
+    }
+
+    public bool HasResourcesToSpawn(ePlayerPawnType pawnType)
+    {
+        return HasResourcesToSpawn(GameManager.GetPawnData(pawnType));
+    }
+
     public bool HasResourcesToSpawn(PlayerPawnData spawnData)
     {
         // Check if the Player have enough resources
         return (CanAfford(spawnData.resourceCosts));
-
     }
 
     public void AddResource(eResourceType resource, int amount)

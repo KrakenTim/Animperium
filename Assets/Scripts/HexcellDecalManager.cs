@@ -53,9 +53,10 @@ public class HexcellDecalManager : MonoBehaviour
         // TODO find more elegant solution
         HashSet<HexCell> neighbourCells = HexGridManager.Current.GetGrid(selectedPawn.HexCell).GetNeighbours(selectedPawn.HexCell, 1);
 
-        PlaceDecals(neighbourCells);
+        bool hasRessourcesToBuild = selectedPawn.CanBuild
+                                    && PlayerValueProvider.CanBuildAnything(selectedPawn.PlayerID, selectedPawn.PawnType);
+        PlaceDecals(neighbourCells, hasRessourcesToBuild);
     }
-
 
     private void DeactivateAllDecals()
     {
@@ -69,13 +70,13 @@ public class HexcellDecalManager : MonoBehaviour
         allDeactivated = true;
     }
 
-    private void PlaceDecals(HashSet<HexCell> neighbourCells)
+    private void PlaceDecals(HashSet<HexCell> neighbourCells, bool hasRessourcesToBuild)
     {
         Dictionary<ePlayeractionType, List<HexCell>> sortedCells = new Dictionary<ePlayeractionType, List<HexCell>>();
 
         foreach (HexCell cell in neighbourCells)
         {
-            ePlayeractionType possibleAction = GameInputManager.PossibleAction(cell);
+            ePlayeractionType possibleAction = GameInputManager.PossibleAction(cell, hasRessourcesToBuild);
 
             if (possibleAction == ePlayeractionType.NONE) continue;
 
@@ -90,7 +91,7 @@ public class HexcellDecalManager : MonoBehaviour
             PlaceDecals(action, sortedCells[action]);
         }
     }
-    
+
     private void PlaceDecals(ePlayeractionType action, List<HexCell> cells)
     {
         if (!decalObjectPool.ContainsKey(action))
@@ -120,7 +121,7 @@ public class HexcellDecalManager : MonoBehaviour
             }
         }
 
-        for(int i = 0; i < cells.Count; i++)
+        for (int i = 0; i < cells.Count; i++)
         {
             decalObjectPool[action][i].transform.position = cells[i].WorldPosition + decalOffset;
             decalObjectPool[action][i].SetActive(true);

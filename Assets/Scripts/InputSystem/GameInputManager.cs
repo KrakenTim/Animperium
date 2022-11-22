@@ -172,9 +172,9 @@ public class GameInputManager : MonoBehaviour
 
     private bool IsSpawnPossible(HexCell cell)
     {
-        // TODO(24.04.22) might check if needed resources are available and you have enough space in population to spawn.
         return cell.IsntBlocked && selectedPawn.Spawn != ePlayerPawnType.NONE
-               && GameManager.PlayerPopulation(selectedPawn.PlayerID) < GameManager.PlayerPopulationMax(selectedPawn.PlayerID);
+               && GameManager.PlayerPopulation(selectedPawn.PlayerID) < GameManager.PlayerPopulationMax(selectedPawn.PlayerID)
+               && PlayerValueProvider.GetPlayerValues(selectedPawn.PlayerID).HasResourcesToSpawn(selectedPawn.Spawn);
     }
 
     private bool IsBuildingPossible(HexCell cell)
@@ -420,7 +420,7 @@ public class GameInputManager : MonoBehaviour
         return pawn.CanAct && pawn.HexCell.gridLayer == layer && !pawn.PawnType.IsBuilding();
     }
 
-    public static ePlayeractionType PossibleAction(HexCell cell)
+    public static ePlayeractionType PossibleAction(HexCell cell, bool hasRessourcesToBuild)
     {
         if (SelectedPawn == null || cell == null) return ePlayeractionType.NONE;
 
@@ -452,17 +452,22 @@ public class GameInputManager : MonoBehaviour
             if (instance.IsSpawnPossible(cell))
                 return ePlayeractionType.Spawn;
 
-            if (instance.IsBuildingPossible(cell))
-                return ePlayeractionType.Build;
+            if (hasRessourcesToBuild)
+            {
+                // potencial future issue: unit ressources aren't enough for tunnel, but other building.
 
-            if (instance.IsTunnelBuildingPossible(cell))
-                return ePlayeractionType.Build;
+                if (instance.IsBuildingPossible(cell))
+                    return ePlayeractionType.Build;
+
+                if (instance.IsTunnelBuildingPossible(cell))
+                    return ePlayeractionType.Build;
+            }
         }
 
         if (instance.IsDiggingPossible(cell))
             return ePlayeractionType.Digging;
 
-        if (cell.CanMoveOnto(SelectedPawn.HexCell) &&  instance.IsMovePossible(cell))
+        if (cell.CanMoveOnto(SelectedPawn.HexCell) && instance.IsMovePossible(cell))
             return ePlayeractionType.Move;
 
         return ePlayeractionType.NONE;

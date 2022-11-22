@@ -32,7 +32,7 @@ public class PlayerValueProvider : MonoBehaviour
         if (OnlineGameManager.IsOnlineGame)
             OnlineGameManager.SetupPlayerNames(playerValues);
         else
-            SetDefaultNamesForMissing();        
+            SetDefaultNamesForMissing();
     }
 
     /// <summary>
@@ -88,14 +88,24 @@ public class PlayerValueProvider : MonoBehaviour
                 result = item;
                 return true;
             }
-
         }
 
         Debug.LogError("Values not found for Player " + playerID, this);
 
         result = new PlayerValues();
-
         return false;
+    }
+
+    public static PlayerValues GetPlayerValues(int playerID)
+    {
+        foreach (var item in instance.playerValues)
+        {
+            if (item.playerID == playerID) return item;
+        }
+
+        Debug.LogError("Values not found for Player " + playerID, instance);
+
+        return new PlayerValues();
     }
 
     /// <summary>
@@ -161,5 +171,10 @@ public class PlayerValueProvider : MonoBehaviour
                 winners.Add(player);
         }
         return true;
+    }
+
+    public static bool CanBuildAnything(int playerID, ePlayerPawnType builder)
+    {
+        return GetPlayerValues(playerID).CanBuildAnything(GameManager.GetPossibleBuildingDatas(builder));
     }
 }
