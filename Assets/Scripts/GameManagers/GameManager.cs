@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Keyboard.current.enterKey.wasPressedThisFrame) EndTurn();        
+        if (Keyboard.current.enterKey.wasPressedThisFrame) EndTurn();
     }
 
     private void OnDestroy()
@@ -138,6 +138,22 @@ public class GameManager : MonoBehaviour
         Debug.LogError("GameManager\tCouldn't find PawnData for Type " + pawnType, Instance);
 
         return null;
+    }
+
+    public static List<PlayerPawnData> GetPossibleBuildingDatas(ePlayerPawnType pawn)
+    {
+        switch (pawn)
+        {
+            case ePlayerPawnType.Villager:
+              return   GetBuildingDatas(withoutUpgrades: true, excludeTownHall: true, excludeTunnelEntry: true);
+
+            case ePlayerPawnType.Digger:
+                return new List<PlayerPawnData>() { GetPawnData(ePlayerPawnType.TunnelEntry) };
+
+            default:
+                Debug.LogError($"GameManager/t{nameof(GetPossibleBuildingDatas)} is UNDEFINED for {pawn}");
+                return new List<PlayerPawnData>();
+        }
     }
 
     public static List<PlayerPawnData> GetBuildingDatas(bool withoutUpgrades, bool excludeTownHall = false, bool excludeTunnelEntry = false)
@@ -350,7 +366,7 @@ public class GameManager : MonoBehaviour
                 result.PopulationMax -= -pawn.PawnData.populationCount;
         }
         pawn.SetHexCell(null);
-        Destroy(pawn.gameObject, waitBeforeDestroy? 2f:0f);
+        Destroy(pawn.gameObject, waitBeforeDestroy ? 2f : 0f);
 
         Instance.CheckIfGameEnds(pawn.PlayerID);
 

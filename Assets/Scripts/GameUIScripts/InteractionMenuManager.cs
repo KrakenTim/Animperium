@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Manages the menu to place buildings and upgrade units.
+/// </summary>
 public class InteractionMenuManager : MonoBehaviour
 {
     private static InteractionMenuManager instance;
-    
+
     [SerializeField] InteractionContextButton buttonPrefab;
     [Space]
     [SerializeField] GameObject buttonFrame;
     [SerializeField] GameObject mouseRaycastBlocker;
 
     List<InteractionContextButton> buttonList;
-    
+
     private void Awake()
     {
         instance = this;
@@ -33,34 +36,53 @@ public class InteractionMenuManager : MonoBehaviour
         GameManager.TurnStarted -= TurnStarted;
     }
 
-    // destroy old Buttons
-    public static void OpenPawnCreationMenu(HexCell targetCell, PlayerPawnData actingUnit = null)
+    public static void OpenUpgradeMenu(HexCell targetCell, PlayerPawnData actingUnit) =>
+       instance.OpenPawnCreationMenu(targetCell, actingUnit, isBuildNotUpgrade: false);
+
+    public static void OpenBuildMenu(HexCell targetCell, PlayerPawnData actingUnit) =>
+       instance.OpenPawnCreationMenu(targetCell, actingUnit, isBuildNotUpgrade: true);
+
+    public static void Close() => instance.SetVisible(false);
+
+    private void OpenPawnCreationMenu(HexCell targetCell, PlayerPawnData actingUnit, bool isBuildNotUpgrade)
     {
-        foreach (var button in instance.buttonList)
-        {
-            Destroy(button.gameObject);
-        }
-        instance.buttonList.Clear();
+        RemoveButtons();
 
-        if (actingUnit != null)
+        if (isBuildNotUpgrade)
+            CreateButtons_Build(actingUnit.type, targetCell);
+        else
         {
-            instance.CreateButtonEntries(actingUnit.AllPossiblesUnitUpgrades(targetCell.Pawn.PawnData.tier), ePlayeractionType.UnitUpgrade, targetCell, actingUnit);
-
-            instance.AddPossibleTargetUpgrades(targetCell, actingUnit);
-        }
-        else if (ePlayerPawnType.Villager == GameInputManager.SelectedPawn.PawnType)
-            instance.CreateButtonEntries(GameManager.GetBuildingDatas(withoutUpgrades: true, excludeTownHall: true, excludeTunnelEntry: true), ePlayeractionType.Build, targetCell, actingUnit);
-
-        else if (ePlayerPawnType.Digger == GameInputManager.SelectedPawn.PawnType)
-        {
-            GameManager.GetPawnData(ePlayerPawnType.TunnelEntry);
-            instance.CreateButtonEntries(new List<PlayerPawnData>() { GameManager.GetPawnData(ePlayerPawnType.TunnelEntry) }, ePlayeractionType.Build, targetCell, actingUnit);
+            CreateButtons_UnitUpgrade(targetCell, actingUnit);
+            CreateButtons_BuildingUpgrade(targetCell, actingUnit);
         }
 
-        instance.SetVisible(instance.buttonList.Count > 0);
+        SetVisible(instance.buttonList.Count > 0);
     }
 
-    private void CreateButtonEntries(List<PlayerPawnData> pawnOptions, ePlayeractionType actionType, HexCell targetCell, PlayerPawnData actingUnit)
+    private void CreateButtons_Build(ePlayerPawnType builderType, HexCell targetCell)
+    {
+            instance.CreateButtons(GameManager.GetPossibleBuildingDatas(builderType),
+                                         ePlayeractionType.Build, targetCell, null);
+    }
+
+    private void CreateButtons_UnitUpgrade(HexCell targetCell, PlayerPawnData actingUnit)
+    {
+        CreateButtons(actingUnit.AllPossiblesUnitUpgrades(targetCell.Pawn.PawnData.tier),
+                                        ePlayeractionType.UnitUpgrade, targetCell, actingUnit);
+    }
+
+    private void CreateButtons_BuildingUpgrade(HexCell targetCell, PlayerPawnData actingUnit)
+    {
+        if (!targetCell.HasPawn || actingUnit.type != ePlayerPawnType.Villager) return;
+
+        if (targetCell.Pawn.PawnData.linearUpgrade != ePlayerPawnType.NONE)
+        {
+            PlayerPawnData upgradedPawn = GameManager.GetPawnData(targetCell.Pawn.PawnData.linearUpgrade);
+
+            CreateButtons(new List<PlayerPawnData>() { upgradedPawn }, ePlayeractionType.BuildingUpgrade, targetCell, actingUnit);
+        }
+    }
+    private void CreateButtons(List<PlayerPawnData> pawnOptions, ePlayeractionType actionType, HexCell targetCell, PlayerPawnData actingUnit)
     {
         // sort by name
         pawnOptions.Sort((x, y) => x.FriendlyName.CompareTo(y.FriendlyName));
@@ -82,17 +104,6 @@ public class InteractionMenuManager : MonoBehaviour
         }
     }
 
-    private void AddPossibleTargetUpgrades(HexCell targetCell, PlayerPawnData actingUnit)
-    {
-        if (!targetCell.HasPawn || actingUnit.type != ePlayerPawnType.Villager) return;
-
-        if (targetCell.Pawn.PawnData.linearUpgrade != ePlayerPawnType.NONE)
-        {
-            PlayerPawnData upgradedPawn = GameManager.GetPawnData(targetCell.Pawn.PawnData.linearUpgrade);
-
-            CreateButtonEntries(new List<PlayerPawnData>() { upgradedPawn }, ePlayeractionType.BuildingUpgrade, targetCell, actingUnit);
-        }
-    }
 
     /// <summary>
     /// Reacts to a new player taking over their turn.
@@ -102,14 +113,19 @@ public class InteractionMenuManager : MonoBehaviour
         InteractionMenuManager.Close();
     }
 
-    public static void Close()
-    {
-        instance.SetVisible(false);
-    }
 
     private void SetVisible(bool isVisible)
     {
         instance.buttonFrame.SetActive(isVisible);
         instance.mouseRaycastBlocker.SetActive(isVisible);
+    }
+
+    private void RemoveButtons()
+    {
+        // destroy old Buttons
+        foreach (var button in instance.buttonList)
+            Destroy(button.gameObject);
+
+        instance.buttonList.Clear();
     }
 }

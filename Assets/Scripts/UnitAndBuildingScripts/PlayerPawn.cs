@@ -28,14 +28,15 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public int AttackRange => pawnData.attackRange;
     public ePlayerPawnType Spawn => pawnData.spawnedPawn;
 
+    public bool CanBuild => (PawnType == ePlayerPawnType.Villager || PawnType == ePlayerPawnType.Digger);
+    public bool CanDig => (PawnType == ePlayerPawnType.Digger || PawnType == ePlayerPawnType.Blaster);
     public bool CanHeal => (PawnType == ePlayerPawnType.Healer);
     public bool CanStealth => (PawnType == ePlayerPawnType.Sneaker || PawnType == ePlayerPawnType.TunnelEntry);
-    public bool CanDig => (PawnType == ePlayerPawnType.Digger || PawnType == ePlayerPawnType.Blaster);
 
-    public bool IsMagicUser => (PawnType == ePlayerPawnType.Warmage || PawnType == ePlayerPawnType.Healer);
-    public bool IsExplosionUser => (PawnType == ePlayerPawnType.Blaster);
     public bool IsBuilding => PawnType.IsBuilding();
     public bool IsUnit => PawnType.IsUnit();
+    public bool IsMagicUser => (PawnType == ePlayerPawnType.Warmage || PawnType == ePlayerPawnType.Healer);
+    public bool IsExplosionUser => (PawnType == ePlayerPawnType.Blaster);
 
     [SerializeField] Animator animator;
     PlayerPawn actionTarget;

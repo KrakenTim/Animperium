@@ -102,13 +102,13 @@ public class GameInputManager : MonoBehaviour
 
                 if (IsBuildingPossible(selectedHexCell))
                 {
-                    InteractionMenuManager.OpenPawnCreationMenu(selectedHexCell);
+                    InteractionMenuManager.OpenBuildMenu(selectedHexCell, instance.selectedPawn.PawnData);
                     isMenuOpen = true;
                 }
 
                 if (IsTunnelBuildingPossible(selectedHexCell))
                 {
-                    InteractionMenuManager.OpenPawnCreationMenu(selectedHexCell);
+                    InteractionMenuManager.OpenBuildMenu(selectedHexCell, instance.selectedPawn.PawnData);
                     isMenuOpen = true;
                 }
             }
@@ -259,7 +259,7 @@ public class GameInputManager : MonoBehaviour
             // Check if school and upgrade possible
             if (instance.IsLearningPossible(clickedPawn))
             {
-                InteractionMenuManager.OpenPawnCreationMenu(clickedPawn.HexCell, instance.selectedPawn.PawnData);
+                InteractionMenuManager.OpenUpgradeMenu(clickedPawn.HexCell, instance.selectedPawn.PawnData);
                 return;
             }
         }
