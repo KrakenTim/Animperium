@@ -25,12 +25,23 @@ public class HexcellDecalManager : MonoBehaviour
 
     private void OnEnable()
     {
-        GameInputManager.OnPawnSelected += UpdateDecals;    
+        GameInputManager.OnPawnSelected += UpdateDecals;
+        InputMessageExecuter.ExecutedHexMessage += UpdateAfterInputMessageExecution;
     }
 
     private void OnDisable()
     {
         GameInputManager.OnPawnSelected -= UpdateDecals;
+        InputMessageExecuter.ExecutedHexMessage -= UpdateAfterInputMessageExecution;
+    }
+
+    /// <summary>
+    /// Called after an InputMessage was executed, to update the decals.
+    /// </summary>
+    private void UpdateAfterInputMessageExecution(PlayerPawn actingPawn)
+    {
+        if (actingPawn == GameInputManager.SelectedPawn)
+            UpdateDecals(actingPawn);
     }
 
     public void UpdateDecals(PlayerPawn selectedPawn)

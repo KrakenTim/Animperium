@@ -11,6 +11,11 @@ public static class InputMessageExecuter
     /// Called if a recieved InputMessage could be parsed and will be executed.
     /// </summary>
     public static event System.Action<string> RecievedInputMessage;
+
+    /// <summary>
+    /// Called if an Hex related Message was successfully executed. Hands over the acting pawn.
+    /// </summary>
+    public static event System.Action<PlayerPawn> ExecutedHexMessage;
     
     /// <summary>
     /// Sends the given message out, currently to itself since we've only got hotseat mode.
@@ -115,6 +120,8 @@ public static class InputMessageExecuter
                 Debug.LogError($"MessageExecuter\t{nameof(ExecuteHexMessage)} UNDEFINED for {hexOrder.action}\n");
                 return;
         }
+
+        ExecutedHexMessage?.Invoke(startPawn);
 
         FeedbackManager.PlayHexActionFeedback(startPawn, targetCell, hexOrder.action);
     }
