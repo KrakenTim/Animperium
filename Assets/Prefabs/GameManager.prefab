@@ -570,7 +570,7 @@ MonoBehaviour:
     actionDecalPrefab: {fileID: 3258602312213353362, guid: 65fd84c735dd974448160e3187d1a23a, type: 3}
   - actionType: 9
     actionDecalPrefab: {fileID: 3258602312213353362, guid: d872f0c25eda6904f997b229a557e595, type: 3}
-  - actionType: 11
+  - actionType: 200
     actionDecalPrefab: {fileID: 3258602312213353362, guid: 054b0761f656186448c521188fc0cb01, type: 3}
   decalParent: {fileID: 2004831244383344283}
   decalOffset: {x: 0, y: 0.1, z: 0}
