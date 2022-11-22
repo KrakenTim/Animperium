@@ -185,7 +185,7 @@ public class GameInputManager : MonoBehaviour
 
     private bool IsTunnelBuildingPossible(HexCell cell)
     {
-        return selectedPawn.PawnType == ePlayerPawnType.Digger && cell.IsntBlocked;
+        return selectedPawn.PawnType == ePlayerPawnType.Digger && cell.IsntBlocked && HexGridManager.Current.OtherLayerCell(cell).IsntBlocked;
     }
 
     private bool IsAttackPossible(PlayerPawn otherPawn)
