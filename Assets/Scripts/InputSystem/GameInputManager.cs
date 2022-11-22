@@ -444,6 +444,8 @@ public class GameInputManager : MonoBehaviour
             return ePlayeractionType.NONE;
         }
 
+        bool canbeBuildOn=false;
+
         if (instance.IsPawnActionPossible(cell))
         {
             if (instance.IsCollectPossible(cell))
@@ -457,18 +459,26 @@ public class GameInputManager : MonoBehaviour
                 // potencial future issue: unit ressources aren't enough for tunnel, but other building.
 
                 if (instance.IsBuildingPossible(cell))
-                    return ePlayeractionType.Build;
+                {
+                    canbeBuildOn = true;
+                }
 
                 if (instance.IsTunnelBuildingPossible(cell))
-                    return ePlayeractionType.Build;
+                {
+                    canbeBuildOn = true;
+                }
             }
         }
 
         if (instance.IsDiggingPossible(cell))
             return ePlayeractionType.Digging;
-
+        
         if (cell.CanMoveOnto(SelectedPawn.HexCell) && instance.IsMovePossible(cell))
-            return ePlayeractionType.Move;
+        {
+            return canbeBuildOn ? ePlayeractionType.BuildAndWalk : ePlayeractionType.Move;
+        }
+        else if (canbeBuildOn)
+            return ePlayeractionType.Build;
 
         return ePlayeractionType.NONE;
     }

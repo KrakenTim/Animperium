@@ -20,14 +20,23 @@ public enum ePlayeractionType
     Build = 6,
     BuildingUpgrade = 7,
     Heal = 8,
-    LayerSwitch = 9, //From Surface to Underground and vice versa.
+    /// <summary>
+    /// From Surface to Underground and vice versa.
+    /// </summary>
+    LayerSwitch = 9,
     Digging = 10,
 
-    // General, non-Hex Actions 100+
+    // General, non-Hex Actions 100-199
     EndTurn = 100,
     StartGame = 101,
     Resign = 102,
-    SendRandomGenerationKey = 103
+    SendRandomGenerationKey = 103,
+
+    
+    /// <summary>
+    /// For Decals, if both is possible
+    /// </summary>
+    BuildAndWalk = 200,
 }
 
 /// <summary>
