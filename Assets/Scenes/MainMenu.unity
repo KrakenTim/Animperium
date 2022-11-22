@@ -1062,6 +1062,48 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1001 &483384474
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1450004607}
+    m_Modifications:
+    - target: {fileID: 8990944525200759596, guid: b279a1f9f584a3341a36931b99cf1f52, type: 3}
+      propertyPath: m_Name
+      value: SteamQRWindow
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990944525200759597, guid: b279a1f9f584a3341a36931b99cf1f52, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990944525200759597, guid: b279a1f9f584a3341a36931b99cf1f52, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990944525200759597, guid: b279a1f9f584a3341a36931b99cf1f52, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990944525200759597, guid: b279a1f9f584a3341a36931b99cf1f52, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990944525200759597, guid: b279a1f9f584a3341a36931b99cf1f52, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990944525200759597, guid: b279a1f9f584a3341a36931b99cf1f52, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b279a1f9f584a3341a36931b99cf1f52, type: 3}
+--- !u!224 &483384475 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8990944525200759597, guid: b279a1f9f584a3341a36931b99cf1f52, type: 3}
+  m_PrefabInstance: {fileID: 483384474}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &491839299
 GameObject:
   m_ObjectHideFlags: 0
@@ -3399,6 +3441,7 @@ RectTransform:
   m_Children:
   - {fileID: 534690486}
   - {fileID: 773336776}
+  - {fileID: 483384475}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
