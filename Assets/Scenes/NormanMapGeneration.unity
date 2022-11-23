@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 3869.584, g: 2421.8965, b: 1969.0977, a: 1}
+  m_IndirectSpecularColor: {r: 4014.043, g: 2474.2637, b: 1893.8652, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7604,10 +7604,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7888250784874348218, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
-      propertyPath: decalOffset
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 7888250784923665592, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -7625,12 +7621,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9184171445523752504, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
-      propertyPath: m_Size.z
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 9184171445523752504, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
       propertyPath: m_Offset.z
-      value: 50
+      value: 5.5
       objectReference: {fileID: 0}
     - target: {fileID: 9184171445523752505, guid: f04f74cba8aff5d428b7c09d5550fd76, type: 3}
       propertyPath: m_IsActive

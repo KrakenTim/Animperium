@@ -71,6 +71,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
     [SerializeField] int movementPoints;
     public int MP => movementPoints;
+    public bool CanMove => movementPoints > 0;
 
     bool _canAct = true;
 
@@ -208,7 +209,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         if (animator)
         {
             animator.SetTrigger(PawnAnimationAttacking);
-            GameInputManager.LockPawn(this);
+            GameInputManager.AddToLock(this);
 
             StartCoroutine(ApplyAttack(attackEffectDelay));
         }
@@ -228,7 +229,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
             actionTarget.Damaged(this, AttackPower);
 
         actionTarget = null;
-        GameInputManager.UnlockPawn(this);
+        GameInputManager.RemoveFromLock(this);
     }
 
     public void Collect(ResourceToken resource)

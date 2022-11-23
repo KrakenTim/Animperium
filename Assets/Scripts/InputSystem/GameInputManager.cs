@@ -18,13 +18,17 @@ public class GameInputManager : MonoBehaviour
     [SerializeField] HexCell selectedHexCell;
     public static HexCell SelectedHexCell => instance.selectedHexCell;
 
-    [SerializeField] GameObject selectedPawnDecal;
-    [SerializeField] HexcellDecalManager hexcellDecalManager;
+    [Header("Decals")]
     [SerializeField] float decalOffset = 0.1f;
+    [SerializeField] HexcellDecalManager hexcellDecalManager;
 
-    private HashSet<PlayerPawn> lockingPawns = new HashSet<PlayerPawn>();
+    GameObject usedSelectedPawnDecal;
+    [SerializeField] GameObject selectedPawnDecal_CanAct;
+    [SerializeField] GameObject selectedPawnDecal_Inactive;
 
-    private bool IsLocked => lockingPawns.Count > 0;
+    private HashSet<MonoBehaviour> lockingMonoBehaviours = new HashSet<MonoBehaviour>();
+
+    private bool IsLocked => lockingMonoBehaviours.Count > 0;
 
     public System.Action LockStateChanged;
 
@@ -33,6 +37,7 @@ public class GameInputManager : MonoBehaviour
 
     private void Awake()
     {
+        usedSelectedPawnDecal = selectedPawnDecal_CanAct;
         instance = this;
     }
 
@@ -275,14 +280,9 @@ public class GameInputManager : MonoBehaviour
         selectedPawn = newSelect;
 
         if (selectedPawn != null)
-        {
-            selectedPawnDecal.SetActive(true);
-            UpdateSelectedPawnDecal();
             selectedPawn.OnValueChange += UpdateSelectedPawnDecal;
-        }
-        else
-            selectedPawnDecal.SetActive(false);
 
+        UpdateSelectedPawnDecal();
         OnPawnSelected?.Invoke(newSelect);
     }
 
@@ -298,20 +298,43 @@ public class GameInputManager : MonoBehaviour
             instance.selectedPawn.OnValueChange -= instance.UpdateSelectedPawnDecal;
 
         instance.selectedPawn = null;
-        instance.selectedPawnDecal.SetActive(false);
 
+        instance.UpdateSelectedPawnDecal();
         OnPawnSelected?.Invoke(null);
     }
 
     private void UpdateSelectedPawnDecal()
     {
-        if (!selectedPawn) return;
+        if (selectedPawn == null)
+        {
+            usedSelectedPawnDecal.SetActive(false);
+            return;
+        }
+
+        if (selectedPawn.CanAct)
+        {
+            if (!selectedPawnDecal_CanAct.activeSelf)
+            {
+                selectedPawnDecal_CanAct.SetActive(true);
+                selectedPawnDecal_Inactive.SetActive(false);
+
+                usedSelectedPawnDecal = selectedPawnDecal_CanAct;
+            }
+        }
+        else
+        {
+            if (!selectedPawnDecal_Inactive.activeSelf)
+            {
+                selectedPawnDecal_Inactive.SetActive(true);
+                selectedPawnDecal_CanAct.SetActive(false);
+
+                usedSelectedPawnDecal = selectedPawnDecal_Inactive;
+            }
+        }
 
         Vector3 position = selectedPawn.HexCell.ObjectPosition;
         position.y += decalOffset;
-        selectedPawnDecal.transform.position = position;
-
-        hexcellDecalManager.UpdateDecals(selectedPawn);
+        usedSelectedPawnDecal.transform.position = position;
     }
 
     private void SelectNextActivePawn(bool previous = false)
@@ -444,7 +467,7 @@ public class GameInputManager : MonoBehaviour
             return ePlayeractionType.NONE;
         }
 
-        bool canbeBuildOn=false;
+        bool canbeBuildOn = false;
 
         if (instance.IsPawnActionPossible(cell))
         {
@@ -472,7 +495,7 @@ public class GameInputManager : MonoBehaviour
 
         if (instance.IsDiggingPossible(cell))
             return ePlayeractionType.Digging;
-        
+
         if (cell.CanMoveOnto(SelectedPawn.HexCell) && instance.IsMovePossible(cell))
         {
             return canbeBuildOn ? ePlayeractionType.BuildAndWalk : ePlayeractionType.Move;
@@ -483,23 +506,24 @@ public class GameInputManager : MonoBehaviour
         return ePlayeractionType.NONE;
     }
 
-    public static void LockPawn(PlayerPawn lockedPawn)
+
+    public static void AddToLock(MonoBehaviour lockingComponent)
     {
         bool oldLockState = instance.IsLocked;
 
         instance.emergencyUnlockElapsed = 0f;
-        instance.lockingPawns.Add(lockedPawn);
+        instance.lockingMonoBehaviours.Add(lockingComponent);
 
         if (oldLockState != true)
             instance.LockStateChanged?.Invoke();
     }
 
-    public static void UnlockPawn(PlayerPawn unlockedPawn)
+    public static void RemoveFromLock(MonoBehaviour lockingComponent)
     {
         bool oldLockState = instance.IsLocked;
 
         instance.emergencyUnlockElapsed = 0f;
-        instance.lockingPawns.Remove(unlockedPawn);
+        instance.lockingMonoBehaviours.Remove(lockingComponent);
 
         if (oldLockState != instance.IsLocked)
             instance.LockStateChanged?.Invoke();
@@ -510,10 +534,10 @@ public class GameInputManager : MonoBehaviour
         if (!IsLocked) return;
 
         Debug.LogError($"[GameInputManager] Enforced Input Unlock after time limit({emergencyUnlockTimeLimit}) was up!" +
-                       $"\nDid you forget to set up an unlock? For {lockingPawns.First()}'s action for example?",
-                       lockingPawns.First());
+                       $"\nDid you forget to set up an unlock? For {lockingMonoBehaviours.First()}'s action for example?",
+                       lockingMonoBehaviours.First());
 
-        lockingPawns.Clear();
+        lockingMonoBehaviours.Clear();
         LockStateChanged?.Invoke();
     }
 }

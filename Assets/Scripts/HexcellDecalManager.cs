@@ -11,17 +11,15 @@ public class HexcellDecalManager : MonoBehaviour
         public GameObject actionDecalPrefab;
     }
 
-    [SerializeField] ActionTypeDecal[] decals;
-
-    [SerializeField] Transform decalParent;
-
     Dictionary<ePlayeractionType, List<GameObject>> decalObjectPool = new Dictionary<ePlayeractionType, List<GameObject>>();
 
     List<GameObject> activeDecals = new List<GameObject>();
 
     [SerializeField] Vector3 decalOffset = new Vector3(0f, 0.1f, 0f);
-
     [SerializeField] float rotationOffset = 30f;
+
+    [SerializeField] Transform decalParent;
+    [SerializeField] ActionTypeDecal[] decals;
 
     bool allDeactivated;
 
@@ -42,7 +40,8 @@ public class HexcellDecalManager : MonoBehaviour
         GameInputManager.OnPawnSelected -= UpdateDecals;
         InputMessageExecuter.ExecutedHexMessage -= UpdateAfterInputMessageExecution;
 
-        HexMapCamera.Instance.ChangedRotation -= UpdateDecalRotation;
+        if (HexMapCamera.Instance)
+            HexMapCamera.Instance.ChangedRotation -= UpdateDecalRotation;
     }
 
     /// <summary>
@@ -132,7 +131,7 @@ public class HexcellDecalManager : MonoBehaviour
 
         for (int i = 0; i < cells.Count; i++)
         {
-            decalObjectPool[action][i].transform.position = cells[i].WorldPosition + decalOffset;
+            decalObjectPool[action][i].transform.position = cells[i].ObjectPosition + decalOffset;
             decalObjectPool[action][i].transform.localEulerAngles = usedDecalRotation;
             decalObjectPool[action][i].SetActive(true);
 

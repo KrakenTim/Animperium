@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3258602312213353360}
   - component: {fileID: 3258602312213353363}
   m_Layer: 0
-  m_Name: SelectedDecal
+  m_Name: SelectedDecal_CanAct
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54,5 +54,5 @@ MonoBehaviour:
   m_AffectsTransparency: 0
   m_DecalLayerMask: 2
   m_Offset: {x: 0, y: 0, z: 0.5}
-  m_Size: {x: 15, y: 15, z: 1}
+  m_Size: {x: 15, y: 15, z: 25}
   m_FadeFactor: 1
