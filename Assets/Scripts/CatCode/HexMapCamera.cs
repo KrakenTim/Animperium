@@ -10,6 +10,11 @@ public class HexMapCamera : MonoBehaviour
 {
     #region Not in tutorial
 
+    /// <summary>
+    /// called when the rotation is changed, hands over new rotation(0°-360°)
+    /// </summary>
+    public event System.Action<float> ChangedRotation;
+
     public static Vector3 Position => instance.transform.position;
 
     public static float RotationAngle => instance.rotationAngle;
@@ -320,6 +325,8 @@ public class HexMapCamera : MonoBehaviour
             rotationAngle -= 360f;
         }
         transform.localRotation = Quaternion.Euler(0f, rotationAngle, 0f);
+
+        ChangedRotation?.Invoke(rotationAngle);
     }
 
     public static void ValidatePosition()
