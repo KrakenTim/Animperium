@@ -226,6 +226,12 @@ MonoBehaviour:
   - identifier: Resume
     english: Resume
     german: Weiter
+  - identifier: ReturnMenu
+    english: Return
+    german: "Zur\xFCck"
+  - identifier: SaveFeedback
+    english: Save Feedback
+    german: Feedback speichern
   - identifier: SaveMap
     english: Save Map
     german: Karte Speichern
