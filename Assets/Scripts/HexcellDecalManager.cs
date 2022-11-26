@@ -64,6 +64,10 @@ public class HexcellDecalManager : MonoBehaviour
 
         bool hasRessourcesToBuild = selectedPawn.CanBuild
                                     && PlayerValueProvider.CanBuildAnything(selectedPawn.PlayerID, selectedPawn.PawnType);
+
+        foreach (HexCell cell in HexPathfinding.GetCellsInWalkingRange(selectedPawn.HexCell, selectedPawn.MP))
+            neighbourCells.Add(cell);
+
         PlaceDecals(neighbourCells, hasRessourcesToBuild);
     }
 
@@ -102,6 +106,8 @@ public class HexcellDecalManager : MonoBehaviour
         {
             PlaceDecals(action, sortedCells[action]);
         }
+
+        GameInputManager.SelectedPawn.SetPossibleActions(new HashSet<ePlayeractionType>(sortedCells.Keys));
     }
 
     private void PlaceDecals(ePlayeractionType action, List<HexCell> cells)

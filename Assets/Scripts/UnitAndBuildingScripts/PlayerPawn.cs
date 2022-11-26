@@ -79,7 +79,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     float jumpTime = 0.25f;
 
     /// <summary>
-    /// True if Pawn can act, setting it to false sets movement points to zero.
+    /// True if Pawn hasn't acted yet, setting it to false sets movement points to zero.
     /// </summary>
     public bool CanAct
     {
@@ -94,6 +94,11 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
             OnValueChange?.Invoke();
         }
     }
+
+    /// <summary>
+    /// true if the Pawn can act and an action is currently possible.
+    /// </summary>
+    public bool IsActionPossible => CanAct && possibleActions.Count > 0;
 
     [Space]
     [SerializeField] HexCell hexCell;
@@ -114,6 +119,8 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public virtual bool IsActivePlayerPawn => playerID == GameManager.ActivePlayerID;
     public virtual bool IsEnemyOf(int otherPlayerID) => PlayerValueProvider.AreEnemies(PlayerID, otherPlayerID);
     public virtual bool IsEnemyOf(PlayerPawn otherPawn) => PlayerValueProvider.AreEnemies(PlayerID, otherPawn.PlayerID);
+
+    public HashSet<ePlayeractionType> possibleActions = new HashSet<ePlayeractionType>();
 
     protected virtual void Awake()
     {
@@ -218,7 +225,7 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
         CanAct = false;
     }
-    
+
     private IEnumerator ApplyAttack(float waitTime = 0f)
     {
         yield return new WaitForSeconds(waitTime);
@@ -234,10 +241,12 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
     public void Collect(ResourceToken resource)
     {
-        MoveTo(resource.HexCell);
-        CanAct = true;
+        HexCell targetCell = resource.HexCell;
 
         resource.Harvest();
+
+        MoveTo(targetCell);
+        CanAct = true;
     }
 
     public void Build(HexCell targetCell, ePlayerPawnType buildUnit)
@@ -254,7 +263,9 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
     public void MoveTo(HexCell targetPosition)
     {
-        movementPoints -= 1;
+        List<HexCell> path = HexPathfinding.GetPath(hexCell, targetPosition, movementPoints);
+
+        movementPoints -= path.Count;
 
         HexCell oldPosition = hexCell;
 
@@ -437,6 +448,12 @@ public class PlayerPawn : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         }
 
         UpdatePosition();
+    }
+
+    public void SetPossibleActions(HashSet<ePlayeractionType> newActionSet)
+    {
+        possibleActions = newActionSet;
+        OnValueChange?.Invoke();
     }
 }
 

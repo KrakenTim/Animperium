@@ -140,6 +140,15 @@ public class GameInputManager : MonoBehaviour
             InputMessageExecuter.Send(message);
             return;
         }
+        else if (selectedPawn != null && IsMovePossible(selectedHexCell))
+        {
+            if (HexPathfinding.GetCellsInWalkingRange(selectedPawn.HexCell, selectedPawn.MP, useCached: true).Contains(selectedHexCell))
+            {
+                InputMessage message = InputMessageGenerator.CreateHexMessage(selectedPawn, selectedHexCell, ePlayeractionType.Move);
+                InputMessageExecuter.Send(message);
+                return;
+            }
+        }
 
         if (!isMenuOpen)
             DeselectPawn();
@@ -311,7 +320,7 @@ public class GameInputManager : MonoBehaviour
             return;
         }
 
-        if (selectedPawn.CanAct)
+        if (selectedPawn.IsActionPossible)
         {
             if (!selectedPawnDecal_CanAct.activeSelf)
             {
@@ -440,7 +449,7 @@ public class GameInputManager : MonoBehaviour
 
     private static bool IsUnitCanActAndIsOnLayer(PlayerPawn pawn, HexGridLayer layer)
     {
-        return pawn.CanAct && pawn.HexCell.gridLayer == layer && !pawn.PawnType.IsBuilding();
+        return pawn.IsActionPossible && pawn.HexCell.gridLayer == layer && !pawn.PawnType.IsBuilding();
     }
 
     public static ePlayeractionType PossibleAction(HexCell cell, bool hasRessourcesToBuild)

@@ -91,15 +91,19 @@ public class HexCell : MonoBehaviour
     }
 
     #region NotInTutorial
+    public int pathCounter = int.MinValue;
+    public int pathBestDistance;
+    public HexDirection pathPrevious;
+
     HashSet<int> blockingPlants = new HashSet<int> { 2, 3, 4 };
     /// <summary>
-    /// no resource, pawn or blocking vegetation.
+    /// no resource, pawn or blocking vegetation. Not under water
     /// </summary>
     public bool IsntBlocked
     {
         get
         {
-            return !HasPawn && !HasResource && !blockingPlants.Contains(plantLevel);
+            return !HasPawn && !HasResource && !IsUnderwater && !blockingPlants.Contains(plantLevel);
         }
     }
 
@@ -344,7 +348,7 @@ public class HexCell : MonoBehaviour
     {
         return coordinates.DistanceTo(other.coordinates);
     }
-
+    
     #endregion Not in Tutorial
 
     public void Save(BinaryWriter writer)
