@@ -14,6 +14,7 @@ public class PlayerResourceUIDisplay : MonoBehaviour
     [SerializeField] bool isLocalPlayerValues;
 
     GameResources usedResources;
+    GameResources gainPerTurn;
 
     private void OnEnable()
     {
@@ -56,7 +57,7 @@ public class PlayerResourceUIDisplay : MonoBehaviour
         if (!GameManager.PlayerValueProvider.TryGetPlayerValues(GameManager.LocalPlayerID, out PlayerValues localPlayerValues))
             return;
 
-        ShowResources(localPlayerValues.PlayerResources);
+        ShowResources(localPlayerValues.PlayerResources, localPlayerValues.RessourcesPerTurn);
 
         UpdatePopulationText(localPlayerValues);
     }
@@ -64,9 +65,10 @@ public class PlayerResourceUIDisplay : MonoBehaviour
     /// <summary>
     /// Sets Texts with values of given resources.
     /// </summary>
-    public void ShowResources(GameResources resources)
+    public void ShowResources(GameResources playerResources, GameResources gainPerTurn)
     {
-        usedResources = resources;
+        usedResources = playerResources;
+        this.gainPerTurn = gainPerTurn;
 
         UpdateRessourceTexts();
     }
@@ -82,9 +84,33 @@ public class PlayerResourceUIDisplay : MonoBehaviour
 
     private void UpdateRessourceTexts()
     {
-        food.text = usedResources.food + (showType ? " " + AnimperiumLocalisation.Get(eResourceType.Food) : "");
-        wood.text = usedResources.wood + (showType ? " " + AnimperiumLocalisation.Get(eResourceType.Wood) : "");
-        ore.text = usedResources.ore + (showType ? " " + AnimperiumLocalisation.Get(eResourceType.Ore) : "");
+        UpdateRessourceTexts(eResourceType.Food);
+        UpdateRessourceTexts(eResourceType.Wood);
+        UpdateRessourceTexts(eResourceType.Ore);
+    }
+
+    private void UpdateRessourceTexts(eResourceType resource)
+    {
+        TMP_Text usedText;
+        switch (resource)
+        {
+            case eResourceType.Food:
+                usedText = food;
+                break;
+            case eResourceType.Wood:
+                usedText = wood;
+                break;
+            case eResourceType.Ore:
+                usedText = ore;
+                break;
+
+            default:
+                Debug.LogError($"[Resource Display] UNDEFINED for {resource}", this);
+                return;
+        }
+
+        usedText.text = usedResources[resource] + (gainPerTurn[resource] != 0 ? $" (+{gainPerTurn[resource]})" : "")
+                        + (showType ? "\n" + AnimperiumLocalisation.Get(resource) : "");
     }
 
     private void UpdatePopulationText(PlayerValues localPlayerValues = null)

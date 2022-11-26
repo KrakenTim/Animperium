@@ -58,7 +58,7 @@ public class PlayerValues
 
     public CameraValues lastCameraValues = new CameraValues();
 
-    private GameResources resourcesPerTurn = new GameResources();
+    [SerializeField] private GameResources resourcesPerTurn = new GameResources();
     public GameResources RessourcesPerTurn => resourcesPerTurn;
 
     /// <summary>
@@ -145,22 +145,7 @@ public class PlayerValues
 
     public void AddResource(eResourceType resource, int amount)
     {
-        switch (resource)
-        {
-            case eResourceType.Food:
-                playerResources.food += amount;
-                break;
-            case eResourceType.Wood:
-                playerResources.wood += amount;
-                break;
-            case eResourceType.Ore:
-                playerResources.ore += amount;
-                break;
-
-            default:
-                Debug.LogError("AddResource UNDEFINED for " + resource);
-                return;
-        }
+        playerResources[resource] += amount;
 
         OnValuesChanged?.Invoke(playerID);
     }
@@ -211,7 +196,8 @@ public class PlayerValues
         {
             if (resource == eResourceType.NONE) continue;
 
-
+            if (resourcesPerTurn[resource] != 0)
+                AddResource(resource, resourcesPerTurn[resource]);
         }
     }
 }
