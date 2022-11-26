@@ -249,6 +249,10 @@ MonoBehaviour:
       ore: 0
     ownedPawns: []
     name: 
+    resourcesPerTurn:
+      food: 5
+      wood: 5
+      ore: 0
   - playerID: 2
     factionID: 2
     playerColor: {r: 1, g: 0, b: 0, a: 1}
@@ -263,6 +267,10 @@ MonoBehaviour:
       ore: 0
     ownedPawns: []
     name: 
+    resourcesPerTurn:
+      food: 5
+      wood: 5
+      ore: 0
 --- !u!114 &3666991950448948645
 MonoBehaviour:
   m_ObjectHideFlags: 0
