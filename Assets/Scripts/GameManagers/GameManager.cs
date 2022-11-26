@@ -106,6 +106,8 @@ public class GameManager : MonoBehaviour
             foreach (var pawn in oldPlayer.ownedPawns)
                 pawn.RefreshTurn();
 
+            oldPlayer.AddResourcesPerTurn();
+
             if (!OnlineGameManager.IsOnlineGame)
                 oldPlayer.lastCameraValues = HexMapCamera.GetCurrentCameraValues();
         }
@@ -145,7 +147,7 @@ public class GameManager : MonoBehaviour
         switch (pawn)
         {
             case ePlayerPawnType.Villager:
-              return   GetBuildingDatas(withoutUpgrades: true, excludeTownHall: true, excludeTunnelEntry: true);
+                return GetBuildingDatas(withoutUpgrades: true, excludeTownHall: true, excludeTunnelEntry: true);
 
             case ePlayerPawnType.Digger:
                 return new List<PlayerPawnData>() { GetPawnData(ePlayerPawnType.TunnelEntry) };
@@ -346,6 +348,12 @@ public class GameManager : MonoBehaviour
                 if (pawn.PlayerID == LocalPlayerID && instance.TryGetPlayerValues(LocalPlayerID, out PlayerValues player))
                     HexMapCamera.SetPosition(player.lastCameraValues.localPosition);
             }
+
+            if (pawn.PawnType == ePlayerPawnType.SawMill)
+                result.ChangeRessourcesPerTurn(eResourceType.Wood, PlayerPawn.SawMillWoodPerTurn);
+
+            if (pawn.PawnType == ePlayerPawnType.FarmHouse)
+                result.ChangeRessourcesPerTurn(eResourceType.Food, PlayerPawn.FarmFoodPerTurn);
         }
     }
 
@@ -364,7 +372,14 @@ public class GameManager : MonoBehaviour
             // negative population costs increase max population
             else if (pawn.PawnData.populationCount < 0)
                 result.PopulationMax -= -pawn.PawnData.populationCount;
+
+            if (pawn.PawnType == ePlayerPawnType.SawMill)
+                result.ChangeRessourcesPerTurn(eResourceType.Wood, -PlayerPawn.SawMillWoodPerTurn);
+
+            if (pawn.PawnType == ePlayerPawnType.FarmHouse)
+                result.ChangeRessourcesPerTurn(eResourceType.Food, -PlayerPawn.FarmFoodPerTurn);
         }
+
         pawn.SetHexCell(null);
         Destroy(pawn.gameObject, waitBeforeDestroy ? 2f : 0f);
 

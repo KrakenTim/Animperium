@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -57,11 +58,13 @@ public class PlayerValues
 
     public CameraValues lastCameraValues = new CameraValues();
 
+    private GameResources resourcesPerTurn = new GameResources();
+    public GameResources RessourcesPerTurn => resourcesPerTurn;
+
     /// <summary>
     /// Is called if a relevant value of a player is changed, hands over the player's ID.
     /// </summary>
     public static System.Action<int> OnValuesChanged; // EventHandler oder EventData nutzen??? public event EventHandler<type> ist erweiterbar
-
 
     public void GiveUp()
     {
@@ -193,5 +196,22 @@ public class PlayerValues
                 return pawn;
         }
         return null;
+    }
+
+    public void ChangeRessourcesPerTurn(eResourceType type, int change)
+    {
+        resourcesPerTurn[type] = resourcesPerTurn[type] + change;
+
+        OnValuesChanged?.Invoke(playerID);
+    }
+
+    public void AddResourcesPerTurn()
+    {
+        foreach (eResourceType resource in Enum.GetValues(typeof(eResourceType)))
+        {
+            if (resource == eResourceType.NONE) continue;
+
+
+        }
     }
 }
